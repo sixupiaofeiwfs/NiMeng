@@ -1,16 +1,13 @@
 package com.nimeng.Presenter;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.os.Handler;
 
 import com.nimeng.Model.EquipmentMode;
 import com.nimeng.Model.IEquipmentMode;
-import com.nimeng.Model.OnAddEquipmentListener;
+import com.nimeng.Model.OnAddListener;
 import com.nimeng.View.IEquipmentView;
 import com.nimeng.bean.EquipmentBean;
-
-import java.util.List;
 
 
 /**
@@ -27,7 +24,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class EquipmentPresenter implements IPresenter.IEquipmentPresenter{
+public class EquipmentPresenter implements IPresenter{
 
     //model层控件,对model层进行操作
     IEquipmentMode iEquipmentMode;
@@ -44,39 +41,37 @@ public class EquipmentPresenter implements IPresenter.IEquipmentPresenter{
 
 
     //添加
-    public void addEquipment() {
+    public void add() {
         //展示进度条
         iEquipmentView.showLoading();
         //给M层发送指令,执行添加操作.
-        iEquipmentMode.addEquipment(iEquipmentView.getID(), iEquipmentView.getName(), iEquipmentView.getType(), iEquipmentView.getIP(),  iEquipmentView.getTime(),iEquipmentView.getSwitch1(), iEquipmentView.getSwitch2(), iEquipmentView.getSwitch3(), new OnAddEquipmentListener() {
-            //根据是否添加成功在V层回显
+        iEquipmentMode.addEquipment(iEquipmentView.getID(), iEquipmentView.getName(), iEquipmentView.getType(), iEquipmentView.getIP(), iEquipmentView.getTime(), iEquipmentView.getSwitch1(), iEquipmentView.getSwitch2(), iEquipmentView.getSwitch3(), new OnAddListener<EquipmentBean>() {
             @Override
-            public void AddEquipmentSuccess(EquipmentBean equipmentBean) {
+            public void AddSuccess(EquipmentBean equipmentBean) {
                 Handler handler=new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //成功隐藏进度条 显示成功
                         iEquipmentView.hideLoading();
-                        iEquipmentView.success(equipmentBean,TAG);
+                        iEquipmentView.success(equipmentBean,OnAddListener.TAG);
                     }
                 },3000);
             }
 
             @Override
-            public void AddEquipmentError(EquipmentBean equipmentBean) {
-                    Handler handler=new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //添加失败隐藏进度条 显示失败
-                            iEquipmentView.hideLoading();
-                            iEquipmentView.error(equipmentBean,TAG);
-                        }
-                    },3000);
+            public void AddError(EquipmentBean equipmentBean) {
+                Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //添加失败隐藏进度条 显示失败
+                        iEquipmentView.hideLoading();
+                        iEquipmentView.error(equipmentBean,OnAddListener.TAG);
+                    }
+                },3000);
             }
-        });
-
+        } );
     }
 
 

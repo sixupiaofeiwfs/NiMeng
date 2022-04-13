@@ -18,6 +18,7 @@ import com.nimeng.Adapter.EquipmentAdapter;
 import com.nimeng.Presenter.EquipmentPresenter;
 import com.nimeng.bean.EquipmentBean;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,7 +65,7 @@ public class EquipmentActivity  extends AppCompatActivity implements IEquipmentV
             @Override
             public void onClick(View view) {
                 //给P层发送指令,执行添加操作
-                equipmentPresenter.addEquipment();
+                equipmentPresenter.add();
             }
         });
 
@@ -118,24 +119,25 @@ public class EquipmentActivity  extends AppCompatActivity implements IEquipmentV
     }
 
     @Override
-    public String getTime() {
+    public Date getTime() {
         return null;
     }
 
     @Override
-    public String getSwitch1() {
-        return null;
+    public boolean getSwitch1() {
+        return false;
     }
 
     @Override
-    public String getSwitch2() {
-        return null;
+    public boolean getSwitch2() {
+        return false;
     }
 
     @Override
-    public String getSwitch3() {
-        return null;
+    public boolean getSwitch3() {
+        return false;
     }
+
 
     @Override
     public void showLoading() {

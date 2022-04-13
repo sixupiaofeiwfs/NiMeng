@@ -15,9 +15,8 @@ package com.nimeng.Presenter;
  */
 public interface IPresenter {
 
-    interface IEquipmentPresenter{
-        public void addEquipment();
-        // public void deleteEquipment();
-    }
+    public void add();
+
+   // public void delete(T t);
 
 }

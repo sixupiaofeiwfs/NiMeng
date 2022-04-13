@@ -15,13 +15,16 @@ import com.nimeng.bean.EquipmentBean;
  * <p>
  * -----------------------------------------------------------------
  */
-public interface OnAddEquipmentListener {
+public interface OnAddListener<T> {
+
+
     //表示添加标签
     String TAG="添加";
 
 
-    void AddEquipmentSuccess(EquipmentBean equipmentBean);
+    public void AddSuccess(T t );
+    public void AddError(T t);
 
 
-    void AddEquipmentError(EquipmentBean equipmentBean);
+    void AddSuccess(EquipmentBean equipmentBean);
 }

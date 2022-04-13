@@ -18,6 +18,6 @@ import java.util.Date;
 public interface IEquipmentMode {
 
     //添加
-    void addEquipment(String equipment_id, String equipment_name, String  equipment_type, String equipment_IP, Date equipment_time, boolean switch1, boolean switch2, boolean switch3, OnAddEquipmentListener listener);
+    void addEquipment(String equipment_id, String equipment_name, String  equipment_type, String equipment_IP, Date equipment_time, boolean switch1, boolean switch2, boolean switch3, OnAddListener listener);
 
 }

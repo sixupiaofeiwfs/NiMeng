@@ -29,13 +29,15 @@ public class EquipmentMode implements IEquipmentMode {
 
 
     @Override
-    public void addEquipment(String equipment_id, String equipment_name, String equipment_type, String equipment_IP, Date equipment_time, boolean switch1, boolean switch2, boolean switch3, OnAddEquipmentListener listener) {
+    public void addEquipment(String equipment_id, String equipment_name, String equipment_type, String equipment_IP, Date equipment_time, boolean switch1, boolean switch2, boolean switch3, OnAddListener listener) {
         EquipmentBean equipmentBean=new EquipmentBean(equipment_id,equipment_name,equipment_type,equipment_time,equipment_IP,switch1,switch2,switch3);
         if(equipmentDao.isExistsEquipment(equipmentBean)){
-            listener.AddEquipmentError(equipmentBean);
+
+            listener.AddError(equipmentBean);
+
         }
         equipmentDao.addEquipment(equipmentBean);
-        listener.AddEquipmentSuccess(equipmentBean);
+        listener.AddSuccess(equipmentBean);
     }
 }
 

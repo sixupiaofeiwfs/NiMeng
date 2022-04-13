@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.nimeng.bean.EquipmentBean;
-import com.nimeng.util.DBHelper;
+import com.nimeng.util.EquipmentDBHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,12 +27,12 @@ import java.util.List;
  * -----------------------------------------------------------------
  */
 public class EquipmentDao implements IEquipmentDao{
-    private DBHelper dbHelper;
+    private EquipmentDBHelper dbHelper;
     private SQLiteDatabase database;
     private ContentValues values;
 
     public EquipmentDao(Context context){
-        dbHelper=new DBHelper(context);
+        dbHelper=new EquipmentDBHelper(context);
     }
 
     //添加新设备
@@ -40,16 +40,16 @@ public class EquipmentDao implements IEquipmentDao{
     public void addEquipment(EquipmentBean equipmentBean) {
         database=dbHelper.getWritableDatabase();
         values=new ContentValues();
-        values.put(DBHelper.COLNUMID,equipmentBean.getId());
-        values.put(DBHelper.COLNUMTYPE,equipmentBean.getType());
+        values.put(EquipmentDBHelper.COLNUMID,equipmentBean.getId());
+        values.put(EquipmentDBHelper.COLNUMTYPE,equipmentBean.getType());
         SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd   HH:mm:ss");
-        values.put(DBHelper.COLNUMTIME, sdf1.format(equipmentBean.getTime()));
-        values.put(DBHelper.COLNUMIP,equipmentBean.getIP());
-        values.put(DBHelper.COLNUMSWITCH1, equipmentBean.isSwitch1());
-        values.put(DBHelper.COLNUMSWITCH2,equipmentBean.isSwitch2());
-        values.put(DBHelper.COLNUMSWITCH3,equipmentBean.isSwitch3());
-        values.put(DBHelper.COLNUMNAME,equipmentBean.getName());
-        database.insert(DBHelper.TABLENAME,null,values);
+        values.put(EquipmentDBHelper.COLNUMTIME, sdf1.format(equipmentBean.getTime()));
+        values.put(EquipmentDBHelper.COLNUMIP,equipmentBean.getIP());
+        values.put(EquipmentDBHelper.COLNUMSWITCH1, equipmentBean.isSwitch1());
+        values.put(EquipmentDBHelper.COLNUMSWITCH2,equipmentBean.isSwitch2());
+        values.put(EquipmentDBHelper.COLNUMSWITCH3,equipmentBean.isSwitch3());
+        values.put(EquipmentDBHelper.COLNUMNAME,equipmentBean.getName());
+        database.insert(EquipmentDBHelper.TABLENAME,null,values);
         database.close();
     }
 
@@ -59,7 +59,7 @@ public class EquipmentDao implements IEquipmentDao{
     @Override
     public void deleteEquipmentByName(String equipment_name) {
         database =dbHelper.getWritableDatabase();
-        database.delete(DBHelper.TABLENAME,DBHelper.COLNUMNAME+"=?",new String[]{equipment_name});
+        database.delete(EquipmentDBHelper.TABLENAME, EquipmentDBHelper.COLNUMNAME+"=?",new String[]{equipment_name});
         database.close();
 
     }
@@ -70,39 +70,39 @@ public class EquipmentDao implements IEquipmentDao{
     public void updateEquipment(EquipmentBean equipmentBean) {
         database=dbHelper.getWritableDatabase();
         values=new ContentValues();
-        values.put(DBHelper.COLNUMTYPE,equipmentBean.getType());
+        values.put(EquipmentDBHelper.COLNUMTYPE,equipmentBean.getType());
         SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd   HH:mm:ss");
-        values.put(DBHelper.COLNUMTIME, sdf1.format(equipmentBean.getTime()));
-        values.put(DBHelper.COLNUMIP,equipmentBean.getIP());
-        values.put(DBHelper.COLNUMSWITCH1, equipmentBean.isSwitch1());
-        values.put(DBHelper.COLNUMSWITCH2,equipmentBean.isSwitch2());
-        values.put(DBHelper.COLNUMSWITCH3,equipmentBean.isSwitch3());
-        values.put(DBHelper.COLNUMNAME,equipmentBean.getName());
-        database.update(DBHelper.TABLENAME,values,DBHelper.COLNUMID+"=?",new String[]{equipmentBean.getId()});
+        values.put(EquipmentDBHelper.COLNUMTIME, sdf1.format(equipmentBean.getTime()));
+        values.put(EquipmentDBHelper.COLNUMIP,equipmentBean.getIP());
+        values.put(EquipmentDBHelper.COLNUMSWITCH1, equipmentBean.isSwitch1());
+        values.put(EquipmentDBHelper.COLNUMSWITCH2,equipmentBean.isSwitch2());
+        values.put(EquipmentDBHelper.COLNUMSWITCH3,equipmentBean.isSwitch3());
+        values.put(EquipmentDBHelper.COLNUMNAME,equipmentBean.getName());
+        database.update(EquipmentDBHelper.TABLENAME,values, EquipmentDBHelper.COLNUMID+"=?",new String[]{equipmentBean.getId()});
     }
 
     @SuppressLint("Range")
     @Override
     public EquipmentBean queryEquipmentByID(String equipment_id) {
         database=dbHelper.getReadableDatabase();
-        Cursor cursor=database.query(DBHelper.TABLENAME,null,DBHelper.COLNUMID+"=?",null,null,null,null);
+        Cursor cursor=database.query(EquipmentDBHelper.TABLENAME,null, EquipmentDBHelper.COLNUMID+"=?",null,null,null,null);
         EquipmentBean equipmentBean=null;
         while(cursor.moveToNext()){
             equipmentBean=new EquipmentBean();
-            equipmentBean.setName(cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMNAME)));
+            equipmentBean.setName(cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMNAME)));
             SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
 
             try {
-                equipmentBean.setTime(sdf1.parse( cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMTIME))));
+                equipmentBean.setTime(sdf1.parse( cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMTIME))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            equipmentBean.setType(cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMTYPE)));
-            equipmentBean.setIP(cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMIP)));
-            equipmentBean.setSwitch1(Boolean.valueOf( cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMSWITCH1))));
-            equipmentBean.setSwitch2(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMSWITCH2)))) ;
-            equipmentBean.setSwitch3(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.COLNUMSWITCH3))));
+            equipmentBean.setType(cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMTYPE)));
+            equipmentBean.setIP(cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMIP)));
+            equipmentBean.setSwitch1(Boolean.valueOf( cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMSWITCH1))));
+            equipmentBean.setSwitch2(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMSWITCH2)))) ;
+            equipmentBean.setSwitch3(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(EquipmentDBHelper.COLNUMSWITCH3))));
         }
         cursor.close();
         return equipmentBean;

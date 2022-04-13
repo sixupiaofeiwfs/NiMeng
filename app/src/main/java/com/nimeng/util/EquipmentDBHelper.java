@@ -22,7 +22,7 @@ import java.util.Date;
  * <p>
  * -----------------------------------------------------------------
  */
-public class DBHelper extends SQLiteOpenHelper {
+public class EquipmentDBHelper extends SQLiteOpenHelper {
     //数据库名
     public static final String DBNAME="";
 
@@ -57,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //字段名
     public static final String COLNUMNAME="equipmentName";
 
-    public DBHelper(Context context){
+    public EquipmentDBHelper(Context context){
         super(context,DBNAME,null,VERSION);
 
     }
