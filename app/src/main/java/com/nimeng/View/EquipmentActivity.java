@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +37,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class EquipmentActivity  extends AppCompatActivity implements IEquipmentView {
+public class EquipmentActivity  extends BaseAvtivity implements IEquipmentView {
     private EquipmentPresenter equipmentPresenter;
     private EditText mEquipmentName;//设备名称控件
     private EditText mEquipmentType;//设备类型控件
@@ -46,18 +49,29 @@ public class EquipmentActivity  extends AppCompatActivity implements IEquipmentV
     private ProgressBar mProBar;//进度条
 
 
+
+
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipment);
+
+
         //初始化控件
         initview();
 
-        //初始化事件
-        initevent();
-
+        Log.d("0", "onCreate: ");
 
     }
+
+
+
+
+
+
+
+
+
 
     private void initevent() {
         //添加按钮响应事件  当点击添加按钮时触发该事件
