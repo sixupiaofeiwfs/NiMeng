@@ -1,7 +1,6 @@
 package com.nimeng.View;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,15 +81,15 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
 
                 if(distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && distanceX>0){
-                    if(this.getClass().getName().equals("com.nimeng.View.EquipmentActivity")){
+                    if(this.getClass().getName().equals("com.nimeng.View.ProgrammerActivity")){
                         startActivity(new Intent(this,MainActivity.class));
                     }
 
                 }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
 
                     if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this,EquipmentActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.EquipmentActivity")){
+                        startActivity(new Intent(this, ProgrammerActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.ProgrammerActivity")){
                         startActivity(new Intent(this,CurveActivity.class));
                     }
 

@@ -1,5 +1,7 @@
 package com.nimeng.Presenter;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.nimeng.Model.ProgrammeMode;
@@ -19,10 +21,10 @@ import com.nimeng.contacts.EditProgrammeContacts;
  * <p>
  * -----------------------------------------------------------------
  */
-public class EditProgrammePresenter extends BasePresenter<EditProgrammeContacts.EditProgrammeUI, ProgrammeBean> implements EditProgrammeContacts.EditPresenter {
+public class ProgrammePresenter extends BasePresenter<EditProgrammeContacts.EditProgrammeUI, ProgrammeBean> implements EditProgrammeContacts.EditPresenter {
    private EditProgrammeContacts.EditProgrammemodel mEditProgrammermodel;
 
-   private EditProgrammePresenter(@NonNull EditProgrammeContacts.EditProgrammeUI view){
+   public ProgrammePresenter(@NonNull EditProgrammeContacts.EditProgrammeUI view){
        super(view);
 
        //实例化Model层
@@ -31,12 +33,20 @@ public class EditProgrammePresenter extends BasePresenter<EditProgrammeContacts.
    }
 
 
+
     @Override
-    public void addProgrammepresenter(String ID,String name,int time,float wave,float T1,float T2,float T3,float T4,float T5,float T6,float T7,float T8,float T9,float T10,float H1,float H2,float H3,float H4,float H5,float H6,float H7,float H8,float H9,float H10) {
-        mEditProgrammermodel.addProgrammemodel(ID,name,time,wave,T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,H1,H2,H3,H4,H5,H6,H7,H8,H9,H10);
+    public void addProgrammePresenter(String ID,String name,int time,float tem_wave, float hum_wave, float T1,float T2,float T3,float H1,float H2,float H3) {
+        mEditProgrammermodel.addProgrammemodel(ID,name,time,tem_wave,hum_wave,T1,T2,T3,H1,H2,H3);
 
     }
-    
+    @Override
+    public void deleteProgrammePrsenter(String ID) {
+        mEditProgrammermodel.deleteProgramme(ID);
+    }
+
+
+
+
     @Override
     public void onSuccess(Object tag, ProgrammeBean t){
        //先判断是否已经与View建立联系
@@ -49,5 +59,7 @@ public class EditProgrammePresenter extends BasePresenter<EditProgrammeContacts.
     public void onError(Object tag, ProgrammeBean t){
        getView().addError();
    }
+
+
 
 }

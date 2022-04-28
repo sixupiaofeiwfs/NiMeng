@@ -1,6 +1,7 @@
 package com.nimeng.Model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.nimeng.bean.ProgrammeBean;
 import com.nimeng.contacts.EditProgrammeContacts;
@@ -26,14 +27,15 @@ public class ProgrammeMode  implements EditProgrammeContacts.EditProgrammemodel 
 
 
     @Override
-    public void addProgrammemodel(String ID, String name, int time, float wave, float T1, float T2, float T3, float T4, float T5, float T6, float T7, float T8, float T9, float T10, float H1, float H2, float H3, float H4, float H5, float H6, float H7, float H8, float H9, float H10) {
-        ProgrammeBean programmeBean=new ProgrammeBean(ID,name,time,wave,T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,H1,H2,H3,H4,H5,H6,H7,H8,H9,H10);
+    public void addProgrammemodel(String ID, String name, int time, float tem_wave, float hum_wave, float T1, float T2, float T3, float H1, float H2, float H3) {
+        ProgrammeBean programmeBean=new ProgrammeBean(ID,name,time,tem_wave,hum_wave,T1,T2,T3,H1,H2,H3);
 
         programmeDao.AddProgramme(programmeBean);
     }
 
     @Override
     public void deleteProgramme(String ID) {
-
+        Log.d("1111111", "deleteProgramme: ");
+        programmeDao.deleteProgrammeById(ID);
     }
 }

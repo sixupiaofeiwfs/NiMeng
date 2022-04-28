@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * -----------------------------------------------------------------
  */
-public class HwChargingView extends View {
+public class FlashView extends View {
     private String TAG="HwChargingView";
     /*
     1.发射器
@@ -67,6 +68,9 @@ public class HwChargingView extends View {
     private Paint paint=new Paint();
 
     private TextPaint textPaint=new TextPaint();
+
+    private TextPaint HumTextPaint=new TextPaint();
+
 
     private int[]colorArr={
             Color.parseColor("#f83149"),
@@ -132,10 +136,10 @@ public class HwChargingView extends View {
 
     private Handler handle=new Handler();
 
-    private HwChargingView(Context context){
+    private FlashView(Context context){
         this(context,null);
     }
-    public HwChargingView(Context context, AttributeSet attributeSet){
+    public FlashView(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
         init(context);
     }
@@ -221,7 +225,7 @@ public class HwChargingView extends View {
         paint.setDither(true);
         paint.setStyle(Paint.Style.FILL);
 
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(Color.RED);
         textPaint.setAntiAlias(true);
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
@@ -267,6 +271,7 @@ public class HwChargingView extends View {
      */
     private void drawProgress(Canvas canvas) {
 
+
         float x = getWidth() / 2 - rect.width() / 2;
         float y = getHeight() / 2 + rect.height() / 2;
 
@@ -301,9 +306,15 @@ public class HwChargingView extends View {
      *
      * @param percent
      */
-    public void setProgress(int percent) {
+    public void setProgress(int percent,String type) {
         this.progress = percent;
-        textPaint.getTextBounds(progress + "%", 0, (progress + "%").length(), rect);
+        if(type=="tem"){
+            textPaint.getTextBounds( String.valueOf(progress), 0, String.valueOf(progress).length(), rect);
+        }
+
+        HumTextPaint.getTextBounds(progress+"%",0,(progress+"%").length(),rect);
+
+
         if (percent <= 10) {
             changeColor(colorArr[0]);
         } else if (percent <= 20) {

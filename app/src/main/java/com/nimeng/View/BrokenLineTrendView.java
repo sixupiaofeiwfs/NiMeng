@@ -218,9 +218,9 @@ public class BrokenLineTrendView extends View  {
     private void drawDottedLine(Canvas canvas){
         int count=mYLineDataList.size();
         if (count>0){
-            canvas.save();
-            mDottedPaint.setPathEffect(new DashPathEffect(new float[]{20,10},4));
-            mDottedPaint.setStrokeWidth(1f);
+            canvas.save();//保存当前画布的状态
+            mDottedPaint.setPathEffect(new DashPathEffect(new float[]{20,10},4));//设置折线的样式
+            mDottedPaint.setStrokeWidth(1f);//画笔的宽度
             float height=mYheight-mBottomPadding;
             float one=1.00f/count;
             float startX=mWidth*0.1f;
@@ -231,11 +231,11 @@ public class BrokenLineTrendView extends View  {
                 startY=stopY=(i+1)*one*height;
                 Path path =new Path();
                 path.reset();
-                path.moveTo(startX,startY);
-                path.lineTo(stopX,stopY);
+                path.moveTo(startX,startY);//将画笔移动到目标位置
+                path.lineTo(stopX,stopY);//用于进行直线绘制
                 canvas.drawPath(path,mDottedPaint);
             }
-            canvas.restore();
+            canvas.restore();//取出保存的画布状态
         }
     }
 

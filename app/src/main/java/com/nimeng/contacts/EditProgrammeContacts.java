@@ -31,17 +31,21 @@ public final class EditProgrammeContacts {
 
     //presenter层接口
      public interface EditPresenter extends IBasePresenter{
-        void addProgrammepresenter(String ID,String name,int time,float wave,float T1,float T2,float T3,float T4,float T5,float T6,float T7,float T8,float T9,float T10,float H1,float H2,float H3,float H4,float H5,float H6,float H7,float H8,float H9,float H10);
+        void addProgrammePresenter(String ID,String name,int time,float tem_wave,float hum_wave, float T1,float T2,float T3,float H1,float H2,float H3);
 
         void onSuccess(Object tag, ProgrammeBean t);
 
         void onError(Object tag, ProgrammeBean t);
+
+
+        void deleteProgrammePrsenter(String ID);
+
     }
 
     //model层接口
     public interface EditProgrammemodel{
         //添加
-        void addProgrammemodel(String ID, String name, int time, float wave, float T1, float T2, float T3, float T4, float T5, float T6, float T7, float T8, float T9, float T10, float H1, float H2, float H3, float H4, float H5, float H6, float H7, float H8, float H9, float H10);
+        void addProgrammemodel(String ID, String name, int time, float tem_wave, float hum_wave, float T1, float T2, float T3, float H1, float H2, float H3);
         //删除
         void deleteProgramme(String ID);
     }

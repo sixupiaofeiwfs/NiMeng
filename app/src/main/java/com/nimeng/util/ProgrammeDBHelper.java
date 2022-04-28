@@ -37,7 +37,11 @@ public class ProgrammeDBHelper extends SQLiteOpenHelper {
     public static final String COLNUMTIME="programmeTime";
 
     //字段名
-    public static final String COLNUMWAVE="programmeWAVE";
+    public static final String COLNUMTEM_WAVE="programmeTemWave";
+
+    //字段名
+    public static final String COLNUMHUM_WAVE="programmeHumWave";
+
 
     //字段名
     public static final String COLNUMT1="programmeT1";
