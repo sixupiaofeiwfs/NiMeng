@@ -34,14 +34,16 @@ public class ProgrammerTableAdapter extends BaseAdapter {
 
     private List<ProgrammeBean> list;
     private LayoutInflater inflater;
+    private Callback callback;
 
 
     private ProgrammePresenter programmePresenter;
 
 
-    public ProgrammerTableAdapter(Context context, List<ProgrammeBean> list){
+    public ProgrammerTableAdapter(Context context, List<ProgrammeBean> list,Callback callback){
         this.list = list;
         inflater = LayoutInflater.from(context);
+        this.callback=callback;
     }
 
     @Override
@@ -117,12 +119,13 @@ public class ProgrammerTableAdapter extends BaseAdapter {
         viewHolder.programmerHum3.setTextSize(13);
 
         viewHolder.programmerMenu.setText("删除");
-        viewHolder.programmerHum3.setTextSize(13);
+        viewHolder.programmerMenu.setTextSize(13);
+
         viewHolder.programmerMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                programmePresenter=new ProgrammePresenter((EditProgrammeContacts.EditProgrammeUI) view);
-                programmePresenter.deleteProgrammePrsenter(programmeBean.getId());
+                String ID =list.get(position).getId();
+             callback.click(ID);
 
             }
         });
@@ -146,6 +149,10 @@ public class ProgrammerTableAdapter extends BaseAdapter {
         public TextView proGrammerHum2;
         public TextView programmerHum3;
         public Button   programmerMenu;
+    }
+
+    public interface Callback{
+        public void click(String ID);
     }
 
 }
