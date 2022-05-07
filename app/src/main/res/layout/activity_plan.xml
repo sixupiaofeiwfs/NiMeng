@@ -6,13 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <Button
+        android:id="@+id/plan_add"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:text="新增预设方案" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
         android:background="#A7A5A5"/>
 
     <include
-        layout="@layout/list_programmer"
+        layout="@layout/list_plan"
         android:id="@+id/table_title"/>
 
     <View
@@ -21,7 +27,7 @@
         android:background="#686867"/>
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/plan_list"
         android:divider="#B4B3B3"
         android:dividerHeight="1.0dip"
         android:scrollbars="none"
@@ -31,5 +37,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
     </ListView>
+
+
 
 </LinearLayout>

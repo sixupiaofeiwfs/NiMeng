@@ -4,26 +4,26 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/programmerCode"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:singleLine="true"
-        android:text="方案编号" />
+<!--    <TextView-->
+<!--        android:id="@+id/list_id"-->
+<!--        android:layout_width="0dip"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:gravity="center"-->
+<!--        android:paddingBottom="10dip"-->
+<!--        android:paddingTop="10dip"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="15sp"-->
+<!--        android:singleLine="true"-->
+<!--        android:text="方案编号" />-->
 
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
+<!--    <View-->
+<!--        android:layout_width="1.5dip"-->
+<!--        android:layout_height="fill_parent"-->
+<!--        android:background="#B4B3B3"/>-->
 
     <TextView
-        android:id="@+id/ProgrammerName"
+        android:id="@+id/list_name"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="3"
@@ -41,7 +41,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/ProgrammerTime"
+        android:id="@+id/list_unitTime"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -59,7 +59,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/ProgrammerTemWave"
+        android:id="@+id/list_temWave"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -77,7 +77,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/programmerHumWave"
+        android:id="@+id/list_humWave"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -95,7 +95,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/programmerTem1"
+        android:id="@+id/list_tem1"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -109,7 +109,7 @@
 
 
     <TextView
-        android:id="@+id/programmerTem2"
+        android:id="@+id/list_tem2"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -122,7 +122,7 @@
         android:text="设定温度2" />
 
     <TextView
-        android:id="@+id/programmerTem3"
+        android:id="@+id/list_tem3"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -135,7 +135,7 @@
         android:text="设定温度3" />
 
     <TextView
-        android:id="@+id/programmerHum1"
+        android:id="@+id/list_hum1"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -148,7 +148,7 @@
         android:text="设定湿度1" />
 
     <TextView
-        android:id="@+id/proGrammerHum2"
+        android:id="@+id/list_hum2"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -161,7 +161,7 @@
         android:text="设定湿度2" />
 
     <TextView
-        android:id="@+id/programmerHum3"
+        android:id="@+id/list_hum3"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -174,18 +174,7 @@
         android:text="设定湿度3" />
 
 
-    <Button
-        android:id="@+id/programmerMenu"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.2"
-        android:paddingBottom="10dip"
-        android:singleLine="true"
-        android:textSize="15sp"
-        android:textColor="#000000"
-        android:paddingTop="10dip"
-        android:gravity="center"
-        android:text="操作"/>
+
 
 
 

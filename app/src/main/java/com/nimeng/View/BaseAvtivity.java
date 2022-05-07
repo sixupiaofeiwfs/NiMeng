@@ -81,15 +81,15 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
 
                 if(distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && distanceX>0){
-                    if(this.getClass().getName().equals("com.nimeng.View.ProgrammerActivity")){
+                    if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
                         startActivity(new Intent(this,MainActivity.class));
                     }
 
                 }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
 
                     if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this, ProgrammerActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.ProgrammerActivity")){
+                        startActivity(new Intent(this, PlanActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
                         startActivity(new Intent(this,CurveActivity.class));
                     }
 
