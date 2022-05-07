@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.nimeng.View.R;
 import com.nimeng.bean.PlanBean;
-import com.nimeng.dao.PlanDao;
 
 import java.util.List;
 
