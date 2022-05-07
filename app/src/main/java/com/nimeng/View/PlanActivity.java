@@ -14,10 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.nimeng.Adapter.PlanAdapter;
-import com.nimeng.Model.PlanModel;
 import com.nimeng.bean.PlanBean;
 import com.nimeng.util.PlanDBHelper;
+
 
 import java.util.List;
 
@@ -34,13 +35,12 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class PlanActivity extends AppCompatActivity {
+public class PlanActivity extends BaseAvtivity{
     private Button btn_add;
     private ListView listView;
     private EditText editName,editUnitTime,editTemWave,editHumWave,editTem1,editTem2,editTem3,editHum1,editHum2,editHum3;
     private PlanAdapter adapter;
     private PlanDBHelper planDBHelper;
-    private PlanModel planModel;
     private List<PlanBean> list;
 
     @Override
@@ -315,6 +315,7 @@ public class PlanActivity extends AppCompatActivity {
     public void showToast(String msg){
         Toast.makeText(PlanActivity.this,msg,Toast.LENGTH_SHORT).show();
     }
+
 
 
 }
