@@ -93,6 +93,8 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                         startActivity(new Intent(this, PlanActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
                         startActivity(new Intent(this,CurveActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.CurveActivity")){
+                        startActivity(new Intent(this,ModbusActivity.class));
                     }
 
                 }
