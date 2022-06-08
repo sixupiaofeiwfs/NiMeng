@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/turntable_linearLayout1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="定位"
+            android:id="@+id/btn_location"
+            />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:id="@+id/btn_foreword"
+            android:text="正转"
+            />
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:id="@+id/btn_inversion"
+            android:text="反转"
+            />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/turntable_linearLayout2"
+        android:layout_below="@id/turntable_linearLayout1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="被捡表设置"
+            android:id="@+id/btn_setting"
+            />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="读取次数"
+            android:id="@+id/text1"
+            android:gravity="center"
+            />
+        <Spinner
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:entries="@array/data1"
+            android:spinnerMode="dropdown"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/turntable_linearLayout3"
+        android:layout_below="@id/turntable_linearLayout2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="拍摄角度数量"
+            android:gravity="center"
+            />
+        
+        <Spinner
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:entries="@array/data2"
+            android:spinnerMode="dropdown"
+            android:id="@+id/spinner1"
+            />
+
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="确定"
+            android:id="@+id/btn_true"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/turntable_relativelayout1"
+        android:layout_below="@id/turntable_linearLayout3"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:id="@+id/turntable_linearLayout_1"
+            >
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="A"
+                android:gravity="center"
+                />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/data2"
+                android:spinnerMode="dropdown"
+                />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:id="@+id/turntable_linearLayout_2"
+            android:layout_toRightOf="@id/turntable_linearLayout_1"
+            >
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="B"
+                android:gravity="center"
+                />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/data2"
+                android:spinnerMode="dropdown"/>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/turntable_relativelayout2"
+        android:layout_below="@id/turntable_relativelayout1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:id="@+id/turntable_linearLayout_3"
+            >
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="C"
+                android:gravity="center"
+                />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/data2"
+                android:spinnerMode="dropdown"
+                />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:id="@+id/turntable_linearLayout_4"
+            android:layout_toRightOf="@id/turntable_linearLayout_3"
+            >
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="D"
+                android:gravity="center"
+                />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/data2"
+                android:spinnerMode="dropdown"/>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/turntable_relativelayout3"
+        android:layout_below="@id/turntable_relativelayout2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:id="@+id/turntable_linearLayout_5"
+            >
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="E"
+                android:gravity="center"
+                />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/data2"
+                android:spinnerMode="dropdown"
+                />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:id="@+id/turntable_linearLayout_6"
+            android:layout_toRightOf="@id/turntable_linearLayout_5"
+            >
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="F"
+                android:gravity="center"
+                />
+
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/data2"
+                android:spinnerMode="dropdown"/>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

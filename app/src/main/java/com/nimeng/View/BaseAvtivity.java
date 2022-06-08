@@ -26,7 +26,7 @@ import com.nimeng.Presenter.IBasePresenter;
  */
 public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> implements IBaseView{
 
-//加载进度框
+    //加载进度框
     private ProgressDialog mProgressDialog;
 
     //手指上下滑动时的最小速度
@@ -85,6 +85,22 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                         startActivity(new Intent(this,MainActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.CurveActivity")){
                         startActivity(new Intent(this, PlanActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.ModbusActivity")){
+                        startActivity(new Intent(this,CurveActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
+                        startActivity(new Intent(this,ModbusActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.FileActivity")){
+                        startActivity(new Intent(this,DataRecordActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){
+                        startActivity(new Intent(this,FileActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.CameraActivity")){
+                        startActivity(new Intent(this,StandardApparatusActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
+                        startActivity(new Intent(this,CameraActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
+                        startActivity(new Intent(this,TurntableActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.TurntableActivity")){
+                        startActivity(new Intent(this,SettingSwitchActivity.class));
                     }
 
                 }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
@@ -95,6 +111,18 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                         startActivity(new Intent(this,CurveActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.CurveActivity")){
                         startActivity(new Intent(this,ModbusActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.ModbusActivity")){
+                        startActivity(new Intent(this,DataRecordActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
+                        startActivity(new Intent(this,FileActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.FileActivity")){
+                        startActivity(new Intent(this,StandardApparatusActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){
+                        startActivity(new Intent(this,CameraActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.CameraActivity")){
+                        startActivity(new Intent(this,SettingSwitchActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
+                        startActivity(new Intent(this,TurntableActivity.class));
                     }
 
                 }

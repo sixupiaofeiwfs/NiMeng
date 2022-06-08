@@ -9,6 +9,7 @@
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_programme.xml" value="0.3061594202898551" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_programmer.xml" value="0.2125" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/activity_turntable.xml" value="0.16875" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/layout.xml" value="0.365625" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_equipment.xml" value="0.3619791666666667" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_item.xml" value="0.20260416666666667" />
@@ -27,6 +28,13 @@
         <entry key="..\:/NiMeng3/app/src/main/res/layout/list_plan2.xml" value="0.3932291666666667" />
         <entry key="..\:/NiMeng3/app/src/main/res/layout/plan_edit.xml" value="0.21458333333333332" />
         <entry key="..\:/Nimeng/app/src/main/res/layout/activity_programmer.xml" value="0.3678977272727273" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/activity_curve.xml" value="0.2015625" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/activity_main.xml" value="0.2015625" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/activity_modbus.xml" value="0.2015625" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/activity_plan.xml" value="0.24010416666666667" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/activty_pid.xml" value="0.19746376811594202" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/list_plan.xml" value="0.24010416666666667" />
+        <entry key="..\:/niMENG/app/src/main/res/layout/plan_edit.xml" value="0.24010416666666667" />
       </map>
     </option>
   </component>

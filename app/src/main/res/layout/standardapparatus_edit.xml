@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingBottom="20dp"
+    android:orientation="vertical"
+    >
+
+
+    <EditText
+        android:id="@+id/edit_s_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入名称"
+        android:inputType="text"
+        />
+    <!--    <TextView-->
+    <!--        android:id="@+id/unitTime"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="单位时间"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入端口"
+        android:inputType="number"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/temWave"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="温度波动值"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_format"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入通讯格式"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/humWave"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="湿度波动值"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入通讯速率"
+        android:inputType="number"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tem1"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="检测温度1"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入设备类型"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tem2"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="检测温度2"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入设备型号"
+        android:inputType="numberSigned"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tem3"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="检测温度3"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入通讯协议"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/hum1"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="检测湿度1"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入证书编号"
+        android:inputType="numberSigned"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/hum2"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="检测湿度2"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入证书值"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/hum3"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="检测湿度3"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp">-->
+
+    <!--    </TextView>-->
+
+    <EditText
+        android:id="@+id/edit_s_traceabilityUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入溯源单位"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/edit_s_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入有效期"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+
+
+
+
+</LinearLayout>
