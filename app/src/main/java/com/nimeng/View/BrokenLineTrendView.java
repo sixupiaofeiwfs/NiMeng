@@ -359,6 +359,7 @@ public class BrokenLineTrendView extends View  {
 //绘制折线点
     private void drawBrokenPoint(Canvas canvas){
         int dataSize=mDataList.size();
+
         if(dataSize>0){
             canvas.save();
             for(int j=0;j<dataSize;j++){

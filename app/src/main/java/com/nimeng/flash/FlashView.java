@@ -61,7 +61,8 @@ public class FlashView extends View {
     //视图背景色
     private int backGroundColor= Color.parseColor("#ffffff");
     //进度值
-    private int progress=0;
+    private String progress="";
+
 
     private Rect rect=new Rect();
 
@@ -70,11 +71,13 @@ public class FlashView extends View {
     private TextPaint textPaint=new TextPaint();
 
     private TextPaint HumTextPaint=new TextPaint();
+    private TextPaint TemTextPaint=new TextPaint();//新
+
 
 
     private int[]colorArr={
             Color.parseColor("#f83149"),
-            Color.parseColor("#f83149"),
+            Color.parseColor("#4169E1"),
             Color.parseColor("#f83149")
     };
 
@@ -225,13 +228,17 @@ public class FlashView extends View {
         paint.setDither(true);
         paint.setStyle(Paint.Style.FILL);
 
-        textPaint.setColor(Color.RED);
+
+      //  textPaint.setColor(Color.RED);
         textPaint.setAntiAlias(true);
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setTextSize(TypeValueUtil.sp2px(context, 32));
+        textPaint.setTextSize(TypeValueUtil.sp2px(context, 35));
         textPaint.setStrokeWidth(3);
         textPaint.getTextBounds(progress + "%", 0, (progress + "%").length(), rect);
+
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
 
         executor = new ThreadPoolExecutor(3, 5, 15,
                 TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(8));
@@ -275,7 +282,7 @@ public class FlashView extends View {
         float x = getWidth() / 2 - rect.width() / 2;
         float y = getHeight() / 2 + rect.height() / 2;
 
-        canvas.drawText(progress + "%", x, y, textPaint);
+        canvas.drawText(String.valueOf( progress), x, y, textPaint);
     }
 
     private Runnable mBubbleRunnable = new Runnable() {
@@ -306,21 +313,36 @@ public class FlashView extends View {
      *
      * @param percent
      */
-    public void setProgress(int percent,String type) {
-        this.progress = percent;
+    public void setProgress(float percent,String type) {
+
         if(type=="tem"){
-            textPaint.getTextBounds( String.valueOf(progress), 0, String.valueOf(progress).length(), rect);
+            this.progress="  "+percent+"℃";
+        }else{
+            this.progress="  "+percent+"%";
         }
 
-        HumTextPaint.getTextBounds(progress+"%",0,(progress+"%").length(),rect);
+
+
+
+
+        if(type.equals("tem")){
+            TemTextPaint.getTextBounds( progress, 0, progress.length(), rect);
+        }else{
+            HumTextPaint.getTextBounds(progress,0,progress.length(),rect);
+        }
+
+
 
 
         if (percent <= 10) {
             changeColor(colorArr[0]);
-        } else if (percent <= 20) {
+            textPaint.setColor(Color.RED);
+        } else if (percent <= 30) {
             changeColor(colorArr[1]);
+            textPaint.setColor(Color.BLUE);
         } else {
             changeColor(colorArr[2]);
+            textPaint.setColor(Color.RED);
         }
     }
 

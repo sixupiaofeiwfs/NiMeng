@@ -1,6 +1,7 @@
 package com.nimeng.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nimeng.View.R;
+import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.PlanBean;
 
 import java.util.List;
@@ -31,9 +33,13 @@ public class PlanAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
 
+
+
+
     public PlanAdapter(List<PlanBean> list, Context context) {
         this.list = list;
         layoutInflater=LayoutInflater.from(context);
+
     }
 
     @Override
@@ -55,6 +61,7 @@ public class PlanAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
 
+        Log.d("view是否为空", "getView: "+view);
         if(view==null){
             view=layoutInflater.inflate(R.layout.list_plan,null,false);
             viewHolder=new ViewHolder(view);
@@ -65,7 +72,7 @@ public class PlanAdapter extends BaseAdapter {
 
         PlanBean planBean=(PlanBean) getItem(i);
 
-        Log.d("列表数据", "getView: "+planBean.getName()+"   "+planBean.getUnitTime()+"   "+planBean.getTemWave()+"      "+planBean.getHumWave());
+        Log.d("列表数据", "getView: "+planBean.getID()+"    "+"------"+planBean.getIsCheck()+"    "+planBean.getName()+"   "+planBean.getUnitTime()+"   "+planBean.getTemWave()+"      "+planBean.getHumWave());
 
 
         //viewHolder.id.setText(planBean.getID());
@@ -80,6 +87,13 @@ public class PlanAdapter extends BaseAdapter {
         viewHolder.hum1.setText( planBean.getHum1());
         viewHolder.hum2.setText(planBean.getHum2());
         viewHolder.hum3.setText(planBean.getHum3());
+
+        if(planBean.getIsCheck()==1 ){
+           viewHolder.isCheck.setText("是");
+        }else{
+            viewHolder.isCheck.setText("否");
+        }
+
         return view;
 
     }
@@ -88,7 +102,7 @@ public class PlanAdapter extends BaseAdapter {
 
 
     class ViewHolder{
-        TextView id, name,unitTime,temWave,humWave,tem1,tem2,tem3,hum1,hum2,hum3;
+        TextView id, name,unitTime,temWave,humWave,tem1,tem2,tem3,hum1,hum2,hum3,isCheck;
         public ViewHolder(View view){
             //id=view.findViewById(R.id.list_id);
             name=view.findViewById(R.id.list_name);
@@ -101,6 +115,7 @@ public class PlanAdapter extends BaseAdapter {
             hum1=view.findViewById(R.id.list_hum1);
             hum2=view.findViewById(R.id.list_hum2);
             hum3=view.findViewById(R.id.list_hum3);
+            isCheck=view.findViewById(R.id.list_isCheck);
 
         }
     }

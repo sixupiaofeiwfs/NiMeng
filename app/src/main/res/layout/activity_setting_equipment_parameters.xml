@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+  <LinearLayout
+      android:id="@+id/l1"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      >
+      <TextView
+          android:layout_width="115dp"
+          android:layout_height="40dp"
+          android:text="湿度运行时间"
+          android:textStyle="bold"
+          />
+      <EditText
+          android:layout_width="115dp"
+          android:layout_height="40dp"
+          />
+      <TextView
+          android:layout_width="115dp"
+          android:layout_height="40dp"
+          android:text="分钟"
+          />
+
+      <TextView
+          android:layout_width="115dp"
+          android:layout_height="40dp"
+          android:textStyle="bold"
+          android:text="制冷压缩机保护"
+          />
+      <EditText
+          android:layout_width="115dp"
+          android:layout_height="40dp"
+          />
+      <TextView
+          android:layout_width="115dp"
+          android:layout_height="40dp"
+          android:text="秒"
+          />
+
+  </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l2"
+        android:layout_below="@id/l1"
+        >
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="化霜换向时间"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="分钟"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:text="除湿压缩机保护"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="秒"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l3"
+        android:layout_below="@id/l2"
+        >
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="当前湿度参考值"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="%RH"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:text="电磁阀Y2"
+            />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="开启"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l4"
+        android:layout_below="@id/l3"
+        >
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="设定湿度参考值"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="%RH"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:text="电磁阀Y2"
+            />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="开启"
+            />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l5"
+        android:layout_below="@id/l4"
+        >
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="剩余运行时间"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="分钟"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:text="电磁阀Y2"
+            />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="开启"
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l6"
+        android:layout_below="@id/l5"
+        >
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="化霜换向剩余时间"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="分钟"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="设定湿度小于值"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l7"
+        android:layout_below="@id/l6"
+        >
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="风机转速设定"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="单双毛控制点"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/l8"
+        android:layout_below="@id/l7"
+        >
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="控温长通毛控制点"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:text="降温三毛全通控制点"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            />
+
+    </LinearLayout>
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:id="@+id/l9"
+    android:layout_below="@id/l8"
+    >
+
+    <TextView
+        android:layout_width="115dp"
+        android:layout_height="40dp"
+        android:text="制冷温湿度控制点："
+        />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:text="SV="
+        />
+
+    <EditText
+        android:layout_width="115dp"
+        android:layout_height="40dp"
+        />
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="℃"
+        />
+
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:text="PV="
+        />
+
+    <EditText
+        android:layout_width="115dp"
+        android:layout_height="40dp"
+        />
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="℃"
+        />
+
+
+
+    <TextView
+        android:layout_width="115dp"
+        android:layout_height="40dp"
+        android:text="默认："
+        />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:text="SV=40"
+        />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:text="PV=45"
+        />
+
+
+
+
+</LinearLayout>
+
+
+
+</RelativeLayout>

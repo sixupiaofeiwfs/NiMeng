@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linear_layout"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal" >-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_start"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="onButtonStartClicked"-->
+<!--            android:text="开始" />-->
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/chart"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_below="@+id/linear_layout"-->
+<!--        android:orientation="horizontal" >-->
+
+<!--    </LinearLayout>-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_text"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/linechart_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:textSize="25dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实时趋势图"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:id="@+id/linechart_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据记录"
+            android:textSize="25dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chart"
+        android:orientation="horizontal"
+        android:layout_below="@id/title_text"
+        >
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -66,6 +66,9 @@ public class DataRecordActivity extends BaseAvtivity {
 
     public void updateListView(){
         list=dataRecordDBHelper.query();
+
+        Log.d("查询到的数据——————————", "updateListView: "+list.size());
+
         adapter=new DataRecordAdapter(list,DataRecordActivity.this);
         listView.setAdapter(adapter);
     }

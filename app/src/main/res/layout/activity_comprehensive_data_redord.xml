@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal">
+
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/tableline"
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text=" "
+            android:textColor="#434343"
+            android:textSize="20px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:background="@color/teal_200"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="温度/℃"
+            android:textColor="#434343"
+            android:textSize="20px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="湿度（20℃时）"
+            android:textColor="#434343"
+            android:textSize="20px" />
+
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/tableline"
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="序号"
+            android:textColor="#434343"
+            android:textSize="15px"
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="#D4D4D4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="标准器"
+            android:textColor="@color/white"
+            android:textSize="15px" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="#D4D4D4"
+            android:gravity="center"
+            android:text=" "
+            android:textColor="@color/white"
+            android:textSize="15px"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="#D4D4D4"
+            android:gravity="center"
+            android:text="标准器"
+            android:textColor="@color/white"
+            android:textSize="15px"
+            android:padding="10dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="#D4D4D4"
+            android:gravity="center"
+            android:text="被检仪器读数"
+            android:textColor="@color/white"
+            android:textSize="15px"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#D4D4D4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="示值误差"
+            android:textColor="@color/white"
+            android:textSize="15px" />
+
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/tableline"
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text=" "
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="读数"
+            android:textColor="#434343"
+            android:textSize="10px"
+            />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="修正值"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:text="实际值"
+            android:textColor="#434343"
+            android:textSize="10px"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="被检仪器读数"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="示值误差"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="露点读数"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="修正值"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="实际值"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="实际相对湿度"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="湿球温度"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="相对湿度"
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text=" "
+            android:textColor="#434343"
+            android:textSize="10px" />
+
+
+    </TableRow>
+
+
+
+    <ListView
+        android:id="@+id/comprehensivedata_list"
+        android:divider="#B4B3B3"
+        android:dividerHeight="1dip"
+        android:scrollbars="none"
+
+        android:cacheColorHint="@android:color/transparent"
+        android:fadingEdge="none"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+
+
+    </ListView>
+
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/tableline"
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="温度示值误差"
+            android:textColor="#434343"
+            android:textSize="20px" />
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textColor="#434343"
+            android:textSize="20px"
+            />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="相对湿度示值误差"
+            android:textColor="#434343"
+            android:textSize="20px" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="#434343"
+            android:textSize="20px" />
+
+
+    </TableRow>
+
+
+
+</TableLayout>
+
+
+

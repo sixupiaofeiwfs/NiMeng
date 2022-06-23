@@ -1,6 +1,7 @@
 package com.nimeng.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,22 +43,23 @@ public class DataRecordAdapter  extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return list.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
+        Log.d("调用getView方法", "getView: ");
         DataRecordViewHolder viewHolder;
         if(view==null){
             view=layoutInflater.inflate(R.layout.list_datarecord,null,false);
@@ -68,7 +70,10 @@ public class DataRecordAdapter  extends BaseAdapter {
         }
 
         DataRecodeBean dataRecodeBean=(DataRecodeBean) getItem(i);
-        viewHolder.time.setText((dataRecodeBean.getTime()) );
+
+        Log.d("数据******************", "getView: "+dataRecodeBean.getTime());
+
+        viewHolder.time.setText(dataRecodeBean.getTime());
         viewHolder.time.setTextSize(13);
         viewHolder.settingTem.setText(String.valueOf(dataRecodeBean.getSettingTem()));
         viewHolder.realtimeTem.setText(String.valueOf(dataRecodeBean.getRealtimeTem()));

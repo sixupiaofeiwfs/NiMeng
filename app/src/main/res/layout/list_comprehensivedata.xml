@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:showDividers="middle|beginning|end"
+    >
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text=" "
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_reading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px"
+        />
+
+
+    <TextView
+        android:id="@+id/list_correctionValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_actualValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:textColor="#434343"
+        android:textSize="10px"
+        />
+
+    <TextView
+        android:id="@+id/list_readingOfTestedInstrument"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_temIndicationError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+
+    <TextView
+        android:id="@+id/list_dewPointReading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_standardCorrectionValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_standardActualValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_actualRelativeHumidity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_wetBulbTemperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_relativeHumidity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+    <TextView
+        android:id="@+id/list_indicationError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#434343"
+        android:textSize="10px" />
+
+
+
+
+
+</TableRow>
+
+

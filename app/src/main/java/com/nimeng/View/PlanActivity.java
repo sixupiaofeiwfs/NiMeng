@@ -12,14 +12,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.nimeng.Adapter.PlanAdapter;
+import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.PlanBean;
 import com.nimeng.util.PlanDBHelper;
 
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,10 +43,13 @@ public class PlanActivity extends BaseAvtivity{
     private PlanAdapter adapter;
     private PlanDBHelper planDBHelper;
     private List<PlanBean> list;
+    GlobalVariable globalVariable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        globalVariable=(GlobalVariable)getApplicationContext();
+
         setContentView(R.layout.activity_plan);
         btn_add=findViewById(R.id.plan_add);
         listView=findViewById(R.id.plan_list);
@@ -66,7 +70,8 @@ public class PlanActivity extends BaseAvtivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                updateData(i);
+               // updateData(i);
+                updateCheck(i);
             }
         });
 
@@ -154,6 +159,7 @@ public class PlanActivity extends BaseAvtivity{
                     planBean2.setHum1(hum1);
                     planBean2.setHum2(hum2);
                     planBean2.setHum3(hum3);
+                    planBean2.setIsCheck(0);
 
                     if(planDBHelper.add(planBean2)){
                         Log.d("添加成功", "onClick: ");
@@ -191,107 +197,22 @@ public class PlanActivity extends BaseAvtivity{
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PlanBean planBean=(PlanBean) adapter.getItem(position);
-                        String deleteID=String.valueOf( planBean.getID());
-                        if(planDBHelper.delete(deleteID)){
-                            updateListView();
-                            showToast("删除成功");
+
+                        Log.d("删除时", "onClick:"+planBean.getID()+"   "+globalVariable.getID());
+
+                        if(planBean.getID()== globalVariable.getID()){
+                            showToast("当前方案正在使用，不能删除");
                         }else{
-                            showToast("删除失败");
-                        }
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-    }
-
-
-
-    private void updateData(int position){
-        View editView=View.inflate(PlanActivity.this,R.layout.plan_edit,null);
-        PlanBean planBean=(PlanBean) adapter.getItem(position);
-        editName=editView.findViewById(R.id.edit_name);
-        editUnitTime=editView.findViewById(R.id.edit_unitTime);
-        editTemWave=editView.findViewById(R.id.edit_temWave);
-        editHumWave=editView.findViewById(R.id.edit_humWave);
-        editTem1=editView.findViewById(R.id.edit_tem1);
-        editTem2=editView.findViewById(R.id.edit_tem2);
-        editTem3=editView.findViewById(R.id.edit_tem3);
-        editHum1=editView.findViewById(R.id.edit_hum1);
-        editHum2=editView.findViewById(R.id.edit_hum2);
-        editHum3=editView.findViewById(R.id.edit_hum3);
-
-        editName.setText(planBean.getName());
-        editUnitTime.setText(String.valueOf( planBean.getUnitTime()));
-        editTemWave.setText(String.valueOf( planBean.getTemWave()));
-        editHumWave.setText(String.valueOf( planBean.getHumWave()));
-        editTem1.setText(String.valueOf(planBean.getTem1()));
-        editTem2.setText(String.valueOf(planBean.getTem2()));
-        editTem3.setText(String.valueOf(planBean.getTem3()));
-        editHum1.setText(String.valueOf(planBean.getHum1()));
-        editHum2.setText(String.valueOf(planBean.getHum2()));
-        editHum3.setText(String.valueOf(planBean.getHum3()));
-        String findID= String.valueOf( planBean.getID());
-
-
-
-
-        AlertDialog.Builder builder=new AlertDialog.Builder(PlanActivity.this);
-        builder.setTitle("修改方案")
-                .setView(editView)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String name=editName.getText().toString();
-                        int unitTime=Integer.valueOf( editUnitTime.getText().toString());
-                        float temWave=Float.parseFloat( editTemWave.getText().toString());
-                        float humWave=Float.parseFloat(editHumWave.getText().toString());
-                        String tem1=editTem1.getText().toString();
-                        String tem2=editTem2.getText().toString();
-                        String tem3=editTem3.getText().toString();
-                        String hum1=editHum1.getText().toString();
-                        String hum2=editHum2.getText().toString();
-                        String hum3=editHum3.getText().toString();
-
-                        if(name==""){
-                            showToast("预设方案名称不能为空");
-                        }if(unitTime==0){
-                            showToast("单位时间不能为0");
-                        }if(temWave==0){
-                            showToast("温度波动为0");
-                        }if(humWave==0){
-                            showToast("湿度波动不能为0");
-                        }
-                        else {
-                            PlanBean planBean1=planDBHelper.findPlanByName(name);
-                            if(planBean1.getName()==null){
-                                PlanBean planBean2=new PlanBean();
-                                planBean2.setName(name);
-                                planBean2.setUnitTime(unitTime);
-                                planBean2.setTemWave(temWave);
-                                planBean2.setHumWave(humWave);
-                                planBean2.setTem1(tem1);
-                                planBean2.setTem2(tem2);
-                                planBean2.setTem3(tem3);
-                                planBean2.setHum1(hum1);
-                                planBean2.setHum2(hum2);
-                                planBean2.setHum3(hum3);
-                               if( planDBHelper.update(planBean2)){
-                                   showToast("预设方案修改成功");
-                               }else{
-                                   showToast("预设方案修改失败");
-                               }
+                            String deleteID=String.valueOf( planBean.getID());
+                            if(planDBHelper.delete(deleteID)){
+                                updateListView();
+                                showToast("删除成功");
                             }else{
-                                showToast("该方案已经存在，不能修改");
+                                showToast("删除失败");
                             }
                         }
 
+
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -300,10 +221,104 @@ public class PlanActivity extends BaseAvtivity{
                         dialogInterface.dismiss();
                     }
                 });
+
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
-
     }
+
+
+//不在提供修改方案方法
+//    private void updateData(int position){
+//        View editView=View.inflate(PlanActivity.this,R.layout.plan_edit,null);
+//        PlanBean planBean=(PlanBean) adapter.getItem(position);
+//        editName=editView.findViewById(R.id.edit_name);
+//        editUnitTime=editView.findViewById(R.id.edit_unitTime);
+//        editTemWave=editView.findViewById(R.id.edit_temWave);
+//        editHumWave=editView.findViewById(R.id.edit_humWave);
+//        editTem1=editView.findViewById(R.id.edit_tem1);
+//        editTem2=editView.findViewById(R.id.edit_tem2);
+//        editTem3=editView.findViewById(R.id.edit_tem3);
+//        editHum1=editView.findViewById(R.id.edit_hum1);
+//        editHum2=editView.findViewById(R.id.edit_hum2);
+//        editHum3=editView.findViewById(R.id.edit_hum3);
+//
+//        editName.setText(planBean.getName());
+//        editUnitTime.setText(String.valueOf( planBean.getUnitTime()));
+//        editTemWave.setText(String.valueOf( planBean.getTemWave()));
+//        editHumWave.setText(String.valueOf( planBean.getHumWave()));
+//        editTem1.setText(String.valueOf(planBean.getTem1()));
+//        editTem2.setText(String.valueOf(planBean.getTem2()));
+//        editTem3.setText(String.valueOf(planBean.getTem3()));
+//        editHum1.setText(String.valueOf(planBean.getHum1()));
+//        editHum2.setText(String.valueOf(planBean.getHum2()));
+//        editHum3.setText(String.valueOf(planBean.getHum3()));
+//        String findID= String.valueOf( planBean.getID());
+//
+//
+//
+//
+//        AlertDialog.Builder builder=new AlertDialog.Builder(PlanActivity.this);
+//        builder.setTitle("修改方案")
+//                .setView(editView)
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        String name=editName.getText().toString();
+//                        int unitTime=Integer.valueOf( editUnitTime.getText().toString());
+//                        float temWave=Float.parseFloat( editTemWave.getText().toString());
+//                        float humWave=Float.parseFloat(editHumWave.getText().toString());
+//                        String tem1=editTem1.getText().toString();
+//                        String tem2=editTem2.getText().toString();
+//                        String tem3=editTem3.getText().toString();
+//                        String hum1=editHum1.getText().toString();
+//                        String hum2=editHum2.getText().toString();
+//                        String hum3=editHum3.getText().toString();
+//
+//                        if(name==""){
+//                            showToast("预设方案名称不能为空");
+//                        }if(unitTime==0){
+//                            showToast("单位时间不能为0");
+//                        }if(temWave==0){
+//                            showToast("温度波动为0");
+//                        }if(humWave==0){
+//                            showToast("湿度波动不能为0");
+//                        }
+//                        else {
+//                            PlanBean planBean1=planDBHelper.findPlanByName(name);
+//                            if(planBean1.getName()==null){
+//                                PlanBean planBean2=new PlanBean();
+//                                planBean2.setName(name);
+//                                planBean2.setUnitTime(unitTime);
+//                                planBean2.setTemWave(temWave);
+//                                planBean2.setHumWave(humWave);
+//                                planBean2.setTem1(tem1);
+//                                planBean2.setTem2(tem2);
+//                                planBean2.setTem3(tem3);
+//                                planBean2.setHum1(hum1);
+//                                planBean2.setHum2(hum2);
+//                                planBean2.setHum3(hum3);
+//                               if( planDBHelper.update(planBean2)){
+//                                   showToast("预设方案修改成功");
+//                               }else{
+//                                   showToast("预设方案修改失败");
+//                               }
+//                            }else{
+//                                showToast("该方案已经存在，不能修改");
+//                            }
+//                        }
+//
+//                    }
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//        AlertDialog alertDialog=builder.create();
+//        alertDialog.show();
+//
+//    }
 
 
     public void updateListView(){
@@ -317,5 +332,40 @@ public class PlanActivity extends BaseAvtivity{
     }
 
 
+
+    private void updateCheck(int position){
+        PlanBean planBean=(PlanBean) adapter.getItem(position);
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(PlanActivity.this);
+        builder.setTitle("选择该方案？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(planDBHelper.updateCheck(planBean.getID(),globalVariable.getID())){
+
+                            globalVariable.setID(planBean.getID());
+
+                            globalVariable.setStartTime(new Date());
+
+                            showToast("已选择"+planBean.getName());
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+
+
+
+
+
+    }
 
 }

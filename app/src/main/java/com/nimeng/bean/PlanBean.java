@@ -25,6 +25,8 @@ public class PlanBean {
     private String hum1;
     private String hum2;
     private String hum3;
+    private int isCheck;//使用该字段代表当前方案是否被选中，0代表未被选中，1代表被选中
+
 
     public int getID() {
         return ID;
@@ -114,11 +116,18 @@ public class PlanBean {
         this.hum3 = hum3;
     }
 
+    public int getIsCheck() {
+        return isCheck;
+    }
+
+    public void setIsCheck(int isCheck) {
+        this.isCheck = isCheck;
+    }
 
     public PlanBean() {
     }
 
-    public PlanBean(int ID, String name, int unitTime, float temWave, float humWave, String tem1, String tem2, String tem3, String hum1, String hum2, String hum3) {
+    public PlanBean(int ID, String name, int unitTime, float temWave, float humWave, String tem1, String tem2, String tem3, String hum1, String hum2, String hum3, int isCheck) {
         this.ID = ID;
         this.name = name;
         this.unitTime = unitTime;
@@ -130,5 +139,6 @@ public class PlanBean {
         this.hum1 = hum1;
         this.hum2 = hum2;
         this.hum3 = hum3;
+        this.isCheck = isCheck;
     }
 }

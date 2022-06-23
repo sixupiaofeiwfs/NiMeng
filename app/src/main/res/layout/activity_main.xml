@@ -12,11 +12,7 @@
         android:id="@+id/RelativeLayout1"
         android:layout_marginLeft="250dp"
         >
-        <SeekBar
-            android:id="@+id/TemSeekBar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            />
+
 
         <com.nimeng.flash.FlashView
             android:id="@+id/wd"
@@ -45,11 +41,7 @@
         android:layout_toRightOf="@id/RelativeLayout1"
         >
 
-        <SeekBar
-            android:id="@+id/HumSeekBar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            />
+
         <com.nimeng.flash.FlashView
             android:id="@+id/sd"
             android:layout_width="250dp"

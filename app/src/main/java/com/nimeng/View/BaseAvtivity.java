@@ -1,13 +1,23 @@
 package com.nimeng.View;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.nimeng.Presenter.IBasePresenter;
 
@@ -26,6 +36,7 @@ import com.nimeng.Presenter.IBasePresenter;
  */
 public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> implements IBaseView{
 
+    private static final int REQUEST_CODE =1024 ;
     //加载进度框
     private ProgressDialog mProgressDialog;
 
@@ -83,24 +94,20 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                 if(distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && distanceX>0){
                     if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
                         startActivity(new Intent(this,MainActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.CurveActivity")){
-                        startActivity(new Intent(this, PlanActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.ModbusActivity")){
-                        startActivity(new Intent(this,CurveActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
-                        startActivity(new Intent(this,ModbusActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.FileActivity")){
-                        startActivity(new Intent(this,DataRecordActivity.class));
+                        startActivity(new Intent(this,LineChartActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){
-                        startActivity(new Intent(this,FileActivity.class));
+                        startActivity(new Intent(this,DataRecordActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.CameraActivity")){
                         startActivity(new Intent(this,StandardApparatusActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
                         startActivity(new Intent(this,CameraActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this,TurntableActivity.class));
+                        startActivity(new Intent(this,ComprehensiveDataActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.TurntableActivity")){
                         startActivity(new Intent(this,SettingSwitchActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.ComprehensiveDataActivity")){
+                        startActivity(new Intent(this,TurntableActivity.class));
                     }
 
                 }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
@@ -108,21 +115,15 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                     if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
                         startActivity(new Intent(this, PlanActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
-                        startActivity(new Intent(this,CurveActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.CurveActivity")){
-                        startActivity(new Intent(this,ModbusActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.ModbusActivity")){
-                        startActivity(new Intent(this,DataRecordActivity.class));
+                        startActivity(new Intent(this,LineChartActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
-                        startActivity(new Intent(this,FileActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.FileActivity")){
                         startActivity(new Intent(this,StandardApparatusActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){
                         startActivity(new Intent(this,CameraActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.CameraActivity")){
                         startActivity(new Intent(this,SettingSwitchActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
-                        startActivity(new Intent(this,TurntableActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")) {
+                        startActivity(new Intent(this, TurntableActivity.class));
                     }
 
                 }
@@ -183,6 +184,41 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     public void onDestroy(){
         hideLoading();
         super.onDestroy();
+    }
+
+
+
+    // 获取存储权限
+    public void onPermission(View v){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // 先判断有没有权限
+            if (Environment.isExternalStorageManager()) {
+                requestSuccess();
+            } else {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 先判断有没有权限
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                requestSuccess();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+            }
+        } else {
+            requestSuccess();
+        }
+    }
+
+
+
+    /**
+     * 模拟文件写入
+     */
+    private void requestSuccess() {
+        Toast.makeText(this, "存储权限获取成功", Toast.LENGTH_SHORT).show();
     }
 
 }
