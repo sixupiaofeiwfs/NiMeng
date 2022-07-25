@@ -53,7 +53,7 @@ public class LineChartActivity extends BaseAvtivity{
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LineChartActivity.this,PlanActivity.class));
+                startActivity(new Intent(LineChartActivity.this,MainActivity.class));
             }
         });
 

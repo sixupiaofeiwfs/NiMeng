@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingBottom="20dp"
+    android:orientation="vertical"
+    >
+
+
+    <EditText
+        android:id="@+id/edit_humplan_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入方案名称"
+        android:inputType="text"/>
+
+
+    <EditText
+        android:id="@+id/edit_humplan_unitTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入单位时间"
+        android:inputType="number"
+        >
+
+    </EditText>
+
+
+
+    <EditText
+        android:id="@+id/edit_humplan_humWave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入湿度波动值"
+        android:inputType="numberDecimal"
+        >
+
+    </EditText>
+
+
+
+
+
+    <EditText
+        android:id="@+id/edit_humplan_hum1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测湿度1"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+    <EditText
+        android:id="@+id/edit_humplan_hum2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测湿度2"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+
+    <EditText
+        android:id="@+id/edit_humplan_hum3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测湿度3"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+
+    <EditText
+        android:id="@+id/edit_humplan_hum4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测湿度4"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+    <EditText
+        android:id="@+id/edit_humplan_hum5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测湿度5"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

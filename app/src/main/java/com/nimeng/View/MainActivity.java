@@ -1,28 +1,21 @@
 package com.nimeng.View;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.SystemClock;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 
 import com.modbus.SerialClient;
 import com.modbus.SerialPortParams;
@@ -30,14 +23,17 @@ import com.modbus.SerialUtils;
 import com.modbus.modbus.ModBusData;
 import com.modbus.modbus.ModBusDataListener;
 import com.nimeng.bean.DataRecodeBean;
+import com.nimeng.bean.GlobalVariable;
 import com.nimeng.flash.FlashView;
 import com.nimeng.flash.VirtualBarUtil;
 import com.nimeng.util.DataRecordDBHelper;
-import com.serotonin.modbus4j.serial.SerialPortWrapper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends BaseAvtivity {
 
@@ -77,7 +73,8 @@ public class MainActivity extends BaseAvtivity {
 
     private DataRecordDBHelper dataRecordDBHelper;
     private DataRecodeBean dataRecodeBean;
-
+    private GlobalVariable globalVariable;
+    private ListView listView;
 
     @Override
     public  void onDestroy() {
@@ -101,94 +98,168 @@ public class MainActivity extends BaseAvtivity {
 
         btn_tem=findViewById(R.id.but_tem);
         btn_hum=findViewById(R.id.but_hum);
+        globalVariable=new GlobalVariable();
+
 
 
      //init("/dev/ttyS0");
 
 
 
-
-
-//        mTemSeekBar=findViewById(R.id.TemSeekBar);
-//        mTemSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                //  mProgressTv.setText(i+"%");
-//
-//                mProgressTv.setText(hum+"%");
-//                mTemView.setProgress(i,"tem");
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-
-
-//        mHumSeekBar=findViewById(R.id.HumSeekBar);
-//        mHumSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                mHumView.setProgress(i,"hum");
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-
-
-        btn_tem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-
-                Intent intent=new Intent();
-
-                if(view.getId()==R.id.but_tem || view.getId()==R.id.but_hum){
-
-
-                    new AlertDialog.Builder(MainActivity.this).setTitle("请选择启动方式")
-                            .setPositiveButton("自定义", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    intent.setAction("com.nimeng.View.PlanActivity");
-                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-
-                                    // intent.setClassName("com.nimeng.View","com.nimeng.View.PlanActivity");
-                                    startActivity(intent);
-                                }
-                            }).setNegativeButton("预设方案", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    }).show();
-
-                }
+     btn_tem.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             temSetting();
+         }
+     });
 
 
 
-
-            }
-
-        });
-
+    btn_hum.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            humSetting();
+        }
+    });
 
 
 
     }
+
+
+
+
+
+
+
+    //温度设置
+    private void temSetting() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("请选择启动方式");
+        final Map<String, String> map = new LinkedHashMap<>(4);
+        map.put("方案一（20℃-40℃-60℃-80℃）", "第一个");
+        map.put("方案二（15℃-20℃-40℃-60℃-80℃）", "第二个");
+        map.put("方案三（15℃-20℃-40℃-60℃-80℃-90℃）", "第三个");
+        map.put("自定义","第四个");
+
+        final String[] keysTemp = new String[4];
+        final String[] keys = map.keySet().toArray(keysTemp);
+
+
+
+
+        builder.setItems(keys, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if(which==0){
+                            globalVariable.setTemID(991);
+                            globalVariable.setStartTime(new Date());
+                            globalVariable.setTemUnitTime(10);
+                            globalVariable.setTemWave(0.03f);
+                            globalVariable.setStable(false);
+                            globalVariable.setTemPlanName("方案一（20℃-40℃-60℃-80℃）");
+                            showToast("已选择方案一（20℃-40℃-60℃-80℃）");
+                }else if(which==1){
+                            globalVariable.setTemID(992);
+
+                            globalVariable.setStartTime(new Date());
+                            globalVariable.setTemUnitTime(10);
+                            globalVariable.setTemWave(0.03f);
+                            globalVariable.setStable(false);
+                            globalVariable.setTemPlanName("方案二（15℃-20℃-40℃-60℃-80℃）");
+                            showToast("已选择方案二（15℃-20℃-40℃-60℃-80℃）");
+                }else if(which==2){
+                            globalVariable.setTemID(993);
+
+                            globalVariable.setStartTime(new Date());
+                            globalVariable.setTemUnitTime(10);
+                            globalVariable.setTemWave(0.03f);
+                            globalVariable.setStable(false);
+                            globalVariable.setTemPlanName("方案三（15℃-20℃-40℃-60℃-80℃-90℃）");
+                            showToast("已选择方案三（15℃-20℃-40℃-60℃-80℃-90℃）");
+                }else{
+
+                    Intent intent=new Intent(MainActivity.this,TemPlanActivity.class);
+                    startActivity(intent);
+                }
+
+
+            }
+        });
+        builder.show();
+    }
+
+
+
+
+    //湿度设置
+    private void humSetting() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("请选择启动方式");
+        final Map<String, String> map = new LinkedHashMap<>(5);
+        map.put("方案一（不设置）", "第一个");
+        map.put("方案二（40%）", "第二个");
+        map.put("方案三（20%-40%-60%-80%）", "第三个");
+        map.put("方案四（20%-40%-60%-80%-90%）", "第四个");
+        map.put("自定义","第五个");
+
+        final String[] keysTemp = new String[5];
+        final String[] keys = map.keySet().toArray(keysTemp);
+
+
+
+
+        builder.setItems(keys, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if(which==0){
+                    globalVariable.setHumID(1001);
+                    globalVariable.setStartTime(new Date());
+                    globalVariable.setHumUnitTime(10);
+                    globalVariable.setHumWave(0.6f);
+                    globalVariable.setStable(false);
+                    globalVariable.setHumPlanName("方案一（不设置）");
+                    showToast("已选择方案一（不设置）");
+                }else if(which==1){
+                    globalVariable.setHumID(1002);
+                    globalVariable.setStartTime(new Date());
+                    globalVariable.setHumUnitTime(10);
+                    globalVariable.setHumWave(0.6f);
+                    globalVariable.setStable(false);
+                    globalVariable.setHumPlanName("方案二（40%）");
+                    showToast("已选择方案二（40%）");
+                }else if(which==2){
+                    globalVariable.setHumID(1003);
+                    globalVariable.setStartTime(new Date());
+                    globalVariable.setHumUnitTime(10);
+                    globalVariable.setHumWave(0.6f);
+                    globalVariable.setStable(false);
+                    globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
+                    showToast("已选择方案三（20%-40%-60%-80%）");
+                }else if(which==3){
+                    globalVariable.setHumID(1004);
+                    globalVariable.setStartTime(new Date());
+                    globalVariable.setHumUnitTime(10);
+                    globalVariable.setHumWave(0.6f);
+                    globalVariable.setStable(false);
+                    globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
+                    showToast("已选择方案四（20%-40%-60%-80%-90%）");
+                }else{
+                    Intent intent=new Intent(MainActivity.this,HumPlanActivity.class);
+                    startActivity(intent);
+                }
+
+
+            }
+        });
+        builder.show();
+    }
+
+
+
+
 
 
     private void init(final String address) {
@@ -255,7 +326,58 @@ public class MainActivity extends BaseAvtivity {
 
 
 
-                                   dataRecordDBHelper.add(dataRecodeBean);
+
+                                   //判断是否达到了稳定状态，达到稳定状态时不再文件中记录
+                                    //1.获取当前方案的稳定状态是什么
+                                    //2.判断该时间段内的数据是否满足状态
+
+
+
+                                    //连续取值最近时间段内的温湿度最大值和最小值  判断在此期间内的波动值是否大于最大值与最小值的差
+                                      List<Double> temDoubleList= dataRecordDBHelper.queryColumn_Double("realtimeTem",globalVariable.getTemUnitTime()*60+"");
+                                      Double temBigData=temDoubleList.get(0);
+                                      Double temSmallData=temDoubleList.get(temDoubleList.size()-1);
+
+                                      List<Double> humDoubleList= dataRecordDBHelper.queryColumn_Double("realtimeHum",globalVariable.getHumUnitTime()*60+"");
+                                      Double humBigData=humDoubleList.get(0);
+                                      Double humSmallData=humDoubleList.get(humDoubleList.size()-1);
+
+
+
+                                      //先判断温度
+                                    if(temBigData-temSmallData<=globalVariable.getTemWave() ){
+                                        //温度已达稳定状态
+
+
+                                        //再判断湿度是否达到稳定状态（两种情况，一种是湿度没选   一种是最大值-最小值<=波动值）
+                                        if(globalVariable.getTemWave()==0 || humBigData-humSmallData<=globalVariable.getHumWave()){
+
+                                            //达到稳定状态
+                                            dataRecordDBHelper.add(dataRecodeBean,true,globalVariable.getTemPlanName());
+                                            globalVariable.setStable(true);
+                                            globalVariable.setStableTime(new Date());
+
+
+
+
+                                            //开始记录标准器和被检表中的数值
+                                        }
+
+                                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                 }
 
@@ -331,6 +453,15 @@ public class MainActivity extends BaseAvtivity {
 
 
         return result;
+    }
+
+
+    //达到稳定状态
+    private void reachstability(){
+
+        //1.通知实验者达到稳定状态
+        //2.弹窗提示 是否进行下一温湿度点检测
+        //3.开始进行数据记录（文件数据  包括标准器 被检表等数据）
     }
 
 

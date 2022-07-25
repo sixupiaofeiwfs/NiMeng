@@ -135,9 +135,9 @@ public class CurveActivity extends BaseAvtivity implements IBaseView{
 
     private void init() {
 
-        timeList = dataRecordDBHelper.queryColumn_String("time", true, "30");
-        realtimeTemList = dataRecordDBHelper.queryColumn_Double("realtimeTem", true, "30");
-        realtimeHumList = dataRecordDBHelper.queryColumn_Double("realtimeHum", true, "30");
+//        timeList = dataRecordDBHelper.queryColumn_String("time", true, "30");
+//        realtimeTemList = dataRecordDBHelper.queryColumn_Double("realtimeTem", true, "30");
+//        realtimeHumList = dataRecordDBHelper.queryColumn_Double("realtimeHum", true, "30");
 
 //        new Thread(new Runnable() {
 //            @Override

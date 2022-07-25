@@ -4,26 +4,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-<!--    <TextView-->
-<!--        android:id="@+id/list_id"-->
-<!--        android:layout_width="0dip"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"-->
-<!--        android:gravity="center"-->
-<!--        android:paddingBottom="10dip"-->
-<!--        android:paddingTop="10dip"-->
-<!--        android:textColor="#000000"-->
-<!--        android:textSize="15sp"-->
-<!--        android:singleLine="true"-->
-<!--        android:text="方案编号" />-->
-
-<!--    <View-->
-<!--        android:layout_width="1.5dip"-->
-<!--        android:layout_height="fill_parent"-->
-<!--        android:background="#B4B3B3"/>-->
 
     <TextView
-        android:id="@+id/list_name"
+        android:id="@+id/list_templan_name"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="3"
@@ -41,7 +24,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_unitTime"
+        android:id="@+id/list_templan_unitTime"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -59,7 +42,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_temWave"
+        android:id="@+id/list_templan_temWave"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -76,26 +59,10 @@
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
 
-    <TextView
-        android:id="@+id/list_humWave"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:paddingBottom="10dip"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:singleLine="true"
-        android:paddingTop="10dip"
-        android:gravity="center"
-        android:text="湿度波动" />
 
-    <View
-        android:layout_width="1.5dip"
-        android:layout_height="fill_parent"
-        android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_tem1"
+        android:id="@+id/list_templan_tem1"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -106,10 +73,14 @@
         android:paddingTop="10dip"
         android:gravity="center"
         android:text="设定温度1" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
 
     <TextView
-        android:id="@+id/list_tem2"
+        android:id="@+id/list_templan_tem2"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -120,9 +91,13 @@
         android:paddingTop="10dip"
         android:gravity="center"
         android:text="设定温度2" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_tem3"
+        android:id="@+id/list_templan_tem3"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -133,9 +108,13 @@
         android:paddingTop="10dip"
         android:gravity="center"
         android:text="设定温度3" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_hum1"
+        android:id="@+id/list_templan_tem4"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -145,10 +124,14 @@
         android:textColor="#000000"
         android:paddingTop="10dip"
         android:gravity="center"
-        android:text="设定湿度1" />
+        android:text="设定温度4" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_hum2"
+        android:id="@+id/list_templan_tem5"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -158,25 +141,18 @@
         android:textColor="#000000"
         android:paddingTop="10dip"
         android:gravity="center"
-        android:text="设定湿度2" />
+        android:text="设定温度5" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
-    <TextView
-        android:id="@+id/list_hum3"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:paddingBottom="10dip"
-        android:singleLine="true"
-        android:textSize="15sp"
-        android:textColor="#000000"
-        android:paddingTop="10dip"
-        android:gravity="center"
-        android:text="设定湿度3" />
+
 
 
 
     <TextView
-        android:id="@+id/list_isCheck"
+        android:id="@+id/list_templan_isCheck"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"

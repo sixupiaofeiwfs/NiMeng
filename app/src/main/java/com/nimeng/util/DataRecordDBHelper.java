@@ -73,7 +73,7 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
     //添加
-    public boolean add(DataRecodeBean dataRecodeBean){
+    public boolean add(DataRecodeBean dataRecodeBean,boolean isEnd,String planName){
 
         if(!tableIsExist(TABLENAME)){
             Log.d("表不存在，创建表", "add: ");
@@ -104,12 +104,14 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
 
+        if(isEnd){
+            //将数据写入到文件中
+            String str=dataRecodeBean.getTime()+"    "+dataRecodeBean.getSettingTem()+"    "+dataRecodeBean.getRealtimeTem()+"    "+dataRecodeBean.getSettingHum()+"     "+dataRecodeBean.getRealtimeHum()+"\r\n";
+            String fileName=planName+"("+dataRecodeBean.getTime().substring(0,10)+")";
 
-        //将数据写入到文件中
-        String str=dataRecodeBean.getTime()+"    "+dataRecodeBean.getSettingTem()+"    "+dataRecodeBean.getRealtimeTem()+"    "+dataRecodeBean.getSettingHum()+"     "+dataRecodeBean.getRealtimeHum()+"\r\n";
-        String fileName=dataRecodeBean.getTime().substring(0,10);
+            write6("datarecord",str,fileName);
+        }
 
-        write6("datarecord",str,fileName);
 
 
 
@@ -252,19 +254,18 @@ public class DataRecordDBHelper extends BaseUtil {
     }
 
 
-    public List<Double> queryColumn_Double(String columnName,@Nullable boolean isReverseOrder,@Nullable  String limit){
+
+
+    //在某段时间内按照大小排序
+    public List<Double> queryColumn_Double(String columnName,@Nullable  String limit){
 
         if(!tableIsExist(TABLENAME)){
             return null;
         }
 
         List<Double> list=new ArrayList<Double>();
-        Cursor result;
-         if(isReverseOrder){
-             result=db.query(TABLENAME, new String[]{columnName},null,null,null,null,columnName+" DESC",limit);
-         }else{
-             result=db.query(TABLENAME, new String[]{columnName},null,null,null,null,null);
-         }
+        Cursor result=db.query(TABLENAME, new String[]{columnName},null,null,null,null,columnName+" DESC",limit);
+
 
 
         if(result!=null){
@@ -283,6 +284,9 @@ public class DataRecordDBHelper extends BaseUtil {
         return  list;
 
     }
+
+
+
 
 
 

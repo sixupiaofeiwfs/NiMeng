@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingBottom="20dp"
+    android:orientation="vertical"
+    >
+
+
+    <EditText
+        android:id="@+id/edit_templan_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入方案名称"
+        android:inputType="text"/>
+
+
+    <EditText
+        android:id="@+id/edit_templan_unitTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入单位时间"
+        android:inputType="number"
+        >
+
+    </EditText>
+
+
+
+    <EditText
+        android:id="@+id/edit_templan_temWave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入温度波动值"
+        android:inputType="numberDecimal"
+        >
+
+    </EditText>
+
+
+
+
+
+    <EditText
+        android:id="@+id/edit_templan_tem1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测温度1"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+    <EditText
+        android:id="@+id/edit_templan_tem2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测温度2"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+
+    <EditText
+        android:id="@+id/edit_templan_tem3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测温度3"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+
+    <EditText
+        android:id="@+id/edit_templan_tem4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测温度4"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+    <EditText
+        android:id="@+id/edit_templan_tem5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入检测温度5"
+        android:inputType="numberDecimal">
+
+    </EditText>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

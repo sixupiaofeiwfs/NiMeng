@@ -113,9 +113,7 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                 }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
 
                     if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this, PlanActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
-                        startActivity(new Intent(this,LineChartActivity.class));
+                        startActivity(new Intent(this, LineChartActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
                         startActivity(new Intent(this,StandardApparatusActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){

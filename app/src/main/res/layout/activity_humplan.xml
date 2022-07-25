@@ -7,10 +7,10 @@
     android:layout_height="match_parent" >
 
     <Button
-        android:id="@+id/plan_add"
+        android:id="@+id/humplan_add"
         android:layout_width="match_parent"
         android:layout_height="82dp"
-        android:text="新增预设方案" />
+        android:text="新增湿度预设方案" />
 
     <View
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
         android:background="#A7A5A5"/>
 
     <include
-        layout="@layout/list_plan"
-        android:id="@+id/table_title"/>
+        layout="@layout/list_humplan"
+        android:id="@+id/humplan_title"/>
 
     <View
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:background="#686867"/>
 
     <ListView
-        android:id="@+id/plan_list"
+        android:id="@+id/humplan_list"
         android:divider="#B4B3B3"
         android:dividerHeight="1.0dip"
         android:scrollbars="none"

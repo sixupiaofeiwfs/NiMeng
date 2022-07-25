@@ -5,12 +5,18 @@
       <map>
         <entry key="..\:/All/app/src/main/res/layout/activity_datarecord.xml" value="0.2078125" />
         <entry key="..\:/All/app/src/main/res/layout/activity_file.xml" value="0.2078125" />
+        <entry key="..\:/All/app/src/main/res/layout/activity_humplan.xml" value="0.322463768115942" />
         <entry key="..\:/All/app/src/main/res/layout/activity_main.xml" value="0.1890625" />
+        <entry key="..\:/All/app/src/main/res/layout/activity_templan.xml" value="0.29981884057971014" />
         <entry key="..\:/All/app/src/main/res/layout/avtivity_linechart.xml" value="0.1703125" />
         <entry key="..\:/All/app/src/main/res/layout/camera_edit.xml" value="0.25815217391304346" />
+        <entry key="..\:/All/app/src/main/res/layout/humplan_edit.xml" value="0.322463768115942" />
         <entry key="..\:/All/app/src/main/res/layout/list_datarecord.xml" value="0.2078125" />
+        <entry key="..\:/All/app/src/main/res/layout/list_humplan.xml" value="0.17097264437689969" />
         <entry key="..\:/All/app/src/main/res/layout/list_plan.xml" value="0.2078125" />
+        <entry key="..\:/All/app/src/main/res/layout/list_templan.xml" value="0.26856884057971014" />
         <entry key="..\:/All/app/src/main/res/layout/plan_edit.xml" value="0.25815217391304346" />
+        <entry key="..\:/All/app/src/main/res/layout/templan_edit.xml" value="0.3269927536231884" />
         <entry key="..\:/NiMeng/app/src/main/res/drawable/ic_launcher_background.xml" value="0.338" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_comprehensive_data.xml" value="0.23333333333333334" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_comprehensive_data_redord.xml" value="0.25" />

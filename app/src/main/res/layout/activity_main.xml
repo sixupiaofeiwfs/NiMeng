@@ -27,7 +27,7 @@
             android:layout_below="@id/wd"
             android:layout_marginTop="3dp"
             android:text="温度启动"
-            android:textColor="#4169E1"
+            android:textColor="@color/color_01_point"
             android:layout_marginLeft="65dp"
             />
 
@@ -55,9 +55,11 @@
             android:layout_below="@id/sd"
             android:layout_marginTop="3dp"
             android:text="湿度启动"
-            android:textColor="@color/color_01_point"
+            android:textColor="#4169E1"
             android:layout_marginLeft="65dp"
             />
+
+
 
 
 
