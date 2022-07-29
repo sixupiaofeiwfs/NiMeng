@@ -194,6 +194,21 @@ public class TemPlanDBHelper extends BaseUtil {
         return true;
     }
 
+    //通过TemID和tem？查询
+    public float queryByID(int id,int temId){
+        if(!tableIsExist(TABLENAME)){
+            return 0;
+        }
 
+        if(temId==0){
+            return 0;
+        }
+
+        Cursor result=db.query(TABLENAME,new String[]{"tem"+temId},"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        if(result.getCount()==0){
+            return 0;
+        }
+        return result.getFloat(0);
+    }
 
 }

@@ -48,7 +48,10 @@ public class GlobalVariable extends Application {
     private Date stableTime;//达到稳定的时间
     private int temID;//当前系统执行的温度预设方案（在系统预设方案时，温度991-999   自定义时temID=ID）
     private int humID;//当前系统执行的湿度预设方案（在系统预设方案是，湿度1001-1099 自定义时humID=ID）
-
+    private int executingTemID;//当前正在执行的温度编号
+    private int executingHumID;//当前正在执行的湿度编号
+    private boolean temIsSystem;//当前温度方案是否系统预设
+    private boolean humIsSystem;//当前湿度方式是否系统预设
 
 
     public String getTemPlanName() {
@@ -138,6 +141,35 @@ public class GlobalVariable extends Application {
         this.humWave = humWave;
     }
 
+    public int getExecutingTemID() {
+        return executingTemID;
+    }
 
+    public void setExecutingTemID(int executingTemID) {
+        this.executingTemID = executingTemID;
+    }
 
+    public int getExecutingHumID() {
+        return executingHumID;
+    }
+
+    public void setExecutingHumID(int executingHumID) {
+        this.executingHumID = executingHumID;
+    }
+
+    public boolean isTemIsSystem() {
+        return temIsSystem;
+    }
+
+    public void setTemIsSystem(boolean temIsSystem) {
+        this.temIsSystem = temIsSystem;
+    }
+
+    public boolean isHumIsSystem() {
+        return humIsSystem;
+    }
+
+    public void setHumIsSystem(boolean humIsSystem) {
+        this.humIsSystem = humIsSystem;
+    }
 }

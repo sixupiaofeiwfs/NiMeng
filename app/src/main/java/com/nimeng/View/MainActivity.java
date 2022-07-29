@@ -27,9 +27,12 @@ import com.nimeng.bean.GlobalVariable;
 import com.nimeng.flash.FlashView;
 import com.nimeng.flash.VirtualBarUtil;
 import com.nimeng.util.DataRecordDBHelper;
+import com.nimeng.util.HumPlanDBHelper;
+import com.nimeng.util.TemPlanDBHelper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -57,23 +60,21 @@ public class MainActivity extends BaseAvtivity {
     public static final String DATABASE_NAME="NIMENG.db";
     private static final int MIN_DISTANCE=100;//最小滑动距离
     private GestureDetector gestureDetector;
-    private Button btn_xsdh;
 
-    private TextView mProgressTv;
-    private SeekBar mTemSeekBar;
-    private SeekBar mHumSeekBar;
     private FlashView mTemView;
     private FlashView mHumView;
     private Button btn_tem;
     private Button btn_hum;
-
     private String tem;
     private String hum;
+
     private final String TAG="MainActivity";
 
     private DataRecordDBHelper dataRecordDBHelper;
     private DataRecodeBean dataRecodeBean;
     private GlobalVariable globalVariable;
+    private TemPlanDBHelper temPlanDBHelper;
+    private HumPlanDBHelper humPlanDBHelper;
     private ListView listView;
 
     @Override
@@ -102,7 +103,15 @@ public class MainActivity extends BaseAvtivity {
 
 
 
+        temPlanDBHelper=new TemPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
+        humPlanDBHelper=new HumPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
+
+
      //init("/dev/ttyS0");
+
+
+
+
 
 
 
@@ -125,10 +134,6 @@ public class MainActivity extends BaseAvtivity {
 
 
     }
-
-
-
-
 
 
 
@@ -159,7 +164,14 @@ public class MainActivity extends BaseAvtivity {
                             globalVariable.setTemWave(0.03f);
                             globalVariable.setStable(false);
                             globalVariable.setTemPlanName("方案一（20℃-40℃-60℃-80℃）");
+                            globalVariable.setExecutingTemID(1);
+                            globalVariable.setTemIsSystem(true);
+
                             showToast("已选择方案一（20℃-40℃-60℃-80℃）");
+
+
+
+
                 }else if(which==1){
                             globalVariable.setTemID(992);
 
@@ -168,6 +180,8 @@ public class MainActivity extends BaseAvtivity {
                             globalVariable.setTemWave(0.03f);
                             globalVariable.setStable(false);
                             globalVariable.setTemPlanName("方案二（15℃-20℃-40℃-60℃-80℃）");
+                            globalVariable.setExecutingTemID(1);
+                            globalVariable.setTemIsSystem(true);
                             showToast("已选择方案二（15℃-20℃-40℃-60℃-80℃）");
                 }else if(which==2){
                             globalVariable.setTemID(993);
@@ -177,6 +191,8 @@ public class MainActivity extends BaseAvtivity {
                             globalVariable.setTemWave(0.03f);
                             globalVariable.setStable(false);
                             globalVariable.setTemPlanName("方案三（15℃-20℃-40℃-60℃-80℃-90℃）");
+                            globalVariable.setExecutingTemID(1);
+                            globalVariable.setTemIsSystem(true);
                             showToast("已选择方案三（15℃-20℃-40℃-60℃-80℃-90℃）");
                 }else{
 
@@ -221,6 +237,8 @@ public class MainActivity extends BaseAvtivity {
                     globalVariable.setHumWave(0.6f);
                     globalVariable.setStable(false);
                     globalVariable.setHumPlanName("方案一（不设置）");
+                    globalVariable.setExecutingHumID(1);
+                    globalVariable.setHumIsSystem(true);
                     showToast("已选择方案一（不设置）");
                 }else if(which==1){
                     globalVariable.setHumID(1002);
@@ -229,6 +247,8 @@ public class MainActivity extends BaseAvtivity {
                     globalVariable.setHumWave(0.6f);
                     globalVariable.setStable(false);
                     globalVariable.setHumPlanName("方案二（40%）");
+                    globalVariable.setExecutingHumID(1);
+                    globalVariable.setHumIsSystem(true);
                     showToast("已选择方案二（40%）");
                 }else if(which==2){
                     globalVariable.setHumID(1003);
@@ -237,6 +257,8 @@ public class MainActivity extends BaseAvtivity {
                     globalVariable.setHumWave(0.6f);
                     globalVariable.setStable(false);
                     globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
+                    globalVariable.setExecutingHumID(1);
+                    globalVariable.setHumIsSystem(true);
                     showToast("已选择方案三（20%-40%-60%-80%）");
                 }else if(which==3){
                     globalVariable.setHumID(1004);
@@ -245,6 +267,8 @@ public class MainActivity extends BaseAvtivity {
                     globalVariable.setHumWave(0.6f);
                     globalVariable.setStable(false);
                     globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
+                    globalVariable.setExecutingHumID(1);
+                    globalVariable.setHumIsSystem(true);
                     showToast("已选择方案四（20%-40%-60%-80%-90%）");
                 }else{
                     Intent intent=new Intent(MainActivity.this,HumPlanActivity.class);
@@ -259,9 +283,6 @@ public class MainActivity extends BaseAvtivity {
 
 
 
-
-
-
     private void init(final String address) {
         SerialPortParams build = new SerialPortParams.Builder().serialPortPath(address).build();
 
@@ -270,8 +291,6 @@ public class MainActivity extends BaseAvtivity {
         final SerialClient serialClient = SerialUtils.getInstance().getSerialClient(address);
 
         Log.d(TAG, "init: "+serialClient);
-
-
 
 
 
@@ -343,14 +362,17 @@ public class MainActivity extends BaseAvtivity {
                                       Double humSmallData=humDoubleList.get(humDoubleList.size()-1);
 
 
+                                    List<Float> temList,humList=null;
+                                    temList=getExecutingTemAndNextTem();
+                                    humList=getExecutingTemAndNextTem();
 
                                       //先判断温度
-                                    if(temBigData-temSmallData<=globalVariable.getTemWave() ){
+                                    if(temBigData-temSmallData<=globalVariable.getTemWave() && getAbs(temList.get(0),temBigData)<1){
                                         //温度已达稳定状态
 
 
-                                        //再判断湿度是否达到稳定状态（两种情况，一种是湿度没选   一种是最大值-最小值<=波动值）
-                                        if(globalVariable.getTemWave()==0 || humBigData-humSmallData<=globalVariable.getHumWave()){
+                                        //再判断湿度是否达到稳定状态（两种情况，一种是湿度没选   一种是最大值-最小值<=波动值 并且最大值与最小值得围绕设置值波动，不能设置40度，最大值20.3 最小值20.28，就表示达到稳定）
+                                        if(globalVariable.getTemWave()==0 || humBigData-humSmallData<=globalVariable.getHumWave()&& getAbs(humList.get(0),humBigData)<1){
 
                                             //达到稳定状态
                                             dataRecordDBHelper.add(dataRecodeBean,true,globalVariable.getTemPlanName());
@@ -359,22 +381,10 @@ public class MainActivity extends BaseAvtivity {
 
 
 
-
                                             //开始记录标准器和被检表中的数值
                                         }
 
                                     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -402,9 +412,7 @@ public class MainActivity extends BaseAvtivity {
 
 
 
-
     }
-
 
 
 
@@ -462,13 +470,274 @@ public class MainActivity extends BaseAvtivity {
         //1.通知实验者达到稳定状态
         //2.弹窗提示 是否进行下一温湿度点检测
         //3.开始进行数据记录（文件数据  包括标准器 被检表等数据）
+
+        boolean temCanContinue=true,humCanContinue=true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+
+        String message="";
+
+        List<Float> temList,humList=null;
+        temList=getExecutingTemAndNextTem();
+        humList=getExecutingHumAndNextHum();
+
+
+        message="当前正在执行：<br>"+"温度："+temList.get(0)+"   湿度："+humList.get(0)+"<br>";
+        if(humList.get(1)==0){
+            message=message+"无可以继续执行的湿度设定点";
+            humCanContinue=false;
+        }else{
+            message=message+"下一设置湿度点："+humList.get(1);
+        }
+
+
+        if(temList.get(1)==0){
+            message=message+"无可以继续执行的温度设置点";
+            temCanContinue=false;
+        }else{
+            message=message+"下一设置温度点："+temList.get(1);
+        }
+
+
+        boolean finalHumCanContinue = humCanContinue;
+        boolean finalTemCanContinue = temCanContinue;
+        builder.setTitle("请选择是否执行下一温度或湿度")
+                .setMessage(message)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    System.out.println("点击确定之后"+finalTemCanContinue+"__"+globalVariable.getExecutingTemID());
+                     if(finalTemCanContinue){
+                         globalVariable.setExecutingTemID(globalVariable.getExecutingTemID()+1);
+                     }
+                     if(finalHumCanContinue){
+                         globalVariable.setExecutingHumID(globalVariable.getExecutingHumID()+1);
+                     }
+
+                     if(!finalTemCanContinue && !finalHumCanContinue){
+                            dialogInterface.dismiss();
+                     }
+
+                        System.out.println("此时正在执行的temid："+globalVariable.getExecutingTemID());
+
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+
+
+
+
+
     }
 
 
 
+    //执行下个温度点或湿度点
 
 
 
+
+
+    //执行数据记录
+
+
+
+
+
+
+
+    private List<Float> getExecutingTemAndNextTem(){
+
+        boolean temIsSystem=globalVariable.isTemIsSystem();
+        int executingTemID= globalVariable.getExecutingTemID();
+        int temID=globalVariable.getTemID();
+
+        float executingTem=0,nextExecutingTem=0;
+
+
+        System.out.println(temID+"----"+executingTemID);
+
+        if(temIsSystem){
+            switch (temID){
+                case 991:
+                    switch (executingTemID){
+                        case 1:
+                            executingTem=20.0f;
+                            nextExecutingTem=40.0f;
+                            break;
+                        case 2:
+                            executingTem=40.0f;
+                            nextExecutingTem=60.0f;
+                            break;
+                        case 3:
+                            executingTem=60.0f;
+                            nextExecutingTem=80.0f;
+                            break;
+                        case 4:
+                            executingTem=80.0f;
+                            nextExecutingTem=0f;
+
+
+                            break;
+                    }
+
+                case 992:
+                    switch (executingTemID){
+                        case 1:
+                            executingTem=15.0f;
+                            nextExecutingTem=20.0f;
+                            break;
+                        case 2:
+                            executingTem=20.0f;
+                            nextExecutingTem=40.0f;
+                            break;
+                        case 3:
+                            executingTem=40.0f;
+                            nextExecutingTem=60.0f;
+                            break;
+                        case 4:
+                            executingTem=60.0f;
+                            nextExecutingTem=80.0f;
+                            break;
+                        case 5:
+                            executingTem=80.0f;
+                            nextExecutingTem=0f;
+                            break;
+
+                    }
+                case 993:
+                    switch (executingTemID){
+                        case 1:
+                            executingTem=15.0f;
+                            nextExecutingTem=20.0f;
+                            break;
+                        case 2:
+                            executingTem=20.0f;
+                            nextExecutingTem=40.0f;
+                            break;
+                        case 3:
+                            executingTem=40.0f;
+                            nextExecutingTem=60.0f;
+                            break;
+                        case 4:
+                            executingTem=60.0f;
+                            nextExecutingTem=80.0f;
+                            break;
+                        case 5:
+                            executingTem=80.0f;
+                            nextExecutingTem=90.0f;
+                            break;
+                        case 6:
+                            executingTem=90.0f;
+                            nextExecutingTem=0f;
+                            break;
+                    }
+            }
+        }
+        else{
+            executingTem=temPlanDBHelper.queryByID(temID,executingTemID);
+            nextExecutingTem=temPlanDBHelper.queryByID(temID,executingTemID+1);
+
+        }
+
+        List<Float>list=new ArrayList<Float>();
+        list.add(executingTem);
+        list.add(nextExecutingTem);
+        return list;
+
+    }
+
+    private List<Float>  getExecutingHumAndNextHum(){
+        boolean humIsSystem= globalVariable.isHumIsSystem();
+        int executingHumID=globalVariable.getExecutingHumID();
+        int humID=globalVariable.getHumID();
+        float executingHum=0,nextExecutingHum=0;
+
+        if(humIsSystem){
+            switch (humID){
+                case 1001:
+                    executingHum=0;
+                    nextExecutingHum=0;
+                    break;
+                case 1002:
+                    executingHum=40.0f;
+                    nextExecutingHum=0;
+                    break;
+                case 1003:
+                    switch (executingHumID){
+                        case 1:
+                            executingHum=20.0f;
+                            nextExecutingHum=40.0f;
+                            break;
+                        case 2:
+                            executingHum=40.0f;
+                            nextExecutingHum=60.0f;
+                            break;
+                        case 3:
+                            executingHum=60.0f;
+                            nextExecutingHum=80.0f;
+                            break;
+                        case 4:
+                            executingHum=80.0f;
+                            nextExecutingHum=0;
+                            break;
+                    }
+                case 1004 :
+                    switch(executingHumID){
+                        case 1:
+                            executingHum=20.0f;
+                            nextExecutingHum=40.0f;
+                            break;
+                        case 2:
+                            executingHum=40.0f;
+                            nextExecutingHum=60.0f;
+                            break;
+                        case 3:
+                            executingHum=60.0f;
+                            nextExecutingHum=80.0f;
+                            break;
+                        case 4:
+                            executingHum=80.0f;
+                            nextExecutingHum=90.0f;
+                            break;
+                        case 5:
+                            executingHum=90.0f;
+                            nextExecutingHum=0;
+                            break;
+                    }
+            }
+
+
+        }else{
+            executingHum=humPlanDBHelper.queryByID(humID,executingHumID);
+            nextExecutingHum=humPlanDBHelper.queryByID(humID,executingHumID+1);
+        }
+
+        List<Float>list=new ArrayList<Float>();
+        list.add(executingHum);
+        list.add(nextExecutingHum);
+        return list;
+    }
+
+
+    //取绝对值方法
+    private double getAbs(double a,double b){
+        if(a-b<0){
+            return b-a;
+        }
+        else{
+            return a-b;
+        }
+    }
 }
 
 

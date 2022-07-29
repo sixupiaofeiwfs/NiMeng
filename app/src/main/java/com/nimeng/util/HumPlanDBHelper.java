@@ -191,4 +191,23 @@ public class HumPlanDBHelper extends BaseUtil{
         db.execSQL(sql);
         return true;
     }
+
+
+
+    //通过TemID和tem？查询
+    public float queryByID(int id,int humID){
+        if(!tableIsExist(TABLENAME)){
+            return 0;
+        }
+
+        if(humID==0){
+            return 0;
+        }
+        Cursor result=db.query(TABLENAME,new String[]{"hum"+humID},"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        if(result.getCount()==0){
+            return 0;
+        }
+
+        return result.getFloat(0);
+    }
 }

@@ -275,6 +275,12 @@ public class HumPlanActivity extends BaseAvtivity{
                             globalVariable.setStable(false);
                             globalVariable.setHumPlanName(humplanBean.getName());
 
+
+                            globalVariable.setExecutingHumID(1);
+                            globalVariable.setHumIsSystem(false);
+
+
+
                             showToast("已选择"+humplanBean.getName());
                         }
                     }

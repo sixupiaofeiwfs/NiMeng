@@ -280,6 +280,12 @@ public class TemPlanActivity extends BaseAvtivity{
                             globalVariable.setStable(false);
                             globalVariable.setTemPlanName(templanBean.getName());
 
+
+
+                            globalVariable.setExecutingTemID(1);
+                            globalVariable.setTemIsSystem(false);
+
+
                             showToast("已选择"+templanBean.getName());
                         }
                     }
@@ -300,5 +306,7 @@ public class TemPlanActivity extends BaseAvtivity{
 
 
     }
+
+
 
 }
