@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author: wfs
@@ -33,7 +34,7 @@ import java.util.Date;
  * <p>
  * -----------------------------------------------------------------
  */
-public class GlobalVariable extends Application {
+public  class GlobalVariable extends Application {
 
 
     private static final int REQUEST_CODE = 1024;
@@ -52,6 +53,35 @@ public class GlobalVariable extends Application {
     private int executingHumID;//当前正在执行的湿度编号
     private boolean temIsSystem;//当前温度方案是否系统预设
     private boolean humIsSystem;//当前湿度方式是否系统预设
+
+
+
+
+    public  boolean switch_1=false;//露点仪开关
+    public  boolean switch_2=false;//数字式温度计开关
+    public  boolean switch_3=false;//报警开关
+    public  boolean switch_4=false;//状态指示开关
+    public  boolean switch_5=false;//语音播报开关
+    public  boolean switch_6=false;//自动拍摄开关
+
+
+
+    public boolean haveJurisdiction=false;//是否获取文件读写权限
+
+
+
+
+
+    public int numberOfStages;//分期数
+    public boolean isInstallmentPayment=false;//是否需要分期付款
+    public String superPassword="";//超级密码
+    public List<String> passwords;//密码
+    public List<Integer> errorNumbers;//错误次数
+    public List<Boolean> matchs;//是否匹配
+    public List<String> times;//分期结束时间
+
+
+
 
 
     public String getTemPlanName() {
@@ -171,5 +201,121 @@ public class GlobalVariable extends Application {
 
     public void setHumIsSystem(boolean humIsSystem) {
         this.humIsSystem = humIsSystem;
+    }
+
+
+    public boolean isSwitch_1() {
+        return switch_1;
+    }
+
+    public void setSwitch_1(boolean switch_1) {
+        this.switch_1 = switch_1;
+    }
+
+    public boolean isSwitch_2() {
+        return switch_2;
+    }
+
+    public void setSwitch_2(boolean switch_2) {
+        this.switch_2 = switch_2;
+    }
+
+    public boolean isSwitch_3() {
+        return switch_3;
+    }
+
+    public void setSwitch_3(boolean switch_3) {
+        this.switch_3 = switch_3;
+    }
+
+    public boolean isSwitch_4() {
+        return switch_4;
+    }
+
+    public void setSwitch_4(boolean switch_4) {
+        this.switch_4 = switch_4;
+    }
+
+    public boolean isSwitch_5() {
+        return switch_5;
+    }
+
+    public void setSwitch_5(boolean switch_5) {
+        this.switch_5 = switch_5;
+    }
+
+    public boolean isSwitch_6() {
+        return switch_6;
+    }
+
+    public void setSwitch_6(boolean switch_6) {
+        this.switch_6 = switch_6;
+    }
+
+    public boolean isHaveJurisdiction() {
+        return haveJurisdiction;
+    }
+
+    public void setHaveJurisdiction(boolean haveJurisdiction) {
+        this.haveJurisdiction = haveJurisdiction;
+    }
+
+    public boolean isInstallmentPayment() {
+        return isInstallmentPayment;
+    }
+
+    public void setInstallmentPayment(boolean installmentPayment) {
+        isInstallmentPayment = installmentPayment;
+    }
+
+    public String getSuperPassword() {
+        return superPassword;
+    }
+
+    public void setSuperPassword(String superPassword) {
+        this.superPassword = superPassword;
+    }
+
+
+
+    public int getNumberOfStages() {
+        return numberOfStages;
+    }
+
+    public void setNumberOfStages(int numberOfStages) {
+        this.numberOfStages = numberOfStages;
+    }
+
+
+    public List<String> getPasswords() {
+        return passwords;
+    }
+
+    public void setPasswords(List<String> passwords) {
+        this.passwords = passwords;
+    }
+
+    public List<Integer> getErrorNumbers() {
+        return errorNumbers;
+    }
+
+    public void setErrorNumbers(List<Integer> errorNumbers) {
+        this.errorNumbers = errorNumbers;
+    }
+
+    public List<Boolean> getMatchs() {
+        return matchs;
+    }
+
+    public void setMatchs(List<Boolean> matchs) {
+        this.matchs = matchs;
+    }
+
+    public List<String> getTimes() {
+        return times;
+    }
+
+    public void setTimes(List<String> times) {
+        this.times = times;
     }
 }

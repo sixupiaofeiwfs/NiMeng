@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+
 import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.LineChart;
 import com.nimeng.util.DataRecordDBHelper;
@@ -69,7 +70,7 @@ public class LineChartActivity extends BaseAvtivity{
         //创建折线图实例 （X轴标题，Y轴标题，X轴的最小值，X轴的最大值，Y轴的最小值,Y轴的最大值，坐标轴的颜色，刻度值的颜色）
         mLineChart = new LineChart("时间(s)", "温度（℃）/湿度（%）", 0, 60, 0, 100, Color.WHITE, Color.WHITE);
 
-        globalVariable=new GlobalVariable();
+        globalVariable=(GlobalVariable)getApplicationContext();
         Date startTime= globalVariable.getStartTime();
         Date endTime=new Date();
 

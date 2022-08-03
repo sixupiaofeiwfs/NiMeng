@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总期数"
+            android:layout_weight="2"
+            android:textSize="30dp"/>
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/data2"
+            android:spinnerMode="dropdown"
+            android:layout_weight="1"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="超级密码"
+            android:layout_weight="2"
+            android:textSize="30dp"
+            />
+
+
+        <EditText
+            android:id="@+id/miao4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"/>
+
+
+
+        <Button
+            android:id="@+id/btn_true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:layout_weight="2"
+            android:textSize="30dp"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout1"
+        android:layout_marginTop="40dp"
+        >
+
+
+        <TextView
+            android:id="@+id/list_templan_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:singleLine="true"
+            android:text="     期数"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:textAlignment="center"/>
+
+
+
+        <TextView
+            android:id="@+id/list_templan_unitTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="密码"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="3"
+            android:textAlignment="center"/>
+
+
+
+        <TextView
+            android:id="@+id/list_templan_temWave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="到期时间"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="3"
+            android:textAlignment="center"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout3"
+        >
+
+
+        <TextView
+            android:id="@+id/qishu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="第一期"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+
+
+
+        <EditText
+            android:id="@+id/mima1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/daoqishijian1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择日期"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:clickable="true"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/installment_datepicker1"
+            android:visibility="gone"
+            android:layout_weight="3"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            >
+
+        </DatePicker>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout4"
+        >
+
+        <TextView
+            android:id="@+id/qishu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="第二期"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+
+
+
+        <EditText
+            android:id="@+id/mima2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/daoqishijian2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择日期"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:clickable="true"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/installment_datepicker2"
+            android:visibility="gone"
+            android:layout_weight="3"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            >
+
+        </DatePicker>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout5"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/qishu3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="第三期"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+
+
+
+        <EditText
+            android:id="@+id/mima3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/daoqishijian3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择日期"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:clickable="true"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/installment_datepicker3"
+            android:visibility="gone"
+            android:layout_weight="3"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            >
+
+        </DatePicker>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout6"
+        >
+
+
+        <TextView
+            android:id="@+id/qishu4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="第四期"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+
+
+
+        <EditText
+            android:id="@+id/mima4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/daoqishijian4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择日期"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:clickable="true"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/installment_datepicker4"
+            android:visibility="gone"
+            android:layout_weight="3"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            >
+
+        </DatePicker>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout7"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/qishu5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="第五期"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+
+
+
+        <EditText
+            android:id="@+id/mima5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/daoqishijian5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择日期"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:clickable="true"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/installment_datepicker5"
+            android:visibility="gone"
+            android:layout_weight="3"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            >
+
+        </DatePicker>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/turntable_linearLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/turntable_linearLayout8"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/qishu6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="第六期"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+
+
+
+        <EditText
+            android:id="@+id/mima6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/daoqishijian6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击选择日期"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:clickable="true"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/installment_datepicker6"
+            android:visibility="gone"
+            android:layout_weight="3"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+
+            >
+
+        </DatePicker>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -2,32 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统设置"
+            android:clickable="true"
+            android:textSize="25dp"
+            android:id="@+id/settingswitch_textview1"
+            >
+        </TextView>
+
+
+    </LinearLayout>
+
 
 
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
         android:id="@+id/LinearLayout1"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LinearLayout0"
         >
 
-        <TextView
-            android:id="@+id/text_alerm"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:text="报警"
-            android:textSize="25dp"
-            android:gravity="center"
-            />
         <Button
-            android:id="@+id/btn_alerm"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_toRightOf="@id/text_alerm"
-            />
+            android:id="@+id/settingswitch_bt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="工作参数"
+            android:textSize="25dp"></Button>
+
+        <Button
+            android:id="@+id/settingswitch_bt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1"
+            android:text="系统参数"
+            android:textSize="25dp"></Button>
+
+        <Button
+            android:id="@+id/settingswitch_bt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1"
+            android:text="预设方案"
+            android:textSize="25dp"></Button>
+
 
     </LinearLayout>
 
@@ -35,84 +68,235 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:id="@+id/LinearLayout2"
         android:layout_below="@id/LinearLayout1"
-        android:gravity="center"
+        android:layout_marginTop="20dp"
         >
 
-        <TextView
-            android:id="@+id/text_voice"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:text="语音播报"
-            android:textSize="25dp"
-            android:gravity="center"
-            />
-        <Button
-            android:id="@+id/btn_voice"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_toRightOf="@id/text_voice"
-            />
+
+
+            <Button
+                android:id="@+id/settingswitch_bt4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="标准器"
+                android:textSize="25dp">
+            </Button>
+
+
+            <Button
+                android:id="@+id/settingswitch_bt5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_weight="1"
+                android:text="转盘"
+                android:textSize="25dp">
+            </Button>
+            <Button
+                android:id="@+id/settingswitch_bt6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_weight="1"
+                android:text="相机"
+                android:textSize="25dp">
+            </Button>
+
+
+
 
     </LinearLayout>
 
 
 
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
         android:id="@+id/LinearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/LinearLayout2"
-        android:gravity="center"
-        >
+        android:layout_marginTop="20dp">
 
-        <TextView
-            android:id="@+id/text_status"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:text="状态指示"
-            android:textSize="25dp"
-            android:gravity="center"
-            />
-        <Button
-            android:id="@+id/btn_status"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_toRightOf="@id/text_status"
-            />
+
+
+            <Button
+                android:id="@+id/settingswitch_bt7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="露点仪"
+                android:textSize="25dp"
+                ></Button>
+
+
+             <Button
+                android:id="@+id/settingswitch_bt8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                 android:layout_weight="1"
+                android:text="数字式温度计"
+                 android:textSize="25dp"
+                ></Button>
+
+
+            <Button
+                android:id="@+id/settingswitch_bt9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_weight="1"
+                android:text="报警"
+                android:textSize="25dp">
+            </Button>
 
     </LinearLayout>
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:id="@+id/LinearLayout4"
         android:layout_below="@id/LinearLayout3"
-        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt7"
+            android:layout_weight="1"
+            android:text="红色表示关闭，蓝色表示开启，开启后会在主页面显示露点仪数据。"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt8"
+            android:layout_marginLeft="60dp"
+            android:text="红色表示关闭，蓝色表示开启， 开启后会在主页面显示数字温度计数据。"
+            android:textSize="10px"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt9"
+            android:layout_marginLeft="60dp"
+            android:text="红色表示关闭，蓝色表示开启， 开启后会在设备出现险情时报警。"
+            android:textSize="10px"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            >
+        </TextView>
+    </LinearLayout>
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout5"
+        android:layout_below="@id/LinearLayout4"
+        android:layout_marginTop="20dp"
+        >
+
+
+            <Button
+                android:id="@+id/settingswitch_bt10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="状态指示"
+                android:textSize="25dp">
+            </Button>
+
+        <Button
+            android:id="@+id/settingswitch_bt11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="60dp"
+            android:text="语音播报"
+            android:textSize="25dp">
+        </Button>
+
+
+        <Button
+            android:id="@+id/settingswitch_bt12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1"
+            android:text="自动拍摄"
+            android:textSize="25dp">
+        </Button>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout6"
+        android:layout_below="@id/LinearLayout5"
+        android:layout_marginTop="10dp"
         >
 
         <TextView
-            android:id="@+id/text_auto_capture"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:text="自动拍摄"
-            android:textSize="25dp"
-            android:gravity="center"
-            />
-        <Button
-            android:id="@+id/btn_auto_capture"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_toRightOf="@id/text_auto_capture"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt10"
+            android:text="红色表示关闭，蓝色表示开启，开启后会在检测达到稳定时以文字提示。"
+            android:textSize="10px"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            >
+        </TextView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt11"
+            android:layout_marginLeft="60dp"
+            android:text="红色表示关闭，蓝色表示开启，开启后会在检测达到稳定时以语音提示。"
+            android:textSize="10px"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt12"
+            android:layout_marginLeft="60dp"
+            android:text="红色表示关闭，蓝色表示开启，开启后会在检测达到稳定时自动拍摄。"
+            android:textSize="10px"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            >
+        </TextView>
     </LinearLayout>
+
+
+
+
+
 
 
 

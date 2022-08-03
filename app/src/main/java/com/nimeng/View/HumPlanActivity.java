@@ -1,6 +1,7 @@
 package com.nimeng.View;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,13 +37,14 @@ import java.util.List;
  * -----------------------------------------------------------------
  */
 public class HumPlanActivity extends BaseAvtivity{
-    private Button btn_add;
+    private Button btn_add,btn_totemplan;
     private ListView listView;
     private EditText editName,editUnitTime,editHumWave,editHum1,editHum2,editHum3,editHum4,editHum5;
     private HumPlanAdapter adapter;
     private HumPlanDBHelper humplanDBHelper;
     private List<HumPlanBean> list;
     GlobalVariable globalVariable;
+    Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class HumPlanActivity extends BaseAvtivity{
 
         setContentView(R.layout.activity_humplan);
         btn_add=findViewById(R.id.humplan_add);
+        btn_totemplan=findViewById(R.id.humplan_totemplan);
         listView=findViewById(R.id.humplan_list);
         if(list!=null){
             list.clear();
@@ -62,6 +65,14 @@ public class HumPlanActivity extends BaseAvtivity{
             @Override
             public void onClick(View view) {
                 addData();
+            }
+        });
+
+        btn_totemplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent=new Intent(HumPlanActivity.this,TemPlanActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -23,7 +23,7 @@ import androidx.annotation.Nullable;
  * <p>
  * -----------------------------------------------------------------
  */
-public class TurntableActivity extends BaseAvtivity{
+public class TurntableActivity extends BaseAvtivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -1,69 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/LinearLayout0"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        >-->
+
+<!--        <Button-->
+<!--            android:id="@+id/but_tem"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/wd"-->
+
+<!--            android:text="温度启动"-->
+<!--            android:textColor="@color/color_01_point"-->
+
+<!--            android:layout_weight="1"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
 
 
 
-    <RelativeLayout
-        android:layout_width="550dp"
-        android:layout_height="700dp"
-        android:id="@+id/RelativeLayout1"
-        android:layout_marginLeft="250dp"
+<!--        <Button-->
+<!--            android:id="@+id/but_hum"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/sd"-->
+<!--            android:text="湿度启动"-->
+<!--            android:textColor="#4169E1"-->
+
+<!--            android:layout_weight="1"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
+
+
+
+
+
+
+<!--    android:layout_below="@id/LinearLayout0" </LinearLayout>-->
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@id/LinearLayout1"
+        android:layout_marginTop="20dp"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度："
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:id="@+id/main_text10"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_text5"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone">
+        </TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度："
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:id="@+id/main_text9"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_text4"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="露点温度："
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:id="@+id/main_text8"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_text3"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone">
+        </TextView>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="干球温度："
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:id="@+id/main_text7"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_text2"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone">
+        </TextView>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿球温度："
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:id="@+id/main_text6"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_text1"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:visibility="gone">
+        </TextView>
+
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LinearLayout1"
+        >
+
 
 
         <com.nimeng.flash.FlashView
             android:id="@+id/wd"
-            android:layout_width="250dp"
-            android:layout_height="600dp" />
-
-
-        <Button
-            android:id="@+id/but_tem"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/wd"
-            android:layout_marginTop="3dp"
-            android:text="温度启动"
-            android:textColor="@color/color_01_point"
-            android:layout_marginLeft="65dp"
-            />
-
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="550dp"
-        android:layout_height="700dp"
-        android:layout_toRightOf="@id/RelativeLayout1"
-        >
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true" />
 
         <com.nimeng.flash.FlashView
-            android:id="@+id/sd"
-            android:layout_width="250dp"
-            android:layout_height="600dp"
-            />
+                    android:id="@+id/sd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
 
-        <Button
-            android:id="@+id/but_hum"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/sd"
-            android:layout_marginTop="3dp"
-            android:text="湿度启动"
-            android:textColor="#4169E1"
-            android:layout_marginLeft="65dp"
-            />
+
+
+
+    </LinearLayout>
 
 
 
 
 
-    </RelativeLayout>
+
+
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="550dp"-->
+<!--        android:layout_height="700dp"-->
+<!--        android:id="@+id/RelativeLayout1"-->
+<!--        android:layout_marginLeft="250dp"-->
+<!--        >-->
+
+
+<!--        <com.nimeng.flash.FlashView-->
+<!--            android:id="@+id/wd"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="600dp" />-->
+
+
+<!--        <Button-->
+<!--            android:id="@+id/but_tem"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_below="@id/wd"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:text="温度启动"-->
+<!--            android:textColor="@color/color_01_point"-->
+<!--            android:layout_marginLeft="65dp"-->
+<!--            />-->
+
+
+<!--    </RelativeLayout>-->
+
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="550dp"-->
+<!--        android:layout_height="700dp"-->
+<!--        android:layout_toRightOf="@id/RelativeLayout1"-->
+<!--        >-->
+
+
+<!--        <com.nimeng.flash.FlashView-->
+<!--            android:id="@+id/sd"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="600dp"-->
+<!--            />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/but_hum"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_below="@id/sd"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:text="湿度启动"-->
+<!--            android:textColor="#4169E1"-->
+<!--            android:layout_marginLeft="65dp"-->
+<!--            />-->
+
+
+
+
+
+
+
+
+<!--    </RelativeLayout>-->
 
 
 

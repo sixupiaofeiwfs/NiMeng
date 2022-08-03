@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +25,7 @@ import com.modbus.SerialUtils;
 import com.modbus.modbus.ModBusData;
 import com.modbus.modbus.ModBusDataListener;
 import com.nimeng.bean.DataRecodeBean;
+
 import com.nimeng.bean.GlobalVariable;
 import com.nimeng.flash.FlashView;
 import com.nimeng.flash.VirtualBarUtil;
@@ -32,29 +35,14 @@ import com.nimeng.util.TemPlanDBHelper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends BaseAvtivity {
-
-    /*设置全局变量
-     *1.报警开关
-     *2.语音播报
-     *3.状态提示
-     *4.自动拍摄
-     * */
-
-
-    public static boolean SWITCH_ALERM=false;
-    public static boolean SWITCH_VOICE=false;
-    public static boolean SWITCH_STATUS=false;
-    public static boolean SWITCH_AUTO_CAPTURE=false;
-
-
-
+public class MainActivity extends BaseAvtivity  {
 
 
     public static final String DATABASE_NAME="NIMENG.db";
@@ -63,8 +51,8 @@ public class MainActivity extends BaseAvtivity {
 
     private FlashView mTemView;
     private FlashView mHumView;
-    private Button btn_tem;
-    private Button btn_hum;
+//    private Button btn_tem;
+//    private Button btn_hum;
     private String tem;
     private String hum;
 
@@ -76,6 +64,15 @@ public class MainActivity extends BaseAvtivity {
     private TemPlanDBHelper temPlanDBHelper;
     private HumPlanDBHelper humPlanDBHelper;
     private ListView listView;
+    Intent intent1;
+
+    int errorNumber;
+    int excutingNumber;
+    private TextView textView1,textView2,textView3,textView4,textView5,textView6,textView7,textView8,textView9,textView10;
+
+
+
+
 
     @Override
     public  void onDestroy() {
@@ -85,10 +82,39 @@ public class MainActivity extends BaseAvtivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-        onPermission(null);
-
         super.onCreate(savedInstanceState);
+        globalVariable=(GlobalVariable)getApplicationContext();
+        //判断是否分期
+        if(globalVariable.isInstallmentPayment()){
+            //获取一共分了几期
+            int numberOfStages= globalVariable.getNumberOfStages();
+            //当前时间处在第几期
+
+            //模拟第一期
+             excutingNumber=checkTime();
+            //获取当前是否已经匹配密码
+            if(!globalVariable.getMatchs().get(excutingNumber-1)){
+                //获取已经错误的次数
+                errorNumber=globalVariable.getErrorNumbers().get(excutingNumber-1);
+                if(errorNumber>=3){
+                    Toast.makeText(this,"警告！密码连续输错超过三次，系统已停止",Toast.LENGTH_SHORT).show();
+                   System.exit(0);
+                }
+
+                intent1=new Intent(MainActivity.this,PasswordActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent1);
+                return;
+
+
+            }
+
+
+
+        }
+
+
+
         //判断是否需要隐藏底部的虚拟按键
         if(VirtualBarUtil.hasNavBar(this)){
             VirtualBarUtil.hideBottomUIMenu(this);
@@ -97,11 +123,11 @@ public class MainActivity extends BaseAvtivity {
         mTemView=findViewById(R.id.wd);
         mHumView=findViewById(R.id.sd);
 
-        btn_tem=findViewById(R.id.but_tem);
-        btn_hum=findViewById(R.id.but_hum);
-        globalVariable=new GlobalVariable();
+//        btn_tem=findViewById(R.id.but_tem);
+//        btn_hum=findViewById(R.id.but_hum);
 
-
+        //获取文件读写权限
+        onPermission(globalVariable);
 
         temPlanDBHelper=new TemPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
         humPlanDBHelper=new HumPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
@@ -110,26 +136,51 @@ public class MainActivity extends BaseAvtivity {
      //init("/dev/ttyS0");
 
 
+        textView1=findViewById(R.id.main_text1);
+        textView2=findViewById(R.id.main_text2);
+        textView3=findViewById(R.id.main_text3);
+        textView4=findViewById(R.id.main_text4);
+        textView5=findViewById(R.id.main_text5);
+        textView6=findViewById(R.id.main_text6);
+        textView7=findViewById(R.id.main_text7);
+        textView8=findViewById(R.id.main_text8);
+        textView9=findViewById(R.id.main_text9);
+        textView10=findViewById(R.id.main_text10);
+
+        showOrHide();
+
+
+        mTemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               temSetting();
+            }
+        });
+
+        mHumView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                humSetting();
+            }
+        });
 
 
 
-
-
-     btn_tem.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
-             temSetting();
-         }
-     });
-
-
-
-    btn_hum.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            humSetting();
-        }
-    });
+//     btn_tem.setOnClickListener(new View.OnClickListener() {
+//         @Override
+//         public void onClick(View view) {
+//             temSetting();
+//         }
+//     });
+//
+//
+//
+//    btn_hum.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            humSetting();
+//        }
+//    });
 
 
 
@@ -737,6 +788,58 @@ public class MainActivity extends BaseAvtivity {
         else{
             return a-b;
         }
+    }
+
+
+
+
+    private void showOrHide(){
+        if(globalVariable.isSwitch_1()){
+            textView10.setVisibility(View.VISIBLE);
+            textView5.setVisibility(View.VISIBLE);
+            textView9.setVisibility(View.VISIBLE);
+            textView4.setVisibility(View.VISIBLE);
+            textView8.setVisibility(View.VISIBLE);
+            textView3.setVisibility(View.VISIBLE);
+        }
+
+        if(globalVariable.isSwitch_2()){
+            textView9.setVisibility(View.VISIBLE);
+            textView4.setVisibility(View.VISIBLE);
+            textView7.setVisibility(View.VISIBLE);
+            textView2.setVisibility(View.VISIBLE);
+            textView6.setVisibility(View.VISIBLE);
+            textView1.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    private  int  checkTime() {
+
+
+        Date newDate=new Date();
+
+
+        for(int i=0;i<globalVariable.getNumberOfStages();i++){
+//            Date date;
+//            try{
+//                date= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(globalVariable.getTimes().get(i));
+//            }
+//            catch(ParseException e){
+//                e.printStackTrace();
+//            }
+//
+//
+//
+//           long s=date.getTime()-newDate.getTime();
+//           if(s>0){
+//               return i;
+//           }
+
+
+        }
+
+        return 0;
     }
 }
 

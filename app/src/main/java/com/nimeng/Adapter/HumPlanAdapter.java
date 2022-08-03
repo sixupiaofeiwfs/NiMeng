@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nimeng.View.R;
-import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.HumPlanBean;
 
 

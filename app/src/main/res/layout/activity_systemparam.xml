@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+
+
+    <LinearLayout
+        android:id="@+id/pid0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统日期/时间"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/pid1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid0"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统日期："
+            android:layout_weight="1"
+            android:textAlignment="center"
+            />
+
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="年">
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/month">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="月">
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/day">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日">
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/hour">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="时">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/minute">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分">
+        </TextView>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/second">
+            </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="秒">
+        </TextView>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/pid1.5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid1"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="其他设置"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/pid2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid1.5"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/text_huanxiang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="照明自动关闭（s）"
+            android:textAlignment="center"/>
+
+        <EditText
+            android:id="@+id/huanxiang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+
+        <TextView
+            android:id="@+id/text_chaoxian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="使用超限报警？（常开）"
+            android:textAlignment="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="启用" />
+
+
+        <TextView
+            android:id="@+id/text_pingbao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="是否启用屏保（s）"
+            android:textAlignment="center"/>
+
+
+        <EditText
+            android:id="@+id/pingbao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="启用" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pid3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid2"
+        android:layout_marginTop="40dp">
+
+
+        <TextView
+            android:id="@+id/text_dingshi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用定时功能"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启用" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pid4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid3"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/set_dingshi1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度定时开启"
+            android:layout_weight="3"
+            android:textAlignment="center"
+             />
+
+        <EditText
+            android:id="@+id/dingshi1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/set_nian1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="年"
+            />
+
+        <EditText
+            android:id="@+id/nian1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_yue1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="月"
+            />
+
+        <EditText
+            android:id="@+id/yue1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_ri1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日"
+             />
+
+        <EditText
+            android:id="@+id/ri1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_shi1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="时"
+           />
+
+        <EditText
+            android:id="@+id/shi1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_fen1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分"
+             />
+
+        <EditText
+            android:id="@+id/fen1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_miao1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="秒"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/Bdingshi1"
+            android:text="启用" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pid5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid4"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/set_dingshi2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度定时关闭"
+            android:layout_weight="3"
+            android:textAlignment="center"
+            />
+
+        <EditText
+            android:id="@+id/dingshi2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/set_nian2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="年"
+            />
+
+        <EditText
+            android:id="@+id/nian2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_yue2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="月"
+            />
+
+        <EditText
+            android:id="@+id/yue2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_ri2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日"
+            />
+
+        <EditText
+            android:id="@+id/ri2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_shi2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="时"
+            />
+
+        <EditText
+            android:id="@+id/shi2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_fen2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分"
+            />
+
+        <EditText
+            android:id="@+id/fen2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_miao2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="秒"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/Bdingshi2"
+            android:text="启用" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pid6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid5"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/set_dingshi3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度定时关闭"
+            android:layout_weight="3"
+            android:textAlignment="center"
+            />
+
+        <EditText
+            android:id="@+id/dingshi3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/set_nian3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="年"
+            />
+
+        <EditText
+            android:id="@+id/nian3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_yue3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="月"
+            />
+
+        <EditText
+            android:id="@+id/yue3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_ri3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日"
+            />
+
+        <EditText
+            android:id="@+id/ri3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_shi3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="时"
+            />
+
+        <EditText
+            android:id="@+id/shi3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_fen3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分"
+            />
+
+        <EditText
+            android:id="@+id/fen3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_miao3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="秒"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/Bdingshi3"
+            android:text="启用" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pid7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pid6"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/set_dingshi4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度定时关闭"
+            android:layout_weight="3"
+            android:textAlignment="center"
+            />
+
+        <EditText
+            android:id="@+id/dingshi4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/set_nian4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="年"
+            />
+
+        <EditText
+            android:id="@+id/nian4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_yue4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="月"
+            />
+
+        <EditText
+            android:id="@+id/yue4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_ri4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日"
+            />
+
+        <EditText
+            android:id="@+id/ri4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_shi4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="时"
+            />
+
+        <EditText
+            android:id="@+id/shi4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_fen4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分"
+            />
+
+        <EditText
+            android:id="@+id/fen4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/set_miao4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="秒"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/Bdingshi4"
+            android:text="启用" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

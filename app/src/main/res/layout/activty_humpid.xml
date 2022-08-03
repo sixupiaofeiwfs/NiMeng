@@ -1,690 +1,650 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/tempid"
-        android:layout_width="300dp"
-        android:layout_height="82dp"
-        android:text="温度PID"
-        />
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
 
-    <RelativeLayout
-        android:id="@+id/RelativeLayout1"
-        android:layout_width="120dp"
-        android:layout_height="700dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout1">
+
+        <Button
+            android:id="@+id/humpid_toSettingSwitch"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="系统设置"></Button>
 
 
+        <Button
+            android:id="@+id/tempid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="温度PID" />
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout2"
+        android:layout_below="@id/humpid_LinearLayout1"
+        android:layout_marginTop="20dp">
         <TextView
-            android:id="@+id/list_quzhi_fanwei"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_quzhi_fanwei"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:text="取值范围"
-            android:textColor="@color/color_01_point" />
+            android:textColor="@color/color_01_point"
+            android:layout_weight="1"/>
+
 
         <TextView
-            android:id="@+id/tem_1"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-
-            android:layout_marginTop="100dp"
-            android:text="湿度: 10%"
-            android:textColor="@color/color_01_point" />
-
-        <TextView
-            android:id="@+id/tem_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-            android:layout_marginTop="34dp"
-            android:text="温度：-10%"
-            android:textColor="@color/color_01_point" />
-
-        <TextView
-            android:id="@+id/tem_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-
-            android:layout_marginTop="155dp"
-            android:text="湿度：20%"
-            android:textColor="@color/color_01_point" />
-
-        <TextView
-            android:id="@+id/tem_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-            android:layout_marginTop="225dp"
-            android:text="湿度：40%"
-            android:textColor="@color/color_01_point" />
-
-        <TextView
-            android:id="@+id/tem_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-            android:layout_marginTop="292dp"
-            android:text="湿度：60%"
-            android:textColor="@color/color_01_point" />
-
-        <TextView
-            android:id="@+id/tem_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-            android:layout_marginTop="355dp"
-            android:text="湿度：80%"
-            android:textColor="@color/color_01_point" />
-
-        <TextView
-            android:id="@+id/tem_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_below="@id/list_quzhi_fanwei"
-            android:layout_marginTop="418dp"
-            android:text="湿度：90%"
-            android:textColor="@color/color_01_point" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bili"
-        android:layout_width="111dp"
-        android:layout_height="686dp"
-        android:layout_marginLeft="-29dp"
-        android:layout_toRightOf="@+id/RelativeLayout1">
-
-        <TextView
-            android:id="@+id/list_bil"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_bil"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="比例p 0-999.9"
             android:textColor="@color/color_01_point" />
 
 
-        <EditText
-            android:id="@+id/bili_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/bili_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/bili_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/bili_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/bili_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/bili_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/bili_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/jifen"
-        android:layout_width="106dp"
-        android:layout_height="700dp"
-        android:layout_marginLeft="-26dp"
-        android:layout_toRightOf="@+id/bili">
-
         <TextView
-            android:id="@+id/list_jifen"
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_jifen"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="积分i 0-6000"
             android:textColor="@color/color_01_point" />
 
-        <EditText
-            android:id="@+id/jifen_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/jifen_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/jifen_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/jifen_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/jifen_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/jifen_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/jifen_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/weifen"
-        android:layout_width="wrap_content"
-        android:layout_height="700dp"
-        android:layout_marginLeft="-21dp"
-        android:layout_toRightOf="@+id/jifen">
-
 
         <TextView
-            android:id="@+id/list_weifen"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_weifen"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="微分d 0-3600"
             android:textColor="@color/color_01_point" />
 
-        <EditText
-            android:id="@+id/weifen_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/weifen_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/weifen_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/weifen_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/weifen_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/weifen_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/weifen_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/shezhi"
-        android:layout_width="wrap_content"
-        android:layout_height="700dp"
-        android:layout_toRightOf="@+id/weifen">
 
         <TextView
-            android:id="@+id/list_shezhi"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_shezhi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="手动设置50-5"
             android:textColor="@color/color_01_point" />
 
-        <EditText
-            android:id="@+id/shezhi_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shezhi_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shezhi_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shezhi_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shezhi_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shezhi_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shezhi_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/xiaxian"
-        android:layout_width="wrap_content"
-        android:layout_height="700dp"
-        android:layout_toRightOf="@+id/shezhi">
-
 
         <TextView
-            android:id="@+id/list_xiaxian"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_xiaxian"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="输出下限0-99.9"
             android:textColor="@color/color_01_point" />
 
 
-        <EditText
-            android:id="@+id/xiaxian_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/xiaxian_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/xiaxian_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/xiaxian_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/xiaxian_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/xiaxian_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/xiaxian_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/shangxian"
-        android:layout_width="wrap_content"
-        android:layout_height="700dp"
-
-        android:layout_toRightOf="@+id/xiaxian">
-
 
         <TextView
-            android:id="@+id/list_shangxian"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_shangxian"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="输出上限0-100.00"
             android:textColor="@color/color_01_point" />
 
 
-        <EditText
-            android:id="@+id/shangxian_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shangxian_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/shangxian_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/shangxian_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/shangxian_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/shangxian_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/shangxian_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/pianyi"
-        android:layout_width="106dp"
-        android:layout_height="700dp"
-        android:layout_toRightOf="@+id/shangxian">
-
-
         <TextView
-            android:id="@+id/list_pianyi"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_pianyi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="偏移量 -5-5"
             android:textColor="@color/color_01_point" />
 
 
-        <EditText
-            android:id="@+id/pianyi_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="220dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/pianyi_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="280dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/pianyi_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="350dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/pianyi_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="415dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/pianyi_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="480dp"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/pianyi_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="545dp"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/pianyi_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="610dp"
-            android:inputType="text" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/fenji"
-        android:layout_width="120dp"
-        android:layout_height="700dp"
-        android:layout_toRightOf="@+id/pianyi">
-
         <TextView
-            android:id="@+id/list_fenji"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="154dp"
+            android:id="@+id/humpid_list_fenji"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:text="风机转速 0-60"
             android:textColor="@color/color_01_point" />
 
+    </LinearLayout>
 
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout3"
+        android:layout_below="@id/humpid_LinearLayout2"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/hum_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度： 10%"
+            android:textColor="@color/color_01_point" />
         <EditText
-            android:id="@+id/fengji_1"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
-
-            android:layout_marginTop="220dp"
+            android:id="@+id/humpid_bili_1_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_1_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
 
-        <EditText
-            android:id="@+id/fengji_2"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
 
-            android:layout_marginTop="280dp"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout4"
+        android:layout_below="@id/humpid_LinearLayout3"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/hum_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度: 20%"
+            android:textColor="@color/color_01_point" />
+        <EditText
+            android:id="@+id/humpid_bili_2_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_2_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
 
 
-        <EditText
-            android:id="@+id/fengji_3"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout5"
+        android:layout_below="@id/humpid_LinearLayout4"
+        android:layout_marginTop="20dp">
 
-            android:layout_marginTop="350dp"
+        <TextView
+            android:id="@+id/hum_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度: 40%"
+            android:textColor="@color/color_01_point" />
+        <EditText
+            android:id="@+id/humpid_bili_3_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_3_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
 
 
-        <EditText
-            android:id="@+id/fengji_4"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout6"
+        android:layout_below="@id/humpid_LinearLayout5"
+        android:layout_marginTop="20dp">
 
-            android:layout_marginTop="415dp"
+        <TextView
+            android:id="@+id/hum_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度: 60%"
+            android:textColor="@color/color_01_point" />
+        <EditText
+            android:id="@+id/humpid_bili_4_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_4_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
 
 
-        <EditText
-            android:id="@+id/fengji_5"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout7"
+        android:layout_below="@id/humpid_LinearLayout6"
+        android:layout_marginTop="20dp">
 
-            android:layout_marginTop="480dp"
+        <TextView
+            android:id="@+id/hum_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度: 80%"
+            android:textColor="@color/color_01_point" />
+        <EditText
+            android:id="@+id/humpid_bili_5_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_5_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
 
-        <EditText
-            android:id="@+id/fengji_6"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
 
-            android:layout_marginTop="545dp"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout8"
+        android:layout_below="@id/humpid_LinearLayout7"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/hum_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度: 90%"
+            android:textColor="@color/color_01_point" />
+        <EditText
+            android:id="@+id/humpid_bili_6_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_6_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
 
 
-        <EditText
-            android:id="@+id/fengji_7"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/humpid_LinearLayout9"
+        android:layout_below="@id/humpid_LinearLayout8"
+        android:layout_marginTop="20dp">
 
-            android:layout_marginTop="610dp"
+        <TextView
+            android:id="@+id/hum_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="湿度: 95%"
+            android:textColor="@color/color_01_point" />
+        <EditText
+            android:id="@+id/humpid_bili_7_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="text" />
-    </RelativeLayout>
+        <EditText
+            android:id="@+id/humpid_bili_7_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_7_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_7_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_7_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_7_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_7_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/humpid_bili_7_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

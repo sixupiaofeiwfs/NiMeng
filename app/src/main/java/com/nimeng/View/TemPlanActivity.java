@@ -1,6 +1,7 @@
 package com.nimeng.View;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.nimeng.Adapter.TemPlanAdapter;
+
 import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.TemPlanBean;
 import com.nimeng.util.TemPlanDBHelper;
@@ -36,13 +38,14 @@ import java.util.List;
  * -----------------------------------------------------------------
  */
 public class TemPlanActivity extends BaseAvtivity{
-    private Button btn_add;
+    private Button btn_add,btn_tohumplan;
     private ListView listView;
     private EditText editName,editUnitTime,editTemWave,editTem1,editTem2,editTem3,editTem4,editTem5;
     private TemPlanAdapter adapter;
     private TemPlanDBHelper templanDBHelper;
     private List<TemPlanBean> list;
     GlobalVariable globalVariable;
+    Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class TemPlanActivity extends BaseAvtivity{
 
         setContentView(R.layout.activity_templan);
         btn_add=findViewById(R.id.templan_add);
+        btn_tohumplan=findViewById(R.id.templan_tohumplan);
         listView=findViewById(R.id.templan_list);
         if(list!=null){
             list.clear();
@@ -64,6 +68,16 @@ public class TemPlanActivity extends BaseAvtivity{
                 addData();
             }
         });
+
+
+        btn_tohumplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent=new Intent(TemPlanActivity.this,HumPlanActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

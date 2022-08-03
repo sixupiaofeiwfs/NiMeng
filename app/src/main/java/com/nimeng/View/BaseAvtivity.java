@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.nimeng.Presenter.IBasePresenter;
+import com.nimeng.bean.GlobalVariable;
 
 /**
  * Author: wfs
@@ -61,10 +62,16 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
     private String activityName;
 
+
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: BaseActivity-onCreate");
+
+
     }
 
 
@@ -92,22 +99,12 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
 
                 if(distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && distanceX>0){
-                    if(this.getClass().getName().equals("com.nimeng.View.PlanActivity")){
-                        startActivity(new Intent(this,MainActivity.class));
+                   if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
+                        startActivity(new Intent(this,SettingSwitchActivity.class));
+                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
+                        startActivity(new Intent(this,DataRecordActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
                         startActivity(new Intent(this,LineChartActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){
-                        startActivity(new Intent(this,DataRecordActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.CameraActivity")){
-                        startActivity(new Intent(this,StandardApparatusActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
-                        startActivity(new Intent(this,CameraActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this,ComprehensiveDataActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.TurntableActivity")){
-                        startActivity(new Intent(this,SettingSwitchActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.ComprehensiveDataActivity")){
-                        startActivity(new Intent(this,TurntableActivity.class));
                     }
 
                 }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
@@ -115,13 +112,9 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                     if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
                         startActivity(new Intent(this, LineChartActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
-                        startActivity(new Intent(this,StandardApparatusActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.StandardApparatusActivity")){
-                        startActivity(new Intent(this,CameraActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.CameraActivity")){
                         startActivity(new Intent(this,SettingSwitchActivity.class));
                     }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")) {
-                        startActivity(new Intent(this, TurntableActivity.class));
+                        startActivity(new Intent(this, MainActivity.class));
                     }
 
                 }
@@ -187,11 +180,15 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
 
     // 获取存储权限
-    public void onPermission(View v){
+    public void onPermission(GlobalVariable globalVariable){
+        if(globalVariable.isHaveJurisdiction()){
+            return ;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // 先判断有没有权限
             if (Environment.isExternalStorageManager()) {
-                requestSuccess();
+                requestSuccess(globalVariable);
             } else {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 intent.setData(Uri.parse("package:" + getPackageName()));
@@ -201,12 +198,12 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
             // 先判断有没有权限
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                requestSuccess();
+                requestSuccess(globalVariable);
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
             }
         } else {
-            requestSuccess();
+            requestSuccess(globalVariable);
         }
     }
 
@@ -215,8 +212,10 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     /**
      * 模拟文件写入
      */
-    private void requestSuccess() {
+    private void requestSuccess(GlobalVariable globalVariable) {
         Toast.makeText(this, "存储权限获取成功", Toast.LENGTH_SHORT).show();
+        globalVariable.setHaveJurisdiction(true);
+
     }
 
 }
