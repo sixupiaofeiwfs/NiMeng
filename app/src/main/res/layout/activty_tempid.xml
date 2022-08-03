@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/humpid"
+        android:layout_width="300dp"
+        android:layout_height="82dp"
+        android:text="湿度PID"
+        android:background="@color/white"/>
+
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_width="120dp"
+        android:layout_height="700dp">
+
+
+        <TextView
+            android:id="@+id/list_quzhi_fanwei"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="取值范围"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_1"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="100dp"
+            android:text="温度: 10℃"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="34dp"
+            android:text="温度：-10℃"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="155dp"
+            android:text="温度：20℃"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="225dp"
+            android:text="温度：30℃"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="292dp"
+            android:text="温度：40℃"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="355dp"
+            android:text="温度：50℃"
+            android:textColor="@color/color_01_point" />
+
+        <TextView
+            android:id="@+id/tem_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/list_quzhi_fanwei"
+            android:layout_marginTop="418dp"
+            android:text="温度：60℃"
+            android:textColor="@color/color_01_point" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bili"
+        android:layout_width="114dp"
+        android:layout_height="700dp"
+        android:layout_marginLeft="-32dp"
+        android:layout_toRightOf="@+id/RelativeLayout1">
+
+        <TextView
+            android:id="@+id/list_bil"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="比例p 0-999.9"
+            android:textColor="@color/color_01_point" />
+
+
+        <EditText
+            android:id="@+id/bili_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/bili_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/bili_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/bili_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/bili_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/bili_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/bili_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/jifen"
+        android:layout_width="98dp"
+        android:layout_height="700dp"
+        android:layout_marginLeft="-21dp"
+        android:layout_toRightOf="@+id/bili">
+
+        <TextView
+            android:id="@+id/list_jifen"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="积分i 0-6000"
+            android:textColor="@color/color_01_point" />
+
+        <EditText
+            android:id="@+id/jifen_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/jifen_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/jifen_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/jifen_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/jifen_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/jifen_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/jifen_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/weifen"
+        android:layout_width="97dp"
+        android:layout_height="700dp"
+        android:layout_toRightOf="@+id/jifen">
+
+
+        <TextView
+            android:id="@+id/list_weifen"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="微分d 0-3600"
+            android:textColor="@color/color_01_point" />
+
+        <EditText
+            android:id="@+id/weifen_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/weifen_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/weifen_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/weifen_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/weifen_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/weifen_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/weifen_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/shezhi"
+        android:layout_width="wrap_content"
+        android:layout_height="700dp"
+        android:layout_toRightOf="@+id/weifen">
+
+        <TextView
+            android:id="@+id/list_shezhi"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="手动设置50-5"
+            android:textColor="@color/color_01_point" />
+
+        <EditText
+            android:id="@+id/shezhi_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shezhi_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shezhi_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shezhi_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shezhi_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shezhi_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shezhi_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/xiaxian"
+        android:layout_width="wrap_content"
+        android:layout_height="700dp"
+        android:layout_toRightOf="@+id/shezhi">
+
+
+        <TextView
+            android:id="@+id/list_xiaxian"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="输出下限0-99.9"
+            android:textColor="@color/color_01_point" />
+
+
+        <EditText
+            android:id="@+id/xiaxian_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/xiaxian_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/xiaxian_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/xiaxian_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/xiaxian_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/xiaxian_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/xiaxian_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/shangxian"
+        android:layout_width="92dp"
+        android:layout_height="700dp"
+
+        android:layout_toRightOf="@+id/xiaxian">
+
+
+        <TextView
+            android:id="@+id/list_shangxian"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="输出上限0-100.00"
+            android:textColor="@color/color_01_point" />
+
+
+        <EditText
+            android:id="@+id/shangxian_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shangxian_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/shangxian_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/shangxian_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/shangxian_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/shangxian_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/shangxian_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pianyi"
+        android:layout_width="82dp"
+        android:layout_height="700dp"
+        android:layout_toRightOf="@+id/shangxian">
+
+
+        <TextView
+            android:id="@+id/list_pianyi"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="偏移量 -5-5"
+            android:textColor="@color/color_01_point" />
+
+
+        <EditText
+            android:id="@+id/pianyi_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/pianyi_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/pianyi_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/pianyi_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/pianyi_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/pianyi_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/pianyi_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fenji"
+        android:layout_width="120dp"
+        android:layout_height="700dp"
+        android:layout_toRightOf="@+id/pianyi">
+
+        <TextView
+            android:id="@+id/list_fenji"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="154dp"
+            android:text="风机转速 0-60"
+            android:textColor="@color/color_01_point" />
+
+
+        <EditText
+            android:id="@+id/fengji_1"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="220dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/fengji_2"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="280dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/fengji_3"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="350dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/fengji_4"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="415dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/fengji_5"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="480dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/fengji_6"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="545dp"
+            android:inputType="text" />
+
+
+        <EditText
+            android:id="@+id/fengji_7"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+
+            android:layout_marginTop="610dp"
+            android:inputType="text" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
