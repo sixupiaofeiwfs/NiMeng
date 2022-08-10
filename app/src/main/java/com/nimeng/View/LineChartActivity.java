@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,6 +19,8 @@ import org.achartengine.chart.PointStyle;
 
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Author: wfs
@@ -43,6 +45,9 @@ public class LineChartActivity extends BaseAvtivity{
     private Button btn1,btn2;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,17 +70,27 @@ public class LineChartActivity extends BaseAvtivity{
             }
         });
 
-        dataRecordDBHelper=new DataRecordDBHelper(LineChartActivity.this,"NIMENG.db",null,1);
+//
+//        ExecutorService executorService= Executors.newSingleThreadExecutor();
+//        executorService.submit(new Thread(addData_thread));
+//        executorService.shutdown();
 
+
+
+        globalVariable=(GlobalVariable)getApplicationContext();
         //创建折线图实例 （X轴标题，Y轴标题，X轴的最小值，X轴的最大值，Y轴的最小值,Y轴的最大值，坐标轴的颜色，刻度值的颜色）
         mLineChart = new LineChart("时间(s)", "温度（℃）/湿度（%）", 0, 60, 0, 100, Color.WHITE, Color.WHITE);
 
-        globalVariable=(GlobalVariable)getApplicationContext();
+
+
+        dataRecordDBHelper=new DataRecordDBHelper(LineChartActivity.this,"NIMENG.db",null,1);
+
+
+
+
         Date startTime= globalVariable.getStartTime();
         Date endTime=new Date();
 
-
-        Log.d("开始时间与结束时间", "onCreate: "+startTime+"   "+endTime);
 
         if(startTime==null){
             Toast.makeText(LineChartActivity.this,"请先选择方案或启动设备",Toast.LENGTH_SHORT).show();
@@ -96,6 +111,9 @@ public class LineChartActivity extends BaseAvtivity{
         //设置图表显示页面为本页面
         mLineChart.setChartViewActivity(this);
 
+
+
+
         //添加2条折线
         mLineChart.addLineToChart("温度", PointStyle.CIRCLE, Color.RED);//添加折线A
         mLineChart.addLineToChart("湿度", PointStyle.DIAMOND, Color.BLUE);//添加折线B
@@ -104,6 +122,9 @@ public class LineChartActivity extends BaseAvtivity{
 
 
         new Thread(addData_thread).start();
+
+
+
     }
 
     // 消息句柄(线程里无法进行界面更新，所以要把消息从线程里发送出来在消息句柄里进行处理)
@@ -150,7 +171,7 @@ public class LineChartActivity extends BaseAvtivity{
 //    }
 
     //添加折线图数据的线程
-    private Runnable addData_thread = new Runnable()
+   private  Runnable addData_thread = new Runnable()
     {
         @Override
         public void run()
@@ -170,4 +191,10 @@ public class LineChartActivity extends BaseAvtivity{
             }
         }
     };
+
+
+
+
+
+
 }

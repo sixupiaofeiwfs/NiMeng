@@ -7,12 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nimeng.bean.GlobalVariable;
 
@@ -32,10 +29,11 @@ import com.nimeng.bean.GlobalVariable;
  */
 public class SettingSwitchActivity extends BaseAvtivity{
 
-    public Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn10,btn11,btn12;
+   // public TextView a,b,c;
+    public TextView btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn10,btn11,btn12;
     private GlobalVariable globalVariable;
     private Intent intent;
-    private TextView textView1;
+    private TextView textView1,textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +42,9 @@ public class SettingSwitchActivity extends BaseAvtivity{
         setContentView(R.layout.activity_settingswitch);
 
         globalVariable=(GlobalVariable)getApplicationContext();
+
+
+
 
         btn1 = findViewById(R.id.settingswitch_bt1);
         btn2 = findViewById(R.id.settingswitch_bt2);
@@ -59,6 +60,9 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn12 = findViewById(R.id.settingswitch_bt12);
 
         textView1=findViewById(R.id.settingswitch_textview1);
+//        textView2=findViewById(R.id.settingswitch_textview2);
+//        textView2.setText(gettime());
+
 
 
         System.out.println("初始化----"+globalVariable.isSwitch_1());
@@ -126,7 +130,7 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent=new Intent(SettingSwitchActivity.this,StandardApparatusActivity.class);
+                intent=new Intent(SettingSwitchActivity.this, TemStandardApparatusActivity.class);
                 startActivity(intent);
             }
         });

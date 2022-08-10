@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nimeng.View.R;
-import com.nimeng.bean.StandardApparatusBean;
+import com.nimeng.bean.TemStandarApparatus;
 
 import java.util.List;
 
@@ -25,58 +25,68 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class StandardApparatusAdapter extends BaseAdapter {
+public class TemStandardApparatusAdapter extends BaseAdapter {
 
-    private List<StandardApparatusBean> list;
+    private List<TemStandarApparatus> list;
     private LayoutInflater layoutInflater;
 
-    public StandardApparatusAdapter(List<StandardApparatusBean> list, Context context) {
+    public TemStandardApparatusAdapter(List<TemStandarApparatus> list, Context context) {
         this.list = list;
         layoutInflater=LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return list.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        System.out.println("adapter开始调佣----->");
+
         StandardApparatusViewHolder viewHolder;
         if(view==null){
-            view=layoutInflater.inflate(R.layout.list_datarecord,null,false);
+            view=layoutInflater.inflate(R.layout.list_standardapparatus,null,false);
             viewHolder=new StandardApparatusViewHolder(view);
             view.setTag(viewHolder);
         }else{
             viewHolder=(StandardApparatusViewHolder) view.getTag();
         }
 
-        StandardApparatusBean standardApparatusBean=(StandardApparatusBean) getItem(i);
+        TemStandarApparatus temStandarApparatus=(TemStandarApparatus) getItem(i);
 
 
 
-        viewHolder.name.setText(standardApparatusBean.getName());
+        viewHolder.name.setText(temStandarApparatus.getName());
         viewHolder.name.setTextSize(13);
-        viewHolder.port.setText(String.valueOf(standardApparatusBean.getPort()));
-        viewHolder.format.setText(standardApparatusBean.getFormat());
-        viewHolder.rate.setText(String.valueOf(standardApparatusBean.getRate()));
-        viewHolder.type.setText(String.valueOf(standardApparatusBean.getType()));
-        viewHolder.model.setText(String.valueOf(standardApparatusBean.getModel()));
-        viewHolder.agreement.setText(standardApparatusBean.getAgreement());
-        viewHolder.number.setText(standardApparatusBean.getNumber());
-        viewHolder.value.setText(standardApparatusBean.getValue());
-        viewHolder.traceabilityUnit.setText(standardApparatusBean.getTraceabilityUnit());
-        viewHolder.time.setText(standardApparatusBean.getTime());
+        viewHolder.port.setText(String.valueOf(temStandarApparatus.getPort()));
+        viewHolder.format.setText(temStandarApparatus.getFormat());
+        viewHolder.rate.setText(String.valueOf(temStandarApparatus.getRate()));
+        viewHolder.type.setText(String.valueOf(temStandarApparatus.getType()));
+        viewHolder.model.setText(String.valueOf(temStandarApparatus.getModel()));
+        viewHolder.agreement.setText(temStandarApparatus.getAgreement());
+        viewHolder.number.setText(temStandarApparatus.getNumber());
+        viewHolder.value.setText(temStandarApparatus.getValue());
+        viewHolder.traceabilityUnit.setText(temStandarApparatus.getTraceabilityUnit());
+        viewHolder.time.setText(temStandarApparatus.getTime());
+
+        System.out.println("查询到的结果---->"+temStandarApparatus.getID()+"------------>"+temStandarApparatus.getIsCheck());
+
+        if(temStandarApparatus.getIsCheck()==1){
+            viewHolder.isCheck.setText("是");
+        }else{
+            viewHolder.isCheck.setText("否");
+        }
 
         return view;
 
@@ -84,7 +94,7 @@ public class StandardApparatusAdapter extends BaseAdapter {
     }
 
     class StandardApparatusViewHolder{
-        TextView name,port,format,rate,type,model,agreement,number,value,traceabilityUnit,time;
+        TextView name,port,format,rate,type,model,agreement,number,value,traceabilityUnit,time,isCheck;
         public StandardApparatusViewHolder(View view){
             name=view.findViewById(R.id.list_s_name);
             port=view.findViewById(R.id.list_s_port);
@@ -97,6 +107,7 @@ public class StandardApparatusAdapter extends BaseAdapter {
             value=view.findViewById(R.id.list_s_value);
             traceabilityUnit=view.findViewById(R.id.list_s_traceabilityUnit);
             time=view.findViewById(R.id.list_s_time);
+            isCheck=view.findViewById(R.id.list_s_isCheck);
 
         }
     }

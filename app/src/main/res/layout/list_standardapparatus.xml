@@ -92,7 +92,10 @@
         android:gravity="center"
         android:text="设备类型"
         />
-
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
         android:id="@+id/list_s_model"
@@ -108,6 +111,10 @@
         android:text="设备型号"
         />
 
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
     <TextView
         android:id="@+id/list_s_agreement"
         android:layout_width="0dip"
@@ -121,6 +128,10 @@
         android:gravity="center"
         android:text="通讯协议"
         />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
         android:id="@+id/list_s_number"
@@ -135,6 +146,10 @@
         android:gravity="center"
         android:text="证书编号"
         />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
         android:id="@+id/list_s_value"
@@ -149,6 +164,10 @@
         android:gravity="center"
         android:text="证书值"
         />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
         android:id="@+id/list_s_traceabilityUnit"
@@ -163,6 +182,10 @@
         android:gravity="center"
         android:text="溯源单位"
         />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
     <TextView
         android:id="@+id/list_s_time"
         android:layout_width="0dip"
@@ -176,9 +199,24 @@
         android:gravity="center"
         android:text="有效期"
         />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
-
-
+    <TextView
+        android:id="@+id/list_s_isCheck"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="正在使用"
+        />
 
 
 

@@ -129,9 +129,6 @@ public class DataRecordDBHelper extends BaseUtil {
         }
 
 
-
-
-
         Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
 
         Log.d("查询时", "query: "+result.getCount());
@@ -152,26 +149,50 @@ public class DataRecordDBHelper extends BaseUtil {
     }
 
 
-
     //根据日期查找
-    public DataRecodeBean findDataRecordByTime(String startTime, String endTime){
-        DataRecodeBean dataRecodeBean=new DataRecodeBean();
-        Cursor result=db.query(TABLENAME,null,"time between=? and=?",new String[]{startTime,endTime},null,null,null,null);
-        if(result.getCount()==1){
-            result.moveToFirst();
-            dataRecodeBean.setTime(result.getString(1));
-            dataRecodeBean.setSettingTem(result.getFloat(2));
-            dataRecodeBean.setRealtimeTem(result.getFloat(3));
-            dataRecodeBean.setSettingHum(result.getFloat(4));
-            dataRecodeBean.setRealtimeHum(result.getFloat(5));
-            return dataRecodeBean;
+    public List<DataRecodeBean> findDataRecordByTime(String startTime, String endTime){
+        List<DataRecodeBean> list=new ArrayList<DataRecodeBean>();
+
+
+        if(!tableIsExist(TABLENAME)){
+
+//            System.out.println("没有数据表，自动创建假数据");
+//            DataRecodeBean dataRecodeBean=new DataRecodeBean();
+//            dataRecodeBean.setTime("2022-08-08 08:00:00");
+//            dataRecodeBean.setSettingTem(20.0f);
+//            dataRecodeBean.setRealtimeTem(19.98f);
+//            dataRecodeBean.setSettingHum(40.0f);
+//            dataRecodeBean.setRealtimeHum(39.99f);
+//            list.add(dataRecodeBean);
+
+            return list;
         }
-        dataRecodeBean.setTime("");
-        dataRecodeBean.setSettingTem(0);
-        dataRecodeBean.setRealtimeTem(0);
-        dataRecodeBean.setSettingHum(0);
-        dataRecodeBean.setRealtimeHum(0);
-        return dataRecodeBean;
+
+        Cursor result=db.query(TABLENAME,null,"time between=? and=?",new String[]{startTime,endTime},null,null,null,null);
+        if(result!=null){
+            while (result.moveToNext()){
+                DataRecodeBean dataRecodeBean=new DataRecodeBean();
+                dataRecodeBean.setTime(result.getString(1));
+                dataRecodeBean.setSettingTem(result.getFloat(2));
+                dataRecodeBean.setRealtimeTem(result.getFloat(3));
+                dataRecodeBean.setSettingHum(result.getFloat(4));
+                dataRecodeBean.setRealtimeHum(result.getFloat(5));
+                list.add(dataRecodeBean);
+            }
+            result.close();;
+        }
+
+//        DataRecodeBean dataRecodeBean=new DataRecodeBean();
+//        dataRecodeBean.setTime("2022-08-08 08:00:00");
+//        dataRecodeBean.setSettingTem(20.0f);
+//        dataRecodeBean.setRealtimeTem(19.98f);
+//        dataRecodeBean.setSettingHum(40.0f);
+//        dataRecodeBean.setRealtimeHum(39.99f);
+//        list.add(dataRecodeBean);
+
+
+        return list;
+
 
 
     }

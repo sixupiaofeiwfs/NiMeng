@@ -34,7 +34,7 @@ public class PasswordActivity  extends BaseAvtivity {
         editText=findViewById(R.id.password_edit1);
         btn1= findViewById(R.id.password_btn1);
 
-        int excutingNumber=1;
+        int excutingNumber=checkTime();
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -244,7 +244,7 @@ public class InstallermentActivity extends BaseAvtivity {
     }
 
     private void showDate(TextView textView,int y,int mo,int d, int h,int m){
-        textView.setText(y+"-"+mo+"-"+d+" "+h+":"+m+":"+"00");
+        textView.setText(y+"-"+(mo+1)+"-"+d+" "+h+":"+m+":"+"00");
     }
 
 

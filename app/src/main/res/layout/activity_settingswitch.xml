@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:gravity="center">
+    >
 
 
     <LinearLayout
@@ -11,14 +11,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/LinearLayout0">
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="系统设置"
             android:clickable="true"
-            android:textSize="25dp"
+            android:textSize="35dp"
             android:id="@+id/settingswitch_textview1"
+            android:layout_weight="1"
+            android:textAlignment="center"
             >
+        </TextView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:src="@drawable/u56">
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/settingswitch_textview2">
         </TextView>
 
 
@@ -33,33 +49,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/LinearLayout0"
+        android:layout_marginTop="120dp"
         >
 
-        <Button
+
+        <TextView
             android:id="@+id/settingswitch_bt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="工作参数"
-            android:textSize="25dp"></Button>
+            android:textSize="25dp"
+            android:textAlignment="center"
+            ></TextView>
 
-        <Button
+        <TextView
             android:id="@+id/settingswitch_bt2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_weight="1"
             android:text="系统参数"
-            android:textSize="25dp"></Button>
+            android:textSize="25dp"
+            android:textAlignment="center"
+            ></TextView>
 
-        <Button
+        <TextView
             android:id="@+id/settingswitch_bt3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_weight="1"
             android:text="预设方案"
-            android:textSize="25dp"></Button>
+            android:textSize="25dp"
+            android:textAlignment="center"></TextView>
 
 
     </LinearLayout>
@@ -71,39 +94,42 @@
         android:layout_height="wrap_content"
         android:id="@+id/LinearLayout2"
         android:layout_below="@id/LinearLayout1"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         >
 
 
 
-            <Button
+            <TextView
                 android:id="@+id/settingswitch_bt4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="标准器"
+                android:textAlignment="center"
                 android:textSize="25dp">
-            </Button>
+            </TextView>
 
 
-            <Button
+            <TextView
                 android:id="@+id/settingswitch_bt5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_weight="1"
                 android:text="转盘"
+                android:textAlignment="center"
                 android:textSize="25dp">
-            </Button>
-            <Button
+            </TextView>
+            <TextView
                 android:id="@+id/settingswitch_bt6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_weight="1"
                 android:text="相机"
+                android:textAlignment="center"
                 android:textSize="25dp">
-            </Button>
+            </TextView>
 
 
 
@@ -117,40 +143,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/LinearLayout2"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="50dp">
 
 
 
-            <Button
+            <TextView
                 android:id="@+id/settingswitch_bt7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="露点仪"
+                android:textAlignment="center"
                 android:textSize="25dp"
-                ></Button>
+                ></TextView>
 
 
-             <Button
+             <TextView
                 android:id="@+id/settingswitch_bt8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                  android:layout_weight="1"
                 android:text="数字式温度计"
+                 android:textAlignment="center"
                  android:textSize="25dp"
-                ></Button>
+                ></TextView>
 
 
-            <Button
+            <TextView
                 android:id="@+id/settingswitch_bt9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:layout_weight="1"
                 android:text="报警"
+                android:textAlignment="center"
                 android:textSize="25dp">
-            </Button>
+            </TextView>
 
     </LinearLayout>
 
@@ -211,39 +240,42 @@
         android:layout_height="wrap_content"
         android:id="@+id/LinearLayout5"
         android:layout_below="@id/LinearLayout4"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         >
 
 
-            <Button
+            <TextView
                 android:id="@+id/settingswitch_bt10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="状态指示"
+                android:textAlignment="center"
                 android:textSize="25dp">
-            </Button>
+            </TextView>
 
-        <Button
+        <TextView
             android:id="@+id/settingswitch_bt11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="60dp"
             android:text="语音播报"
+            android:textAlignment="center"
             android:textSize="25dp">
-        </Button>
+        </TextView>
 
 
-        <Button
+        <TextView
             android:id="@+id/settingswitch_bt12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_weight="1"
             android:text="自动拍摄"
+            android:textAlignment="center"
             android:textSize="25dp">
-        </Button>
+        </TextView>
 
     </LinearLayout>
 

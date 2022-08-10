@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.nimeng.bean.DataRecodeBean;
 import com.nimeng.util.DataRecordDBHelper;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,65 +47,154 @@ public class DataRecordActivity extends BaseAvtivity {
     private List<DataRecodeBean> list;
     private TextView textView1,textView2,textView3;
     private int year,month,day,hour,minute;
-
+    private Button btn1;
     Intent intent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datarecord);
-        //textView1=findViewById(R.id.datarecord_time1);
-       // textView2=findViewById(R.id.datarecord_time2);
+        textView1=findViewById(R.id.datarecord_time1);
+        textView2=findViewById(R.id.datarecord_time2);
         textView3=findViewById(R.id.datarecord_text1);
         listView=findViewById(R.id.datarecord_list);
-//        DatePicker datePicker=(DatePicker) findViewById(R.id.datepick1);
-//        TimePicker timePicker=(TimePicker) findViewById(R.id.timepicker1);
-//        //获取当前日期和时间
-//        Calendar calendar=Calendar.getInstance();
-//        year=calendar.get(Calendar.YEAR);
-//        month=calendar.get(Calendar.MONTH);
-//        day=calendar.get(Calendar.DAY_OF_MONTH);
-//        hour=calendar.get(Calendar.HOUR);
-//        minute=calendar.get(Calendar.MINUTE);
-//        //为DatePicker添加监听时间
-//        datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
-//            @Override
-//            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-//                DataRecordActivity.this.year=i;
-//                DataRecordActivity.this.month=i1;
-//                DataRecordActivity.this.day=i2;
-//                showDate(i,i1,i2,hour,minute);
-//            }
-//        });
-//
-//        //时间监听器
-//        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-//            @Override
-//            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-//                DataRecordActivity.this.hour=i;
-//                DataRecordActivity.this.minute=i1;
-//            }
-//        });
-//
+        btn1=findViewById(R.id.datarecord_btn1);
+        DatePicker datePicker1=(DatePicker) findViewById(R.id.datepick1);
+        TimePicker timePicker1=(TimePicker) findViewById(R.id.timepicker1);
 
+
+        DatePicker datePicker2=(DatePicker) findViewById(R.id.datepick2);
+        TimePicker timePicker2=(TimePicker) findViewById(R.id.timepicker2);
+
+
+        dataRecordDBHelper=new DataRecordDBHelper(DataRecordActivity.this,DATABASE_NAME,null,1);
+
+
+        //获取当前日期和时间
+        Calendar calendar=Calendar.getInstance();
+        year=calendar.get(Calendar.YEAR);
+        month=calendar.get(Calendar.MONTH);
+        day=calendar.get(Calendar.DAY_OF_MONTH);
+        hour=calendar.get(Calendar.HOUR);
+        minute=calendar.get(Calendar.MINUTE);
+        //为DatePicker添加监听时间
+        datePicker1.init(year, month, day, new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                DataRecordActivity.this.year=i;
+                DataRecordActivity.this.month=i1;
+                DataRecordActivity.this.day=i2;
+                showDate(textView1,i,i1,i2,hour,minute);
+
+                datePicker1.setVisibility(View.GONE);
+                timePicker1.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        //时间监听器
+        timePicker1.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+                DataRecordActivity.this.hour=i;
+                DataRecordActivity.this.minute=i1;
+            }
+        });
+
+
+
+        datePicker2.init(year, month, day, new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                DataRecordActivity.this.year=i;
+                DataRecordActivity.this.month=i1;
+                DataRecordActivity.this.day=i2;
+                showDate(textView2,i,i1,i2,hour,minute);
+
+                datePicker2.setVisibility(View.GONE);
+                timePicker2.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        //时间监听器
+        timePicker2.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+                DataRecordActivity.this.hour=i;
+                DataRecordActivity.this.minute=i1;
+            }
+        });
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String startTime=textView1.getText().toString();
+                String endTime=textView2.getText().toString();
+
+
+
+                String newTime=gettime();
+
+
+
+                if(startTime.equals("点击选择开始时间") || endTime.equals("点击选择结束时间")){
+                    Toast.makeText(DataRecordActivity.this,"请选择要查询的开始时间和结束时间",Toast.LENGTH_SHORT).show();
+                }
+
+                if(getTimeToDate(startTime).getTime()>getTimeToDate(endTime).getTime()){
+                    Toast.makeText(DataRecordActivity.this,"开始时间不能晚于结束时间",Toast.LENGTH_SHORT).show();
+                }
+                if(getTimeToDate(startTime).getTime()>getTimeToDate(newTime).getTime() || getTimeToDate(endTime).getTime()>getTimeToDate(newTime ).getTime()){
+                    Toast.makeText(DataRecordActivity.this,"开始时间或结束时间不能超过当前时间",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+                else{
+                  List<DataRecodeBean> list1=  dataRecordDBHelper.findDataRecordByTime(startTime,endTime);
+                    DataRecordAdapter adapter1;
+                    adapter1=new DataRecordAdapter(list1,DataRecordActivity.this);
+                    listView.setAdapter(adapter1);
+                }
+
+                return;
+
+            }
+        });
 
 
         if(list!=null){
             list.clear();
         }
-        dataRecordDBHelper=new DataRecordDBHelper(DataRecordActivity.this,DATABASE_NAME,null,1);
+
         //planModel=new PlanModel();
         updateListView();
 
 
-//
-//        textView1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                datePicker.setVisibility(View.VISIBLE);
-//                timePicker.setVisibility(View.VISIBLE);
-//
-//            }
-//        });
+
+        textView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePicker1.setVisibility(View.VISIBLE);
+                timePicker1.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePicker2.setVisibility(View.VISIBLE);
+                timePicker2.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+
+
 
 
 
@@ -117,6 +208,9 @@ public class DataRecordActivity extends BaseAvtivity {
 
 
     }
+
+
+
 
 
 
@@ -135,8 +229,8 @@ public class DataRecordActivity extends BaseAvtivity {
     }
 
 
-    private void showDate(int y,int mo,int d, int h,int m){
-        textView2.setText(y+"年"+mo+"月"+d+"日"+h+"时"+m+"分");
+    private void showDate(TextView textView, int y,int mo,int d, int h,int m){
+        textView.setText(y+"-"+(mo+1)+"-"+d+" "+h+":"+m+":00");
     }
 
 }

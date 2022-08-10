@@ -35,90 +35,35 @@
             android:id="@+id/text_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="系统日期："
+            android:text="点击确定系统日期："
             android:layout_weight="1"
             android:textAlignment="center"
             />
 
-        <EditText
-            android:id="@+id/year"
+        <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_weight="1"/>
+            android:id="@+id/systemparam_datepicker1"
+            android:visibility="gone"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            android:layout_weight="3">
+        </DatePicker>
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/systemparam_timepicker1"
+            android:layout_weight="3"
+            android:visibility="gone">
+        </TimePicker>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="年">
+            android:id="@+id/systemparam_showtextview1"
+            android:visibility="invisible"
+            android:layout_weight="1">
         </TextView>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/month">
-        </EditText>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="月">
-        </TextView>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/day">
-        </EditText>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="日">
-        </TextView>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/hour">
-        </EditText>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="时">
-        </TextView>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/minute">
-        </EditText>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="分">
-        </TextView>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/second">
-            </EditText>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="秒">
-        </TextView>
-
-
 
     </LinearLayout>
 
@@ -163,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="text" />
+            android:inputType="number" />
 
 
         <TextView
@@ -195,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="text" />
+            android:inputType="number" />
 
 
         <Button
@@ -242,101 +187,35 @@
             android:id="@+id/set_dingshi1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="温度定时开启"
+            android:text="点击设置温度定时开启时间"
             android:layout_weight="3"
             android:textAlignment="center"
              />
 
-        <EditText
-            android:id="@+id/dingshi1"
+        <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_weight="1"/>
+            android:id="@+id/systemparam_datepicker2"
+            android:layout_weight="2"
+            android:spinnersShown="true"
+            android:calendarViewShown="true"
+            android:visibility="gone">
+        </DatePicker>
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/systemparam_timepicker2"
+            android:visibility="gone">
+        </TimePicker>
 
         <TextView
-            android:id="@+id/set_nian1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="年"
-            />
-
-        <EditText
-            android:id="@+id/nian1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_yue1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="月"
-            />
-
-        <EditText
-            android:id="@+id/yue1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_ri1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="日"
-             />
-
-        <EditText
-            android:id="@+id/ri1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_shi1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="时"
-           />
-
-        <EditText
-            android:id="@+id/shi1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_fen1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="分"
-             />
-
-        <EditText
-            android:id="@+id/fen1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_miao1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="秒"
-            />
+            android:id="@+id/systemparam_showtextview2"
+            android:visibility="invisible">
+        </TextView>
 
         <Button
             android:layout_width="wrap_content"
@@ -358,102 +237,35 @@
             android:id="@+id/set_dingshi2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="温度定时关闭"
+            android:text="点击设置温度定时关闭时间"
             android:layout_weight="3"
             android:textAlignment="center"
             />
 
-        <EditText
-            android:id="@+id/dingshi2"
+        <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_weight="1"/>
+            android:id="@+id/systemparam_datepicker3"
+            android:layout_weight="2"
+            android:spinnersShown="true"
+            android:calendarViewShown="true"
+            android:visibility="gone">
+        </DatePicker>
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/systemparam_timepicker3"
+            android:visibility="gone">
+        </TimePicker>
 
         <TextView
-            android:id="@+id/set_nian2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="年"
-            />
-
-        <EditText
-            android:id="@+id/nian2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_yue2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="月"
-            />
-
-        <EditText
-            android:id="@+id/yue2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_ri2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="日"
-            />
-
-        <EditText
-            android:id="@+id/ri2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_shi2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="时"
-            />
-
-        <EditText
-            android:id="@+id/shi2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_fen2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="分"
-            />
-
-        <EditText
-            android:id="@+id/fen2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_miao2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="秒"
-            />
-
+            android:id="@+id/systemparam_showtextview3"
+            android:visibility="invisible">
+        </TextView>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -473,102 +285,33 @@
             android:id="@+id/set_dingshi3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="湿度定时关闭"
+            android:text="点击设置湿度定时开启时间"
             android:layout_weight="3"
             android:textAlignment="center"
             />
-
-        <EditText
-            android:id="@+id/dingshi3"
+        <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_weight="1"/>
-
+            android:id="@+id/systemparam_datepicker4"
+            android:layout_weight="2"
+            android:spinnersShown="true"
+            android:calendarViewShown="true"
+            android:visibility="gone">
+        </DatePicker>
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/systemparam_timepicker4"
+            android:visibility="gone">
+        </TimePicker>
         <TextView
-            android:id="@+id/set_nian3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="年"
-            />
-
-        <EditText
-            android:id="@+id/nian3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_yue3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="月"
-            />
-
-        <EditText
-            android:id="@+id/yue3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_ri3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="日"
-            />
-
-        <EditText
-            android:id="@+id/ri3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_shi3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="时"
-            />
-
-        <EditText
-            android:id="@+id/shi3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_fen3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="分"
-            />
-
-        <EditText
-            android:id="@+id/fen3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_miao3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="秒"
-            />
-
+            android:id="@+id/systemparam_showtextview4"
+            android:visibility="invisible">
+        </TextView>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -588,101 +331,33 @@
             android:id="@+id/set_dingshi4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="湿度定时关闭"
+            android:text="点击设置湿度定时关闭时间"
             android:layout_weight="3"
             android:textAlignment="center"
             />
-
-        <EditText
-            android:id="@+id/dingshi4"
+        <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_weight="1"/>
-
+            android:id="@+id/systemparam_datepicker5"
+            android:layout_weight="2"
+            android:spinnersShown="true"
+            android:calendarViewShown="true"
+            android:visibility="gone">
+        </DatePicker>
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/systemparam_timepicker5"
+            android:visibility="gone">
+        </TimePicker>
         <TextView
-            android:id="@+id/set_nian4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="年"
-            />
-
-        <EditText
-            android:id="@+id/nian4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_yue4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="月"
-            />
-
-        <EditText
-            android:id="@+id/yue4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_ri4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="日"
-            />
-
-        <EditText
-            android:id="@+id/ri4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_shi4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="时"
-            />
-
-        <EditText
-            android:id="@+id/shi4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_fen4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="分"
-            />
-
-        <EditText
-            android:id="@+id/fen4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/set_miao4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="秒"
-            />
+            android:id="@+id/systemparam_showtextview5"
+            android:visibility="invisible">
+        </TextView>
 
         <Button
             android:layout_width="wrap_content"

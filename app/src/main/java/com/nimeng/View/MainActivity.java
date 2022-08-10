@@ -814,33 +814,7 @@ public class MainActivity extends BaseAvtivity  {
     }
 
 
-    private  int  checkTime() {
 
-
-        Date newDate=new Date();
-
-
-        for(int i=0;i<globalVariable.getNumberOfStages();i++){
-//            Date date;
-//            try{
-//                date= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(globalVariable.getTimes().get(i));
-//            }
-//            catch(ParseException e){
-//                e.printStackTrace();
-//            }
-//
-//
-//
-//           long s=date.getTime()-newDate.getTime();
-//           if(s>0){
-//               return i;
-//           }
-
-
-        }
-
-        return 0;
-    }
 }
 
 

@@ -54,8 +54,24 @@ public  class GlobalVariable extends Application {
     private boolean temIsSystem;//当前温度方案是否系统预设
     private boolean humIsSystem;//当前湿度方式是否系统预设
 
+    private int temStandardID;//温度标准器id
+    private int humStandardID;//湿度标准器id
 
+    public int getTemStandardID() {
+        return temStandardID;
+    }
 
+    public void setTemStandardID(int temStandardID) {
+        this.temStandardID = temStandardID;
+    }
+
+    public int getHumStandardID() {
+        return humStandardID;
+    }
+
+    public void setHumStandardID(int humStandardID) {
+        this.humStandardID = humStandardID;
+    }
 
     public  boolean switch_1=false;//露点仪开关
     public  boolean switch_2=false;//数字式温度计开关
@@ -83,6 +99,23 @@ public  class GlobalVariable extends Application {
 
 
 
+
+
+    //折线图的线程是否已开启，避免重复开启线程，出现一秒钟跳两次的情况
+    public boolean threadIsStart=false;
+
+
+
+
+
+
+    public boolean isThreadIsStart() {
+        return threadIsStart;
+    }
+
+    public void setThreadIsStart(boolean threadIsStart) {
+        this.threadIsStart = threadIsStart;
+    }
 
     public String getTemPlanName() {
         return temPlanName;

@@ -22,6 +22,13 @@ import androidx.core.content.ContextCompat;
 import com.nimeng.Presenter.IBasePresenter;
 import com.nimeng.bean.GlobalVariable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Author: wfs
  * <p>
@@ -63,6 +70,9 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     private String activityName;
 
 
+    public GlobalVariable globalVariable;
+
+
 
 
 
@@ -70,8 +80,7 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: BaseActivity-onCreate");
-
-
+        globalVariable=(GlobalVariable) getApplicationContext();
     }
 
 
@@ -216,6 +225,56 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
         Toast.makeText(this, "存储权限获取成功", Toast.LENGTH_SHORT).show();
         globalVariable.setHaveJurisdiction(true);
 
+    }
+
+
+    public  int  checkTime() {
+
+
+        Date newDate=new Date();
+
+        String stringDate=newDate.toString();
+
+        System.out.println("newDate--->toString--->"+stringDate);
+
+        for(int i=0;i<globalVariable.getNumberOfStages();i++){
+
+            int result=stringDate.compareTo(globalVariable.getTimes().get(i));
+            if(result<0){//当前时间正处于该分期中
+                return i+1;
+
+            }
+
+        }
+
+        return globalVariable.getNumberOfStages();
+    }
+
+
+
+    //获取系统时间
+    public String gettime() {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour=c.get(Calendar.HOUR);
+        int minute=c.get(Calendar.MINUTE);
+        int second=c.get(Calendar.SECOND);
+
+       String time=year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+       return time;
+    }
+
+
+    public Date getTimeToDate(String time){
+        Date date =new Date();
+        try {
+            date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 }

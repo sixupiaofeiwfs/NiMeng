@@ -1,31 +1,7 @@
 package com.nimeng.bean;
 
-/**
- * Author: wfs
- * <p>
- * Create: 2022/6/20 14:07
- * <p>
- * Changes (from 2022/6/20)
- * <p>
- * -----------------------------------------------------------------
- * <p>
- * 2022/6/20 : Create StandardApparatusBean.java (wfs);
- * 标准器
- * <p>
- * -----------------------------------------------------------------
- */
-public class StandardApparatusBean {
-
-    private String ID;
-
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
+public class HumStandardApparatus{
+    private int ID;
     private String name;
     private int port;
     private String format;
@@ -37,6 +13,16 @@ public class StandardApparatusBean {
     private String value;//证书值
     private String traceabilityUnit;//溯源单位
     private String time;//有效期
+    private int isCheck;//是否选中
+
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public String getName() {
         return name;
@@ -124,5 +110,13 @@ public class StandardApparatusBean {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getIsCheck() {
+        return isCheck;
+    }
+
+    public void setIsCheck(int isCheck) {
+        this.isCheck = isCheck;
     }
 }

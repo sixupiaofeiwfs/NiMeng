@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="3dip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/standardapparatus_linearlayout1"
+        >
+
+        <Button
+            android:id="@+id/standardapparatus_btn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="新增湿度标准器"
+            android:textSize="20dp"
+            android:textColor="#4169E1"
+            android:layout_weight="1">
+        </Button>
+
+        <Button
+            android:id="@+id/standardapparatus_btn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="温度标准器"
+            android:textSize="20dp"
+            android:textColor="#4169E1"
+            android:layout_weight="1">
+        </Button>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/standardapparatus_linearlayout2"
+        android:layout_below="@id/standardapparatus_linearlayout1"
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#A7A5A5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/standardapparatus_linearlayout3"
+        android:layout_below="@id/standardapparatus_linearlayout2">
+
+        <include
+            layout="@layout/list_standardapparatus"
+            android:id="@+id/table_title"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/standardapparatus_linearlayout4"
+        android:layout_below="@id/standardapparatus_linearlayout3">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dip"
+            android:background="#686867"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/standardapparatus_linearlayout5"
+        android:layout_below="@id/standardapparatus_linearlayout4">
+
+        <ListView
+            android:id="@+id/humstandardapparatus_list"
+            android:divider="#B4B3B3"
+            android:dividerHeight="1.0dip"
+            android:scrollbars="none"
+
+            android:cacheColorHint="@android:color/transparent"
+            android:fadingEdge="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
