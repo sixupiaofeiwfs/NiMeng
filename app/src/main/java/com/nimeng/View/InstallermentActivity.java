@@ -125,7 +125,7 @@ public class InstallermentActivity extends BaseAvtivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String select = spinner.getSelectedItem().toString();
                number=i;
-                Log.d("获取一下选中的值", "onItemSelected: " + select);
+                Log.d("获取一下选中的值", "onItemSelected: " + (number+1));
                 if (select.equals("1")) {
                     turntable_linearLayout5.setVisibility(View.INVISIBLE);//隐藏但是占据位置
                     turntable_linearLayout6.setVisibility(View.GONE);//隐藏不占据位置
@@ -183,7 +183,7 @@ public class InstallermentActivity extends BaseAvtivity {
                 //设置是否需要分期
                 globalVariable.setInstallmentPayment(true);
                 //设置分期数
-                globalVariable.setNumberOfStages(number);
+                globalVariable.setNumberOfStages(number+1);
                 //设置超级密码
                 globalVariable.setSuperPassword(editText1.getText().toString());
                 //设置密码集合
@@ -204,6 +204,7 @@ public class InstallermentActivity extends BaseAvtivity {
                 times.add(textView5.getText().toString());
                 times.add(textView6.getText().toString());
 
+                globalVariable.setTimes(times);
 
 
                 //设置是否匹配集合

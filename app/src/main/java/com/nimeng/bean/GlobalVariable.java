@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +81,10 @@ public  class GlobalVariable extends Application {
     public  boolean switch_4=false;//状态指示开关
     public  boolean switch_5=false;//语音播报开关
     public  boolean switch_6=false;//自动拍摄开关
-
+    public  boolean switch_7=false;//灯控开关
+    public  boolean switch_8=false;//转盘显示开关
+    public  boolean switch_9=false;//相机显示开关
+    public  boolean switch_10=false;//自动拍摄显示开关
 
 
     public boolean haveJurisdiction=false;//是否获取文件读写权限
@@ -97,17 +102,62 @@ public  class GlobalVariable extends Application {
     public List<String> times;//分期结束时间
 
 
+    public Date dataRecordingTime=null;
 
 
+    public Date lightStartTime=null;
+    public int lightKeepSecond=0;
+
+
+
+    //实时温湿度
+    private float realTem;
+    private float realHum;
+
+
+
+    public String select1;//温度pid取值范围设置
+    private String select2;//湿度pid取值范围设置
 
 
     //折线图的线程是否已开启，避免重复开启线程，出现一秒钟跳两次的情况
     public boolean threadIsStart=false;
 
+    public List<String> temPlanList=new ArrayList<String>(Arrays.asList("方案一（不设置）","方案二（20℃-40℃-60-80℃）","方案三（15℃-20℃-40℃-60℃-80℃）","方案四（15℃-20℃-40-℃-60℃-80℃-90℃）"));
+    public List<String> humPlanList=new ArrayList<String>(Arrays.asList("方案一（不设置）","方案二（40%）","方案三（20%-40%-60%-80%）","方案四（20%-40%-60%-80%-90%）"));
 
 
+    public Date getLightStartTime() {
+        return lightStartTime;
+    }
 
+    public void setLightStartTime(Date lightStartTime) {
+        this.lightStartTime = lightStartTime;
+    }
 
+    public int getLightKeepSecond() {
+        return lightKeepSecond;
+    }
+
+    public void setLightKeepSecond(int lightKeepSecond) {
+        this.lightKeepSecond = lightKeepSecond;
+    }
+
+    public List<String> getTemPlanList() {
+        return temPlanList;
+    }
+
+    public void setTemPlanList(List<String> temPlanList) {
+        this.temPlanList = temPlanList;
+    }
+
+    public List<String> getHumPlanList() {
+        return humPlanList;
+    }
+
+    public void setHumPlanList(List<String> humPlanList) {
+        this.humPlanList = humPlanList;
+    }
 
     public boolean isThreadIsStart() {
         return threadIsStart;
@@ -285,6 +335,40 @@ public  class GlobalVariable extends Application {
         this.switch_6 = switch_6;
     }
 
+
+    public boolean isSwitch_7() {
+        return switch_7;
+    }
+
+    public void setSwitch_7(boolean switch_7) {
+        this.switch_7 = switch_7;
+    }
+
+
+    public boolean isSwitch_8() {
+        return switch_8;
+    }
+
+    public void setSwitch_8(boolean switch_8) {
+        this.switch_8 = switch_8;
+    }
+
+    public boolean isSwitch_9() {
+        return switch_9;
+    }
+
+    public void setSwitch_9(boolean switch_9) {
+        this.switch_9 = switch_9;
+    }
+
+    public boolean isSwitch_10() {
+        return switch_10;
+    }
+
+    public void setSwitch_10(boolean switch_10) {
+        this.switch_10 = switch_10;
+    }
+
     public boolean isHaveJurisdiction() {
         return haveJurisdiction;
     }
@@ -350,5 +434,45 @@ public  class GlobalVariable extends Application {
 
     public void setTimes(List<String> times) {
         this.times = times;
+    }
+
+    public Date getDataRecordingTime() {
+        return dataRecordingTime;
+    }
+
+    public void setDataRecordingTime(Date dataRecordingTime) {
+        this.dataRecordingTime = dataRecordingTime;
+    }
+
+    public float getRealTem() {
+        return realTem;
+    }
+
+    public void setRealTem(float realTem) {
+        this.realTem = realTem;
+    }
+
+    public float getRealHum() {
+        return realHum;
+    }
+
+    public void setRealHum(float realHum) {
+        this.realHum = realHum;
+    }
+
+    public String getSelect1() {
+        return select1;
+    }
+
+    public void setSelect1(String select1) {
+        this.select1 = select1;
+    }
+
+    public String getSelect2() {
+        return select2;
+    }
+
+    public void setSelect2(String select2) {
+        this.select2 = select2;
     }
 }

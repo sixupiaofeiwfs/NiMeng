@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="20dp"
@@ -10,205 +10,541 @@
     >
 
 
-    <EditText
-        android:id="@+id/edit_s_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入名称"
-        android:inputType="text"
-        />
-    <!--    <TextView-->
-    <!--        android:id="@+id/unitTime"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="单位时间"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        android:id="@+id/LinearLayout1">
 
-    <!--    </TextView>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="名   称：">
+        </TextView>
 
-    <EditText
-        android:id="@+id/edit_s_port"
+        <EditText
+            android:id="@+id/edit_s_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="端   口："
+            android:textStyle="bold"
+            android:textSize="20dp">
+        </TextView>
+        <EditText
+            android:id="@+id/edit_s_port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入端口"
-        android:inputType="number"
-        >
+        android:id="@+id/LinearLayout2"
+        android:layout_below="@id/LinearLayout1">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/temWave"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="温度波动值"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="通讯格式：">
+        </TextView>
 
-    <!--    </TextView>-->
+        <EditText
+            android:id="@+id/edit_s_format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text">
+        </EditText>
 
-    <EditText
-        android:id="@+id/edit_s_format"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="通讯速率："
+            android:textStyle="bold"
+            android:textSize="20dp">
+        </TextView>
+        <EditText
+            android:id="@+id/edit_s_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="number"
+            >
+
+        </EditText>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入通讯格式"
-        android:inputType="text"
-        >
+        android:id="@+id/LinearLayout3"
+        android:layout_below="@id/LinearLayout2">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/humWave"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="湿度波动值"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="设备类型：">
+        </TextView>
 
-    <!--    </TextView>-->
+        <EditText
+            android:id="@+id/edit_s_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text">
+        </EditText>
 
-    <EditText
-        android:id="@+id/edit_s_rate"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="设备型号："
+            android:textStyle="bold"
+            android:textSize="20dp">
+        </TextView>
+        <EditText
+            android:id="@+id/edit_s_model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text">
+        </EditText>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入通讯速率"
-        android:inputType="number"
-        >
+        android:id="@+id/LinearLayout4"
+        android:layout_below="@id/LinearLayout3">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tem1"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="检测温度1"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="通讯协议：">
+        </TextView>
 
-    <!--    </TextView>-->
+        <EditText
+            android:id="@+id/edit_s_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text">
+        </EditText>
 
-    <EditText
-        android:id="@+id/edit_s_type"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="证书编号："
+            android:textStyle="bold"
+            android:textSize="20dp">
+        </TextView>
+        <EditText
+            android:id="@+id/edit_s_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text">
+        </EditText>
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入设备类型"
-        android:inputType="text"
-        >
+        android:id="@+id/LinearLayout5"
+        android:layout_below="@id/LinearLayout4">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tem2"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="检测温度2"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="溯源单位：">
+        </TextView>
 
-    <!--    </TextView>-->
+        <EditText
+            android:id="@+id/edit_s_traceabilityUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text">
+        </EditText>
 
-    <EditText
-        android:id="@+id/edit_s_model"
+        <TextView
+            android:id="@+id/btn_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="有效期(点击选择)："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:clickable="true">
+        </TextView>
+       <DatePicker
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:visibility="gone"
+           android:layout_weight="1"
+           android:calendarViewShown="true"
+           android:spinnersShown="true"
+           android:id="@+id/datepick1">
+       </DatePicker>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_s_time"
+            android:layout_weight="1"
+            android:visibility="gone">
+        </TextView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入设备型号"
-        android:inputType="numberSigned"
-        >
+        android:id="@+id/LinearLayout6"
+        android:layout_below="@id/LinearLayout5"
+        android:layout_marginTop="20dp">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tem3"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="检测温度3"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="证书值个数：">
+        </TextView>
 
-    <!--    </TextView>-->
+       <Spinner
+           android:id="@+id/standard_spinner1"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:entries="@array/data2">
+       </Spinner>
 
-    <EditText
-        android:id="@+id/edit_s_agreement"
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入通讯协议"
-        android:inputType="text"
-        >
+        android:id="@+id/standard_LinearLayout7"
+        android:layout_below="@id/LinearLayout6"
+        android:visibility="invisible">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/hum1"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="检测湿度1"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准点1"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit1"
+            android:layout_weight="1">
+        </EditText>
 
-    <!--    </TextView>-->
 
-    <EditText
-        android:id="@+id/edit_s_number"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正值1"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit2"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入证书编号"
-        android:inputType="numberSigned"
-        >
+        android:id="@+id/standard_LinearLayout8"
+        android:layout_below="@id/standard_LinearLayout7"
+        android:visibility="invisible">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/hum2"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="检测湿度2"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准点2"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit3"
+            android:layout_weight="1">
+        </EditText>
 
-    <!--    </TextView>-->
 
-    <EditText
-        android:id="@+id/edit_s_value"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正值2"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit4"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入证书值"
-        android:inputType="text"
-        >
+        android:id="@+id/standard_LinearLayout9"
+        android:layout_below="@id/standard_LinearLayout8"
+        android:visibility="invisible">
 
-    </EditText>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/hum3"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="检测湿度3"-->
-    <!--        android:textSize="20dp"-->
-    <!--        android:layout_marginTop="20dp">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准点3"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit5"
+            android:layout_weight="1">
+        </EditText>
 
-    <!--    </TextView>-->
 
-    <EditText
-        android:id="@+id/edit_s_traceabilityUnit"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正值3"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit6"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入溯源单位"
-        android:inputType="text"
-        >
+        android:id="@+id/standard_LinearLayout10"
+        android:layout_below="@id/standard_LinearLayout9"
+        android:visibility="invisible">
 
-    </EditText>
 
-    <EditText
-        android:id="@+id/edit_s_time"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准点4"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit7"
+            android:layout_weight="1">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正值4"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit8"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入有效期"
-        android:inputType="text"
-        >
-
-    </EditText>
+        android:id="@+id/standard_LinearLayout11"
+        android:layout_below="@id/standard_LinearLayout10"
+        android:visibility="invisible">
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准点5"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit9"
+            android:layout_weight="1">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正值5"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit10"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/standard_LinearLayout12"
+        android:layout_below="@id/standard_LinearLayout11"
+        android:visibility="invisible">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校准点6"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit11"
+            android:layout_weight="1">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正值6"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit12"
+            android:layout_weight="1">
+        </EditText>
+
+
+    </LinearLayout>
 
 
 
-</LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>

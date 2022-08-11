@@ -61,6 +61,29 @@
 
 
 
+
+
+    <TextView
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_templan_points"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="温度点个数">
+    </TextView>
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+
+
+
     <TextView
         android:id="@+id/list_templan_tem1"
         android:layout_width="0dip"
@@ -72,7 +95,8 @@
         android:textColor="#000000"
         android:paddingTop="10dip"
         android:gravity="center"
-        android:text="设定温度1" />
+        android:text="设定温度1"
+        />
     <View
         android:layout_width="1.5dip"
         android:layout_height="fill_parent"
@@ -147,9 +171,92 @@
         android:layout_height="fill_parent"
         android:background="#B4B3B3"/>
 
+    <TextView
+        android:id="@+id/list_templan_tem6"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="设定温度6" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/list_templan_tem7"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="设定温度7" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
+
+    <TextView
+        android:id="@+id/list_templan_tem8"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="设定温度8" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
 
+    <TextView
+        android:id="@+id/list_templan_tem9"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="设定温度9" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
+
+    <TextView
+        android:id="@+id/list_templan_tem10"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:paddingBottom="10dip"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingTop="10dip"
+        android:gravity="center"
+        android:text="设定温度10" />
+    <View
+        android:layout_width="1.5dip"
+        android:layout_height="fill_parent"
+        android:background="#B4B3B3"/>
 
     <TextView
         android:id="@+id/list_templan_isCheck"

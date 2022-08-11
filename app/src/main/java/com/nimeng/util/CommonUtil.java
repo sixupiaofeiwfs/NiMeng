@@ -1,14 +1,13 @@
-package com.nimeng.View;
+package com.nimeng.util;
 
 import android.Manifest;
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
@@ -24,17 +23,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.nimeng.Adapter.StandardApparatusAdapter;
-import com.nimeng.Presenter.IBasePresenter;
+import com.nimeng.View.BaseAvtivity;
+import com.nimeng.View.R;
 import com.nimeng.bean.GlobalVariable;
-
 import com.nimeng.bean.StandardApparatus;
-import com.nimeng.util.StandardApparatusDBHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,25 +42,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Author: wfs
- * <p>
- * Create: 2022/4/13 14:04
- * <p>
- * Changes (from 2022/4/13)
- * <p>
- * -----------------------------------------------------------------
- * <p>
- * 2022/4/13 : Create BaseAvtivity.java (wfs);
- * <p>
- * -----------------------------------------------------------------
- */
-public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> implements IBaseView{
+public class CommonUtil extends Activity {
 
+
+    //用于获取存储权限
     private static final int REQUEST_CODE =1024 ;
-    //加载进度框
-    private ProgressDialog mProgressDialog;
 
+    /**
+     *
+     * 用于监测手指滑动
+     */
     //手指上下滑动时的最小速度
     private static final int YSPEED_MIN=1000;
     //手指向右滑动的最小距离
@@ -83,11 +71,6 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     private VelocityTracker velocityTracker;
 
 
-    private String activityName;
-
-
-    public GlobalVariable globalVariable;
-
     public List<StandardApparatus> list;
 
     LinearLayout linearLayout1,linearLayout2,linearLayout3,linearLayout4, linearLayout5,linearLayout6;
@@ -105,78 +88,9 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     private int year,month,day;
 
     private  Intent intent;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: BaseActivity-onCreate");
-        globalVariable=(GlobalVariable) getApplicationContext();
-    }
-
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        createVelocityTracker(ev);
-        switch (ev.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                xDown=ev.getRawX();
-                yDown=ev.getRawY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                xMove=ev.getRawX();
-                yMove=ev.getRawY();
-                //滑动的距离
-                int distanceX=(int)(xMove-xDown);
-                int distanceY=(int)(yMove-yDown);
-                //获取瞬时速度
-                int ySpeed=getScrollVelocity();
-                //关闭activity需要满足一下条件
-                //x轴滑动的距离大于XDISTANCE_MIN
-                //y轴滑动的距离大于YDISTANCE_MIN
-                //y轴上(即上下滑动的速度)<YSPEED_MIN,如果大于,则认为用户意图时上下滑动而非左右滑动
 
 
 
-                if(distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && distanceX>0){
-                   if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this,SettingSwitchActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")){
-                        startActivity(new Intent(this,DataRecordActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity")){
-                        startActivity(new Intent(this, LineChartActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.TemPlanActivity")){
-                       startActivity(new Intent(this,HumPlanActivity.class));
-                   }else if(this.getClass().getName().equals("com.nimeng.View.HumPlanActivity")){
-                       startActivity(new Intent(this,TemPlanActivity.class));
-                   }else if(this.getClass().getName().equals("com.nimeng.View.LineChartActivity")){
-                       intent=new Intent(this,MainActivity.class);
-                       intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                       startActivity(intent);
-                   }
-
-
-
-                }else if (-distanceX>XDISTANCE_MIN && (distanceY<YDISTANCE_MIN && distanceY >-YDISTANCE_MIN) && ySpeed<YSPEED_MIN && -distanceX>0){
-
-                    if(this.getClass().getName().equals("com.nimeng.View.MainActivity")){
-                        startActivity(new Intent(this, LineChartActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.DataRecordActivity") || this.getClass().getName().equals("com.nimeng.View.TemPlanActivity") || this.getClass().getName().equals("com.nimeng.View.HumPlanActivity")){
-                        startActivity(new Intent(this,SettingSwitchActivity.class));
-                    }else if(this.getClass().getName().equals("com.nimeng.View.SettingSwitchActivity")) {
-                        intent=new Intent(this,MainActivity.class);
-                        startActivity(intent);
-                    }
-
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                recycleVelocityTracker();
-                break;
-            default:
-                break;
-
-        }
-        return super.dispatchTouchEvent(ev);
-    }
 
     //创建VelocityTracker对象,并将触摸界面的滑动事件添加到VelocityTracker中
     private void createVelocityTracker(MotionEvent event){
@@ -196,36 +110,6 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
         int velocity=(int)velocityTracker.getYVelocity();
         return Math.abs(velocity);
     }
-
-
-
-
-    @Override
-    public void showLoading(){
-
-    }
-
-    @Override
-    public void hideLoading(){
-
-    }
-
-    @Override
-    public void showToast(String msg){
-
-    }
-
-    @Override
-    public P onBindPresenter() {
-        return null;
-    }
-
-    @Override
-    public void onDestroy(){
-        hideLoading();
-        super.onDestroy();
-    }
-
 
 
     // 获取存储权限
@@ -268,7 +152,7 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     }
 
 
-    public  int  checkTime() {
+    public  int  checkTime(GlobalVariable globalVariable) {
 
 
         Date newDate=new Date();
@@ -308,8 +192,8 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
         int minute=c.get(Calendar.MINUTE);
         int second=c.get(Calendar.SECOND);
 
-       String time=year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
-       return time;
+        String time=year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+        return time;
     }
 
 
@@ -324,13 +208,8 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     }
 
 
-    public String getDateTimeToString(Date date){
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time=simpleDateFormat.format(date);
-        return time;
-    }
 
-    public void deleteData(String tableName, StandardApparatusDBHelper standardApparatusDBHelper, StandardApparatusAdapter standardApparatusAdapter,Context context, int position,ListView listView){
+    public void deleteData(GlobalVariable globalVariable,String tableName, StandardApparatusDBHelper standardApparatusDBHelper, StandardApparatusAdapter standardApparatusAdapter, Context context, int position, ListView listView){
 
         AlertDialog.Builder builder=new AlertDialog.Builder(context);
         builder.setTitle("提示")
@@ -342,13 +221,13 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
                         int deleteID= standardApparatus1.getID();
 
                         if(deleteID==globalVariable.getHumStandardID()){
-                            showToast("当前标准器正在使用，不能删除");
+                            showToast(context,"当前标准器正在使用，不能删除");
                         }else{
                             if(standardApparatusDBHelper.delete(tableName,deleteID)){
                                 updateListView(standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
-                                showToast("删除成功");
+                                showToast(context,"删除成功");
                             }else{
-                                showToast("删除失败");
+                                showToast(context,"删除失败");
                             }
                         }
 
@@ -369,7 +248,7 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
 
     public void updateListView(StandardApparatusDBHelper standardApparatusDBHelper,String tableName,StandardApparatusAdapter standardApparatusAdapter, ListView listView){
-        List<StandardApparatus>  list=standardApparatusDBHelper.query(tableName);
+        List<StandardApparatus> list=standardApparatusDBHelper.query(tableName);
         standardApparatusAdapter.setList(list);
         listView.setAdapter(standardApparatusAdapter);
     }
@@ -377,7 +256,7 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
     public void addData(Context context,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,StandardApparatusAdapter standardApparatusAdapter,ListView listView){
         AlertDialog.Builder builder=new AlertDialog.Builder(context);
-        View dialogView =View.inflate(context,R.layout.standardapparatus_edit,null);
+        View dialogView =View.inflate(context, R.layout.standardapparatus_edit,null);
 
         btn1=dialogView.findViewById(R.id.btn_1);
         datePicker=dialogView.findViewById(R.id.datepick1);
@@ -472,17 +351,17 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
         day=calendar.get(Calendar.DAY_OF_MONTH);
 
 
-       datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
-           @Override
-           public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-               BaseAvtivity.this.year=i;
-               BaseAvtivity.this.month=i1;
-               BaseAvtivity.this.day=i2;
-               editTime.setText(i+"-"+(i1+1)+"-"+i2);
-               datePicker.setVisibility(View.GONE);
-               editTime.setVisibility(View.VISIBLE);
-           }
-       });
+        datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                CommonUtil.this.year=i;
+                CommonUtil.this.month=i1;
+                CommonUtil.this.day=i2;
+                editTime.setText(i+"-"+(i1+1)+"-"+i2);
+                datePicker.setVisibility(View.GONE);
+                editTime.setVisibility(View.VISIBLE);
+            }
+        });
 
 
 
@@ -525,27 +404,27 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
                 if(name.equals("")){
                     Log.d("这里的name不是空格吗", "onClick: ");
-                    showToast("标准器名称不能为空");
+                    showToast(context,"标准器名称不能为空");
                     return;
                 }
 
 
 
                 if(editPort.getText().toString().equals("")){
-                    showToast("通讯串口不能为空");
+                    showToast(context,"通讯串口不能为空");
                     return;
                 }
 
                 int port=Integer.valueOf(editPort.getText().toString());
 
                 if(editFormat.getText().toString().equals("")){
-                    showToast("通讯格式不能为空");
+                    showToast(context,"通讯格式不能为空");
                     return;
                 }
 
 
                 if(editRate.getText().toString().equals("")){
-                    showToast("通讯速率不能为空");
+                    showToast(context,"通讯速率不能为空");
                     return;
                 }
                 int rate=Integer.valueOf(editRate.getText().toString());
@@ -639,14 +518,14 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
 
                     if(standardApparatusDBHelper.add(standardApparatus,tableName)){
                         Log.d("添加成功", "onClick: ");
-                        showToast("添加成功");
+                        showToast(context,"添加成功");
                         updateListView(standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
                     }else{
                         Log.d("添加失败", "onClick: ");
-                        showToast("添加失败");
+                        showToast(context,"添加失败");
                     }
                 }else{
-                    showToast("该方案已经存在");
+                    showToast(context,"该方案已经存在");
                 }
 
 
@@ -664,7 +543,7 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
     }
 
 
-    public void updateCheck(Context context,StandardApparatusAdapter standardApparatusAdapter ,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,int position,ListView listView){
+    public void updateCheck(GlobalVariable globalVariable,Context context,StandardApparatusAdapter standardApparatusAdapter ,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,int position,ListView listView){
 
 
         StandardApparatus standardApparatus=(StandardApparatus) standardApparatusAdapter.getItem(position);
@@ -712,5 +591,23 @@ public class BaseAvtivity <P extends IBasePresenter> extends BaseXActivity<P> im
         }
         return date;
     }
+
+    public void showToast(Context context,String msg){
+        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    public String getDateTimeToString(Date date){
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String time=simpleDateFormat.format(date);
+        return time;
+    }
+
+
+
+    //读温度功率
+
+
+
+
 
 }

@@ -1,18 +1,29 @@
 package com.nimeng.View;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +42,7 @@ import com.nimeng.flash.FlashView;
 import com.nimeng.flash.VirtualBarUtil;
 import com.nimeng.util.DataRecordDBHelper;
 import com.nimeng.util.HumPlanDBHelper;
+import com.nimeng.util.ModbusUtil;
 import com.nimeng.util.TemPlanDBHelper;
 
 import java.math.BigDecimal;
@@ -51,10 +63,10 @@ public class MainActivity extends BaseAvtivity  {
 
     private FlashView mTemView;
     private FlashView mHumView;
-//    private Button btn_tem;
-//    private Button btn_hum;
-    private String tem;
-    private String hum;
+    private Button btn_tem;
+    private Button btn_hum;
+
+    private String tem,hum;
 
     private final String TAG="MainActivity";
 
@@ -68,38 +80,44 @@ public class MainActivity extends BaseAvtivity  {
 
     int errorNumber;
     int excutingNumber;
-    private TextView textView1,textView2,textView3,textView4,textView5,textView6,textView7,textView8,textView9,textView10;
+    AlarmManager alarmManager;
 
+    private ImageView imageView1,imageViewLogo;
+    public final String LIGHTONACTION="android.intent.action.LIGHTON";
 
-
-
-
-    @Override
-    public  void onDestroy() {
-        super.onDestroy();
-    }
+    private ModbusUtil modbusUtil=new ModbusUtil();
+    public float temPower,humPower;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         globalVariable=(GlobalVariable)getApplicationContext();
+
+
+        alarmManager=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+
         //判断是否分期
         if(globalVariable.isInstallmentPayment()){
             //获取一共分了几期
             int numberOfStages= globalVariable.getNumberOfStages();
             //当前时间处在第几期
-
-            //模拟第一期
              excutingNumber=checkTime();
+            System.out.println("main---》当前处于第"+excutingNumber+"期");
+
             //获取当前是否已经匹配密码
+            System.out.println("判断当前是否已经匹配密码"+globalVariable.getMatchs().get(excutingNumber-1));
             if(!globalVariable.getMatchs().get(excutingNumber-1)){
                 //获取已经错误的次数
                 errorNumber=globalVariable.getErrorNumbers().get(excutingNumber-1);
+                System.out.println("当前已经错误的次数"+errorNumber);
                 if(errorNumber>=3){
                     Toast.makeText(this,"警告！密码连续输错超过三次，系统已停止",Toast.LENGTH_SHORT).show();
                    System.exit(0);
+                   return;
                 }
+
 
                 intent1=new Intent(MainActivity.this,PasswordActivity.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -122,9 +140,115 @@ public class MainActivity extends BaseAvtivity  {
         setContentView(R.layout.activity_main);
         mTemView=findViewById(R.id.wd);
         mHumView=findViewById(R.id.sd);
+        //长按改变设定值
+        mTemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                View view1=View.inflate(MainActivity.this,R.layout.setview_edit,null);
+                EditText editText=view1.findViewById(R.id.setview_edit);
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("请输入温度设定值")
+                        .setView(view1)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /**
+                                 * 模拟设定值
+                                 */
+                                mTemView.setValue(Float.valueOf(editText.getText().toString()),"tem");
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+                return true;
+            }
+        });
+        mHumView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                View view1=View.inflate(MainActivity.this,R.layout.setview_edit,null);
+                EditText editText=view1.findViewById(R.id.setview_edit);
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("请输入湿度设定值")
+                        .setView(view1)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /**
+                                 * 模拟设定值
+                                 */
+                                mHumView.setValue(Float.valueOf(editText.getText().toString()),"hum");
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+                return true;
+            }
+        });
 
-//        btn_tem=findViewById(R.id.but_tem);
-//        btn_hum=findViewById(R.id.but_hum);
+
+
+
+        if(temPower==0){
+            temPower=300;
+        }if(humPower==0){
+            humPower=200;
+        }
+
+        //点击展示数据
+        mTemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View view1=View.inflate(MainActivity.this,R.layout.maindatashow,null);
+                TextView textView1=view1.findViewById(R.id.temP);
+                textView1.setText(String.valueOf(temPower));
+                TextView textView2=view1.findViewById(R.id.humP);
+                textView2.setText(String.valueOf(humPower));
+
+
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("详细数据：")
+                        .setView(view1);
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+            }
+        });
+        mHumView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View view1=View.inflate(MainActivity.this,R.layout.maindatashow,null);
+                TextView textView1=view1.findViewById(R.id.temP);
+                textView1.setText(String.valueOf(temPower));
+                TextView textView2=view1.findViewById(R.id.humP);
+                textView2.setText(String.valueOf(humPower));
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("详细数据：")
+                        .setView(view1);
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+            }
+        });
+
+
+        //删除7天前的数据
+        DataRecordDBHelper dataRecordDBHelper=new DataRecordDBHelper(MainActivity.this,"NIMENG.db",null,1);
+        dataRecordDBHelper.delete7DaysData();
+
+
+
+
 
         //获取文件读写权限
         onPermission(globalVariable);
@@ -133,215 +257,211 @@ public class MainActivity extends BaseAvtivity  {
         humPlanDBHelper=new HumPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
 
 
+
+        //设置下拉框显示内容
+        Spinner spinner1=(Spinner) findViewById(R.id.main_spinner1);
+        Spinner spinner2=(Spinner)findViewById(R.id.main_spinner2);
+        ArrayAdapter<String> adapter1=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,globalVariable.getTemPlanList());
+        ArrayAdapter<String> adapter2=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,globalVariable.getHumPlanList());
+        adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        adapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner1.setAdapter(adapter1);
+        spinner2.setAdapter(adapter2);
+
+
+        //温湿度启动\停止按钮
+        btn_tem=findViewById(R.id.mian_btn1);
+        btn_hum=findViewById(R.id.mian_btn2);
+        btn_tem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long temIsCheck=spinner1.getSelectedItemId();
+
+                System.out.println("温度选择--->"+temIsCheck);
+
+                if(temIsCheck==0){
+//                    globalVariable.setHumID(1001);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案一（不设置）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案一（不设置）");
+                }else if(temIsCheck==1){
+//                    globalVariable.setHumID(1002);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案二（40%）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案二（20℃-40℃-60-80℃）");
+                }else if(temIsCheck==2){
+//                    globalVariable.setHumID(1003);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案三（15℃-20℃-40℃-60℃-80℃）");
+                }else if(temIsCheck==3){
+//                    globalVariable.setHumID(1004);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案四（15℃-20℃-40-℃-60℃-80℃-90℃）");
+                }else{
+                    System.out.println(globalVariable.getTemPlanList().get(Integer.valueOf(String.valueOf(temIsCheck))));
+                }
+            }
+        });
+        btn_hum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                long humIsCheck=spinner1.getSelectedItemId();
+                if(humIsCheck==0){
+//                    globalVariable.setHumID(1001);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案一（不设置）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案一（不设置）");
+                }else if(humIsCheck==1){
+//                    globalVariable.setHumID(1002);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案二（40%）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案二（40%）");
+                }else if(humIsCheck==2){
+//                    globalVariable.setHumID(1003);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案三（20%-40%-60%-80%）");
+                }else if(humIsCheck==3){
+//                    globalVariable.setHumID(1004);
+//                    globalVariable.setStartTime(new Date());
+//                    globalVariable.setHumUnitTime(10);
+//                    globalVariable.setHumWave(0.6f);
+//                    globalVariable.setStable(false);
+//                    globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
+//                    globalVariable.setExecutingHumID(1);
+//                    globalVariable.setHumIsSystem(true);
+                    showToast("已选择方案四（20%-40%-60%-80%-90%）");
+                }
+            }
+        });
+
+
+
+        /**
+         * 获取运行值
+          */
      //init("/dev/ttyS0");
 
 
-        textView1=findViewById(R.id.main_text1);
-        textView2=findViewById(R.id.main_text2);
-        textView3=findViewById(R.id.main_text3);
-        textView4=findViewById(R.id.main_text4);
-        textView5=findViewById(R.id.main_text5);
-        textView6=findViewById(R.id.main_text6);
-        textView7=findViewById(R.id.main_text7);
-        textView8=findViewById(R.id.main_text8);
-        textView9=findViewById(R.id.main_text9);
-        textView10=findViewById(R.id.main_text10);
 
-        showOrHide();
+        /**
+         * 模拟运行值
+         */
+        mHumView.setProgress(39.99f,"hum");
+        mTemView.setProgress(29.90f,"tem");
 
 
-        mTemView.setOnClickListener(new View.OnClickListener() {
+
+
+        //灯控开关
+        imageView1=findViewById(R.id.main_light);
+        String light= getIntent().getStringExtra("light");
+        System.out.println("light-----------"+light);
+
+        if(light==null){
+            if(globalVariable.isSwitch_7()){
+                imageView1.setImageResource(R.drawable.lighton);
+            }else{
+                imageView1.setImageResource(R.drawable.lightoff);
+            }
+        }else{
+            if(light.equals("0")){
+                imageView1.setImageResource(R.drawable.lightoff);
+            }else{
+                if(globalVariable.isSwitch_7()){
+                    imageView1.setImageResource(R.drawable.lighton);
+                }else{
+                    imageView1.setImageResource(R.drawable.lightoff);
+                }
+            }
+
+        }
+
+
+        imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               temSetting();
+                if(globalVariable.isSwitch_7()){//开-----》关
+                    globalVariable.setSwitch_7(false);
+                    imageView1.setImageResource(R.drawable.lightoff);
+                    setLightOn(true);
+
+
+                }else{//关-----》开
+                    globalVariable.setSwitch_7(true);
+                    imageView1.setImageResource(R.drawable.lighton);
+                    globalVariable.setLightStartTime(new Date());
+                    setLightOn(false);
+
+
+                }
             }
         });
 
-        mHumView.setOnClickListener(new View.OnClickListener() {
+
+        //logo控制模拟报警
+        imageViewLogo=findViewById(R.id.main_logo);
+        imageViewLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                humSetting();
+                View view1=View.inflate(MainActivity.this,R.layout.warning,null);
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("警告！！！")
+                        .setView(view1);
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
             }
         });
-
-
-
-//     btn_tem.setOnClickListener(new View.OnClickListener() {
-//         @Override
-//         public void onClick(View view) {
-//             temSetting();
-//         }
-//     });
-//
-//
-//
-//    btn_hum.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            humSetting();
-//        }
-//    });
-
-
 
     }
 
 
 
-    //温度设置
-    private void temSetting() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("请选择启动方式");
-        final Map<String, String> map = new LinkedHashMap<>(4);
-        map.put("方案一（20℃-40℃-60℃-80℃）", "第一个");
-        map.put("方案二（15℃-20℃-40℃-60℃-80℃）", "第二个");
-        map.put("方案三（15℃-20℃-40℃-60℃-80℃-90℃）", "第三个");
-        map.put("自定义","第四个");
 
-        final String[] keysTemp = new String[4];
-        final String[] keys = map.keySet().toArray(keysTemp);
-
-
-
-
-        builder.setItems(keys, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                if(which==0){
-                            globalVariable.setTemID(991);
-                            globalVariable.setStartTime(new Date());
-                            globalVariable.setTemUnitTime(10);
-                            globalVariable.setTemWave(0.03f);
-                            globalVariable.setStable(false);
-                            globalVariable.setTemPlanName("方案一（20℃-40℃-60℃-80℃）");
-                            globalVariable.setExecutingTemID(1);
-                            globalVariable.setTemIsSystem(true);
-
-                            showToast("已选择方案一（20℃-40℃-60℃-80℃）");
-
-
-
-
-                }else if(which==1){
-                            globalVariable.setTemID(992);
-
-                            globalVariable.setStartTime(new Date());
-                            globalVariable.setTemUnitTime(10);
-                            globalVariable.setTemWave(0.03f);
-                            globalVariable.setStable(false);
-                            globalVariable.setTemPlanName("方案二（15℃-20℃-40℃-60℃-80℃）");
-                            globalVariable.setExecutingTemID(1);
-                            globalVariable.setTemIsSystem(true);
-                            showToast("已选择方案二（15℃-20℃-40℃-60℃-80℃）");
-                }else if(which==2){
-                            globalVariable.setTemID(993);
-
-                            globalVariable.setStartTime(new Date());
-                            globalVariable.setTemUnitTime(10);
-                            globalVariable.setTemWave(0.03f);
-                            globalVariable.setStable(false);
-                            globalVariable.setTemPlanName("方案三（15℃-20℃-40℃-60℃-80℃-90℃）");
-                            globalVariable.setExecutingTemID(1);
-                            globalVariable.setTemIsSystem(true);
-                            showToast("已选择方案三（15℃-20℃-40℃-60℃-80℃-90℃）");
-                }else{
-
-                    Intent intent=new Intent(MainActivity.this,TemPlanActivity.class);
-                    startActivity(intent);
-                }
-
-
-            }
-        });
-        builder.show();
-    }
-
-
-
-
-    //湿度设置
-    private void humSetting() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("请选择启动方式");
-        final Map<String, String> map = new LinkedHashMap<>(5);
-        map.put("方案一（不设置）", "第一个");
-        map.put("方案二（40%）", "第二个");
-        map.put("方案三（20%-40%-60%-80%）", "第三个");
-        map.put("方案四（20%-40%-60%-80%-90%）", "第四个");
-        map.put("自定义","第五个");
-
-        final String[] keysTemp = new String[5];
-        final String[] keys = map.keySet().toArray(keysTemp);
-
-
-
-
-        builder.setItems(keys, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                if(which==0){
-                    globalVariable.setHumID(1001);
-                    globalVariable.setStartTime(new Date());
-                    globalVariable.setHumUnitTime(10);
-                    globalVariable.setHumWave(0.6f);
-                    globalVariable.setStable(false);
-                    globalVariable.setHumPlanName("方案一（不设置）");
-                    globalVariable.setExecutingHumID(1);
-                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案一（不设置）");
-                }else if(which==1){
-                    globalVariable.setHumID(1002);
-                    globalVariable.setStartTime(new Date());
-                    globalVariable.setHumUnitTime(10);
-                    globalVariable.setHumWave(0.6f);
-                    globalVariable.setStable(false);
-                    globalVariable.setHumPlanName("方案二（40%）");
-                    globalVariable.setExecutingHumID(1);
-                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案二（40%）");
-                }else if(which==2){
-                    globalVariable.setHumID(1003);
-                    globalVariable.setStartTime(new Date());
-                    globalVariable.setHumUnitTime(10);
-                    globalVariable.setHumWave(0.6f);
-                    globalVariable.setStable(false);
-                    globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
-                    globalVariable.setExecutingHumID(1);
-                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案三（20%-40%-60%-80%）");
-                }else if(which==3){
-                    globalVariable.setHumID(1004);
-                    globalVariable.setStartTime(new Date());
-                    globalVariable.setHumUnitTime(10);
-                    globalVariable.setHumWave(0.6f);
-                    globalVariable.setStable(false);
-                    globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
-                    globalVariable.setExecutingHumID(1);
-                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案四（20%-40%-60%-80%-90%）");
-                }else{
-                    Intent intent=new Intent(MainActivity.this,HumPlanActivity.class);
-                    startActivity(intent);
-                }
-
-
-            }
-        });
-        builder.show();
-    }
-
-
-
+    //读运行值
     private void init(final String address) {
         SerialPortParams build = new SerialPortParams.Builder().serialPortPath(address).build();
-
-        Log.d(TAG, "init: "+build.getSerialPortPath()+" "+build.getSerialPortParity());
-
         final SerialClient serialClient = SerialUtils.getInstance().getSerialClient(address);
 
-        Log.d(TAG, "init: "+serialClient);
+
 
 
 
@@ -457,6 +577,12 @@ public class MainActivity extends BaseAvtivity  {
                             Log.d(TAG, "onFailed22222222: "+str);
                         }
                     }));
+
+
+                    humPower=modbusUtil.getHumPower();
+                    temPower=modbusUtil.getTemPower();
+
+
                 }
             }
         }).start();
@@ -466,7 +592,7 @@ public class MainActivity extends BaseAvtivity  {
     }
 
 
-
+    //十六进制转浮点型
     private  float  sixteentofloat(String s,int code){
 
         float result=0;
@@ -605,7 +731,7 @@ public class MainActivity extends BaseAvtivity  {
 
 
 
-
+//获取正在执行的温度点和下一个温度点
     private List<Float> getExecutingTemAndNextTem(){
 
         boolean temIsSystem=globalVariable.isTemIsSystem();
@@ -707,6 +833,7 @@ public class MainActivity extends BaseAvtivity  {
 
     }
 
+    //获取正在执行的湿度点和下一个湿度点
     private List<Float>  getExecutingHumAndNextHum(){
         boolean humIsSystem= globalVariable.isHumIsSystem();
         int executingHumID=globalVariable.getExecutingHumID();
@@ -791,27 +918,25 @@ public class MainActivity extends BaseAvtivity  {
     }
 
 
+    //灯泡开关
+    private void setLightOn(boolean isClose){
+        Date date=new Date();
+        Intent intent=new Intent(LIGHTONACTION);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(this,0,intent,1);
 
-
-    private void showOrHide(){
-        if(globalVariable.isSwitch_1()){
-            textView10.setVisibility(View.VISIBLE);
-            textView5.setVisibility(View.VISIBLE);
-            textView9.setVisibility(View.VISIBLE);
-            textView4.setVisibility(View.VISIBLE);
-            textView8.setVisibility(View.VISIBLE);
-            textView3.setVisibility(View.VISIBLE);
+        if(isClose){
+            alarmManager.cancel(pendingIntent);
+        }else{
+            System.out.println("进入定时事件===="+globalVariable.getLightKeepSecond()*1000);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(globalVariable.getLightKeepSecond()*1000),pendingIntent);
         }
 
-        if(globalVariable.isSwitch_2()){
-            textView9.setVisibility(View.VISIBLE);
-            textView4.setVisibility(View.VISIBLE);
-            textView7.setVisibility(View.VISIBLE);
-            textView2.setVisibility(View.VISIBLE);
-            textView6.setVisibility(View.VISIBLE);
-            textView1.setVisibility(View.VISIBLE);
-        }
+
     }
+
+
+
+
 
 
 

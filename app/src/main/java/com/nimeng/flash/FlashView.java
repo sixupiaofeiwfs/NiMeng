@@ -60,19 +60,30 @@ public class FlashView extends View {
     private boolean isStop=false;
     //视图背景色
     private int backGroundColor= Color.parseColor("#ffffff");
-    //进度值
+    //温湿度实时运行值
     private String progress="";
 
+    //温湿度设定值
+    private String value="";
 
     private Rect rect=new Rect();
 
     private Paint paint=new Paint();
 
+    //设置温湿度运行值显示的style
     private TextPaint textPaint=new TextPaint();
+    //设置温湿度设定值显示的style
+    private TextPaint textPaint1=new TextPaint();
 
+
+
+    //温湿度运行值画笔
     private TextPaint HumTextPaint=new TextPaint();
     private TextPaint TemTextPaint=new TextPaint();//新
 
+    //温湿度设定值画笔
+    private TextPaint humSetTextPaint=new TextPaint();
+    private TextPaint temSetTextPaint=new TextPaint();
 
 
     private int[]colorArr={
@@ -102,7 +113,7 @@ public class FlashView extends View {
     //圆环片段数量
     private int segmentCount=6;
     //圆环的半径
-    private float circularRadius=100;
+    private float circularRadius=180;
 
 
     //发射器
@@ -174,6 +185,7 @@ public class FlashView extends View {
                 //发射器
                 emitterCenterX = getWidth() / 2;
 
+
                 emitterCentery = (float) (getHeight() + DegreeUtil.getCosSideLength(emitterRadius, midRad)); // todo有问题
                 bubbleEmitter = new BubbleEmitter.EmitterBuilder()
                         .setColor(color)
@@ -195,7 +207,7 @@ public class FlashView extends View {
                         .setMinOffset(minOffset)
                         .setSegmentCount(segmentCount)
                         .setCircularCenterX(getWidth() / 2)
-                        .setCircularCenterY(getHeight() / 2)
+                        .setCircularCenterY(getHeight() / 3)
                         .setCircularRadius(circularRadius)
                         .build();
                 circularSegments.generateCircular();
@@ -213,7 +225,7 @@ public class FlashView extends View {
                         .setMaxBubbleSpeedY(maxBubbleSpeedY)
                         .setMaxBubbleCount(maxBubbleCount)
                         .setCircularCenterX(getWidth() / 2)
-                        .setCircularCenterY(getHeight() / 2)
+                        .setCircularCenterY(getHeight() / 3)
                         .setCircularRadius(circularRadius)
                         .setEmitterCenterX(emitterCenterX)
                         .setEmitterCenterY(emitterCentery)
@@ -233,11 +245,24 @@ public class FlashView extends View {
         textPaint.setAntiAlias(true);
         textPaint.setDither(true);
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setTextSize(TypeValueUtil.sp2px(context, 35));
+        textPaint.setTextSize(TypeValueUtil.sp2px(context, 100));
         textPaint.setStrokeWidth(3);
         textPaint.getTextBounds(progress + "%", 0, (progress + "%").length(), rect);
-
         textPaint.setTextAlign(Paint.Align.CENTER);
+
+
+
+
+        textPaint1.setAntiAlias(true);
+        textPaint1.setDither(true);
+        textPaint1.setStyle(Paint.Style.FILL);
+        textPaint1.setTextSize(TypeValueUtil.sp2px(context,40));
+        textPaint1.getTextBounds(value+"%",0,(value+"%").length(),rect);
+        textPaint1.setTextAlign(Paint.Align.CENTER);
+
+
+
+
 
 
         executor = new ThreadPoolExecutor(3, 5, 15,
@@ -255,8 +280,10 @@ public class FlashView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //绘制进度
+        //绘制温湿度实时值
         drawProgress(canvas);
+        //绘制温湿度设定值
+        drawSetValue(canvas);
         //绘制圆环
         if (circularSegments != null) {
             circularSegments.drawSegments(canvas, paint);
@@ -272,17 +299,22 @@ public class FlashView extends View {
     }
 
     /**
-     * 绘制进度
+     * 绘制温湿度运行值
      *
      * @param canvas
      */
     private void drawProgress(Canvas canvas) {
-
-
+        //调整温湿度实时值的显示位置
         float x = getWidth() / 2 - rect.width() / 2;
-        float y = getHeight() / 2 + rect.height() / 2;
-
+        float y = getHeight() / 3 + rect.height() / 3;
         canvas.drawText(String.valueOf( progress), x, y, textPaint);
+    }
+
+    //绘制温湿度设定值
+    private void drawSetValue(Canvas canvas){
+        float x = getWidth() / 2 - rect.width() / 2;
+        float y = getHeight()/3 +100;
+        canvas.drawText(String.valueOf( value), x, y, textPaint1);
     }
 
     private Runnable mBubbleRunnable = new Runnable() {
@@ -309,7 +341,7 @@ public class FlashView extends View {
     };
 
     /**
-     * 设置进度
+     * 设置温湿度运行值的数值以及颜色
      *
      * @param percent
      */
@@ -321,18 +353,11 @@ public class FlashView extends View {
             this.progress="  "+percent+"%";
         }
 
-
-
-
-
         if(type.equals("tem")){
             TemTextPaint.getTextBounds( progress, 0, progress.length(), rect);
         }else{
             HumTextPaint.getTextBounds(progress,0,progress.length(),rect);
         }
-
-
-
 
         if (percent <= 10) {
             changeColor(colorArr[0]);
@@ -345,6 +370,34 @@ public class FlashView extends View {
             textPaint.setColor(Color.RED);
         }
     }
+
+
+    /**
+     * 设置设定温度和设定湿度的数值以及颜色
+     */
+    public void setValue(float setValue,String type){
+        if(type=="tem"){
+            this.value="   SV  "+setValue+"℃";
+        }else{
+            this.value="   SV  "+setValue+"%";
+        }
+
+        if(type.equals("tem")){
+            temSetTextPaint.getTextBounds(value,0,value.length(),rect);
+            textPaint1.setColor(Color.BLUE);
+        }else{
+            humSetTextPaint.getTextBounds(value,0,value.length(),rect);
+            textPaint1.setColor(Color.RED);
+        }
+
+
+
+    }
+
+
+
+
+
 
     /**
      * 改变颜色

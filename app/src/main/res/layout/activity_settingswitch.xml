@@ -313,6 +313,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/settingswitch_textview3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/settingswitch_bt12"

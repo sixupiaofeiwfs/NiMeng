@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.nimeng.View.CurveActivity;
 import com.nimeng.bean.DataRecodeBean;
+import com.nimeng.bean.GlobalVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class DataRecordDBHelper extends BaseUtil {
     private SQLiteDatabase db;
     ContentValues contentValues=new ContentValues();
     public static final String TABLENAME="data";
+    Random random=new Random();
 
 
     public DataRecordDBHelper(@NonNull Context context, @Nullable String name,@Nullable SQLiteDatabase.CursorFactory factory,int version){
@@ -198,14 +200,48 @@ public class DataRecordDBHelper extends BaseUtil {
     }
 
 
+    //根据时间查询实时温度与实时湿度
+    public DataRecodeBean queryByTime(String time){
+
+        DataRecodeBean dataRecodeBean=new DataRecodeBean();
+        if(!tableIsExist(TABLENAME)){
+                dataRecodeBean.setRealtimeTem(random.nextFloat()*100);
+                dataRecodeBean.setRealtimeHum(random.nextFloat()*100);
+        }else{
+            Cursor result=db.query(TABLENAME,null,"time=?",new String[]{time},null,null,null,null);
+            if(result.getCount()==1){
+                result.moveToFirst();
+                dataRecodeBean.setRealtimeTem(result.getFloat(3));
+                dataRecodeBean.setRealtimeHum(result.getFloat(5));
+
+            }else{
+                dataRecodeBean.setRealtimeTem(random.nextFloat()*100);
+                dataRecodeBean.setRealtimeHum(random.nextFloat()*100);
+            }
+        }
+
+        return dataRecodeBean;
+    }
+
 
     //根据id查询温度湿度
     public float queryByID(int id,String columnName){
         DataRecodeBean dataRecodeBean=new DataRecodeBean();
         Random random=new Random();
 
+
+
+
         if(!tableIsExist(TABLENAME)){
-            return random.nextInt(100);
+
+
+
+            if(columnName.equals("tem")){
+                return random.nextInt(20);
+            }else{
+                return random.nextInt(100);
+            }
+
         }
 
         Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
@@ -220,7 +256,11 @@ public class DataRecordDBHelper extends BaseUtil {
                 return 0;
             }
         }else {
-            return random.nextInt(100);
+            if(columnName.equals("tem")){
+                return random.nextInt(20);
+            }else{
+                return random.nextInt(100);
+            }
         }
 
 
@@ -309,6 +349,20 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
 
+
+
+//删除7天前的数据
+    public void delete7DaysData(){
+        if(!tableIsExist(TABLENAME)){
+            return;
+        }
+
+        String sql="delete from "+TABLENAME+" where date('now','-7 day')>= date(time)";
+
+        db.execSQL(sql);
+        return;
+
+    }
 
 
 

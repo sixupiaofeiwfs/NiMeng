@@ -105,18 +105,16 @@
         </activity>
 
 
-
-
-
         <activity
             android:name=".LineChartActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
+
 
 
         <activity
@@ -174,6 +172,53 @@
             android:name=".HumStandardApparatusActivity"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name=".TemPlanEditActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".HumPlanEditActivity"
+            android:exported="true">
+        </activity>
+
+
+        <receiver android:name="com.nimeng.receiver.TemStartReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.TEMSTART"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.nimeng.receiver.TemEndReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.TEMEND"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.nimeng.receiver.HumStartReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.HUMSTART"/>
+            </intent-filter>
+        </receiver>
+
+
+        <receiver android:name="com.nimeng.receiver.HumEndReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.HUMEND"/>
+            </intent-filter>
+        </receiver>
+
+
+        <receiver android:name="com.nimeng.receiver.LightOnReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.LIGHTON"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

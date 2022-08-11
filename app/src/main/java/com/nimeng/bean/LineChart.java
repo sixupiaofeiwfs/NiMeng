@@ -86,7 +86,7 @@ public class LineChart
         mMltRenderer.setLabelsColor(labelsColor);// 设置标签(刻度值）颜色
         mMltRenderer.setShowGrid(true);// 显示网格
         mMltRenderer.setGridColor(Color.LTGRAY);// 设置网格颜色
-        mMltRenderer.setXLabels(30);// 设置X轴的标签数（有几个刻度）
+        mMltRenderer.setXLabels(10);// 设置X轴的标签数（有几个刻度）
         mMltRenderer.setXLabelsPadding(1);//设置X轴标签的间距
         mMltRenderer.setYLabels(18);// 设置Y轴的标签数
         mMltRenderer.setYLabelsAlign(Paint.Align.LEFT);// 设置Y轴标签的方向
@@ -94,7 +94,7 @@ public class LineChart
         mMltRenderer.setShowLegend(true);// 下面的 图例标注，如圆点的蓝色的折线是X轴...
         mMltRenderer.setZoomButtonsVisible(false);// 隐藏放大缩小按钮
         mMltRenderer.setZoomEnabled(true, true);// 设置缩放,这边是横向可以缩放,竖向不能缩放
-        mMltRenderer.setPanEnabled(true, false);// 设置滑动,这边是横向可以滑动,竖向不可滑动
+        mMltRenderer.setPanEnabled(true, true);// 设置滑动,这边是横向可以滑动,竖向不可滑动
 
         mMltRenderer.setAxisTitleTextSize(20);//设置坐标轴标题的大小
         mMltRenderer.setLabelsTextSize(20);//设置坐标轴数字的大小

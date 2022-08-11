@@ -1,99 +1,432 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
-    android:paddingBottom="20dp"
-    android:orientation="vertical"
+    android:gravity="center_horizontal"
     >
 
 
-    <EditText
-        android:id="@+id/edit_templan_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入方案名称"
-        android:inputType="text"/>
-
-
-    <EditText
-        android:id="@+id/edit_templan_unitTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入单位时间"
-        android:inputType="number"
+        android:id="@+id/LinearLayout1"
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         >
 
-    </EditText>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="方案名称"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="9"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/edit_templan_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_weight="3"
+            />
 
 
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/edit_templan_temWave"
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入温度波动值"
-        android:inputType="numberDecimal"
-        >
+        android:id="@+id/LinearLayout2"
+        android:layout_below="@id/LinearLayout1">
 
-    </EditText>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="单位时间"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="9"
+            >
+        </TextView>
 
 
+        <EditText
+            android:id="@+id/edit_templan_unitTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_weight="3"
+            >
+
+        </EditText>
+
+    </LinearLayout>
 
 
-
-    <EditText
-        android:id="@+id/edit_templan_tem1"
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入检测温度1"
-        android:inputType="numberDecimal">
+        android:id="@+id/LinearLayout3"
+        android:layout_below="@id/LinearLayout2">
 
-    </EditText>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="温度波动值"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="9">
+        </TextView>
 
 
-    <EditText
-        android:id="@+id/edit_templan_tem2"
+        <EditText
+            android:layout_weight="3"
+            android:id="@+id/edit_templan_temWave"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+        </EditText>
+    </LinearLayout>
+
+
+  <LinearLayout
+      android:layout_marginLeft="300dp"
+      android:layout_marginRight="300dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/LinearLayout4"
+      android:layout_below="@id/LinearLayout3">
+
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="温度点个数"
+          android:textSize="20dp"
+          android:textStyle="bold"
+          android:layout_weight="1">
+      </TextView>
+
+      <Spinner
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/spinner1"
+          android:entries="@array/plan"
+          android:spinnerMode="dropdown"
+          ></Spinner>
+
+  </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入检测温度2"
-        android:inputType="numberDecimal">
+        android:id="@+id/LinearLayout5"
+        android:layout_below="@id/LinearLayout4"
+        android:visibility="gone">
 
-    </EditText>
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点一："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+        </EditText>
+
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点二："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+        </EditText>
 
 
 
-    <EditText
-        android:id="@+id/edit_templan_tem3"
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入检测温度3"
-        android:inputType="numberDecimal">
+        android:id="@+id/LinearLayout6"
+        android:layout_below="@id/LinearLayout5"
+        android:visibility="gone">
 
-    </EditText>
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点三："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+        </EditText>
+
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点四："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+        </EditText>
+
+    </LinearLayout>
 
 
 
-    <EditText
-        android:id="@+id/edit_templan_tem4"
+
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入检测温度4"
-        android:inputType="numberDecimal">
+        android:id="@+id/LinearLayout7"
+        android:layout_below="@id/LinearLayout6"
+        android:visibility="gone">
 
-    </EditText>
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点五："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
 
 
-    <EditText
-        android:id="@+id/edit_templan_tem5"
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+
+
+        <TextView
+            android:id="@+id/text6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点六："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入检测温度5"
-        android:inputType="numberDecimal">
+        android:id="@+id/LinearLayout8"
+        android:layout_below="@id/LinearLayout7"
+        android:visibility="gone">
 
-    </EditText>
+        <TextView
+            android:id="@+id/text7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点七："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+
+        <TextView
+            android:id="@+id/text8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点八："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginRight="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout9"
+        android:layout_below="@id/LinearLayout8"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点九："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/text10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度点十："
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_weight="1">
+        </TextView>
+
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/edit_templan_tem10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+
+    </LinearLayout>
+
+
+
+   <LinearLayout
+       android:layout_marginLeft="300dp"
+       android:layout_marginRight="300dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/LinearLayout10"
+       android:layout_below="@id/LinearLayout9"
+      >
+       <Button
+           android:layout_marginLeft="300dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="取消"
+           android:textSize="20dp"
+           android:id="@+id/btn_false">
+       </Button>
+
+       <Button
+           android:layout_marginLeft="50dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="确定"
+           android:textSize="20dp"
+           android:id="@+id/btn_true">
+       </Button>
+
+   </LinearLayout>
 
 
 
@@ -102,5 +435,4 @@
 
 
 
-
-</LinearLayout>
+</RelativeLayout>

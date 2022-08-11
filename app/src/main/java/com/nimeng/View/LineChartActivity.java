@@ -1,26 +1,26 @@
 package com.nimeng.View;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.nimeng.bean.DataRecodeBean;
 import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.LineChart;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.DataRecordDBHelper;
 
 import org.achartengine.chart.PointStyle;
 
 import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Author: wfs
@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
  * <p>
  * -----------------------------------------------------------------
  */
-public class LineChartActivity extends BaseAvtivity{
+public class LineChartActivity extends Activity {
     private LineChart mLineChart;//直线图类
     private boolean addData_thread_run; // 控制添加折线图数据线程的退出
     private int x_index;// X轴的刻度值
@@ -44,14 +44,65 @@ public class LineChartActivity extends BaseAvtivity{
     private GlobalVariable globalVariable;
     private Button btn1,btn2;
 
+    private CommonUtil commonUtil=new CommonUtil();
 
+    Thread thread1;
 
+    private TextView textViewTem,textViewHum,textViewTemChange,textViewHumChange;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avtivity_linechart);//设置主界面
+
+        textViewTem=findViewById(R.id.textview_realTem);
+        textViewHum=findViewById(R.id.textview_realHum);
+        textViewTemChange=findViewById(R.id.textview_temChange);
+        textViewHumChange=findViewById(R.id.textview_humChange);
+
+
+        globalVariable=(GlobalVariable)getApplicationContext();
+        thread1=new Thread(addData_thread);
+        thread1.start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        System.out.println("onCreate------------------"+ thread1.isAlive());
+        //创建折线图实例 （X轴标题，Y轴标题，X轴的最小值，X轴的最大值，Y轴的最小值,Y轴的最大值，坐标轴的颜色，刻度值的颜色）
+        mLineChart = new LineChart("时间(s)", "温度（℃）/湿度（%）", 0, 600, -20, 100, Color.WHITE, Color.WHITE);
+
+
+
+
+        //设置图表显示页面为本页面
+        mLineChart.setChartViewActivity(this);
+
+
+        //添加2条折线
+        mLineChart.addLineToChart("温度", PointStyle.CIRCLE, Color.RED);//添加折线A
+        mLineChart.addLineToChart("湿度", PointStyle.DIAMOND, Color.BLUE);//添加折线B
+
+
+    };
+
+
+    @Override
+    protected void onStart() {
+
+
 
         btn1=findViewById(R.id.linechart_btn1);
         btn2=findViewById(R.id.linechart_btn2);
@@ -70,16 +121,7 @@ public class LineChartActivity extends BaseAvtivity{
             }
         });
 
-//
-//        ExecutorService executorService= Executors.newSingleThreadExecutor();
-//        executorService.submit(new Thread(addData_thread));
-//        executorService.shutdown();
 
-
-
-        globalVariable=(GlobalVariable)getApplicationContext();
-        //创建折线图实例 （X轴标题，Y轴标题，X轴的最小值，X轴的最大值，Y轴的最小值,Y轴的最大值，坐标轴的颜色，刻度值的颜色）
-        mLineChart = new LineChart("时间(s)", "温度（℃）/湿度（%）", 0, 60, 0, 100, Color.WHITE, Color.WHITE);
 
 
 
@@ -101,30 +143,30 @@ public class LineChartActivity extends BaseAvtivity{
 
 
         random = new Random();
-    };
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+
+        super.onRestart();
+    }
 
     @Override
     protected void onResume() //在本页面onStart()之后设置为绘图所在的页面
     {
         super.onResume();
 
-        //设置图表显示页面为本页面
-        mLineChart.setChartViewActivity(this);
 
 
 
+    }
 
-        //添加2条折线
-        mLineChart.addLineToChart("温度", PointStyle.CIRCLE, Color.RED);//添加折线A
-        mLineChart.addLineToChart("湿度", PointStyle.DIAMOND, Color.BLUE);//添加折线B
-//        mLineChart.addLineToChart("折线C", PointStyle.TRIANGLE, Color.CYAN);//添加折线C
-//        mLineChart.addLineToChart("折线D", PointStyle.SQUARE, Color.YELLOW);//添加折线D
+    @Override
+    protected void onDestroy() {
 
 
-        new Thread(addData_thread).start();
-
-
-
+        super.onDestroy();
     }
 
     // 消息句柄(线程里无法进行界面更新，所以要把消息从线程里发送出来在消息句柄里进行处理)
@@ -137,10 +179,17 @@ public class LineChartActivity extends BaseAvtivity{
             {
                 case 0:
                     //添加数据 (添加折点)
-                    mLineChart.addData("温度", x_index,  dataRecordDBHelper.queryByID(x_index,"tem") );
-                    mLineChart.addData("湿度", x_index,  dataRecordDBHelper.queryByID(x_index,"hum") );
-//                    mLineChart.addData("折线C", x_index, random.nextInt(9000) );
-//                    mLineChart.addData("折线D", x_index, random.nextInt(9000) );
+
+                    DataRecodeBean dataRecodeBean=dataRecordDBHelper.queryByTime(commonUtil.getDateTimeToString(new Date()));
+
+                    textViewTem.setText(String.valueOf(dataRecodeBean.getRealtimeTem()));
+                    textViewHum.setText(String.valueOf(dataRecodeBean.getRealtimeHum()));
+                    textViewTemChange.setText("0.03/min");
+                    textViewHumChange.setText("0.06/min");
+
+                    mLineChart.addData("温度", x_index,  dataRecodeBean.getRealtimeTem() );
+                    mLineChart.addData("湿度", x_index, dataRecodeBean.getRealtimeHum() );
+
 
 
                     x_index += 1; // X轴每次右移10个刻度

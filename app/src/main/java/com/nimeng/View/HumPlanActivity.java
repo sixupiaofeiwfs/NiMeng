@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -39,13 +40,14 @@ import java.util.List;
 public class HumPlanActivity extends BaseAvtivity{
     private Button btn_add,btn_totemplan;
     private ListView listView;
-    private EditText editName,editUnitTime,editHumWave,editHum1,editHum2,editHum3,editHum4,editHum5;
     private HumPlanAdapter adapter;
     private HumPlanDBHelper humplanDBHelper;
     private List<HumPlanBean> list;
     GlobalVariable globalVariable;
     Intent intent;
+    int i;
 
+    private Spinner spinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,126 +96,7 @@ public class HumPlanActivity extends BaseAvtivity{
 
 
     private void addData(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(HumPlanActivity.this);
-        View dialogView =View.inflate(HumPlanActivity.this,R.layout.humplan_edit,null);
-        builder.setTitle("添加温度预设方案")
-                .setView(dialogView);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                editName=dialogView.findViewById(R.id.edit_humplan_name);
-                editUnitTime=dialogView.findViewById(R.id.edit_humplan_unitTime);
-                editHumWave=dialogView.findViewById(R.id.edit_humplan_humWave);
-                editHum1=dialogView.findViewById(R.id.edit_humplan_hum1);
-                editHum2=dialogView.findViewById(R.id.edit_humplan_hum2);
-                editHum3=dialogView.findViewById(R.id.edit_humplan_hum3);
-                editHum4=dialogView.findViewById(R.id.edit_humplan_hum4);
-                editHum5=dialogView.findViewById(R.id.edit_humplan_hum5);
-
-
-                String name=editName.getText().toString();
-                if(name==""){
-                    showToast("预设方案名称不能为空");
-                    return;
-                }
-
-
-
-                if(editUnitTime.getText().toString()==" "){
-                    showToast("单位时间不能为空");
-                    return;
-                }
-
-                int unitTime=Integer.valueOf(editUnitTime.getText().toString());
-
-
-                if(editHumWave.getText().toString()==""){
-                    showToast("温度波动值不能为空");
-                    return;
-                }
-                float humWave=Float.parseFloat( editHumWave.getText().toString());
-
-
-                String Shum1=editHum1.getText().toString();
-                String Shum2=editHum2.getText().toString();
-                String Shum3=editHum3.getText().toString();
-                String Shum4=editHum4.getText().toString();
-                String Shum5=editHum5.getText().toString();
-
-                Float hum1,hum2,hum3,hum4,hum5;
-               if(Shum1.equals("")){
-                   hum1=0f;
-               }else{
-                   hum1=Float.valueOf(Shum1);
-               }
-
-                if(Shum2.equals("")){
-                    hum2=0f;
-                }else{
-                    hum2=Float.valueOf(Shum2);
-                }
-
-                if(Shum3.equals("")){
-                    hum3=0f;
-                }else{
-                    hum3=Float.valueOf(Shum3);
-                }
-
-                if(Shum4.equals("")){
-                    hum4=0f;
-                }else{
-                    hum4=Float.valueOf(Shum4);
-                }
-
-                if(Shum5.equals("")){
-                    hum5=0f;
-                }else{
-                    hum5=Float.valueOf(Shum5);
-                }
-
-
-
-
-                HumPlanBean humplanBean=humplanDBHelper.findHumPlanByName(name);
-
-                Log.d("查询信息", "onClick: "+humplanBean.getName());
-                if(humplanBean.getName()==null){
-                    HumPlanBean humplanBean2=new HumPlanBean();
-                    humplanBean2.setName(name);
-                    humplanBean2.setUnitTime(unitTime);
-                    humplanBean2.setHumWave(humWave);
-                    humplanBean2.setHum1(hum1);
-                    humplanBean2.setHum2(hum2);
-                    humplanBean2.setHum3(hum3);
-                    humplanBean2.setHum4(hum4);
-                    humplanBean2.setHum5(hum5);
-                    humplanBean2.setIsCheck(0);
-
-                    if(humplanDBHelper.add(humplanBean2)){
-                        Log.d("添加成功", "onClick: ");
-                        showToast("添加成功");
-                        updateListView();
-                    }else{
-                        Log.d("添加失败", "onClick: ");
-                        showToast("添加失败");
-                    }
-                }else{
-                    showToast("该方案已经存在");
-                }
-
-
-            }
-        })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
+       startActivity(new Intent(HumPlanActivity.this,HumPlanEditActivity.class));
     }
 
 
@@ -236,6 +119,16 @@ public class HumPlanActivity extends BaseAvtivity{
                             if(humplanDBHelper.delete(deleteID)){
                                 updateListView();
                                 showToast("删除成功");
+                                List<String> list=globalVariable.getHumPlanList();
+
+                                for( i=0;i<=list.size();i++){
+                                    if(list.get(i).equals(humplanBean.getName())){
+                                        list.remove(i);
+                                    }
+                                }
+
+
+
                             }else{
                                 showToast("删除失败");
                             }

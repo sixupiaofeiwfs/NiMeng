@@ -33,7 +33,7 @@ public class SettingSwitchActivity extends BaseAvtivity{
     public TextView btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn10,btn11,btn12;
     private GlobalVariable globalVariable;
     private Intent intent;
-    private TextView textView1,textView2;
+    private TextView textView1,textView2,textView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +59,28 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn11 = findViewById(R.id.settingswitch_bt11);
         btn12 = findViewById(R.id.settingswitch_bt12);
 
+
+
+
+
+
         textView1=findViewById(R.id.settingswitch_textview1);
 //        textView2=findViewById(R.id.settingswitch_textview2);
 //        textView2.setText(gettime());
+        textView3=findViewById(R.id.settingswitch_textview3);
 
 
+        if(!globalVariable.isSwitch_8()){
+            btn5.setVisibility(View.INVISIBLE);
+        }
+        if(!globalVariable.isSwitch_9()){
+            btn6.setVisibility(View.INVISIBLE);
+        }
+        if(!globalVariable.isSwitch_10()){
+            btn12.setVisibility(View.INVISIBLE);
+            textView3.setVisibility(View.INVISIBLE);
+
+        }
 
         System.out.println("初始化----"+globalVariable.isSwitch_1());
 

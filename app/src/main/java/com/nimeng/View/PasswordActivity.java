@@ -61,7 +61,7 @@ public class PasswordActivity  extends BaseAvtivity {
 
         edit1=editText.getText().toString();
 
-        System.out.println("判断-----------"+executingPassword+"-------"+superPassword+"_________"+edit1);
+        System.out.println("判断-----------"+excutingNumber+"---------------->"+executingPassword+"-------"+superPassword+"_________"+edit1);
 
 
         int errorNumber=globalVariable.getErrorNumbers().get(excutingNumber-1);

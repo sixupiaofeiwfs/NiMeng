@@ -7,126 +7,126 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tempid_LinearLayout1">
+
+        <Button
+            android:id="@+id/tempid_toSettingSwitch"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tempid_LinearLayout1">
-
-            <Button
-                android:id="@+id/tempid_toSettingSwitch"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="系统设置"></Button>
+            android:layout_weight="1"
+            android:text="系统设置"></Button>
 
 
-            <Button
-                android:id="@+id/humpid"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="湿度PID" />
-        </LinearLayout>
-
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/humpid"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tempid_LinearLayout2"
-            android:layout_below="@id/tempid_LinearLayout1"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:id="@+id/list_quzhi_fanwei"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="取值范围"
-                android:textColor="@color/color_01_point"
-                android:layout_weight="1"/>
-
-
-            <TextView
-                android:id="@+id/list_bil"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="比例p 0-999.9"
-                android:textColor="@color/color_01_point" />
-
-
-            <TextView
-                android:id="@+id/list_jifen"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="积分i 0-6000"
-                android:textColor="@color/color_01_point" />
-
-
-            <TextView
-                android:id="@+id/list_weifen"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="微分d 0-3600"
-                android:textColor="@color/color_01_point" />
-
-
-            <TextView
-                android:id="@+id/list_shezhi"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="手动设置50-5"
-                android:textColor="@color/color_01_point" />
-
-
-            <TextView
-                android:id="@+id/list_xiaxian"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="输出下限0-99.9"
-                android:textColor="@color/color_01_point" />
+            android:layout_weight="1"
+            android:text="湿度PID" />
+    </LinearLayout>
 
 
 
-            <TextView
-                android:id="@+id/list_shangxian"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="输出上限0-100.00"
-                android:textColor="@color/color_01_point" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tempid_LinearLayout2"
+        android:layout_below="@id/tempid_LinearLayout1"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/list_quzhi_fanwei"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="取值范围"
+            android:textColor="@color/color_01_point"
+            android:layout_weight="1"/>
 
 
-            <TextView
-                android:id="@+id/list_pianyi"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="偏移量 -5-5"
-                android:textColor="@color/color_01_point" />
+        <TextView
+            android:id="@+id/list_bil"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="比例p 0-999.9"
+            android:textColor="@color/color_01_point" />
 
 
-            <TextView
-                android:id="@+id/list_fenji"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:text="风机转速 0-60"
-                android:textColor="@color/color_01_point" />
+        <TextView
+            android:id="@+id/list_jifen"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="积分i 0-6000"
+            android:textColor="@color/color_01_point" />
 
-        </LinearLayout>
+
+        <TextView
+            android:id="@+id/list_weifen"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="微分d 0-3600"
+            android:textColor="@color/color_01_point" />
+
+
+        <TextView
+            android:id="@+id/list_shezhi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="手动设置50-5"
+            android:textColor="@color/color_01_point" />
+
+
+        <TextView
+            android:id="@+id/list_xiaxian"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="输出下限0-99.9"
+            android:textColor="@color/color_01_point" />
+
+
+
+        <TextView
+            android:id="@+id/list_shangxian"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="输出上限0-100.00"
+            android:textColor="@color/color_01_point" />
+
+
+        <TextView
+            android:id="@+id/list_pianyi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="偏移量 -5-5"
+            android:textColor="@color/color_01_point" />
+
+
+        <TextView
+            android:id="@+id/list_fenji"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="风机转速 0-60"
+            android:textColor="@color/color_01_point" />
+
+    </LinearLayout>
 
 
 
@@ -138,13 +138,21 @@
         android:layout_below="@id/tempid_LinearLayout2"
         android:layout_marginTop="20dp">
 
-        <TextView
+        <EditText
+            android:id="@+id/tem_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!--<TextView
             android:id="@+id/tem_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="温度: -10℃"
-            android:textColor="@color/color_01_point" />
+            android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_1_1"
             android:layout_width="fill_parent"
@@ -212,13 +220,22 @@
         android:layout_below="@id/tempid_LinearLayout3"
         android:layout_marginTop="20dp">
 
-        <TextView
+
+        <EditText
             android:id="@+id/tem_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="温度: 10℃"
-            android:textColor="@color/color_01_point" />
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_2"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 10℃"
+             android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_2_1"
             android:layout_width="fill_parent"
@@ -285,13 +302,21 @@
         android:layout_below="@id/tempid_LinearLayout4"
         android:layout_marginTop="20dp">
 
-        <TextView
+        <EditText
             android:id="@+id/tem_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="温度: 20℃"
-            android:textColor="@color/color_01_point" />
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!--  <TextView
+              android:id="@+id/tem_3"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:text="温度: 20℃"
+              android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_3_1"
             android:layout_width="fill_parent"
@@ -358,13 +383,21 @@
         android:layout_below="@id/tempid_LinearLayout5"
         android:layout_marginTop="20dp">
 
-        <TextView
+        <EditText
             android:id="@+id/tem_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="温度: 30℃"
-            android:textColor="@color/color_01_point" />
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_4"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 30℃"
+             android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_4_1"
             android:layout_width="fill_parent"
@@ -431,13 +464,22 @@
         android:layout_below="@id/tempid_LinearLayout6"
         android:layout_marginTop="20dp">
 
-        <TextView
+
+        <EditText
+            android:id="@+id/tem_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!--<TextView
             android:id="@+id/tem_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="温度: 40℃"
-            android:textColor="@color/color_01_point" />
+            android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_5_1"
             android:layout_width="fill_parent"
@@ -504,13 +546,21 @@
         android:layout_below="@id/tempid_LinearLayout7"
         android:layout_marginTop="20dp">
 
-        <TextView
+        <EditText
             android:id="@+id/tem_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="温度: 50℃"
-            android:textColor="@color/color_01_point" />
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_6"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 50℃"
+             android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_6_1"
             android:layout_width="fill_parent"
@@ -577,13 +627,21 @@
         android:layout_below="@id/tempid_LinearLayout8"
         android:layout_marginTop="20dp">
 
-        <TextView
+        <EditText
             android:id="@+id/tem_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="温度: 60℃"
-            android:textColor="@color/color_01_point" />
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_7"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 60℃"
+             android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_7_1"
             android:layout_width="fill_parent"
@@ -635,6 +693,257 @@
             android:inputType="text" />
         <EditText
             android:id="@+id/bili_7_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tempid_LinearLayout10"
+        android:layout_below="@id/tempid_LinearLayout9"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/tem_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_7"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 60℃"
+             android:textColor="@color/color_01_point" />-->
+        <EditText
+            android:id="@+id/bili_8_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_8_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tempid_LinearLayout11"
+        android:layout_below="@id/tempid_LinearLayout10"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/tem_9"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_7"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 60℃"
+             android:textColor="@color/color_01_point" />-->
+        <EditText
+            android:id="@+id/bili_9_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_9_8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tempid_LinearLayout12"
+        android:layout_below="@id/tempid_LinearLayout11"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/tem_10"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+
+        <!-- <TextView
+             android:id="@+id/tem_7"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="温度: 60℃"
+             android:textColor="@color/color_01_point" />-->
+        <EditText
+            android:id="@+id/bili_10_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/bili_10_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

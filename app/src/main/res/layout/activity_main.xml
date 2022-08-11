@@ -5,46 +5,6 @@
     android:layout_height="wrap_content">
 
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/LinearLayout0"-->
-<!--        android:layout_marginTop="50dp"-->
-<!--        >-->
-
-<!--        <Button-->
-<!--            android:id="@+id/but_tem"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/wd"-->
-
-<!--            android:text="温度启动"-->
-<!--            android:textColor="@color/color_01_point"-->
-
-<!--            android:layout_weight="1"-->
-<!--            android:layout_gravity="center"-->
-<!--            />-->
-
-
-
-<!--        <Button-->
-<!--            android:id="@+id/but_hum"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/sd"-->
-<!--            android:text="湿度启动"-->
-<!--            android:textColor="#4169E1"-->
-
-<!--            android:layout_weight="1"-->
-<!--            android:layout_gravity="center"-->
-<!--            />-->
-
-
-
-
-
-
-<!--    android:layout_below="@id/LinearLayout0" </LinearLayout>-->
 
 
 
@@ -52,123 +12,93 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/LinearLayout_1">
+    android:id="@+id/LinearLayout1"
+    android:layout_marginTop="30dp">
+
+
+
     <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/main_light"
+        android:clickable="true"
+        android:layout_marginLeft="50dp"
+        android:layout_weight="1"
+        ></ImageView>
+
+
+
+    <ImageView
+        android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/u56"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"
+        android:layout_weight="5"
+        android:clickable="true"
+        android:id="@+id/main_logo"
         ></ImageView>
+
+
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format24Hour="yyyy-MM-dd HH:mm:ss"
+        android:format12Hour="yyyy-MM-dd HH:mm:ss"
+        android:layout_weight="1"
+        android:textSize="25dp"
+        ></TextClock>
 </LinearLayout>
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@id/LinearLayout1"
+        android:id="@+id/LinearLayout2"
+        android:layout_below="@id/LinearLayout1"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/LinearLayout_1"
+        android:layout_marginLeft="100dp"
+        android:gravity="center"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="温度："
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:id="@+id/main_text10"
-            ></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_text5"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone">
-        </TextView>
 
+        <Spinner
+            android:id="@+id/main_spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            />
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="湿度："
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:id="@+id/main_text9"
-            ></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_text4"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone">
-        </TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="露点温度："
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:id="@+id/main_text8"
-            ></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_text3"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone">
-        </TextView>
+            android:text="温度启动"
+            android:id="@+id/mian_btn1"
+            android:textColor="@color/teal_200">
+        </Button>
 
 
 
-        <TextView
+
+        <Spinner
+            android:id="@+id/main_spinner2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="干球温度："
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:id="@+id/main_text7"
-            ></TextView>
-        <TextView
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="250dp">
+        </Spinner>
+
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/main_text2"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone">
-        </TextView>
+            android:text="湿度启动"
+            android:textColor="@color/color_01_point"
+            android:id="@+id/mian_btn2">
+        </Button>
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="湿球温度："
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:id="@+id/main_text6"
-            ></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_text1"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:visibility="gone">
-        </TextView>
 
     </LinearLayout>
-
-
 
 
 
@@ -177,7 +107,8 @@
         android:id="@+id/LinearLayout0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/LinearLayout1"
+        android:layout_below="@id/LinearLayout2"
+        android:layout_marginTop="20dp"
         >
 
 
@@ -195,9 +126,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     />
-
-
-
 
     </LinearLayout>
 

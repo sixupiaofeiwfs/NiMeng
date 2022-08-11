@@ -152,7 +152,7 @@
         android:background="#B4B3B3"/>
 
     <TextView
-        android:id="@+id/list_s_value"
+        android:id="@+id/list_s_quantity"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
@@ -162,7 +162,7 @@
         android:textColor="#000000"
         android:paddingTop="10dip"
         android:gravity="center"
-        android:text="证书值"
+        android:text="证书值个数"
         />
     <View
         android:layout_width="1.5dip"
