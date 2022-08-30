@@ -35,11 +35,23 @@
         android:layout_below="@id/humpid_LinearLayout1"
         android:layout_marginTop="20dp">
 
+
+
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="序号"
+            android:textColor="@color/color_01_point" />
+
         <TextView
             android:id="@+id/humpid_list_quzhi_fanwei"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="取值范围"
             android:textColor="@color/color_01_point" />
 
@@ -49,6 +61,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="比例p 0-999.9"
             android:textColor="@color/color_01_point" />
@@ -59,6 +72,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="积分i 0-6000"
             android:textColor="@color/color_01_point" />
@@ -69,6 +83,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="微分d 0-3600"
             android:textColor="@color/color_01_point" />
@@ -79,6 +94,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="手动设置50-5"
             android:textColor="@color/color_01_point" />
@@ -89,6 +105,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="输出下限0-99.9"
             android:textColor="@color/color_01_point" />
@@ -99,6 +116,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="输出上限0-100.00"
             android:textColor="@color/color_01_point" />
@@ -109,6 +127,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="偏移量 -5-5"
             android:textColor="@color/color_01_point" />
@@ -120,7 +139,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="湿度控制"
+            android:gravity="center"
+            android:text="加湿除湿"
             android:textColor="@color/color_01_point" />
 
     </LinearLayout>
@@ -133,13 +153,14 @@
         android:layout_below="@id/humpid_LinearLayout2"
         android:layout_marginTop="20dp">
 
-        <!--<TextView
-            android:id="@+id/hum_1"
+        <TextView
+            android:id="@+id/num1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="湿度： 10%"
-            android:textColor="@color/color_01_point" />-->
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/color_01_point" />
         <EditText
             android:id="@+id/hum_1"
             android:layout_width="fill_parent"
@@ -222,6 +243,16 @@
         android:layout_below="@id/humpid_LinearLayout3"
         android:layout_marginTop="20dp">
 
+
+        <TextView
+            android:id="@+id/num2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/color_01_point" />
+
         <EditText
             android:id="@+id/hum_2"
             android:layout_width="fill_parent"
@@ -230,13 +261,7 @@
             android:layout_weight="1"
             android:inputType="text" />
 
-        <!--<TextView
-            android:id="@+id/hum_2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="湿度: 20%"
-            android:textColor="@color/color_01_point" />-->
+
 
         <EditText
             android:id="@+id/humpid_bili_2_1"
@@ -312,13 +337,14 @@
         android:layout_below="@id/humpid_LinearLayout4"
         android:layout_marginTop="20dp">
 
-        <!-- <TextView
-             android:id="@+id/hum_3"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="湿度: 40%"
-             android:textColor="@color/color_01_point" />-->
+        <TextView
+            android:id="@+id/num3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/color_01_point" />
 
 
         <EditText
@@ -403,14 +429,14 @@
         android:layout_below="@id/humpid_LinearLayout5"
         android:layout_marginTop="20dp">
 
-        <!-- <TextView
-             android:id="@+id/hum_4"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="湿度: 60%"
-             android:textColor="@color/color_01_point" />
- -->
+        <TextView
+            android:id="@+id/num4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/hum_4"
@@ -494,13 +520,14 @@
         android:layout_below="@id/humpid_LinearLayout6"
         android:layout_marginTop="20dp">
 
-        <!-- <TextView
-             android:id="@+id/hum_5"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="湿度: 80%"
-             android:textColor="@color/color_01_point" />-->
+        <TextView
+            android:id="@+id/num5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/color_01_point" />
 
 
         <EditText
@@ -586,6 +613,17 @@
         android:layout_marginTop="20dp">
 
 
+        <TextView
+            android:id="@+id/num6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/color_01_point" />
+
+
+
         <EditText
             android:id="@+id/hum_6"
             android:layout_width="fill_parent"
@@ -593,14 +631,6 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:inputType="text" />
-
-        <!-- <TextView
-             android:id="@+id/hum_6"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="湿度: 90%"
-             android:textColor="@color/color_01_point" />-->
 
 
 
@@ -678,13 +708,14 @@
         android:layout_below="@id/humpid_LinearLayout8"
         android:layout_marginTop="20dp">
 
-        <!--<TextView
-            android:id="@+id/hum_7"
+        <TextView
+            android:id="@+id/num7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="湿度: 95%"
-            android:textColor="@color/color_01_point" />-->
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/hum_7"
@@ -769,13 +800,14 @@
         android:layout_below="@id/humpid_LinearLayout9"
         android:layout_marginTop="20dp">
 
-        <!--<TextView
-            android:id="@+id/hum_7"
+        <TextView
+            android:id="@+id/num8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="湿度: 95%"
-            android:textColor="@color/color_01_point" />-->
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/hum_8"
@@ -860,13 +892,13 @@
         android:layout_below="@id/humpid_LinearLayout10"
         android:layout_marginTop="20dp">
 
-        <!--<TextView
-            android:id="@+id/hum_7"
+        <TextView
+            android:id="@+id/num9"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="湿度: 95%"
-            android:textColor="@color/color_01_point" />-->
+            android:text="9"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/hum_9"
@@ -874,6 +906,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:inputType="text" />
 
         <EditText
@@ -951,13 +984,13 @@
         android:layout_below="@id/humpid_LinearLayout11"
         android:layout_marginTop="20dp">
 
-        <!--<TextView
-            android:id="@+id/hum_7"
+        <TextView
+            android:id="@+id/num10"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="湿度: 95%"
-            android:textColor="@color/color_01_point" />-->
+            android:text="10"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/hum_10"
@@ -965,6 +998,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:inputType="text" />
 
         <EditText

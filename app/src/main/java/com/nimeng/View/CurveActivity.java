@@ -1,5 +1,6 @@
 package com.nimeng.View;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.nimeng.bean.BrokenLineDimensionBean;
 import com.nimeng.bean.BrokenLineTrendDataBean;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.DataRecordDBHelper;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class CurveActivity extends BaseAvtivity implements IBaseView{
+public class CurveActivity extends CommonUtil implements IBaseView{
 
     private DataRecordDBHelper dataRecordDBHelper;
     private String[] defalultHorizontalText;
@@ -172,4 +174,23 @@ public class CurveActivity extends BaseAvtivity implements IBaseView{
 //    }
     }
 
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showToast(String msg) {
+
+    }
+
+    @Override
+    public <T extends Activity> T getSelfActivity() {
+        return null;
+    }
 }

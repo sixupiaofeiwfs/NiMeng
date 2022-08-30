@@ -40,7 +40,7 @@ public class ComprehensiveDataDBHelper  extends BaseUtil {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql="create table"
+        String sql="create table "
                 +TABLENAME+
                 "("+
                 "reading float(5) not null,"+

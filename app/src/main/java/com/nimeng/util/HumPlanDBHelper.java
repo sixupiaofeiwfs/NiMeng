@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.nimeng.bean.HumPlanBean;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class HumPlanDBHelper extends BaseUtil{
         String sql="create table "
                 +TABLENAME+
                 " ("+
-                "id integer primary key,"+
+                "id integer primary key  AUTOINCREMENT,"+
                 "name varchar(20) not null,"+
                 "unitTime  tinyint(2) not null,"+
                 "humWave float(5) not null,"+
@@ -171,75 +172,75 @@ public class HumPlanDBHelper extends BaseUtil{
                 humPlanBean.setID(result.getInt(0));
                 humPlanBean.setName(result.getString(1));
                 humPlanBean.setUnitTime(result.getInt(2));
-                humPlanBean.setHumWave(result.getFloat(3));
+                humPlanBean.setHumWave(result.getInt(3));
                 humPlanBean.setHumPoints(result.getInt(4));
 
 
                 if(result.getInt(4)==1){
-                    humPlanBean.setHum1(result.getFloat(5));
+                    humPlanBean.setHum1(result.getInt(5));
                 }else if(result.getInt(4)==2){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
                 }else if(result.getInt(4)==3){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
                 }else if(result.getInt(4)==4){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
                 }else if(result.getInt(4)==5){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
-                    humPlanBean.setHum5(result.getFloat(9));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
+                    humPlanBean.setHum5(result.getInt(9));
                 }else if(result.getInt(4)==6){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
-                    humPlanBean.setHum5(result.getFloat(9));
-                    humPlanBean.setHum6(result.getFloat(10));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
+                    humPlanBean.setHum5(result.getInt(9));
+                    humPlanBean.setHum6(result.getInt(10));
                 }else if(result.getInt(4)==7){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
-                    humPlanBean.setHum5(result.getFloat(9));
-                    humPlanBean.setHum6(result.getFloat(10));
-                    humPlanBean.setHum7(result.getFloat(11));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
+                    humPlanBean.setHum5(result.getInt(9));
+                    humPlanBean.setHum6(result.getInt(10));
+                    humPlanBean.setHum7(result.getInt(11));
                 }else if(result.getInt(4)==8){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
-                    humPlanBean.setHum5(result.getFloat(9));
-                    humPlanBean.setHum6(result.getFloat(10));
-                    humPlanBean.setHum7(result.getFloat(11));
-                    humPlanBean.setHum8(result.getFloat(12));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
+                    humPlanBean.setHum5(result.getInt(9));
+                    humPlanBean.setHum6(result.getInt(10));
+                    humPlanBean.setHum7(result.getInt(11));
+                    humPlanBean.setHum8(result.getInt(12));
                 }else if(result.getInt(4)==9){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
-                    humPlanBean.setHum5(result.getFloat(9));
-                    humPlanBean.setHum6(result.getFloat(10));
-                    humPlanBean.setHum7(result.getFloat(11));
-                    humPlanBean.setHum8(result.getFloat(12));
-                    humPlanBean.setHum9(result.getFloat(13));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
+                    humPlanBean.setHum5(result.getInt(9));
+                    humPlanBean.setHum6(result.getInt(10));
+                    humPlanBean.setHum7(result.getInt(11));
+                    humPlanBean.setHum8(result.getInt(12));
+                    humPlanBean.setHum9(result.getInt(13));
                 }else if(result.getInt(4)==10){
-                    humPlanBean.setHum1(result.getFloat(5));
-                    humPlanBean.setHum2(result.getFloat(6));
-                    humPlanBean.setHum3(result.getFloat(7));
-                    humPlanBean.setHum4(result.getFloat(8));
-                    humPlanBean.setHum5(result.getFloat(9));
-                    humPlanBean.setHum6(result.getFloat(10));
-                    humPlanBean.setHum7(result.getFloat(11));
-                    humPlanBean.setHum8(result.getFloat(12));
-                    humPlanBean.setHum9(result.getFloat(13));
-                    humPlanBean.setHum10(result.getFloat(14));
+                    humPlanBean.setHum1(result.getInt(5));
+                    humPlanBean.setHum2(result.getInt(6));
+                    humPlanBean.setHum3(result.getInt(7));
+                    humPlanBean.setHum4(result.getInt(8));
+                    humPlanBean.setHum5(result.getInt(9));
+                    humPlanBean.setHum6(result.getInt(10));
+                    humPlanBean.setHum7(result.getInt(11));
+                    humPlanBean.setHum8(result.getInt(12));
+                    humPlanBean.setHum9(result.getInt(13));
+                    humPlanBean.setHum10(result.getInt(14));
                 }
 
 
@@ -266,7 +267,10 @@ public class HumPlanDBHelper extends BaseUtil{
 
         Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
 
-        return result.getCount();
+        int number=result.getCount();
+        result.close();
+
+        return number;
 
 
     }
@@ -297,7 +301,7 @@ public class HumPlanDBHelper extends BaseUtil{
 
 
     //通过HumID和hum？查询
-    public float queryByID(int id,int humID){
+    public int queryByID(int id,int humID){
         if(!tableIsExist(TABLENAME)){
             return 0;
         }
@@ -305,11 +309,110 @@ public class HumPlanDBHelper extends BaseUtil{
         if(humID==0){
             return 0;
         }
-        Cursor result=db.query(TABLENAME,new String[]{"hum"+humID},"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
         if(result.getCount()==0){
+            result.close();
             return 0;
         }
+        result.moveToFirst();
+        int resultNumber=result.getInt(humID+4);
+        result.close();
+        return resultNumber;
+    }
 
-        return result.getFloat(0);
+
+    public HumPlanBean queryByID(int id){
+        if(!tableIsExist(TABLENAME)){
+            return null;
+        }
+
+        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        if(result!=null){
+            result.moveToFirst();
+
+            HumPlanBean humPlanBean =new HumPlanBean();
+            humPlanBean.setID(result.getInt(0));
+            humPlanBean.setName(result.getString(1));
+            humPlanBean.setUnitTime(result.getInt(2));
+            humPlanBean.setHumWave(result.getFloat(3));
+            humPlanBean.setHumPoints(result.getInt(4));
+
+
+            if(result.getInt(4)==1){
+                humPlanBean.setHum1(result.getInt(5));
+            }else if(result.getInt(4)==2){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+            }else if(result.getInt(4)==3){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+            }else if(result.getInt(4)==4){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+            }else if(result.getInt(4)==5){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+                humPlanBean.setHum5(result.getInt(9));
+            }else if(result.getInt(4)==6){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+                humPlanBean.setHum5(result.getInt(9));
+                humPlanBean.setHum6(result.getInt(10));
+            }else if(result.getInt(4)==7){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+                humPlanBean.setHum5(result.getInt(9));
+                humPlanBean.setHum6(result.getInt(10));
+                humPlanBean.setHum7(result.getInt(11));
+            }else if(result.getInt(4)==8){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+                humPlanBean.setHum5(result.getInt(9));
+                humPlanBean.setHum6(result.getInt(10));
+                humPlanBean.setHum7(result.getInt(11));
+                humPlanBean.setHum8(result.getInt(12));
+            }else if(result.getInt(4)==9){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+                humPlanBean.setHum5(result.getInt(9));
+                humPlanBean.setHum6(result.getInt(10));
+                humPlanBean.setHum7(result.getInt(11));
+                humPlanBean.setHum8(result.getInt(12));
+                humPlanBean.setHum9(result.getInt(13));
+            }else if(result.getInt(4)==10){
+                humPlanBean.setHum1(result.getInt(5));
+                humPlanBean.setHum2(result.getInt(6));
+                humPlanBean.setHum3(result.getInt(7));
+                humPlanBean.setHum4(result.getInt(8));
+                humPlanBean.setHum5(result.getInt(9));
+                humPlanBean.setHum6(result.getInt(10));
+                humPlanBean.setHum7(result.getInt(11));
+                humPlanBean.setHum8(result.getInt(12));
+                humPlanBean.setHum9(result.getInt(13));
+                humPlanBean.setHum10(result.getInt(14));
+            }
+
+
+
+            humPlanBean.setIsCheck(result.getInt(15));
+
+            result.close();
+            return humPlanBean;
+        }
+        result.close();
+        return null;
     }
 }

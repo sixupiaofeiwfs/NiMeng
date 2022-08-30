@@ -3,10 +3,8 @@ package com.nimeng.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.ImageView;
 
 import com.nimeng.View.MainActivity;
-import com.nimeng.bean.GlobalVariable;
 
 public class LightOnReceiver extends BroadcastReceiver {
 

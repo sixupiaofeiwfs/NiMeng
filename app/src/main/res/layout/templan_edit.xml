@@ -2,8 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+
     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:id="@+id/LinearLayout0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="添加温度预设方案"
+            android:textStyle="bold"
+            android:textSize="30dp">
+        </TextView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/u56">
+        </ImageView>
+
+
+    </LinearLayout>
+
+
 
 
     <LinearLayout
@@ -12,6 +39,8 @@
         android:id="@+id/LinearLayout1"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/LinearLayout0"
         >
 
         <TextView
@@ -36,6 +65,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
         android:layout_width="match_parent"
@@ -44,9 +74,9 @@
         android:layout_below="@id/LinearLayout1">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="单位时间"
+            android:text="稳定条件："
             android:textStyle="bold"
             android:textSize="20dp"
             android:layout_weight="9"
@@ -54,9 +84,28 @@
         </TextView>
 
 
+
+        <EditText
+            android:layout_weight="3"
+            android:id="@+id/edit_templan_temWave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="℃/">
+        </TextView>
+
+
+
+
         <EditText
             android:id="@+id/edit_templan_unitTime"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:layout_weight="3"
@@ -64,44 +113,27 @@
 
         </EditText>
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_marginLeft="300dp"
-        android:layout_marginRight="300dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout3"
-        android:layout_below="@id/LinearLayout2">
-
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="温度波动值"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_weight="9">
+            android:layout_weight="1"
+            android:text="min">
         </TextView>
 
-
-        <EditText
-            android:layout_weight="3"
-            android:id="@+id/edit_templan_temWave"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal">
-        </EditText>
     </LinearLayout>
+
+
+
 
 
   <LinearLayout
+      android:layout_marginTop="20dp"
       android:layout_marginLeft="300dp"
       android:layout_marginRight="300dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/LinearLayout4"
-      android:layout_below="@id/LinearLayout3">
+      android:id="@+id/LinearLayout3"
+      android:layout_below="@id/LinearLayout2">
 
       <TextView
           android:layout_width="fill_parent"
@@ -125,12 +157,13 @@
 
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout5"
-        android:layout_below="@id/LinearLayout4"
+        android:id="@+id/LinearLayout4"
+        android:layout_below="@id/LinearLayout3"
         android:visibility="gone">
 
         <TextView
@@ -179,12 +212,13 @@
 
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout6"
-        android:layout_below="@id/LinearLayout5"
+        android:id="@+id/LinearLayout5"
+        android:layout_below="@id/LinearLayout4"
         android:visibility="gone">
 
         <TextView
@@ -231,12 +265,13 @@
 
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout7"
-        android:layout_below="@id/LinearLayout6"
+        android:id="@+id/LinearLayout6"
+        android:layout_below="@id/LinearLayout5"
         android:visibility="gone">
 
         <TextView
@@ -289,12 +324,13 @@
 
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout8"
-        android:layout_below="@id/LinearLayout7"
+        android:id="@+id/LinearLayout7"
+        android:layout_below="@id/LinearLayout6"
         android:visibility="gone">
 
         <TextView
@@ -345,12 +381,13 @@
 
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="300dp"
         android:layout_marginRight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout9"
-        android:layout_below="@id/LinearLayout8"
+        android:id="@+id/LinearLayout8"
+        android:layout_below="@id/LinearLayout7"
         android:visibility="gone">
 
         <TextView
@@ -401,17 +438,24 @@
 
 
    <LinearLayout
-       android:layout_marginLeft="300dp"
-       android:layout_marginRight="300dp"
+       android:layout_marginTop="20dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:id="@+id/LinearLayout10"
-       android:layout_below="@id/LinearLayout9"
+       android:id="@+id/LinearLayout9"
+       android:layout_below="@id/LinearLayout8"
       >
-       <Button
-           android:layout_marginLeft="300dp"
+
+       <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:text="">
+       </TextView>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
            android:text="取消"
            android:textSize="20dp"
            android:id="@+id/btn_false">
@@ -421,10 +465,17 @@
            android:layout_marginLeft="50dp"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:layout_weight="1"
            android:text="确定"
            android:textSize="20dp"
            android:id="@+id/btn_true">
        </Button>
+        <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1"
+       android:text="">
+   </TextView>
 
    </LinearLayout>
 

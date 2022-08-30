@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.nimeng.util.CommonUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,7 +38,7 @@ import java.io.RandomAccessFile;
  * <p>
  * -----------------------------------------------------------------
  */
-public class FileActivity extends BaseAvtivity{
+public class FileActivity extends CommonUtil {
     private static final int REQUEST_CODE=1024;
 
     @Override

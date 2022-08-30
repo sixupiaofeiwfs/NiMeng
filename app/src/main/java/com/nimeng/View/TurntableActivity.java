@@ -10,6 +10,8 @@ import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 
+import com.nimeng.util.CommonUtil;
+
 /**
  * Author: wfs
  * <p>
@@ -23,7 +25,7 @@ import androidx.annotation.Nullable;
  * <p>
  * -----------------------------------------------------------------
  */
-public class TurntableActivity extends BaseAvtivity {
+public class TurntableActivity extends CommonUtil {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

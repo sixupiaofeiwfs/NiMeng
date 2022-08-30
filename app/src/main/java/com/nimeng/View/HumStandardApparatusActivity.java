@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.nimeng.Adapter.StandardApparatusAdapter;
 import com.nimeng.bean.StandardApparatus;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.StandardApparatusDBHelper;
 
 import java.util.List;
@@ -37,7 +38,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class HumStandardApparatusActivity extends BaseAvtivity{
+public class HumStandardApparatusActivity extends CommonUtil {
     private Button btn1,btn2;
     private ListView listView;
 
@@ -65,7 +66,10 @@ public class HumStandardApparatusActivity extends BaseAvtivity{
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addData(HumStandardApparatusActivity.this,standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
+                Intent intent=new Intent(HumStandardApparatusActivity.this,StandardappratusEditActivity.class);
+                intent.putExtra("tableName",tableName);
+                startActivity(intent);
+              //  addData(HumStandardApparatusActivity.this,standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
             }
         });
 

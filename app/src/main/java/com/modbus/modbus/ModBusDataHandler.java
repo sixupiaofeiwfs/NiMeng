@@ -55,6 +55,9 @@ public class ModBusDataHandler implements DataHandler {
 
     @Override
     public void handlerData(ModBusData data) {
+
+        System.out.println("查看一下modbus对象的数据"+data.fcode);
+
         try {
             switch (data.fcode) {
                 case 0x04:
@@ -85,18 +88,36 @@ public class ModBusDataHandler implements DataHandler {
                     transaction.setRequest(registersRequest);
                     transaction.execute();
                     ModbusResponse response1 = transaction.getResponse();
+
                     data.listener.onSucceed(response1.getHexMessage(),response1.getMessage());
 
                     break;
                 case 0x05:
+
                     WriteCoilRequest writeCoilRequest = new WriteCoilRequest(data.ref, data.coliB);
                     writeCoilRequest.setUnitID(data.unitId);
                     writeCoilRequest.setHeadless();
 
+
                     transaction.setRequest(writeCoilRequest);
                     transaction.execute();
                     ModbusResponse response2 = transaction.getResponse();
-                    data.listener.onSucceed(response2.getHexMessage(),response2.getMessage());
+
+
+                    if(data.listener==null){
+                        data.listener=new ModBusDataListener() {
+                            @Override
+                            public void onSucceed(String hexValue, byte[] bytes) {
+                                System.out.println("数据。。。"+response2.getHexMessage()+"    "+response2.getHexMessage());
+                            }
+                            @Override
+                            public void onFailed(String str) {
+
+                            }
+                        };
+                    }else{
+                        data.listener.onSucceed(response2.getHexMessage(),response2.getMessage());
+                    }
                     break;
                 case 0x10:
 
@@ -116,7 +137,7 @@ public class ModBusDataHandler implements DataHandler {
             }
         } catch (ModbusException e) {
             e.printStackTrace();
-            data.listener.onFailed("操作失败失败");
+            //data.listener.onFailed("操作失败失败");
         }
     }
 }

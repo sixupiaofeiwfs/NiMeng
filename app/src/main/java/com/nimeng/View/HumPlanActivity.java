@@ -3,11 +3,9 @@ package com.nimeng.View;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,9 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.nimeng.Adapter.HumPlanAdapter;
-import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.HumPlanBean;
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.HumPlanDBHelper;
+import com.nimeng.util.SystemDBHelper;
 
 
 import java.util.Date;
@@ -37,21 +37,21 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class HumPlanActivity extends BaseAvtivity{
+public class HumPlanActivity extends CommonUtil {
     private Button btn_add,btn_totemplan;
     private ListView listView;
     private HumPlanAdapter adapter;
     private HumPlanDBHelper humplanDBHelper;
     private List<HumPlanBean> list;
-    GlobalVariable globalVariable;
     Intent intent;
     int i;
 
     private Spinner spinner;
+    private SystemDBHelper systemDBHelper;
+    SystemData systemData;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        globalVariable=(GlobalVariable)getApplicationContext();
 
         setContentView(R.layout.activity_humplan);
         btn_add=findViewById(R.id.humplan_add);
@@ -61,6 +61,8 @@ public class HumPlanActivity extends BaseAvtivity{
             list.clear();
         }
         humplanDBHelper=new HumPlanDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
         updateListView();
 
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +83,8 @@ public class HumPlanActivity extends BaseAvtivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                updateCheck(i);
+                //updateCheck(i);
+                deleteData(i);
             }
         });
 
@@ -110,22 +113,15 @@ public class HumPlanActivity extends BaseAvtivity{
                     public void onClick(DialogInterface dialogInterface, int i) {
                         HumPlanBean humplanBean=(HumPlanBean) adapter.getItem(position);
 
-                        Log.d("删除时", "onClick:"+humplanBean.getID()+"   "+globalVariable.getHumID());
 
-                        if(humplanBean.getID()== globalVariable.getHumID()){
+
+                        if(humplanBean.getID()== systemData.getHumPlanID()){
                             showToast("当前方案正在使用，不能删除");
                         }else{
                             String deleteID=String.valueOf( humplanBean.getID());
                             if(humplanDBHelper.delete(deleteID)){
                                 updateListView();
                                 showToast("删除成功");
-                                List<String> list=globalVariable.getHumPlanList();
-
-                                for( i=0;i<=list.size();i++){
-                                    if(list.get(i).equals(humplanBean.getName())){
-                                        list.remove(i);
-                                    }
-                                }
 
 
 
@@ -170,19 +166,17 @@ public class HumPlanActivity extends BaseAvtivity{
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(humplanDBHelper.updateCheck(humplanBean.getID(),globalVariable.getHumID())){
+                        if(humplanDBHelper.updateCheck(humplanBean.getID(),systemData.getHumPlanID())){
 
-                            globalVariable.setHumID(humplanBean.getID());
-                            globalVariable.setStartTime(new Date());
-                            globalVariable.setHumUnitTime(humplanBean.getUnitTime());
-                            globalVariable.setHumWave(humplanBean.getHumWave());
-                            globalVariable.setStable(false);
-                            globalVariable.setHumPlanName(humplanBean.getName());
+                            systemData.setHumPlanID(humplanBean.getID());
+                            systemData.setStartTime(new Date());
+                            systemData.setHumUnitTime(humplanBean.getUnitTime());
+                            systemData.setHumWave(humplanBean.getHumWave());
+                            systemData.setStable(false);
 
 
-                            globalVariable.setExecutingHumID(1);
-                            globalVariable.setHumIsSystem(false);
-
+                            systemData.setExecutingHumID(1);
+                            systemDBHelper.updateSystemData(systemData);
 
 
                             showToast("已选择"+humplanBean.getName());

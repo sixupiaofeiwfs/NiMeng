@@ -1,15 +1,10 @@
 package com.nimeng.util;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -24,15 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.nimeng.Adapter.StandardApparatusAdapter;
-import com.nimeng.View.BaseAvtivity;
 import com.nimeng.View.R;
-import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.StandardApparatus;
+import com.nimeng.bean.SystemData;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,22 +49,24 @@ public class CommonUtil extends Activity {
      * 用于监测手指滑动
      */
     //手指上下滑动时的最小速度
-    private static final int YSPEED_MIN=1000;
+    public static final int YSPEED_MIN=1000;
     //手指向右滑动的最小距离
-    private static  final int XDISTANCE_MIN=50;
+    public static  final int XDISTANCE_MIN=50;
     //手指向上滑动或向下滑动的最小距离
-    private static  final int YDISTANCE_MIN=66;
-    private static final String TAG="BaseActivity";
+    public static  final int YDISTANCE_MIN=66;
+    public static final String TAG="BaseActivity";
     //记录手指按下时的横坐标
-    private float xDown;
+    public float xDown;
     //记录手指按下时的纵坐标
-    private float yDown;
+    public float yDown;
     //记录手指移动时的横坐标;
-    private float xMove;
+    public float xMove;
     //记录手指移动时的纵坐标
-    private float yMove;
+    public float yMove;
     //用于计算手指滑动的速度
-    private VelocityTracker velocityTracker;
+    public VelocityTracker velocityTracker;
+
+
 
 
     public List<StandardApparatus> list;
@@ -92,67 +90,20 @@ public class CommonUtil extends Activity {
 
 
 
-    //创建VelocityTracker对象,并将触摸界面的滑动事件添加到VelocityTracker中
-    private void createVelocityTracker(MotionEvent event){
-        if (velocityTracker==null){
-            velocityTracker=VelocityTracker.obtain();
-        }
-        velocityTracker.addMovement(event);
-    }
-    //回收VelocityTracker对象
-    private void recycleVelocityTracker(){
-        velocityTracker.recycle();
-        velocityTracker=null;
-    }
-    //滑动速度,以每秒钟移动了多少像素值为单位
-    private int getScrollVelocity(){
-        velocityTracker.computeCurrentVelocity(1000);
-        int velocity=(int)velocityTracker.getYVelocity();
-        return Math.abs(velocity);
-    }
-
-
-    // 获取存储权限
-    public void onPermission(GlobalVariable globalVariable){
-        if(globalVariable.isHaveJurisdiction()){
-            return ;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // 先判断有没有权限
-            if (Environment.isExternalStorageManager()) {
-                requestSuccess(globalVariable);
-            } else {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, REQUEST_CODE);
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 先判断有没有权限
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                requestSuccess(globalVariable);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-            }
-        } else {
-            requestSuccess(globalVariable);
-        }
-    }
+    SystemDBHelper systemDBHelper;
+    SystemData systemData;
 
 
 
-    /**
-     * 模拟文件写入
-     */
-    private void requestSuccess(GlobalVariable globalVariable) {
-        Toast.makeText(this, "存储权限获取成功", Toast.LENGTH_SHORT).show();
-        globalVariable.setHaveJurisdiction(true);
-
-    }
 
 
-    public  int  checkTime(GlobalVariable globalVariable) {
+
+
+
+
+    public  int  checkTime() {
+
+        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
 
 
         Date newDate=new Date();
@@ -160,15 +111,20 @@ public class CommonUtil extends Activity {
         String stringDate=newDate.toString();
 
         System.out.println("newDate--->toString--->"+stringDate);
+        int stages=systemDBHelper.getSystemData().getNumberOfStages();
 
-        for(int i=0;i<globalVariable.getNumberOfStages();i++){
+        for(int i=0;i<stages;i++){
 
 
-            System.out.println("总"+globalVariable.getNumberOfStages()+"期");
-            System.out.println("当前分期："+getTimeToDate( globalVariable.getTimes().get(i)).getTime());
+            System.out.println("总"+stages+"期");
+            System.out.println("当前分期："+systemDBHelper.getPassword().get(i).getTimes().getTime());
             System.out.println("当前日期："+getTimeToDate(stringDate).getTime());
 
-            if(getTimeToDate( globalVariable.getTimes().get(i)).getTime()>getTimeToDate(stringDate).getTime()){
+
+
+
+
+            if( systemDBHelper.getPassword().get(i).getTimes().getTime()>getTimeToDate(stringDate).getTime()){
                 System.out.println("当前处于第"+(i+1)+"期");
 
                 return i+1;
@@ -177,7 +133,7 @@ public class CommonUtil extends Activity {
 
         }
 
-        return globalVariable.getNumberOfStages();
+        return stages;
     }
 
 
@@ -209,8 +165,9 @@ public class CommonUtil extends Activity {
 
 
 
-    public void deleteData(GlobalVariable globalVariable,String tableName, StandardApparatusDBHelper standardApparatusDBHelper, StandardApparatusAdapter standardApparatusAdapter, Context context, int position, ListView listView){
-
+    public void deleteData(String tableName, StandardApparatusDBHelper standardApparatusDBHelper, StandardApparatusAdapter standardApparatusAdapter, Context context, int position, ListView listView){
+        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
         AlertDialog.Builder builder=new AlertDialog.Builder(context);
         builder.setTitle("提示")
                 .setMessage("是否删除该标准器")
@@ -220,7 +177,7 @@ public class CommonUtil extends Activity {
                         StandardApparatus standardApparatus1=(StandardApparatus) standardApparatusAdapter.getItem(position);
                         int deleteID= standardApparatus1.getID();
 
-                        if(deleteID==globalVariable.getHumStandardID()){
+                        if(deleteID==systemData.getHumStandardID()){
                             showToast(context,"当前标准器正在使用，不能删除");
                         }else{
                             if(standardApparatusDBHelper.delete(tableName,deleteID)){
@@ -254,297 +211,13 @@ public class CommonUtil extends Activity {
     }
 
 
-    public void addData(Context context,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,StandardApparatusAdapter standardApparatusAdapter,ListView listView){
-        AlertDialog.Builder builder=new AlertDialog.Builder(context);
-        View dialogView =View.inflate(context, R.layout.standardapparatus_edit,null);
-
-        btn1=dialogView.findViewById(R.id.btn_1);
-        datePicker=dialogView.findViewById(R.id.datepick1);
-        spinner=dialogView.findViewById(R.id.standard_spinner1);
-        editTime=dialogView.findViewById(R.id.edit_s_time);
-        linearLayout1=dialogView.findViewById(R.id.standard_LinearLayout7);
-        linearLayout2=dialogView.findViewById(R.id.standard_LinearLayout8);
-        linearLayout3=dialogView.findViewById(R.id.standard_LinearLayout9);
-        linearLayout4=dialogView.findViewById(R.id.standard_LinearLayout10);
-        linearLayout5=dialogView.findViewById(R.id.standard_LinearLayout11);
-        linearLayout6=dialogView.findViewById(R.id.standard_LinearLayout12);
-
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                System.out.println(i+"---------------"+l);
-                if(i==0){
-                    linearLayout1.setVisibility(View.VISIBLE);
-                    linearLayout2.setVisibility(View.GONE);
-                    linearLayout3.setVisibility(View.GONE);
-                    linearLayout4.setVisibility(View.GONE);
-                    linearLayout5.setVisibility(View.GONE);
-                    linearLayout6.setVisibility(View.GONE);
-
-                } if(i==1){
-                    linearLayout1.setVisibility(View.VISIBLE);
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.GONE);
-                    linearLayout4.setVisibility(View.GONE);
-                    linearLayout5.setVisibility(View.GONE);
-                    linearLayout6.setVisibility(View.GONE);
-
-                } if(i==2){
-                    linearLayout1.setVisibility(View.VISIBLE);
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.VISIBLE);
-                    linearLayout4.setVisibility(View.GONE);
-                    linearLayout5.setVisibility(View.GONE);
-                    linearLayout6.setVisibility(View.GONE);
-
-                } if(i==3){
-                    linearLayout1.setVisibility(View.VISIBLE);
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.VISIBLE);
-                    linearLayout4.setVisibility(View.VISIBLE);
-                    linearLayout5.setVisibility(View.GONE);
-                    linearLayout6.setVisibility(View.GONE);
-
-                } if(i==4){
-                    linearLayout1.setVisibility(View.VISIBLE);
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.VISIBLE);
-                    linearLayout4.setVisibility(View.VISIBLE);
-                    linearLayout5.setVisibility(View.VISIBLE);
-                    linearLayout6.setVisibility(View.GONE);
-
-                } if(i==5){
-                    linearLayout1.setVisibility(View.VISIBLE);
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.VISIBLE);
-                    linearLayout4.setVisibility(View.VISIBLE);
-                    linearLayout5.setVisibility(View.VISIBLE);
-                    linearLayout6.setVisibility(View.VISIBLE);
-
-                }
-
-                quantity=i+1;
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
 
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePicker.setVisibility(View.VISIBLE);
-            }
-        });
+    public void updateCheck(Context context,StandardApparatusAdapter standardApparatusAdapter ,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,int position,ListView listView){
 
-
-        Calendar calendar=Calendar.getInstance();
-        year=calendar.get(Calendar.YEAR);
-        month=calendar.get(Calendar.MONTH);
-        day=calendar.get(Calendar.DAY_OF_MONTH);
-
-
-        datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                CommonUtil.this.year=i;
-                CommonUtil.this.month=i1;
-                CommonUtil.this.day=i2;
-                editTime.setText(i+"-"+(i1+1)+"-"+i2);
-                datePicker.setVisibility(View.GONE);
-                editTime.setVisibility(View.VISIBLE);
-            }
-        });
-
-
-
-
-
-        builder.setTitle("添加标准器")
-                .setView(dialogView);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                editName=dialogView.findViewById(R.id.edit_s_name);
-                editPort=dialogView.findViewById(R.id.edit_s_port);
-                editFormat=dialogView.findViewById(R.id.edit_s_format);
-                editRate=dialogView.findViewById(R.id.edit_s_rate);
-                editType=dialogView.findViewById(R.id.edit_s_type);
-                editModel=dialogView.findViewById(R.id.edit_s_model);
-                editAgreement=dialogView.findViewById(R.id.edit_s_agreement);
-                editNumber=dialogView.findViewById(R.id.edit_s_number);
-                editTraceabilityUnit=dialogView.findViewById(R.id.edit_s_traceabilityUnit);
-
-
-                edit_jzd1=dialogView.findViewById(R.id.edit1);
-                edit_xzz1=dialogView.findViewById(R.id.edit2);
-                edit_jzd2=dialogView.findViewById(R.id.edit3);
-                edit_xzz2=dialogView.findViewById(R.id.edit4);
-                edit_jzd3=dialogView.findViewById(R.id.edit5);
-                edit_xzz3=dialogView.findViewById(R.id.edit6);
-                edit_jzd4=dialogView.findViewById(R.id.edit7);
-                edit_xzz4=dialogView.findViewById(R.id.edit8);
-                edit_jzd5=dialogView.findViewById(R.id.edit9);
-                edit_xzz5=dialogView.findViewById(R.id.edit10);
-                edit_jzd6=dialogView.findViewById(R.id.edit11);
-                edit_xzz6=dialogView.findViewById(R.id.edit12);
-
-
-                String name=editName.getText().toString();
-
-
-                if(name.equals("")){
-                    Log.d("这里的name不是空格吗", "onClick: ");
-                    showToast(context,"标准器名称不能为空");
-                    return;
-                }
-
-
-
-                if(editPort.getText().toString().equals("")){
-                    showToast(context,"通讯串口不能为空");
-                    return;
-                }
-
-                int port=Integer.valueOf(editPort.getText().toString());
-
-                if(editFormat.getText().toString().equals("")){
-                    showToast(context,"通讯格式不能为空");
-                    return;
-                }
-
-
-                if(editRate.getText().toString().equals("")){
-                    showToast(context,"通讯速率不能为空");
-                    return;
-                }
-                int rate=Integer.valueOf(editRate.getText().toString());
-
-
-
-
-
-
-                String format=editFormat.getText().toString();
-                String type=editType.getText().toString();
-                String model=editModel.getText().toString();
-                String agreement=editAgreement.getText().toString();
-                String number=editNumber.getText().toString();
-                String traceabilityUnit=editTraceabilityUnit.getText().toString();
-                String time=editTime.getText().toString();
-
-                System.out.println("时间------"+time);
-
-
-                int result=standardApparatusDBHelper.findByName(tableName,name);
-                List<Integer> list1=new ArrayList<>();
-                List<Float> list2=new ArrayList<>();
-
-                if(result<=0){
-                    StandardApparatus standardApparatus=new StandardApparatus();
-                    standardApparatus.setName(name);
-                    standardApparatus.setPort(port);
-                    standardApparatus.setFormat(format);
-                    standardApparatus.setRate(rate);
-                    standardApparatus.setType(type);
-                    standardApparatus.setModel(model);
-                    standardApparatus.setAgreement(agreement);
-                    standardApparatus.setNumber(number);
-                    standardApparatus.setQuantity(quantity);
-                    if(quantity==1){
-                        list1.add(Integer.valueOf(edit_jzd1.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz1.getText().toString()));
-                    } if(quantity==2){
-                        list1.add(Integer.valueOf(edit_jzd1.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz1.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd2.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz2.getText().toString()));
-                    } if(quantity==3){
-                        list1.add(Integer.valueOf(edit_jzd1.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz1.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd2.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz2.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd3.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz3.getText().toString()));
-                    } if(quantity==4){
-                        list1.add(Integer.valueOf(edit_jzd1.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz1.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd2.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz2.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd3.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz3.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd4.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz4.getText().toString()));
-                    } if(quantity==5){
-                        list1.add(Integer.valueOf(edit_jzd1.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz1.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd2.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz2.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd3.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz3.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd4.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz4.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd5.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz5.getText().toString()));
-                    } if(quantity==6){
-                        list1.add(Integer.valueOf(edit_jzd1.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz1.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd2.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz2.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd3.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz3.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd4.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz4.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd5.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz5.getText().toString()));
-                        list1.add(Integer.valueOf(edit_jzd6.getText().toString()));
-                        list2.add(Float.valueOf(edit_xzz6.getText().toString()));
-                    }
-
-
-                    standardApparatus.setList1(list1);
-                    standardApparatus.setList2(list2);
-                    standardApparatus.setTraceabilityUnit(traceabilityUnit);
-                    standardApparatus.setTime(time);
-
-                    if(standardApparatusDBHelper.add(standardApparatus,tableName)){
-                        Log.d("添加成功", "onClick: ");
-                        showToast(context,"添加成功");
-                        updateListView(standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
-                    }else{
-                        Log.d("添加失败", "onClick: ");
-                        showToast(context,"添加失败");
-                    }
-                }else{
-                    showToast(context,"该方案已经存在");
-                }
-
-
-            }
-        })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
-    }
-
-
-    public void updateCheck(GlobalVariable globalVariable,Context context,StandardApparatusAdapter standardApparatusAdapter ,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,int position,ListView listView){
-
+        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
 
         StandardApparatus standardApparatus=(StandardApparatus) standardApparatusAdapter.getItem(position);
 
@@ -553,7 +226,8 @@ public class CommonUtil extends Activity {
         final Map<String,String> map=new LinkedHashMap<>(standardApparatus.getQuantity());
 
         for(int i=0;i<standardApparatus.getQuantity();i++){
-            map.put("校准点："+standardApparatus.getList1().get(i)+"  修正值："+standardApparatus.getList2().get(i),String.valueOf(i+1));
+            map.put("温度校准点："+standardApparatus.getList1().get(i)+"  温度修正值："+standardApparatus.getList2().get(i),String.valueOf(i+1));
+            map.put("湿度校准点："+standardApparatus.getList3().get(i)+"  湿度修正值："+standardApparatus.getList4().get(i),String.valueOf(i+1));
         }
 
         final String[] keysTemp=new String[standardApparatus.getQuantity()];
@@ -565,8 +239,9 @@ public class CommonUtil extends Activity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(standardApparatusDBHelper.updateCheck(tableName,standardApparatus.getID(),globalVariable.getHumStandardID()));
-                        globalVariable.setHumStandardID(standardApparatus.getID());
+                        if(standardApparatusDBHelper.updateCheck(tableName,standardApparatus.getID(),systemData.getHumStandardID()));
+                        systemData.setHumStandardID(standardApparatus.getID());
+                        systemDBHelper.updateSystemData(systemData);
                         Toast.makeText(context,"已选择"+standardApparatus.getName(),Toast.LENGTH_SHORT).show();
                         updateListView(standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
                     }
@@ -597,17 +272,137 @@ public class CommonUtil extends Activity {
     }
 
     public String getDateTimeToString(Date date){
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time=simpleDateFormat.format(date);
         return time;
     }
 
 
 
+    //创建VelocityTracker对象,并将触摸界面的滑动事件添加到VelocityTracker中
+    public void createVelocityTracker(MotionEvent event){
+        if (velocityTracker==null){
+            velocityTracker= VelocityTracker.obtain();
+        }
+        velocityTracker.addMovement(event);
+    }
+    //回收VelocityTracker对象
+    public void recycleVelocityTracker(){
+        velocityTracker.recycle();
+        velocityTracker=null;
+    }
+    //滑动速度,以每秒钟移动了多少像素值为单位
+    public int getScrollVelocity(){
+        velocityTracker.computeCurrentVelocity(1000);
+        int velocity=(int)velocityTracker.getYVelocity();
+        return Math.abs(velocity);
+    }
+
+
     //读温度功率
 
 
+    public String floatToString(float f){
+        DecimalFormat decimalFormat=new DecimalFormat("##0.00");
+        String s=decimalFormat.format(f);
+        return s;
+    }
 
 
+
+
+
+
+
+
+    //判断当前设备运行到了第几分钟（用于显示变化速率）
+    public  long getDatePoor() {
+
+        Date date=new Date();
+        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        SystemData systemData1=systemDBHelper.getSystemData();
+        if(systemData1.getStartTime()==null){
+            return 1;
+        }
+
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        // long ns = 1000;
+        // 获得两个时间的毫秒时间差异
+        long diff = date.getTime() - systemData1.getStartTime().getTime();
+        // 计算差多少天
+        long day = diff / nd;
+        // 计算差多少小时
+        long hour = diff % nd / nh;
+        // 计算差多少分钟
+        long min = diff % nd % nh / nm;
+        // 计算差多少秒//输出结果
+        // long sec = diff % nd % nh % nm / ns;
+
+        if(min==0){
+            min=1;
+        }
+      return min;
+    }
+
+    public void write5(String filePathName,String str,String fileName) {
+        String filePath = Environment.getExternalStorageDirectory().toString()+ File.separator + "nimeng"+File.separator+filePathName;
+
+
+
+        Log.d("filePath", "write5: "+filePath);
+        /*
+        *   D/filePath: write5: /storage/emulated/0/test
+            D/File参数: write5:/storage/emulated/0/test/test5
+        * */
+
+        File file = new File(filePath + File.separator +fileName); // 定义File类对象
+
+        Log.d("File参数", "write5:"+filePath+File.separator+fileName);
+
+
+
+
+        if(!file.getParentFile().exists()) { // 父文件夹不存在
+            file.getParentFile().mkdirs(); // 创建文件夹
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(str.getBytes());
+            out.close();
+        } catch(Exception e) {
+            // TODOAuto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+    //追加的方式
+    public  void write6(String filePathName,String str, String fileName) {
+        String filePath = Environment.getExternalStorageDirectory().toString()+ File.separator + "nimeng"+File.separator+filePathName;
+
+        File file = new File(filePath + File.separator +fileName); // 定义File类对象
+        if(!file.getParentFile().exists()) { // 父文件夹不存在
+            file.getParentFile().mkdirs(); // 创建文件夹
+        }
+        RandomAccessFile randomFile;
+
+
+        try {
+            randomFile = new RandomAccessFile(filePath + File.separator + fileName,"rw");
+
+            long length= randomFile.length();
+            randomFile.seek(length);
+
+            randomFile.write(str.getBytes());
+            randomFile.close();
+
+        } catch(Exception e) {
+            // TODOAuto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
 }

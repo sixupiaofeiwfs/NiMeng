@@ -44,7 +44,7 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
         String sql="create table "
                 +TABLENAME+
                 "("+
-                "id integer primary key,"+
+                "id integer primary key  AUTOINCREMENT,"+
                 "name varchar(30) not null,"+
                 "port int not null,"+
                 "format varchar not null,"+
@@ -180,6 +180,7 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
             humStandarApparatus.setTraceabilityUnit(result.getString(10));
             humStandarApparatus.setTime(result.getString(11));
             humStandarApparatus.setIsCheck(result.getInt(12));
+            result.close();
             return humStandarApparatus;
         }
         humStandarApparatus.setName(null);

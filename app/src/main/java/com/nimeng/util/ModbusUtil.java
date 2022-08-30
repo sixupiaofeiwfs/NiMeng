@@ -13,6 +13,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ModbusUtil {
@@ -25,6 +26,10 @@ public class ModbusUtil {
 
     SerialPortParams build=new SerialPortParams.Builder().serialPortPath(ADDRESS).build();
     final SerialClient serialClient= SerialUtils.getInstance().getSerialClient(ADDRESS);
+
+
+
+
 
 
 
@@ -199,6 +204,9 @@ public class ModbusUtil {
         List<byte[]> list=new ArrayList<>();
         byte[] bytes={00,01};
         list.add(bytes);
+
+        System.out.println("1----------------");
+
         serialClient.sendData(new ModBusData<Object>(01,05,0xFC07,list));
     }
     //关闭灯控开关
@@ -211,32 +219,59 @@ public class ModbusUtil {
     }
 
 
+    public  byte[] hex2Byte(String hex) {
+        String digital = "0123456789ABCDEF";
+        char[] hex2char = hex.toCharArray();
+        byte[] bytes = new byte[hex.length() / 2];
+        int temp;
+        for (int i = 0; i < bytes.length; i++) {
+            // 其实和上面的函数是一样的 multiple 16 就是右移4位 这样就成了高4位了
+            // 然后和低四位相加， 相当于 位操作"|"
+            //相加后的数字 进行 位 "&" 操作 防止负数的自动扩展. {0xff byte最大表示数}
+            temp = digital.indexOf(hex2char[2 * i]) * 16;
+            temp += digital.indexOf(hex2char[2 * i + 1]);
+            bytes[i] = (byte) (temp & 0xff);
+        }
+        return bytes;
+    }
+
+    public  byte[] mergeBytes(byte[] data1, byte[] data2) {
+        byte[] data3 = new byte[data1.length + data2.length];
+        System.arraycopy(data1, 0, data3, 0, data1.length);
+        System.arraycopy(data2, 0, data3, data1.length, data2.length);
+        return data3;
+    }
 
     //设定温度
     public void setTem(int tem){
 
-        String data= Integer.toHexString(tem);
-        byte byte1=Byte.valueOf(data);
+
+        String data= Integer.toHexString(tem).toUpperCase(Locale.ROOT);
+
+        byte[] newByte=hex2Byte(data);
+        System.out.println("设定温度时："+newByte.toString());
+        byte[] bytes={00,02,04,00,00};
+        byte[] bytesAndBytes=mergeBytes(bytes,newByte);
         List<byte[]> list=new ArrayList<>();
-        byte[] bytes={00,02,04,00,00,byte1};
-        list.add(bytes);
+        list.add(bytesAndBytes);
         serialClient.sendData(new ModBusData<Object>(01,10,0x001F,list));
 
     }
     //设定湿度
     public void setHum(int hum){
 
-        String data= Integer.toHexString(hum);
-        byte byte1=Byte.valueOf(data);
+        String data= Integer.toHexString(hum).toUpperCase(Locale.ROOT);
+        byte[] newByte=hex2Byte(data);
+        byte[] bytes={00,02,04,00,00};
+        byte[] bytesAndBytes=mergeBytes(bytes,newByte);
         List<byte[]> list=new ArrayList<>();
-        byte[] bytes={00,02,04,00,00,byte1};
-        list.add(bytes);
+        list.add(bytesAndBytes);
         serialClient.sendData(new ModBusData<Object>(01,10,0x0021,list));
-
     }
 
     //获取液位报警
     public boolean getLevelWarning(){
+
         serialClient.sendData(new ModBusData<Object>(01, 03, 0xF801, 1, new ModBusDataListener() {
             @Override
             public void onSucceed(String hexValue, byte[] bytes) {
@@ -429,6 +464,9 @@ public class ModbusUtil {
         }
         return number;
     }
+
+
+
 
 
 }

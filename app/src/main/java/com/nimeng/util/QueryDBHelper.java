@@ -42,9 +42,9 @@ public class QueryDBHelper extends BaseUtil {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "create table" +
+        String sql = "create table " +
                 TABLENAME +
-                "(" +
+                " (" +
                 "name varchar not null," +
                 "time Date not null," +
                 "PVTem float not null," +
@@ -171,6 +171,7 @@ public class QueryDBHelper extends BaseUtil {
             queryBean.setDewPointTem(result.getFloat(8));
             queryBean.setTem(result.getFloat(9));
 
+            result.close();
             return queryBean;
         }
 

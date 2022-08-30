@@ -116,11 +116,13 @@ public class CameraDBHelper extends BaseUtil {
             result.moveToFirst();
             cameraBean.setName(result.getString(1));
             cameraBean.setPort(result.getString(2));
+            result.close();
             return cameraBean;
         }
 
         cameraBean.setName("");
         cameraBean.setPort("");
+        result.close();
         return cameraBean;
 
     }

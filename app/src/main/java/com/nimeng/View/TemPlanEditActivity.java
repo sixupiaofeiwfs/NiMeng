@@ -14,11 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.nimeng.bean.TemPlanBean;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
 import com.nimeng.util.TemPlanDBHelper;
 
-import java.util.List;
-
-public class TemPlanEditActivity extends BaseAvtivity {
+public class TemPlanEditActivity extends CommonUtil {
 
     private EditText editName,editUnitTime,editTemWave,editTem1,editTem2,editTem3,editTem4,editTem5,editTem6,editTem7,editTem8,editTem9,editTem10;
 
@@ -28,10 +28,12 @@ public class TemPlanEditActivity extends BaseAvtivity {
     private Button button1,button2;
     private TemPlanDBHelper templanDBHelper;
 
-    private float tem1,tem2,tem3,tem4,tem5,tem6,tem7,tem8,tem9,tem10;
+    private int tem1,tem2,tem3,tem4,tem5,tem6,tem7,tem8,tem9,tem10;
     private int temPoints;
 
     private TextView textView1,textView2,textView3,textView4,textView5,textView6,textView7,textView8,textView9,textView10;
+
+    private SystemDBHelper systemDBHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class TemPlanEditActivity extends BaseAvtivity {
         button1=findViewById(R.id.btn_true);
         button2=findViewById(R.id.btn_false);
         templanDBHelper=new TemPlanDBHelper(TemPlanEditActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(TemPlanEditActivity.this,"NIMENG.db",null,1);
         editName=findViewById(R.id.edit_templan_name);
         editUnitTime=findViewById(R.id.edit_templan_unitTime);
         editTemWave=findViewById(R.id.edit_templan_temWave);
@@ -55,12 +58,13 @@ public class TemPlanEditActivity extends BaseAvtivity {
         editTem10=findViewById(R.id.edit_templan_tem10);
         spinner=findViewById(R.id.spinner1);
 
+        linearLayout4=findViewById(R.id.LinearLayout4);
         linearLayout5=findViewById(R.id.LinearLayout5);
         linearLayout6=findViewById(R.id.LinearLayout6);
         linearLayout7=findViewById(R.id.LinearLayout7);
         linearLayout8=findViewById(R.id.LinearLayout8);
         linearLayout9=findViewById(R.id.LinearLayout9);
-        linearLayout10=findViewById(R.id.LinearLayout10);
+       // linearLayout10=findViewById(R.id.LinearLayout10);
 
 
         textView1=findViewById(R.id.text1);
@@ -84,108 +88,140 @@ public class TemPlanEditActivity extends BaseAvtivity {
 
                 switch(i){
                     case 9:
-                        linearLayout9.setVisibility(View.VISIBLE);
                         linearLayout8.setVisibility(View.VISIBLE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView10.setVisibility(View.VISIBLE);
                         editTem10.setVisibility(View.VISIBLE);
+                        textView8.setVisibility(View.VISIBLE);
+                        editTem8.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editTem6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editTem4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 8:
-                        linearLayout9.setVisibility(View.VISIBLE);
                         linearLayout8.setVisibility(View.VISIBLE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView10.setVisibility(View.INVISIBLE);
                         editTem10.setVisibility(View.INVISIBLE);
+                        textView8.setVisibility(View.VISIBLE);
+                        editTem8.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editTem6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editTem4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 7:
-                        linearLayout9.setVisibility(View.GONE);
-                        linearLayout8.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView8.setVisibility(View.VISIBLE);
                         editTem8.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editTem6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editTem4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 6:
-                        linearLayout9.setVisibility(View.GONE);
-                        linearLayout8.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView8.setVisibility(View.INVISIBLE);
                         editTem8.setVisibility(View.INVISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editTem6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editTem4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 5:
-                        linearLayout9.setVisibility(View.GONE);
-                        linearLayout8.setVisibility(View.GONE);
-                        linearLayout7.setVisibility(View.VISIBLE);
-                        linearLayout6.setVisibility(View.VISIBLE);
-                        linearLayout5.setVisibility(View.VISIBLE);
-                        textView6.setVisibility(View.VISIBLE);
-                        editTem6.setVisibility(View.VISIBLE);
-                        textView2.setVisibility(View.VISIBLE);
-                        editTem2.setVisibility(View.VISIBLE);
-                        break;
-                    case 4:
-                        linearLayout9.setVisibility(View.GONE);
-                        linearLayout8.setVisibility(View.GONE);
-                        linearLayout7.setVisibility(View.VISIBLE);
-                        linearLayout6.setVisibility(View.VISIBLE);
-                        linearLayout5.setVisibility(View.VISIBLE);
-                        textView6.setVisibility(View.INVISIBLE);
-                        editTem6.setVisibility(View.INVISIBLE);
-                        textView2.setVisibility(View.VISIBLE);
-                        editTem2.setVisibility(View.VISIBLE);
-                        break;
-                    case 3:
-                        linearLayout9.setVisibility(View.GONE);
+
                         linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.GONE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editTem6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editTem4.setVisibility(View.VISIBLE);
+                        textView2.setVisibility(View.VISIBLE);
+                        editTem2.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
+                        linearLayout6.setVisibility(View.VISIBLE);
+                        linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.INVISIBLE);
+                        editTem6.setVisibility(View.INVISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editTem4.setVisibility(View.VISIBLE);
+                        textView2.setVisibility(View.VISIBLE);
+                        editTem2.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
+                        linearLayout6.setVisibility(View.GONE);
+                        linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView4.setVisibility(View.VISIBLE);
                         editTem4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        linearLayout9.setVisibility(View.GONE);
+
                         linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.GONE);
-                        linearLayout6.setVisibility(View.VISIBLE);
+                        linearLayout6.setVisibility(View.GONE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView4.setVisibility(View.INVISIBLE);
                         editTem4.setVisibility(View.INVISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        linearLayout9.setVisibility(View.GONE);
+
                         linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.GONE);
                         linearLayout6.setVisibility(View.GONE);
-                        linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout5.setVisibility(View.GONE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editTem2.setVisibility(View.VISIBLE);
                         break;
                     case 0:
-                        linearLayout9.setVisibility(View.GONE);
+
                         linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.GONE);
                         linearLayout6.setVisibility(View.GONE);
-                        linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout5.setVisibility(View.GONE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.INVISIBLE);
                         editTem2.setVisibility(View.INVISIBLE);
                         break;
@@ -206,14 +242,14 @@ public class TemPlanEditActivity extends BaseAvtivity {
 
                 String name=editName.getText().toString();
                 if(name==""){
-                    showToast("预设方案名称不能为空");
+                    showToast(TemPlanEditActivity.this,"预设方案名称不能为空");
                     return;
                 }
 
 
 
                 if(editUnitTime.getText().toString()==" "){
-                    showToast("单位时间不能为空");
+                    showToast(TemPlanEditActivity.this,"单位时间不能为空");
                     return;
                 }
 
@@ -221,7 +257,7 @@ public class TemPlanEditActivity extends BaseAvtivity {
 
 
                 if(editTemWave.getText().toString()==""){
-                    showToast("温度波动值不能为空");
+                    showToast(TemPlanEditActivity.this,"温度波动值不能为空");
                     return;
                 }
                 float temWave=Float.parseFloat( editTemWave.getText().toString());
@@ -249,134 +285,145 @@ public class TemPlanEditActivity extends BaseAvtivity {
                 switch(temPoints){
                     case 0:
                         if(STem1.equals("")){
-                            showToast("温度一不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
+                            tem1=Integer.valueOf(STem1);
                         }
                         break;
                     case 1:
                         if(STem1.equals("") || STem2.equals("")){
-                            showToast("温度一、温度二不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
                         }
                         break;
                     case 2:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("")){
-                            showToast("温度一、温度二、温度三不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
                         }
                         break;
 
                     case 3:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") ){
-                            showToast("温度一、温度二、温度三、温度四不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
                         }
                         break;
 
                     case 4:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") || STem5.equals("")){
-                            showToast("温度一、温度二、温度三、温度四、温度五不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四、温度五不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
-                            tem5=Float.valueOf(STem5);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
+                            tem5=Integer.valueOf(STem5);
                         }
                         break;
 
                     case 5:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") || STem5.equals("") || STem6.equals("")){
-                            showToast("温度一、温度二、温度三、温度四、温度五、温度六不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四、温度五、温度六不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
-                            tem5=Float.valueOf(STem5);
-                            tem6=Float.valueOf(STem6);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
+                            tem5=Integer.valueOf(STem5);
+                            tem6=Integer.valueOf(STem6);
                         }
                         break;
                     case 6:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") || STem5.equals("") || STem6.equals("") || STem7.equals("")){
-                            showToast("温度一、温度二、温度三、温度四、温度五、温度六、温度七不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四、温度五、温度六、温度七不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
-                            tem5=Float.valueOf(STem5);
-                            tem6=Float.valueOf(STem6);
-                            tem7=Float.valueOf(STem7);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
+                            tem5=Integer.valueOf(STem5);
+                            tem6=Integer.valueOf(STem6);
+                            tem7=Integer.valueOf(STem7);
                         }
                         break;
                     case 7:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") || STem5.equals("") || STem6.equals("") || STem7.equals("")|| STem8.equals("")){
-                            showToast("温度一、温度二、温度三、温度四、温度五、温度六不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四、温度五、温度六不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
-                            tem5=Float.valueOf(STem5);
-                            tem6=Float.valueOf(STem6);
-                            tem7=Float.valueOf(STem7);
-                            tem8=Float.valueOf(STem8);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
+                            tem5=Integer.valueOf(STem5);
+                            tem6=Integer.valueOf(STem6);
+                            tem7=Integer.valueOf(STem7);
+                            tem8=Integer.valueOf(STem8);
                         }
                         break;
                     case 8:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") || STem5.equals("") || STem6.equals("") || STem7.equals("") || STem8.equals("") || STem9.equals("")){
-                            showToast("温度一、温度二、温度三、温度四、温度五、温度六、温度七、温度八、温度九不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四、温度五、温度六、温度七、温度八、温度九不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
-                            tem5=Float.valueOf(STem5);
-                            tem6=Float.valueOf(STem6);
-                            tem7=Float.valueOf(STem7);
-                            tem8=Float.valueOf(STem8);
-                            tem9=Float.valueOf(STem9);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
+                            tem5=Integer.valueOf(STem5);
+                            tem6=Integer.valueOf(STem6);
+                            tem7=Integer.valueOf(STem7);
+                            tem8=Integer.valueOf(STem8);
+                            tem9=Integer.valueOf(STem9);
                         }
                         break;
                     case 9:
                         if(STem1.equals("") || STem2.equals("") || STem3.equals("") || STem4.equals("") || STem5.equals("") || STem6.equals("")|| STem7.equals("") || STem8.equals("") || STem9.equals("") || STem10.equals("")){
-                            showToast("温度一、温度二、温度三、温度四、温度五、温度六、温度七、温度八、温度九、温度十不能为空");
+                            showToast(TemPlanEditActivity.this,"温度一、温度二、温度三、温度四、温度五、温度六、温度七、温度八、温度九、温度十不能为空");
                             return;
                         }else{
-                            tem1=Float.valueOf(STem1);
-                            tem2=Float.valueOf(STem2);
-                            tem3=Float.valueOf(STem3);
-                            tem4=Float.valueOf(STem4);
-                            tem5=Float.valueOf(STem5);
-                            tem6=Float.valueOf(STem6);
-                            tem7=Float.valueOf(STem7);
-                            tem8=Float.valueOf(STem8);
-                            tem9=Float.valueOf(STem9);
-                            tem10=Float.valueOf(STem10);
+                            tem1=Integer.valueOf(STem1);
+                            tem2=Integer.valueOf(STem2);
+                            tem3=Integer.valueOf(STem3);
+                            tem4=Integer.valueOf(STem4);
+                            tem5=Integer.valueOf(STem5);
+                            tem6=Integer.valueOf(STem6);
+                            tem7=Integer.valueOf(STem7);
+                            tem8=Integer.valueOf(STem8);
+                            tem9=Integer.valueOf(STem9);
+                            tem10=Integer.valueOf(STem10);
                         }
                         break;
 
                 }
+
+
+                if(tem1>100||tem1<-20||tem2>100||tem2<-20||tem3>100||tem3<-20||tem4>100||tem4<-20||tem5>100||tem5<-20||tem6>100||tem6<-20||tem7>100||tem7<-20||tem8>100||tem8<-20||tem9>100||tem9<-20||tem10>100||tem10<-20){
+                    showToast(TemPlanEditActivity.this,"温度设定值不能大于100或小于-20");
+                    return;
+                }
+                if(unitTime>30){
+                    showToast(TemPlanEditActivity.this,"稳定条件的时间不能超过30分钟");
+                    return;
+                }
+
 
 
                 int result= templanDBHelper.findTemPlanByName(name);
@@ -402,19 +449,20 @@ public class TemPlanEditActivity extends BaseAvtivity {
 
                     if(templanDBHelper.add(templanBean2)){
                         Log.d("添加成功", "onClick: ");
-                        showToast("添加成功");
-                        List<String> list=globalVariable.getTemPlanList();
-                        list.add(templanBean2.getName());
-                        globalVariable.setTemPlanList(list);
+                        showToast(TemPlanEditActivity.this,"添加成功");
+
+
+
+
                         startActivity(new Intent(TemPlanEditActivity.this,TemPlanActivity.class));
 
 
                     }else{
                         Log.d("添加失败", "onClick: ");
-                        showToast("添加失败");
+                        showToast(TemPlanEditActivity.this,"添加失败");
                     }
                 }else{
-                    showToast("该方案已经存在");
+                    showToast(TemPlanEditActivity.this,"该方案已经存在");
                 }
 
 

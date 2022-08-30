@@ -100,6 +100,7 @@ public class LineChart
         mMltRenderer.setLabelsTextSize(20);//设置坐标轴数字的大小
 
 
+
     }
 
     //添加一条折线到图表

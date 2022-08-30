@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.nimeng.Adapter.ComprehensiveDataAdapter;
 import com.nimeng.bean.ComprehensiveDataBean;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.ComprehensiveDataDBHelper;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class ComprehensiveDataActivity extends BaseAvtivity{
+public class ComprehensiveDataActivity extends CommonUtil {
     private ListView listView;
     private ComprehensiveDataAdapter adapter;
     private ComprehensiveDataDBHelper comprehensiveDataDBHelper;

@@ -19,22 +19,22 @@ public class HumPlanBean {
     private int unitTime;
     private float humWave;
     private int humPoints;
-    private float hum1;
-    private float hum2;
-    private float hum3;
-    private float hum4;
-    private float hum5;
-    private float hum6;
-    private float hum7;
-    private float hum8;
-    private float hum9;
-    private float hum10;
+    private int hum1;
+    private int hum2;
+    private int hum3;
+    private int hum4;
+    private int hum5;
+    private int hum6;
+    private int hum7;
+    private int hum8;
+    private int hum9;
+    private int hum10;
     private int isCheck;
 
     public HumPlanBean() {
     }
 
-    public HumPlanBean(int ID, String name, int unitTime, float humWave, int humPoints, float hum1, float hum2, float hum3, float hum4, float hum5, float hum6, float hum7, float hum8, float hum9, float hum10, int isCheck) {
+    public HumPlanBean(int ID, String name, int unitTime, float humWave, int humPoints, int hum1, int hum2, int hum3, int hum4, int hum5, int hum6, int hum7, int hum8, int hum9, int hum10, int isCheck) {
         this.ID = ID;
         this.name = name;
         this.unitTime = unitTime;
@@ -52,7 +52,6 @@ public class HumPlanBean {
         this.hum10 = hum10;
         this.isCheck = isCheck;
     }
-
 
     public int getID() {
         return ID;
@@ -86,54 +85,6 @@ public class HumPlanBean {
         this.humWave = humWave;
     }
 
-    public float getHum1() {
-        return hum1;
-    }
-
-    public void setHum1(float hum1) {
-        this.hum1 = hum1;
-    }
-
-    public float getHum2() {
-        return hum2;
-    }
-
-    public void setHum2(float hum2) {
-        this.hum2 = hum2;
-    }
-
-    public float getHum3() {
-        return hum3;
-    }
-
-    public void setHum3(float hum3) {
-        this.hum3 = hum3;
-    }
-
-    public float getHum4() {
-        return hum4;
-    }
-
-    public void setHum4(float hum4) {
-        this.hum4 = hum4;
-    }
-
-    public float getHum5() {
-        return hum5;
-    }
-
-    public void setHum5(float hum5) {
-        this.hum5 = hum5;
-    }
-
-    public int getIsCheck() {
-        return isCheck;
-    }
-
-    public void setIsCheck(int isCheck) {
-        this.isCheck = isCheck;
-    }
-
     public int getHumPoints() {
         return humPoints;
     }
@@ -142,44 +93,92 @@ public class HumPlanBean {
         this.humPoints = humPoints;
     }
 
-    public float getHum6() {
+    public int getHum1() {
+        return hum1;
+    }
+
+    public void setHum1(int hum1) {
+        this.hum1 = hum1;
+    }
+
+    public int getHum2() {
+        return hum2;
+    }
+
+    public void setHum2(int hum2) {
+        this.hum2 = hum2;
+    }
+
+    public int getHum3() {
+        return hum3;
+    }
+
+    public void setHum3(int hum3) {
+        this.hum3 = hum3;
+    }
+
+    public int getHum4() {
+        return hum4;
+    }
+
+    public void setHum4(int hum4) {
+        this.hum4 = hum4;
+    }
+
+    public int getHum5() {
+        return hum5;
+    }
+
+    public void setHum5(int hum5) {
+        this.hum5 = hum5;
+    }
+
+    public int getHum6() {
         return hum6;
     }
 
-    public void setHum6(float hum6) {
+    public void setHum6(int hum6) {
         this.hum6 = hum6;
     }
 
-    public float getHum7() {
+    public int getHum7() {
         return hum7;
     }
 
-    public void setHum7(float hum7) {
+    public void setHum7(int hum7) {
         this.hum7 = hum7;
     }
 
-    public float getHum8() {
+    public int getHum8() {
         return hum8;
     }
 
-    public void setHum8(float hum8) {
+    public void setHum8(int hum8) {
         this.hum8 = hum8;
     }
 
-    public float getHum9() {
+    public int getHum9() {
         return hum9;
     }
 
-    public void setHum9(float hum9) {
+    public void setHum9(int hum9) {
         this.hum9 = hum9;
     }
 
-    public float getHum10() {
+    public int getHum10() {
         return hum10;
     }
 
-    public void setHum10(float hum10) {
+    public void setHum10(int hum10) {
         this.hum10 = hum10;
+    }
+
+    public int getIsCheck() {
+        return isCheck;
+    }
+
+    public void setIsCheck(int isCheck) {
+        this.isCheck = isCheck;
     }
 
     @Override

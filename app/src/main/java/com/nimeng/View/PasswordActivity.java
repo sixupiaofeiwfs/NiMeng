@@ -1,32 +1,30 @@
 package com.nimeng.View;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import com.nimeng.bean.Password;
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
 
-import com.nimeng.bean.GlobalVariable;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class PasswordActivity  extends BaseAvtivity {
+public class PasswordActivity  extends CommonUtil {
 
 
-    GlobalVariable globalVariable;
+
     EditText editText;
     String edit1;
     Button btn1;
 
+    SystemDBHelper systemDBHelper;
+    SystemData systemData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        globalVariable=(GlobalVariable) getApplicationContext();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_password);
@@ -35,6 +33,8 @@ public class PasswordActivity  extends BaseAvtivity {
         btn1= findViewById(R.id.password_btn1);
 
         int excutingNumber=checkTime();
+        systemDBHelper=new SystemDBHelper(PasswordActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,15 +56,16 @@ public class PasswordActivity  extends BaseAvtivity {
     public void checkPassword(int excutingNumber){
 
         //获取当前正在执行的密码
-        String executingPassword=globalVariable.getPasswords().get(excutingNumber-1);
-        String superPassword=globalVariable.getSuperPassword();
+        String executingPassword=systemDBHelper.getPassword().get(excutingNumber-1).getPassword();
+
+        String superPassword=systemData.getSuperPassword();
 
         edit1=editText.getText().toString();
 
         System.out.println("判断-----------"+excutingNumber+"---------------->"+executingPassword+"-------"+superPassword+"_________"+edit1);
 
 
-        int errorNumber=globalVariable.getErrorNumbers().get(excutingNumber-1);
+        int errorNumber=systemDBHelper.getPassword().get(excutingNumber-1).getErrorNumbers();
 
         if(errorNumber>=3){
             System.out.println(0);
@@ -78,17 +79,29 @@ public class PasswordActivity  extends BaseAvtivity {
                 if(!executingPassword.equals(edit1) && !superPassword.equals(edit1)){
                     System.out.println(1);
                     errorNumber=errorNumber+1;
-                    List<Integer> errorNumbers=globalVariable.getErrorNumbers();
-                    errorNumbers.set(excutingNumber-1,errorNumber);
-                    globalVariable.setErrorNumbers(errorNumbers);
+
+                    Password password=new Password();
+                    password.setId(excutingNumber-1);
+                    password.setPassword(executingPassword);
+                    password.setErrorNumbers(errorNumber);
+                    password.setTimes(systemDBHelper.getPassword().get(excutingNumber-1).getTimes());
+                    password.setMatchs(false);
+
+                    systemDBHelper.updatePassword(password);
+
                     Toast.makeText(PasswordActivity.this,"密码错误，请重新输入",Toast.LENGTH_SHORT).show();
 
                 }else{
 
-                    List<Boolean> matchs=new ArrayList<Boolean>();
-                    matchs=globalVariable.getMatchs();
-                    matchs.set(excutingNumber-1,true);
-                    globalVariable.setMatchs(matchs);
+                    Password password=new Password();
+                    password.setId(excutingNumber-1);
+                    password.setPassword(executingPassword);
+                    password.setErrorNumbers(errorNumber);
+                    password.setTimes(systemDBHelper.getPassword().get(excutingNumber-1).getTimes());
+                    password.setMatchs(true);
+
+                    systemDBHelper.updatePassword(password);
+
                     Intent intent=new Intent(PasswordActivity.this,MainActivity.class);
                     startActivity(intent);
                 }

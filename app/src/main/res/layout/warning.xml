@@ -36,10 +36,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="液位报警"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:id="@+id/warningtext1">
+            android:id="@+id/warningReason">
         </TextView>
 
     </LinearLayout>
@@ -57,14 +56,14 @@
             android:textSize="20dp">
         </TextView>
 
-      <TextClock
-          android:layout_marginLeft="20dp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textSize="20dp"
-          android:format24Hour="yyyy-MM-dd HH:mm:ss"
-          android:format12Hour="yyyy-MM-dd HH:mm:ss">
-      </TextClock>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/warningTime">
+        </TextView>
 
 
     </LinearLayout>

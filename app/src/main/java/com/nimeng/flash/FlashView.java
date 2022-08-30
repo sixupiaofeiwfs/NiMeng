@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
 
 import androidx.annotation.RequiresApi;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -88,8 +89,8 @@ public class FlashView extends View {
 
     private int[]colorArr={
             Color.parseColor("#f83149"),
-            Color.parseColor("#4169E1"),
-            Color.parseColor("#f83149")
+            Color.parseColor("#4169E1")
+
     };
 
     private Random random=new Random();
@@ -348,9 +349,9 @@ public class FlashView extends View {
     public void setProgress(float percent,String type) {
 
         if(type=="tem"){
-            this.progress="  "+percent+"℃";
+            this.progress="  "+floatToString(percent)+"℃";
         }else{
-            this.progress="  "+percent+"%";
+            this.progress="  "+floatToString(percent)+"%";
         }
 
         if(type.equals("tem")){
@@ -359,16 +360,24 @@ public class FlashView extends View {
             HumTextPaint.getTextBounds(progress,0,progress.length(),rect);
         }
 
-        if (percent <= 10) {
+        if(type=="tem"){
+            textPaint.setColor(Color.RED);
             changeColor(colorArr[0]);
-            textPaint.setColor(Color.RED);
-        } else if (percent <= 30) {
-            changeColor(colorArr[1]);
+        }else{
             textPaint.setColor(Color.BLUE);
-        } else {
-            changeColor(colorArr[2]);
-            textPaint.setColor(Color.RED);
+            changeColor(colorArr[1]);
         }
+
+//        if (percent <= 10) {
+//            changeColor(colorArr[0]);
+//            textPaint.setColor(Color.RED);
+//        } else if (percent <= 30) {
+//            changeColor(colorArr[1]);
+//            textPaint.setColor(Color.BLUE);
+//        } else {
+//            changeColor(colorArr[2]);
+//            textPaint.setColor(Color.RED);
+//        }
     }
 
 
@@ -384,10 +393,10 @@ public class FlashView extends View {
 
         if(type.equals("tem")){
             temSetTextPaint.getTextBounds(value,0,value.length(),rect);
-            textPaint1.setColor(Color.BLUE);
+            textPaint1.setColor(Color.RED);
         }else{
             humSetTextPaint.getTextBounds(value,0,value.length(),rect);
-            textPaint1.setColor(Color.RED);
+            textPaint1.setColor(Color.BLUE);
         }
 
 
@@ -429,5 +438,11 @@ public class FlashView extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         isStop = true;
+    }
+
+    public String floatToString(float f){
+        DecimalFormat decimalFormat=new DecimalFormat("##0.00");
+        String s=decimalFormat.format(f);
+        return s;
     }
 }

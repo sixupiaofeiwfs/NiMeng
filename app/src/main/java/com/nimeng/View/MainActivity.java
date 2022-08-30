@@ -1,64 +1,76 @@
 package com.nimeng.View;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.modbus.SerialClient;
 import com.modbus.SerialPortParams;
 import com.modbus.SerialUtils;
 import com.modbus.modbus.ModBusData;
 import com.modbus.modbus.ModBusDataListener;
+import com.nimeng.Adapter.DataRecordAdapter;
 import com.nimeng.bean.DataRecodeBean;
 
-import com.nimeng.bean.GlobalVariable;
+import com.nimeng.bean.HumPlanBean;
+import com.nimeng.bean.SystemData;
+import com.nimeng.bean.TemPlanBean;
 import com.nimeng.flash.FlashView;
 import com.nimeng.flash.VirtualBarUtil;
+import com.nimeng.util.BaseUtil;
+import com.nimeng.util.ChangeDataDBHelper;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.DataRecordDBHelper;
 import com.nimeng.util.HumPlanDBHelper;
 import com.nimeng.util.ModbusUtil;
+import com.nimeng.util.SystemDBHelper;
 import com.nimeng.util.TemPlanDBHelper;
+
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
-public class MainActivity extends BaseAvtivity  {
+public class MainActivity extends CommonUtil {
 
-
-    public static final String DATABASE_NAME="NIMENG.db";
-    private static final int MIN_DISTANCE=100;//最小滑动距离
+    public static final int REQUEST_CODE = 1024;
+    public static final String DATABASE_NAME = "NIMENG.db";
+    private static final int MIN_DISTANCE = 100;//最小滑动距离
     private GestureDetector gestureDetector;
 
     private FlashView mTemView;
@@ -66,13 +78,13 @@ public class MainActivity extends BaseAvtivity  {
     private Button btn_tem;
     private Button btn_hum;
 
-    private String tem,hum;
+    private String tem, hum;
 
-    private final String TAG="MainActivity";
+    private final String TAG = "MainActivity";
 
     private DataRecordDBHelper dataRecordDBHelper;
-    private DataRecodeBean dataRecodeBean;
-    private GlobalVariable globalVariable;
+    private DataRecodeBean dataRecodeBean = new DataRecodeBean();
+
     private TemPlanDBHelper temPlanDBHelper;
     private HumPlanDBHelper humPlanDBHelper;
     private ListView listView;
@@ -82,45 +94,321 @@ public class MainActivity extends BaseAvtivity  {
     int excutingNumber;
     AlarmManager alarmManager;
 
-    private ImageView imageView1,imageViewLogo;
-    public final String LIGHTONACTION="android.intent.action.LIGHTON";
 
-    private ModbusUtil modbusUtil=new ModbusUtil();
-    public float temPower,humPower;
+    private ImageView imageView1, imageViewLogo;
+    public final String LIGHTONACTION = "android.intent.action.LIGHTON";
+
+    private ModbusUtil modbusUtil = new ModbusUtil();
+    public float temPower, humPower;
+
+    private CommonUtil commonUtil = new CommonUtil();
+
+
+    Spinner spinner1, spinner2;
+
+    SystemDBHelper systemDBHelper;
+
+
+    SerialClient serialClient;
+
+    public static final String ADDRESS = "/dev/ttyS0";
+
+
+    private boolean isFalse;
+
+    public  SystemData systemDataOnFailed;
+
+    public ChangeDataDBHelper changeDataDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        changeDataDBHelper =new ChangeDataDBHelper(MainActivity.this,"NIMENG.db",null,1);
+        dataRecordDBHelper = new DataRecordDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+
+
+        SerialPortParams build = new SerialPortParams.Builder().serialPortPath(ADDRESS).build();
+        serialClient = SerialUtils.getInstance().getSerialClient(ADDRESS);
+
+        //判断是否需要隐藏底部的虚拟按键
+        if (VirtualBarUtil.hasNavBar(this)) {
+            VirtualBarUtil.hideBottomUIMenu(this);
+        }
+        setContentView(R.layout.activity_main);
+
+
+        mTemView = findViewById(R.id.wd);
+        mHumView = findViewById(R.id.sd);
+        imageViewLogo = findViewById(R.id.main_logo);
+        spinner1 = (Spinner) findViewById(R.id.main_spinner1);
+        spinner2 = (Spinner) findViewById(R.id.main_spinner2);
+
+        btn_tem = findViewById(R.id.mian_btn1);
+        btn_hum = findViewById(R.id.mian_btn2);
+
+        imageView1 = findViewById(R.id.main_light);
+
+        //获取文件读写权限
+        onPermission();
+
+        temPlanDBHelper = new TemPlanDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        humPlanDBHelper = new HumPlanDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+
+        systemDBHelper = new SystemDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        SystemData primarySystemData = systemDBHelper.getSystemData();
+        systemDataOnFailed= systemDBHelper.getSystemData();
+
+        List<TemPlanBean> temPlanBeans = temPlanDBHelper.query();
+        List<HumPlanBean> humPlanBeans = humPlanDBHelper.query();
+
+        /**
+         * 1.添加温湿度点 和预设方案
+         */
+
+        System.out.println("温度预设方案---" + temPlanBeans);
+        if (temPlanBeans == null || temPlanBeans.size() == 0) {
+            TemPlanBean temPlanBean1, temPlanBean2, temPlanBean3, temPlanBean4;
+            temPlanBean1 = new TemPlanBean();
+            temPlanBean1.setName("方案一（不设置）");
+            temPlanBean1.setUnitTime(0);
+            temPlanBean1.setTemWave(0);
+            temPlanBean1.setTemPoints(0);
+            temPlanBean1.setIsCheck(0);
+            temPlanDBHelper.add(temPlanBean1);
+
+            temPlanBean2 = new TemPlanBean();
+            temPlanBean2.setName("方案二（20℃-40℃-60-80℃）");
+            temPlanBean2.setUnitTime(0);
+            temPlanBean2.setTemWave(0);
+            temPlanBean2.setTemPoints(4);
+            temPlanBean2.setTem1(20);
+            temPlanBean2.setTem2(40);
+            temPlanBean2.setTem3(60);
+            temPlanBean2.setTem4(80);
+            temPlanBean2.setIsCheck(0);
+            temPlanDBHelper.add(temPlanBean2);
+
+            temPlanBean3 = new TemPlanBean();
+            temPlanBean3.setName("方案三（15℃-20℃-40℃-60℃-80℃）");
+            temPlanBean3.setUnitTime(0);
+            temPlanBean3.setTemWave(0);
+            temPlanBean3.setTemPoints(5);
+            temPlanBean3.setTem1(15);
+            temPlanBean3.setTem2(20);
+            temPlanBean3.setTem3(40);
+            temPlanBean3.setTem4(60);
+            temPlanBean3.setTem5(80);
+            temPlanBean3.setIsCheck(0);
+            temPlanDBHelper.add(temPlanBean3);
+
+
+            temPlanBean4 = new TemPlanBean();
+            temPlanBean4.setName("方案四（15℃-20℃-40-℃-60℃-80℃-90℃）");
+            temPlanBean4.setUnitTime(0);
+            temPlanBean4.setTemWave(0);
+            temPlanBean4.setTemPoints(6);
+            temPlanBean4.setTem1(15);
+            temPlanBean4.setTem2(20);
+            temPlanBean4.setTem3(40);
+            temPlanBean4.setTem4(60);
+            temPlanBean4.setTem5(80);
+            temPlanBean4.setTem6(90);
+            temPlanBean4.setIsCheck(0);
+            temPlanDBHelper.add(temPlanBean4);
+        }
+
+
+        if (humPlanBeans == null || humPlanBeans.size() == 0) {
+            HumPlanBean humPlanBean1, humPlanBean2, humPlanBean3, humPlanBean4;
+            humPlanBean1 = new HumPlanBean();
+            humPlanBean1.setName("方案一（不设置）");
+            humPlanBean1.setHumPoints(0);
+            humPlanBean1.setUnitTime(0);
+            humPlanBean1.setHumWave(0);
+            humPlanBean1.setIsCheck(0);
+            humPlanDBHelper.add(humPlanBean1);
+
+
+            humPlanBean2 = new HumPlanBean();
+            humPlanBean2.setName("方案二（40%）");
+            humPlanBean2.setUnitTime(0);
+            humPlanBean2.setHumWave(0);
+            humPlanBean2.setHumPoints(1);
+            humPlanBean2.setHum1(40);
+            humPlanBean2.setIsCheck(0);
+            humPlanDBHelper.add(humPlanBean2);
+
+            humPlanBean3 = new HumPlanBean();
+            humPlanBean3.setName("方案三（20%-40%-60%-80%）");
+            humPlanBean3.setUnitTime(0);
+            humPlanBean3.setHumWave(0);
+            humPlanBean3.setHumPoints(4);
+            humPlanBean3.setHum1(20);
+            humPlanBean3.setHum2(40);
+            humPlanBean3.setHum3(60);
+            humPlanBean3.setHum4(80);
+            humPlanBean3.setIsCheck(0);
+            humPlanDBHelper.add(humPlanBean3);
+
+
+            humPlanBean4 = new HumPlanBean();
+            humPlanBean4.setName("方案四（20%-40%-60%-80%-90%）");
+            humPlanBean4.setUnitTime(0);
+            humPlanBean4.setHumWave(0);
+            humPlanBean4.setHumPoints(5);
+            humPlanBean4.setHum1(20);
+            humPlanBean4.setHum2(40);
+            humPlanBean4.setHum3(60);
+            humPlanBean4.setHum4(80);
+            humPlanBean4.setHum5(90);
+            humPlanBean4.setIsCheck(0);
+            humPlanDBHelper.add(humPlanBean4);
+        }
+
+
+        //添加系统默认数据 systemData
+        if (primarySystemData == null) {
+            SystemData systemData1 = new SystemData();
+            systemData1.setId(1);
+            systemData1.setTemUnitTime(0);
+            systemData1.setHumUnitTime(0);
+            systemData1.setTemWave(0);
+            systemData1.setHumWave(0);
+            systemData1.setStable(false);
+            systemData1.setTemPlanID(1);
+            systemData1.setHumPlanID(1);
+            systemData1.setExecutingTemID(1);
+            systemData1.setExecutingHumID(1);
+            systemData1.setTemStandardID(0);
+            systemData1.setHumStandardID(0);
+            systemData1.setHaveJurisdiction(true);
+            systemData1.setLightKeepSecond(0);
+            systemData1.setSelect1("0");
+            systemData1.setSelect2("0");
+            systemData1.setNumberOfStages(0);
+            systemData1.setInstallmentPayment(false);
+            systemData1.setSuperPassword("123456");
+            systemDBHelper.addSystemData(systemData1);
+        }
+
+
+        if (primarySystemData == null) {
+            systemDBHelper.addSwitch("1", false);
+            systemDBHelper.addSwitch("2", false);
+            systemDBHelper.addSwitch("3", false);
+            systemDBHelper.addSwitch("4", false);
+            systemDBHelper.addSwitch("5", false);
+            systemDBHelper.addSwitch("6", false);
+            systemDBHelper.addSwitch("7", false);
+            systemDBHelper.addSwitch("8", false);
+            systemDBHelper.addSwitch("9", false);
+            systemDBHelper.addSwitch("10", false);
+        }
+
+
         super.onCreate(savedInstanceState);
-        globalVariable=(GlobalVariable)getApplicationContext();
+    }
 
 
-        alarmManager=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+    // 获取存储权限
+    public void onPermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // 先判断有没有权限
+            if (Environment.isExternalStorageManager()) {
+
+            } else {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 先判断有没有权限
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+            }
+        } else {
+
+        }
+
+
+    }
+
+
+    @Override
+    protected void onRestart() {
+
+
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+
+       SystemData systemData = systemDBHelper.getSystemData();
+
+
+        if (!warnThread.isAlive()) {
+          //  warnThread.start();
+        }
+
+
+        if (systemData.getTemOnOrOff() == 0) {
+            temThread.interrupt();
+            btn_tem.setText("温度启动");
+        } else {
+            if (!temThread.isAlive()) {
+                temThread.start();
+            }
+
+            btn_tem.setText("温度停止");
+        }
+        if (systemData.getHumOnOrOff() == 0) {
+            humThread.interrupt();
+            btn_hum.setText("湿度启动");
+        } else {
+            if (!humThread.isAlive()) {
+                humThread.start();
+            }
+            btn_hum.setText("湿度停止");
+        }
+
+        boolean isInstallmentPayment;
+        if (systemData == null) {
+            isInstallmentPayment = false;
+        } else {
+            isInstallmentPayment = systemData.isInstallmentPayment();
+        }
 
 
         //判断是否分期
-        if(globalVariable.isInstallmentPayment()){
+        if (isInstallmentPayment) {
             //获取一共分了几期
-            int numberOfStages= globalVariable.getNumberOfStages();
+            int numberOfStages = systemData.getNumberOfStages();
             //当前时间处在第几期
-             excutingNumber=checkTime();
-            System.out.println("main---》当前处于第"+excutingNumber+"期");
+            excutingNumber = commonUtil.checkTime();
+            System.out.println("main---》当前处于第" + excutingNumber + "期");
 
             //获取当前是否已经匹配密码
-            System.out.println("判断当前是否已经匹配密码"+globalVariable.getMatchs().get(excutingNumber-1));
-            if(!globalVariable.getMatchs().get(excutingNumber-1)){
+            System.out.println("判断当前是否已经匹配密码" + systemDBHelper.getPassword().get(excutingNumber - 1).isMatchs());
+            if (!systemDBHelper.getPassword().get(excutingNumber - 1).isMatchs()) {
                 //获取已经错误的次数
-                errorNumber=globalVariable.getErrorNumbers().get(excutingNumber-1);
-                System.out.println("当前已经错误的次数"+errorNumber);
-                if(errorNumber>=3){
-                    Toast.makeText(this,"警告！密码连续输错超过三次，系统已停止",Toast.LENGTH_SHORT).show();
-                   System.exit(0);
-                   return;
+                errorNumber = systemDBHelper.getPassword().get(excutingNumber - 1).getErrorNumbers();
+                System.out.println("当前已经错误的次数" + errorNumber);
+                if (errorNumber >= 3) {
+                    Toast.makeText(this, "警告！密码连续输错超过三次，系统已停止", Toast.LENGTH_SHORT).show();
+                    System.exit(0);
+                    return;
                 }
 
 
-                intent1=new Intent(MainActivity.this,PasswordActivity.class);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent1 = new Intent(MainActivity.this, PasswordActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent1);
                 return;
 
@@ -128,25 +416,38 @@ public class MainActivity extends BaseAvtivity  {
             }
 
 
-
         }
 
 
-
-        //判断是否需要隐藏底部的虚拟按键
-        if(VirtualBarUtil.hasNavBar(this)){
-            VirtualBarUtil.hideBottomUIMenu(this);
+        if (systemData.getTemPlanID() == 1) {
+            mTemView.setValue(systemData.getSettingTem(), "tem");
+        } else {
+            mTemView.setValue(temPlanDBHelper.queryByID(systemData.getTemPlanID(), systemData.getExecutingTemID()), "tem");
         }
-        setContentView(R.layout.activity_main);
-        mTemView=findViewById(R.id.wd);
-        mHumView=findViewById(R.id.sd);
+
+        if (systemData.getHumPlanID() == 1) {
+            mHumView.setValue(systemData.getSettingHum(), "hum");
+        } else {
+            mHumView.setValue(humPlanDBHelper.queryByID(systemData.getHumPlanID(), systemData.getExecutingHumID()), "hum");
+        }
+
+
         //长按改变设定值
         mTemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                View view1=View.inflate(MainActivity.this,R.layout.setview_edit,null);
-                EditText editText=view1.findViewById(R.id.setview_edit);
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+
+                SystemData systemData1=systemDBHelper.getSystemData();
+
+
+                if (systemData1.getTemPlanID() != 1 && systemData1.getTemPlanID() != 0) {
+                    showToast(MainActivity.this, "手动设置温度时，请先关闭温度并将温度方案置为方案一（不设置）");
+                    return false;
+                }
+
+                View view1 = View.inflate(MainActivity.this, R.layout.setview_edit, null);
+                EditText editText = view1.findViewById(R.id.setview_edit);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("请输入温度设定值")
                         .setView(view1)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -155,7 +456,11 @@ public class MainActivity extends BaseAvtivity  {
                                 /**
                                  * 模拟设定值
                                  */
-                                mTemView.setValue(Float.valueOf(editText.getText().toString()),"tem");
+                                mTemView.setValue(Float.valueOf(editText.getText().toString()), "tem");
+                                systemData1.setSettingTem(Integer.valueOf(editText.getText().toString()));
+                                systemDBHelper.updateSystemData(systemData1);
+
+
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -164,7 +469,7 @@ public class MainActivity extends BaseAvtivity  {
                                 dialogInterface.dismiss();
                             }
                         });
-                AlertDialog alertDialog=builder.create();
+                AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 return true;
             }
@@ -172,18 +477,26 @@ public class MainActivity extends BaseAvtivity  {
         mHumView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                View view1=View.inflate(MainActivity.this,R.layout.setview_edit,null);
-                EditText editText=view1.findViewById(R.id.setview_edit);
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                SystemData systemData1=systemDBHelper.getSystemData();
+                if (systemData1.getHumPlanID() != 1 && systemData1.getHumPlanID() != 0) {
+                    showToast(MainActivity.this, "手动设置湿度时，请先关闭湿度并将湿度方案置为方案一（不设置）");
+                    return false;
+                }
+                View view1 = View.inflate(MainActivity.this, R.layout.setview_edit, null);
+                EditText editText = view1.findViewById(R.id.setview_edit);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("请输入湿度设定值")
                         .setView(view1)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                /**
-                                 * 模拟设定值
-                                 */
-                                mHumView.setValue(Float.valueOf(editText.getText().toString()),"hum");
+
+                                mHumView.setValue(Float.valueOf(editText.getText().toString()), "hum");
+                                systemData1.setSettingHum(Integer.valueOf(editText.getText().toString()));
+                                // systemData.setTemPlanID(0);
+                                systemDBHelper.updateSystemData(systemData1);
+
+
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -192,223 +505,386 @@ public class MainActivity extends BaseAvtivity  {
                                 dialogInterface.dismiss();
                             }
                         });
-                AlertDialog alertDialog=builder.create();
+                AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 return true;
             }
         });
 
 
+        if (temPower == 0) {
+            temPower = 30;
+        }
 
-
-        if(temPower==0){
-            temPower=300;
-        }if(humPower==0){
-            humPower=200;
+        if (humPower == 0) {
+            humPower = 20;
         }
 
         //点击展示数据
         mTemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View view1=View.inflate(MainActivity.this,R.layout.maindatashow,null);
-                TextView textView1=view1.findViewById(R.id.temP);
+                View view1 = View.inflate(MainActivity.this, R.layout.maindatashow, null);
+                TextView textView1 = view1.findViewById(R.id.temP);
                 textView1.setText(String.valueOf(temPower));
-                TextView textView2=view1.findViewById(R.id.humP);
+                TextView textView2 = view1.findViewById(R.id.humP);
                 textView2.setText(String.valueOf(humPower));
 
+                //获取正在执行的温湿度方案
+                SystemData systemDataOnClick = systemDBHelper.getSystemData();
+                int temPlanID = systemDataOnClick.getTemPlanID();
+                int humPlanID = systemDataOnClick.getHumPlanID();
 
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                System.out.println("温度方案：" + temPlanID + "  湿度方案：" + humPlanID);
+
+                //获取温湿度方案的稳定范围的单位时间
+                int temPlanUnitTime, humPlanUnitTime;
+                if (temPlanID <= 4) {
+                    temPlanUnitTime = 10;
+                    humPlanUnitTime = 10;
+                } else {
+                    temPlanUnitTime = temPlanDBHelper.queryByID(temPlanID).getUnitTime();
+                    humPlanUnitTime = humPlanDBHelper.queryByID(humPlanID).getUnitTime();
+                }
+
+                TextView textView3 = view1.findViewById(R.id.text_temPlanTime);
+                TextView textView4 = view1.findViewById(R.id.text_HumPlanTime);
+                textView3.setText(String.valueOf(temPlanUnitTime));
+                textView4.setText(String.valueOf(humPlanUnitTime));
+
+
+                TextView textView5 = view1.findViewById(R.id.temChangeOne);
+                TextView textView6 = view1.findViewById(R.id.humChangeOne);
+                TextView textView7 = view1.findViewById(R.id.temChangeTen);
+                TextView textView8 = view1.findViewById(R.id.humChangeTen);
+
+                //计算变化速率每分钟
+                /**
+                 * 获取数据库中最新一条数据（最近一分钟时间内的信息）
+                 */
+                int executingTime = (int) getDatePoor();
+                ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+                List<Float> floatList = changeDataDBHelper.getNewChangeData();
+
+
+                System.out.println("最新数据。。。" + floatList);
+
+                if (floatList == null || floatList.size() <= 0) {
+                    textView5.setText("暂无数据");
+                    textView6.setText("暂无数据");
+                } else {
+                    float temChangePerMinute = floatList.get(0) - floatList.get(1);
+                    float humChangePerMinute = floatList.get(2) - floatList.get(3);
+                    textView5.setText(floatToString(temChangePerMinute) + "℃/min");
+                    textView6.setText(floatToString(humChangePerMinute) + "%RH/min");
+                }
+
+                //计算单位时间内的变化率
+
+
+                if (temPlanUnitTime > executingTime) {//稳定时间10分钟，当前仅进行到8分钟
+                    textView7.setText("暂无数据");
+                    textView8.setText("暂无数据");
+
+
+                } else {
+
+
+                    float temMax = changeDataDBHelper.getAllChangeData("temMax", temPlanUnitTime);
+                    float temMin = changeDataDBHelper.getAllChangeData("temMin", temPlanUnitTime);
+                    float humMax = changeDataDBHelper.getAllChangeData("humMax", humPlanUnitTime);
+                    float humMin = changeDataDBHelper.getAllChangeData("humMin", humPlanUnitTime);
+
+
+                    textView7.setText(floatToString((temMax - temMin) / temPlanUnitTime) + "℃/" + temPlanUnitTime + "min");
+                    textView8.setText(floatToString((humMax - humMin) / humPlanUnitTime) + "%RH/" + humPlanUnitTime + "min");
+                }
+
+
+                //标准器相关内容
+                TextView textView9 = view1.findViewById(R.id.text_standardTem);
+                textView9.setText("20.0");
+                TextView textView10 = view1.findViewById(R.id.text_standardHum);
+                textView10.setText("40.0");
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("详细数据：")
                         .setView(view1);
-                AlertDialog alertDialog=builder.create();
+                AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
         });
         mHumView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View view1=View.inflate(MainActivity.this,R.layout.maindatashow,null);
-                TextView textView1=view1.findViewById(R.id.temP);
+                View view1 = View.inflate(MainActivity.this, R.layout.maindatashow, null);
+                TextView textView1 = view1.findViewById(R.id.temP);
                 textView1.setText(String.valueOf(temPower));
-                TextView textView2=view1.findViewById(R.id.humP);
+                TextView textView2 = view1.findViewById(R.id.humP);
                 textView2.setText(String.valueOf(humPower));
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+
+
+                //获取正在执行的温湿度方案
+                SystemData systemDataOnClick = systemDBHelper.getSystemData();
+                int temPlanID = systemDataOnClick.getTemPlanID();
+                int humPlanID = systemDataOnClick.getHumPlanID();
+                //获取温湿度方案的稳定范围的单位时间
+                int temPlanUnitTime, humPlanUnitTime;
+                if (temPlanID <= 4) {
+                    temPlanUnitTime = 10;
+                    humPlanUnitTime = 10;
+                } else {
+                    temPlanUnitTime = temPlanDBHelper.queryByID(temPlanID).getUnitTime();
+                    humPlanUnitTime = humPlanDBHelper.queryByID(humPlanID).getUnitTime();
+                }
+
+                TextView textView3 = view1.findViewById(R.id.text_temPlanTime);
+                TextView textView4 = view1.findViewById(R.id.text_HumPlanTime);
+                textView3.setText(String.valueOf(temPlanUnitTime));
+                textView4.setText(String.valueOf(humPlanUnitTime));
+
+
+                TextView textView5 = view1.findViewById(R.id.temChangeOne);
+                TextView textView6 = view1.findViewById(R.id.humChangeOne);
+                TextView textView7 = view1.findViewById(R.id.temChangeTen);
+                TextView textView8 = view1.findViewById(R.id.humChangeTen);
+
+                //计算变化速率每分钟
+                /**
+                 * 获取数据库中最新一条数据（最近一分钟时间内的信息）
+                 */
+                int executingTime = (int) getDatePoor();
+                ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+                List<Float> floatList = changeDataDBHelper.getNewChangeData();
+                if (floatList == null || floatList.size() <= 0) {
+                    textView5.setText("暂无数据");
+                    textView6.setText("暂无数据");
+                } else {
+                    float temChangePerMinute = floatList.get(0) - floatList.get(1);
+                    float humChangePerMinute = floatList.get(2) - floatList.get(3);
+                    textView5.setText(floatToString(temChangePerMinute) + "℃/min");
+                    textView6.setText(floatToString(humChangePerMinute) + "%RH/min");
+                }
+
+                //计算单位时间内的变化率
+
+                if (temPlanUnitTime > executingTime) {//稳定时间10分钟，当前仅进行到8分钟
+                    textView7.setText("暂无数据");
+                    textView8.setText("暂无数据");
+                } else {
+
+                    float temMax = changeDataDBHelper.getAllChangeData("temMax", temPlanUnitTime);
+                    float temMin = changeDataDBHelper.getAllChangeData("temMin", temPlanUnitTime);
+                    float humMax = changeDataDBHelper.getAllChangeData("humMax", humPlanUnitTime);
+                    float humMin = changeDataDBHelper.getAllChangeData("humMin", humPlanUnitTime);
+                    textView7.setText(floatToString((temMax - temMin) / temPlanUnitTime) + "℃/" + temPlanUnitTime + "min");
+                    textView8.setText(floatToString((humMax - humMin) / humPlanUnitTime) + "%RH/" + humPlanUnitTime + "min");
+                }
+
+
+                //标准器相关内容
+                TextView textView9 = view1.findViewById(R.id.text_standardTem);
+                textView9.setText("20.0");
+                TextView textView10 = view1.findViewById(R.id.text_standardHum);
+                textView10.setText("40.0");
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("详细数据：")
                         .setView(view1);
-                AlertDialog alertDialog=builder.create();
+                AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
         });
 
 
         //删除7天前的数据
-        DataRecordDBHelper dataRecordDBHelper=new DataRecordDBHelper(MainActivity.this,"NIMENG.db",null,1);
-        dataRecordDBHelper.delete7DaysData();
+        DataRecordDBHelper dataRecordDBHelper1 = new DataRecordDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        dataRecordDBHelper1.delete7DaysData();
+
+        //删除30分钟前的数据
+        ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        changeDataDBHelper.delete30MinuteData(systemData.getStartTime());
 
 
-
-
-
-        //获取文件读写权限
-        onPermission(globalVariable);
-
-        temPlanDBHelper=new TemPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
-        humPlanDBHelper=new HumPlanDBHelper(MainActivity.this,"NIMENG.db",null,1);
-
-
-
+        List<TemPlanBean> temPlanBeanList = temPlanDBHelper.query();
+        System.out.println("温度-----" + temPlanBeanList);
+        List<String> temPlanNameList = new ArrayList<>();
         //设置下拉框显示内容
-        Spinner spinner1=(Spinner) findViewById(R.id.main_spinner1);
-        Spinner spinner2=(Spinner)findViewById(R.id.main_spinner2);
-        ArrayAdapter<String> adapter1=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,globalVariable.getTemPlanList());
-        ArrayAdapter<String> adapter2=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,globalVariable.getHumPlanList());
+        for (int i = 0; i < temPlanBeanList.size(); i++) {
+            String temPlanName = temPlanBeanList.get(i).getName();
+            temPlanNameList.add(temPlanName);
+
+        }
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, temPlanNameList);
+
+
+        List<HumPlanBean> humPlanBeanList = humPlanDBHelper.query();
+        List<String> humPlanNameList = new ArrayList<>();
+        for (int j = 0; j < humPlanBeanList.size(); j++) {
+            String humPlanName = humPlanBeanList.get(j).getName();
+            humPlanNameList.add(humPlanName);
+        }
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, humPlanNameList);
         adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         adapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner1.setAdapter(adapter1);
+        if (systemData.getTemPlanID() >= 1) {
+            spinner1.setSelection(systemData.getTemPlanID() - 1);
+        }
         spinner2.setAdapter(adapter2);
+        if (systemData.getHumPlanID() >= 1) {
+            spinner2.setSelection(systemData.getHumPlanID() - 1);
+        }
 
 
         //温湿度启动\停止按钮
-        btn_tem=findViewById(R.id.mian_btn1);
-        btn_hum=findViewById(R.id.mian_btn2);
+
         btn_tem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long temIsCheck=spinner1.getSelectedItemId();
 
-                System.out.println("温度选择--->"+temIsCheck);
 
-                if(temIsCheck==0){
-//                    globalVariable.setHumID(1001);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案一（不设置）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案一（不设置）");
-                }else if(temIsCheck==1){
-//                    globalVariable.setHumID(1002);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案二（40%）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案二（20℃-40℃-60-80℃）");
-                }else if(temIsCheck==2){
-//                    globalVariable.setHumID(1003);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案三（15℃-20℃-40℃-60℃-80℃）");
-                }else if(temIsCheck==3){
-//                    globalVariable.setHumID(1004);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案四（15℃-20℃-40-℃-60℃-80℃-90℃）");
-                }else{
-                    System.out.println(globalVariable.getTemPlanList().get(Integer.valueOf(String.valueOf(temIsCheck))));
+                long temIsCheck = spinner1.getSelectedItemId() + 1;
+
+                int settingTem = temPlanDBHelper.queryByID(Integer.valueOf(String.valueOf(temIsCheck)), 1);
+                if (btn_tem.getText().toString().equals("温度启动")) {//启动
+                    SystemData systemData1 = systemDBHelper.getSystemData();
+                    if (temIsCheck == 1) {
+                        if (systemData1.getSettingTem() == 0) {
+                            showToast(MainActivity.this, "请先选择温度启动方案或手动设置温度");
+                            return;
+                        }
+
+
+                        mTemView.setValue(systemData1.getSettingTem(), "tem");
+                        //设置温度值
+                        modbusUtil.setTem(Integer.valueOf(String.valueOf(systemData1.getSettingTem())));
+
+
+                    } else {
+                        mTemView.setValue(settingTem, "tem");
+                        systemData1.setSettingTem(settingTem);
+                        //设置温度值
+                        modbusUtil.setTem(Integer.valueOf(String.valueOf(settingTem)));
+
+                    }
+                    if (systemData1.getExecutingTemID() == 0 || systemData1.getExecutingTemID() == 1) {
+                        systemData1.setExecutingTemID(1);
+                    }
+
+                    int afterTemPlanID = systemData1.getTemPlanID();
+                    systemData1.setTemPlanID(Integer.valueOf(String.valueOf(temIsCheck)));
+
+                    temPlanDBHelper.updateCheck(Integer.valueOf(String.valueOf(temIsCheck)), afterTemPlanID);
+
+                    if (systemData1.getStartTime() == null) {
+                        systemData1.setStartTime(new Date());
+                    }
+                    systemData1.setTemOnOrOff(1);
+                    systemDBHelper.updateSystemData(systemData1);
+                    //设置温度值
+                    modbusUtil.setTemOnOrOff(true);
+
+                    System.out.println("线程是否在运行" + temThread.isAlive());
+                    if (!temThread.isAlive()) {
+                        temThread.start();
+                    }
+
+
+                    btn_tem.setText("温度停止");
+                } else {
+                    btn_tem.setText("温度启动");
+                    temThread.interrupt();
+                    System.out.println("点击关闭按钮。。。" + temThread.isAlive());
+                    SystemData systemData1 = systemDBHelper.getSystemData();
+                    systemData1.setTemOnOrOff(0);
+                    systemDBHelper.updateSystemData(systemData1);
+                    modbusUtil.setTemOnOrOff(false);
                 }
             }
+
         });
         btn_hum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                long humIsCheck = spinner2.getSelectedItemId() + 1;
+                int settingHum = humPlanDBHelper.queryByID(Integer.valueOf(String.valueOf(humIsCheck)), 1);
+                if (btn_hum.getText().toString().equals("湿度启动")) {
+                    SystemData systemData2 = systemDBHelper.getSystemData();
+                    if (humIsCheck == 1) {
+                        if (systemData2.getSettingHum() == 0) {
+                            showToast(MainActivity.this, "请先选择湿度启动方案或手动设置湿度");
+                            return;
+                        }
+                        mHumView.setValue(systemData2.getSettingHum(), "hum");
+                        //设定湿度
+                        modbusUtil.setHum(systemData2.getSettingHum());
+                    } else {
+                        mHumView.setValue(settingHum, "hum");
+                        systemData2.setSettingHum(settingHum);
+                        //设定湿度
+                        modbusUtil.setHum(Integer.valueOf(String.valueOf(settingHum)));
+                    }
 
-                long humIsCheck=spinner1.getSelectedItemId();
-                if(humIsCheck==0){
-//                    globalVariable.setHumID(1001);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案一（不设置）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案一（不设置）");
-                }else if(humIsCheck==1){
-//                    globalVariable.setHumID(1002);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案二（40%）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案二（40%）");
-                }else if(humIsCheck==2){
-//                    globalVariable.setHumID(1003);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案三（20%-40%-60%-80%）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案三（20%-40%-60%-80%）");
-                }else if(humIsCheck==3){
-//                    globalVariable.setHumID(1004);
-//                    globalVariable.setStartTime(new Date());
-//                    globalVariable.setHumUnitTime(10);
-//                    globalVariable.setHumWave(0.6f);
-//                    globalVariable.setStable(false);
-//                    globalVariable.setHumPlanName("方案四（20%-40%-60%-80%-90%）");
-//                    globalVariable.setExecutingHumID(1);
-//                    globalVariable.setHumIsSystem(true);
-                    showToast("已选择方案四（20%-40%-60%-80%-90%）");
+
+                    int afterHumPlanID = systemData2.getHumPlanID();
+                    if (systemData2.getExecutingHumID() == 0 || systemData2.getExecutingHumID() == 1) {
+                        systemData2.setExecutingHumID(1);
+                    }
+
+                    systemData2.setHumPlanID(Integer.valueOf(String.valueOf(humIsCheck)));
+                    humPlanDBHelper.updateCheck(Integer.valueOf(String.valueOf(humIsCheck)), afterHumPlanID);
+
+                    systemData2.setHumOnOrOff(1);
+                    if (systemData2.getStartTime() == null) {
+                        systemData2.setStartTime(new Date());
+                    }
+                    systemDBHelper.updateSystemData(systemData2);
+                    modbusUtil.setHumOnOrOff(true);
+
+
+                    if (!humThread.isAlive()) {
+                        humThread.start();
+                    }
+
+
+                    btn_hum.setText("湿度停止");
+                } else {
+                    btn_hum.setText("湿度启动");
+                    humThread.interrupt();
+                    SystemData systemData2 = systemDBHelper.getSystemData();
+                    systemData2.setHumOnOrOff(0);
+                    systemDBHelper.updateSystemData(systemData2);
+                    modbusUtil.setHumOnOrOff(false);
+
                 }
+
             }
         });
 
 
-
-        /**
-         * 获取运行值
-          */
-     //init("/dev/ttyS0");
-
-
-
-        /**
-         * 模拟运行值
-         */
-        mHumView.setProgress(39.99f,"hum");
-        mTemView.setProgress(29.90f,"tem");
-
-
-
-
         //灯控开关
-        imageView1=findViewById(R.id.main_light);
-        String light= getIntent().getStringExtra("light");
-        System.out.println("light-----------"+light);
 
-        if(light==null){
-            if(globalVariable.isSwitch_7()){
+        String light = getIntent().getStringExtra("light");
+        System.out.println("light-----------" + light);
+
+
+        if (light == null) {
+            if (systemDBHelper.getSwitch("7")) {
                 imageView1.setImageResource(R.drawable.lighton);
-            }else{
+            } else {
                 imageView1.setImageResource(R.drawable.lightoff);
             }
-        }else{
-            if(light.equals("0")){
+        } else {
+            if (light.equals("0")) {
                 imageView1.setImageResource(R.drawable.lightoff);
-            }else{
-                if(globalVariable.isSwitch_7()){
+            } else {
+                if (systemDBHelper.getSwitch("7")) {
                     imageView1.setImageResource(R.drawable.lighton);
-                }else{
+                } else {
                     imageView1.setImageResource(R.drawable.lightoff);
                 }
             }
@@ -419,16 +895,17 @@ public class MainActivity extends BaseAvtivity  {
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(globalVariable.isSwitch_7()){//开-----》关
-                    globalVariable.setSwitch_7(false);
+                if (systemDBHelper.getSwitch("7")) {//开-----》关
+                    systemDBHelper.addSwitch("7", false);
                     imageView1.setImageResource(R.drawable.lightoff);
                     setLightOn(true);
 
 
-                }else{//关-----》开
-                    globalVariable.setSwitch_7(true);
+                } else {//关-----》开
+                    systemDBHelper.addSwitch("7", true);
                     imageView1.setImageResource(R.drawable.lighton);
-                    globalVariable.setLightStartTime(new Date());
+                    systemData.setLightStartTime(new Date());
+                    systemDBHelper.updateSystemData(systemData);
                     setLightOn(false);
 
 
@@ -438,200 +915,99 @@ public class MainActivity extends BaseAvtivity  {
 
 
         //logo控制模拟报警
-        imageViewLogo=findViewById(R.id.main_logo);
+
         imageViewLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View view1=View.inflate(MainActivity.this,R.layout.warning,null);
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                View view1 = View.inflate(MainActivity.this, R.layout.warning, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+
                 builder.setTitle("警告！！！")
                         .setView(view1);
-                AlertDialog alertDialog=builder.create();
+                AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
         });
 
+
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        createVelocityTracker(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                xDown = ev.getRawX();
+                yDown = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                xMove = ev.getRawX();
+                yMove = ev.getRawY();
+                //滑动的距离
+                int distanceX = (int) (xMove - xDown);
+                int distanceY = (int) (yMove - yDown);
+                //获取瞬时速度
+                int ySpeed = getScrollVelocity();
 
+                if (distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && distanceX > 0) {
+                    startActivity(new Intent(this, SettingSwitchActivity.class));
 
-    //读运行值
-    private void init(final String address) {
-        SerialPortParams build = new SerialPortParams.Builder().serialPortPath(address).build();
-        final SerialClient serialClient = SerialUtils.getInstance().getSerialClient(address);
-
-
-
-
-
-        //读运行值
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    SystemClock.sleep(1000);
-
-                    dataRecordDBHelper=new DataRecordDBHelper(MainActivity.this,"NIMENG.db",null,1);
-
-                    serialClient.sendData(new ModBusData<Object>(01, 03, 0000, 04, new ModBusDataListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.N)
-                        @Override
-                        public void onSucceed(String hexValue, byte[] bytes) {
-                            Log.d(TAG, "读8位: " + hexValue);
-
-                            float floatHum=sixteentofloat(hexValue,0);
-                            float floatTem=sixteentofloat(hexValue,1);
-
-                           mHumView.setProgress(floatHum,"hum");
-                           mTemView.setProgress(floatTem,"tem");
-
-                           dataRecodeBean=new DataRecodeBean();
-                            dataRecodeBean.setRealtimeHum(floatHum);
-                            dataRecodeBean.setRealtimeTem(floatTem);
-                            Date date =new Date();
-                            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            dataRecodeBean.setTime(sdf.format(date));
-
-
-                            serialClient.sendData(new ModBusData<Object>(01, 03, 0x001F, 4, new ModBusDataListener() {
-                                @Override
-                                public void onSucceed(String hexValue, byte[] bytes) {
-                                    Log.d(TAG, "读三位: " + hexValue);
-
-
-
-
-                                    float settingTem=sixteentofloat(hexValue,0);
-                                    float settingHum=sixteentofloat(hexValue,1);
-
-                                    tem=String.valueOf(settingTem);
-                                    //btn_tem.setText(tem);
-
-                                    hum=String.valueOf(settingHum);
-                                    // btn_hum.setText(hum);
-
-                                    dataRecodeBean.setSettingHum(settingHum);
-                                    dataRecodeBean.setSettingTem(settingTem);
-
-
-
-
-                                   //判断是否达到了稳定状态，达到稳定状态时不再文件中记录
-                                    //1.获取当前方案的稳定状态是什么
-                                    //2.判断该时间段内的数据是否满足状态
-
-
-
-                                    //连续取值最近时间段内的温湿度最大值和最小值  判断在此期间内的波动值是否大于最大值与最小值的差
-                                      List<Double> temDoubleList= dataRecordDBHelper.queryColumn_Double("realtimeTem",globalVariable.getTemUnitTime()*60+"");
-                                      Double temBigData=temDoubleList.get(0);
-                                      Double temSmallData=temDoubleList.get(temDoubleList.size()-1);
-
-                                      List<Double> humDoubleList= dataRecordDBHelper.queryColumn_Double("realtimeHum",globalVariable.getHumUnitTime()*60+"");
-                                      Double humBigData=humDoubleList.get(0);
-                                      Double humSmallData=humDoubleList.get(humDoubleList.size()-1);
-
-
-                                    List<Float> temList,humList=null;
-                                    temList=getExecutingTemAndNextTem();
-                                    humList=getExecutingTemAndNextTem();
-
-                                      //先判断温度
-                                    if(temBigData-temSmallData<=globalVariable.getTemWave() && getAbs(temList.get(0),temBigData)<1){
-                                        //温度已达稳定状态
-
-
-                                        //再判断湿度是否达到稳定状态（两种情况，一种是湿度没选   一种是最大值-最小值<=波动值 并且最大值与最小值得围绕设置值波动，不能设置40度，最大值20.3 最小值20.28，就表示达到稳定）
-                                        if(globalVariable.getTemWave()==0 || humBigData-humSmallData<=globalVariable.getHumWave()&& getAbs(humList.get(0),humBigData)<1){
-
-                                            //达到稳定状态
-                                            dataRecordDBHelper.add(dataRecodeBean,true,globalVariable.getTemPlanName());
-                                            globalVariable.setStable(true);
-                                            globalVariable.setStableTime(new Date());
-
-
-
-                                            //开始记录标准器和被检表中的数值
-                                        }
-
-                                    }
-
-
-
-
-                                }
-
-                                @Override
-                                public void onFailed(String str) {
-
-                                }
-                            }));
-
-
-
-                        }
-
-                        @Override
-                        public void onFailed(String str) {
-                            Log.d(TAG, "onFailed22222222: "+str);
-                        }
-                    }));
-
-
-                    humPower=modbusUtil.getHumPower();
-                    temPower=modbusUtil.getTemPower();
-
+                } else if (-distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && -distanceX > 0) {
+                    startActivity(new Intent(this, LineChartActivity.class));
 
                 }
-            }
-        }).start();
+        }
 
-
-
+        return super.dispatchTouchEvent(ev);
     }
 
 
     //十六进制转浮点型
-    private  float  sixteentofloat(String s,int code){
+    public float sixteentofloat(String s, int code) {
 
-        float result=0;
-        String resultString="";
+        float result = 0;
+        String resultString = "";
 
         //第一步：删除字符串中的空格
-        String h=s.replace(" ","");
+        String h = s.replace(" ", "");
 
         //第二步：提取报文中有效信息
-        String h1,q1;
-        if(code==0){
-             q1=h.substring(6,10);
-             h1=h.substring(10,14);
-        }else{
-             q1=h.substring(14,18);
-             h1=h.substring(18,22);
+        String h1, q1;
+        if (code == 0) {
+            q1 = h.substring(6, 10);
+            h1 = h.substring(10, 14);
+        } else {
+            q1 = h.substring(14, 18);
+            h1 = h.substring(18, 22);
         }
 
-        String s1=h1+q1;
+        String s1 = h1 + q1;
 
         //第三步：将string类型的数据转化为float
-        BigInteger bigInteger=new BigInteger(s1,16);
-        float f=Float.intBitsToFloat(bigInteger.intValue());
-        BigDecimal bigDecimal=new BigDecimal(f);
-        String t=bigDecimal.toPlainString();
+        BigInteger bigInteger = new BigInteger(s1, 16);
+        float f = Float.intBitsToFloat(bigInteger.intValue());
+        BigDecimal bigDecimal = new BigDecimal(f);
+        String t = bigDecimal.toPlainString();
 
 
-        if(t.length()<5){
-            resultString=t;
-        }else{
-            resultString=t.substring(0,5);
+        if (t.length() < 5) {
+            resultString = t;
+        } else {
+            resultString = t.substring(0, 5);
         }
 
 
+        if (resultString != "" && resultString != null) {
 
-
-        if(resultString!="" && resultString!=null){
-
-            result=Float.valueOf( resultString);
+            result = Float.valueOf(resultString);
 
 
         }
@@ -642,38 +1018,43 @@ public class MainActivity extends BaseAvtivity  {
 
 
     //达到稳定状态
-    private void reachstability(){
+    private void reachstability(int code, DataRecodeBean dataRecodeBean) {
 
+        SystemData systemData=systemDBHelper.getSystemData();
         //1.通知实验者达到稳定状态
         //2.弹窗提示 是否进行下一温湿度点检测
         //3.开始进行数据记录（文件数据  包括标准器 被检表等数据）
 
-        boolean temCanContinue=true,humCanContinue=true;
+        boolean temCanContinue = true, humCanContinue = true;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-
-        String message="";
-
-        List<Float> temList,humList=null;
-        temList=getExecutingTemAndNextTem();
-        humList=getExecutingHumAndNextHum();
+        String message = "";
 
 
-        message="当前正在执行：<br>"+"温度："+temList.get(0)+"   湿度："+humList.get(0)+"<br>";
-        if(humList.get(1)==0){
-            message=message+"无可以继续执行的湿度设定点";
-            humCanContinue=false;
-        }else{
-            message=message+"下一设置湿度点："+humList.get(1);
+        int nextTem = getNextTem();
+        int nextHum = getNextHum();
+
+        int temPlanID = systemData.getTemPlanID();
+        int executingTemID = systemData.getExecutingTemID();
+        int humPlanID = systemData.getHumPlanID();
+        int executingHumID = systemData.getExecutingHumID();
+
+
+        message = "当前正在执行：<br>" + "温度：" + temPlanDBHelper.queryByID(temPlanID, executingTemID) + "   湿度：" + humPlanDBHelper.queryByID(humPlanID, executingHumID) + "<br>";
+        if (nextHum == -10000) {
+            message = message + "无可以继续执行的湿度设定点";
+            humCanContinue = false;
+        } else {
+            message = message + "下一设置湿度点：" + nextHum + "%RH";
         }
 
 
-        if(temList.get(1)==0){
-            message=message+"无可以继续执行的温度设置点";
-            temCanContinue=false;
-        }else{
-            message=message+"下一设置温度点："+temList.get(1);
+        if (nextTem == -10000) {
+            message = message + "无可以继续执行的温度设置点";
+            temCanContinue = false;
+        } else {
+            message = message + "下一设置温度点：" + nextTem + "℃";
         }
 
 
@@ -684,19 +1065,22 @@ public class MainActivity extends BaseAvtivity  {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                    System.out.println("点击确定之后"+finalTemCanContinue+"__"+globalVariable.getExecutingTemID());
-                     if(finalTemCanContinue){
-                         globalVariable.setExecutingTemID(globalVariable.getExecutingTemID()+1);
-                     }
-                     if(finalHumCanContinue){
-                         globalVariable.setExecutingHumID(globalVariable.getExecutingHumID()+1);
-                     }
 
-                     if(!finalTemCanContinue && !finalHumCanContinue){
+
+                        if (finalTemCanContinue) {
+                            executingNextTemOrHum(0, nextTem);
+                        }
+                        if (finalHumCanContinue) {
+                            executingNextTemOrHum(1, nextHum);
+                        }
+
+                        if (!finalTemCanContinue && !finalHumCanContinue) {
                             dialogInterface.dismiss();
-                     }
+                        }
 
-                        System.out.println("此时正在执行的temid："+globalVariable.getExecutingTemID());
+
+                        writeDataToFile(code, dataRecodeBean);
+
 
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -706,238 +1090,496 @@ public class MainActivity extends BaseAvtivity  {
             }
         });
 
-        AlertDialog alertDialog=builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
 
+    }
 
 
+    //执行下个温度点和湿度点
+    public void executingNextTemOrHum(int code, int nextPoint) {
+        SystemData systemDataNext = systemDBHelper.getSystemData();
+        if (code == 0) {
+            systemDataNext.setExecutingTemID(systemDataNext.getExecutingTemID() + 1);
+            systemDataNext.setSettingTem(nextPoint);
 
+            modbusUtil.setTem(nextPoint);
+
+
+        } else {
+            systemDataNext.setExecutingHumID(systemDataNext.getExecutingHumID() + 1);
+            systemDataNext.setSettingHum(nextPoint);
+            modbusUtil.setHum(nextPoint);
+        }
+        systemDBHelper.updateSystemData(systemDataNext);
 
     }
 
 
-
-    //执行下个温度点或湿度点
-
-
-
-
-
-    //执行数据记录
-
-
-
-
-
-
-//获取正在执行的温度点和下一个温度点
-    private List<Float> getExecutingTemAndNextTem(){
-
-        boolean temIsSystem=globalVariable.isTemIsSystem();
-        int executingTemID= globalVariable.getExecutingTemID();
-        int temID=globalVariable.getTemID();
-
-        float executingTem=0,nextExecutingTem=0;
-
-
-        System.out.println(temID+"----"+executingTemID);
-
-        if(temIsSystem){
-            switch (temID){
-                case 991:
-                    switch (executingTemID){
-                        case 1:
-                            executingTem=20.0f;
-                            nextExecutingTem=40.0f;
-                            break;
-                        case 2:
-                            executingTem=40.0f;
-                            nextExecutingTem=60.0f;
-                            break;
-                        case 3:
-                            executingTem=60.0f;
-                            nextExecutingTem=80.0f;
-                            break;
-                        case 4:
-                            executingTem=80.0f;
-                            nextExecutingTem=0f;
-
-
-                            break;
-                    }
-
-                case 992:
-                    switch (executingTemID){
-                        case 1:
-                            executingTem=15.0f;
-                            nextExecutingTem=20.0f;
-                            break;
-                        case 2:
-                            executingTem=20.0f;
-                            nextExecutingTem=40.0f;
-                            break;
-                        case 3:
-                            executingTem=40.0f;
-                            nextExecutingTem=60.0f;
-                            break;
-                        case 4:
-                            executingTem=60.0f;
-                            nextExecutingTem=80.0f;
-                            break;
-                        case 5:
-                            executingTem=80.0f;
-                            nextExecutingTem=0f;
-                            break;
-
-                    }
-                case 993:
-                    switch (executingTemID){
-                        case 1:
-                            executingTem=15.0f;
-                            nextExecutingTem=20.0f;
-                            break;
-                        case 2:
-                            executingTem=20.0f;
-                            nextExecutingTem=40.0f;
-                            break;
-                        case 3:
-                            executingTem=40.0f;
-                            nextExecutingTem=60.0f;
-                            break;
-                        case 4:
-                            executingTem=60.0f;
-                            nextExecutingTem=80.0f;
-                            break;
-                        case 5:
-                            executingTem=80.0f;
-                            nextExecutingTem=90.0f;
-                            break;
-                        case 6:
-                            executingTem=90.0f;
-                            nextExecutingTem=0f;
-                            break;
-                    }
-            }
+    //执行数据记录（写数据到文件中）
+    public void writeDataToFile(int code, DataRecodeBean dataRecodeBean) {
+        SystemData systemData1 = systemDBHelper.getSystemData();
+        String str, fileName;
+        if (code == 1) {
+            str = dataRecodeBean.getTime() + "    " + dataRecodeBean.getSettingTem() + "    " + dataRecodeBean.getRealtimeTem();
+            fileName = temPlanDBHelper.queryByID(systemData1.getTemPlanID()).getName() + "(" + systemData1.getSettingTem() + "℃）";
         }
-        else{
-            executingTem=temPlanDBHelper.queryByID(temID,executingTemID);
-            nextExecutingTem=temPlanDBHelper.queryByID(temID,executingTemID+1);
-
+        if (code == 2) {
+            str = dataRecodeBean.getTime() + "    " + dataRecodeBean.getSettingTem() + "    " + dataRecodeBean.getRealtimeTem() + "    " + dataRecodeBean.getSettingHum() + "     " + dataRecodeBean.getRealtimeHum() + "\r\n";
+            fileName = temPlanDBHelper.queryByID(systemData1.getTemPlanID()).getName() + "(" + systemData1.getSettingTem() + "℃）" + humPlanDBHelper.queryByID(systemData1.getHumPlanID()).getName() + "(" + systemData1.getSettingHum() + "%)";
+        }
+        if (code == 3) {
+            str = dataRecodeBean.getTime() + "    " + dataRecodeBean.getSettingHum() + "    " + dataRecodeBean.getRealtimeHum();
+            fileName = humPlanDBHelper.queryByID(systemData1.getHumPlanID()).getName() + "(" + systemData1.getSettingHum() + "%）";
+        } else {
+            return;
         }
 
-        List<Float>list=new ArrayList<Float>();
-        list.add(executingTem);
-        list.add(nextExecutingTem);
-        return list;
+        write6("datarecord", str, fileName);
 
     }
 
-    //获取正在执行的湿度点和下一个湿度点
-    private List<Float>  getExecutingHumAndNextHum(){
-        boolean humIsSystem= globalVariable.isHumIsSystem();
-        int executingHumID=globalVariable.getExecutingHumID();
-        int humID=globalVariable.getHumID();
-        float executingHum=0,nextExecutingHum=0;
 
-        if(humIsSystem){
-            switch (humID){
-                case 1001:
-                    executingHum=0;
-                    nextExecutingHum=0;
-                    break;
-                case 1002:
-                    executingHum=40.0f;
-                    nextExecutingHum=0;
-                    break;
-                case 1003:
-                    switch (executingHumID){
-                        case 1:
-                            executingHum=20.0f;
-                            nextExecutingHum=40.0f;
-                            break;
-                        case 2:
-                            executingHum=40.0f;
-                            nextExecutingHum=60.0f;
-                            break;
-                        case 3:
-                            executingHum=60.0f;
-                            nextExecutingHum=80.0f;
-                            break;
-                        case 4:
-                            executingHum=80.0f;
-                            nextExecutingHum=0;
-                            break;
-                    }
-                case 1004 :
-                    switch(executingHumID){
-                        case 1:
-                            executingHum=20.0f;
-                            nextExecutingHum=40.0f;
-                            break;
-                        case 2:
-                            executingHum=40.0f;
-                            nextExecutingHum=60.0f;
-                            break;
-                        case 3:
-                            executingHum=60.0f;
-                            nextExecutingHum=80.0f;
-                            break;
-                        case 4:
-                            executingHum=80.0f;
-                            nextExecutingHum=90.0f;
-                            break;
-                        case 5:
-                            executingHum=90.0f;
-                            nextExecutingHum=0;
-                            break;
-                    }
+    //获取下一个温度点
+    public int getNextTem() {
+        SystemData systemData=systemDBHelper.getSystemData();
+        //1.得到当前正在执行的方案id
+        int temID = systemData.getTemPlanID();
+        //2.获取该方案的温度点个数
+        //2.1获取当前正在执行的方案对象
+        TemPlanBean temPlanBean = temPlanDBHelper.queryByID(temID);
+        int temPoints = temPlanBean.getTemPoints();
+        //3.判断当前正在执行的温度点是否等于该方案的温度点个数（是否执行到最后一个）
+        int executingTem = systemData.getExecutingTemID();
+        if (executingTem < temPoints) {
+            if (executingTem == 1) {
+                return temPlanBean.getTem2();
+            } else if (executingTem == 2) {
+                return temPlanBean.getTem3();
+            } else if (executingTem == 3) {
+                return temPlanBean.getTem4();
+            } else if (executingTem == 4) {
+                return temPlanBean.getTem5();
+            } else if (executingTem == 5) {
+                return temPlanBean.getTem6();
+            } else if (executingTem == 6) {
+                return temPlanBean.getTem7();
+            } else if (executingTem == 7) {
+                return temPlanBean.getTem8();
+            } else if (executingTem == 8) {
+                return temPlanBean.getTem9();
+            } else if (executingTem == 9) {
+                return temPlanBean.getTem10();
+            } else {
+                return -10000;
             }
-
-
-        }else{
-            executingHum=humPlanDBHelper.queryByID(humID,executingHumID);
-            nextExecutingHum=humPlanDBHelper.queryByID(humID,executingHumID+1);
+        } else {
+            return -10000;
         }
 
-        List<Float>list=new ArrayList<Float>();
-        list.add(executingHum);
-        list.add(nextExecutingHum);
-        return list;
+    }
+
+    //获取下一个湿度点
+    public int getNextHum() {
+        SystemData systemData=systemDBHelper.getSystemData();
+        int humID = systemData.getHumPlanID();
+        HumPlanBean humPlanBean = humPlanDBHelper.queryByID(humID);
+        int humPoints = humPlanBean.getHumPoints();
+        int executingHum = systemData.getExecutingHumID();
+        if (executingHum < humPoints) {
+            if (executingHum == 1) {
+                return humPlanBean.getHum2();
+            } else if (executingHum == 2) {
+                return humPlanBean.getHum3();
+            } else if (executingHum == 3) {
+                return humPlanBean.getHum4();
+            } else if (executingHum == 4) {
+                return humPlanBean.getHum5();
+            } else if (executingHum == 5) {
+                return humPlanBean.getHum6();
+            } else if (executingHum == 6) {
+                return humPlanBean.getHum7();
+            } else if (executingHum == 7) {
+                return humPlanBean.getHum8();
+            } else if (executingHum == 8) {
+                return humPlanBean.getHum9();
+            } else if (executingHum == 9) {
+                return humPlanBean.getHum10();
+            } else {
+                return -10000;
+            }
+        } else {
+            return -10000;
+        }
     }
 
 
     //取绝对值方法
-    private double getAbs(double a,double b){
-        if(a-b<0){
-            return b-a;
-        }
-        else{
-            return a-b;
+    public double getAbs(double a, double b) {
+        if (a - b < 0) {
+            return b - a;
+        } else {
+            return a - b;
         }
     }
 
 
     //灯泡开关
-    private void setLightOn(boolean isClose){
-        Date date=new Date();
-        Intent intent=new Intent(LIGHTONACTION);
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(this,0,intent,1);
+    public void setLightOn(boolean isClose) {
+        SystemData systemData=systemDBHelper.getSystemData();
+        Date date = new Date();
+        Intent intent = new Intent(LIGHTONACTION);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 1);
 
-        if(isClose){
+        if (isClose) {
             alarmManager.cancel(pendingIntent);
-        }else{
-            System.out.println("进入定时事件===="+globalVariable.getLightKeepSecond()*1000);
-            alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(globalVariable.getLightKeepSecond()*1000),pendingIntent);
+        } else {
+            System.out.println("进入定时事件====" + systemData.getLightKeepSecond() * 1000);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (systemData.getLightKeepSecond() * 1000), pendingIntent);
         }
 
 
     }
 
 
+    //读运行值
+    public Thread temThread = new Thread(new Runnable() {
+
+        public void run() {
+
+            while (true) {
+                SystemClock.sleep(1000);
+
+
+                //SystemData systemDataOnFailed = systemDBHelper.getSystemData();
 
 
 
+//                Random random = new Random();
+//                float temFloat = random.nextFloat() * 2 +systemDataOnFailed.getSettingTem()-2 ;
+//
+//
+//                if (systemDataOnFailed.getTemOnOrOff() == 1) {
+//                    mTemView.setProgress(temFloat, "tem");
+//                }
+//
+//
+//                dataRecodeBean.setRealtimeTem(temFloat);
+//                dataRecodeBean.setSettingTem(systemDataOnFailed.getSettingTem());
+//                dataRecodeBean.setTime(getDateTimeToString(new Date()));
+//                dataRecordDBHelper.add(dataRecodeBean);
+//
+//                int executingTime = (int) getDatePoor();
+//
+//
+//                ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+//                if (temFloat - systemDataOnFailed.getSettingTem() <= 1 || systemDataOnFailed.getSettingTem() - temFloat <= 1) {
+//                    changeDataDBHelper.add(executingTime, temFloat, 0);
+//                }
+
+
+                //*****************************************************************
+
+
+                 // 只读温度
+
+
+                    serialClient.sendData(new ModBusData<Object>(01, 03, 0002, 02, new ModBusDataListener() {
+
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onSucceed(String hexValue, byte[] bytes) {
+                            Log.d(TAG, "读8位: " + hexValue);
+
+                            float floatTem = sixteentofloat(hexValue, 0);
+
+                            System.out.println("独到的数据.."+floatTem);
+
+                             if(systemDataOnFailed.getTemOnOrOff()==1){
+
+                                 mTemView.setProgress(floatTem, "tem");
+                                  }
+
+
+                            dataRecodeBean = new DataRecodeBean();
+
+
+
+                            dataRecodeBean.setRealtimeTem(floatTem);
+                            dataRecodeBean.setSettingTem(systemDataOnFailed.getSettingTem());
+                            dataRecodeBean.setTime(getDateTimeToString(new Date()));
+
+
+                            dataRecordDBHelper.add(dataRecodeBean);
+
+
+                            int executingTime=(int)getDatePoor();
+
+
+
+                    if(floatTem-systemDataOnFailed.getSettingTem()<=1 || systemDataOnFailed.getSettingTem()-floatTem<=1){
+                        changeDataDBHelper.add(executingTime,floatTem,0);
+                    }
+
+
+
+                            //判断是否达到稳定状态
+
+//                            int  result=   isStable();
+//                            reachstability(result ,dataRecodeBean);
+
+
+
+                        }
+
+                        @Override
+                        public void onFailed(String str) {
+
+
+
+
+                        }
+                    }));
+
+
+               // temPower = modbusUtil.getTemPower();
+
+
+
+            }
+        }
+    });
+
+    //读运行值
+    public Thread humThread = new Thread(new Runnable() {
+
+        public void run() {
+            while (true) {
+                SystemClock.sleep(1000);
+
+                dataRecordDBHelper = new DataRecordDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+                SystemData systemDataOnFailed = systemDBHelper.getSystemData();
+
+
+
+
+//                Random random = new Random();
+//                float humFloat = random.nextFloat() * 2 + systemDataOnFailed.getSettingHum()-2;
+//
+//
+//                if (systemDataOnFailed.getHumOnOrOff() == 1) {
+//                    mHumView.setProgress(humFloat, "hum");
+//                }
+//
+//
+//                dataRecodeBean.setRealtimeHum(humFloat);
+//                dataRecodeBean.setSettingHum(systemDataOnFailed.getSettingHum());
+//                dataRecodeBean.setTime(getDateTimeToString(new Date()));
+//                dataRecordDBHelper.add(dataRecodeBean);
+//
+//                int executingTime = (int) getDatePoor();
+//                System.out.println("运行了" + executingTime + "分钟");
+//
+//
+//                ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+//                if (humFloat - systemDataOnFailed.getSettingHum() <= 1 || systemDataOnFailed.getSettingHum() - humFloat <= 1) {
+//                    changeDataDBHelper.add(executingTime, humFloat, 1);
+//                }
+
+                //*****************************************************************
+
+
+                    serialClient.sendData(new ModBusData<Object>(01, 03, 0000, 02, new ModBusDataListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onSucceed(String hexValue, byte[] bytes) {
+                            Log.d(TAG, "读8位: " + hexValue);
+
+                            float humFloat = sixteentofloat(hexValue, 0);
+
+
+                            if(systemDataOnFailed.getHumOnOrOff()==1){
+                                mHumView.setProgress(humFloat, "hum");
+                            }
+                            dataRecodeBean = new DataRecodeBean();
+                            dataRecodeBean.setRealtimeHum(humFloat);
+                            dataRecodeBean.setSettingHum(systemDataOnFailed.getSettingHum());
+                            dataRecodeBean.setTime(getDateTimeToString(new Date()));
+                            dataRecordDBHelper.add(dataRecodeBean);
+
+                            int executingTime=(int)getDatePoor();
+
+                            if(humFloat-systemDataOnFailed.getSettingHum()<=1 || systemDataOnFailed.getSettingHum()-humFloat<=1){
+                                changeDataDBHelper.add(executingTime,humFloat,1);
+                            }
+
+                            //判断是否达到稳定状态
+
+//                            int  result=   isStable();
+//                            reachstability(result ,dataRecodeBean);
+
+                        }
+
+                        @Override
+                        public void onFailed(String str) {
+
+
+                        }
+                    }));
+
+
+                humPower = modbusUtil.getHumPower();
+
+
+            }
+        }
+    });
+
+
+    public Thread warnThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!isFalse) {
+                SystemClock.sleep(1000);
+                Message message = new Message();
+                if (modbusUtil.getLevelWarning()) {
+                    message.what = 1;
+                    handler.sendMessage(message);
+                }
+                if (modbusUtil.getTemWarning()) {
+                    message.what = 2;
+                    handler.sendMessage(message);
+                }
+
+            }
+        }
+    });
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+
+
+            View view1 = View.inflate(MainActivity.this, R.layout.warning, null);
+
+            TextView textViewReason = view1.findViewById(R.id.warningReason);
+            TextView textViewTime = view1.findViewById(R.id.warningTime);
+            if (msg.what == 1) {
+                textViewReason.setText("液位报警");
+            }
+            if (msg.what == 2) {
+                textViewReason.setText("超温报警");
+            }
+
+            textViewTime.setText(getDateTimeToString(new Date()));
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setView(view1)
+                    .setCancelable(false);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+
+            btn_tem.setText("温度启动");
+            temThread.interrupt();
+            btn_hum.setText("湿度启动");
+            humThread.interrupt();
+            SystemData systemData1 = systemDBHelper.getSystemData();
+            systemData1.setTemOnOrOff(0);
+            systemData1.setHumOnOrOff(0);
+            systemDBHelper.updateSystemData(systemData1);
+            modbusUtil.setTemOnOrOff(false);
+            modbusUtil.setHumOnOrOff(false);
+
+            isFalse = true;
+            warnThread.interrupt();
+
+
+            super.handleMessage(msg);
+        }
+    };
+
+
+    //判断是否稳定
+
+    /**
+     * @return 1代表温度稳定 湿度不稳定   2代表温度湿度都稳定  3代表湿度稳定 温度不稳定 4代表温湿度都不稳定
+     */
+    public int isStable() {
+        ChangeDataDBHelper changeDataDBHelper1 = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        boolean temIsStable = false;
+        boolean humIsStable = false;
+        SystemData systemData1 = systemDBHelper.getSystemData();
+        int temPlanID = systemData1.getTemPlanID();
+        if (temPlanID == 0) {
+
+            float temMax = changeDataDBHelper1.getAllChangeData("temMax", 5);
+            float temMin = changeDataDBHelper1.getAllChangeData("temMin", 5);
+            if (temMax - temMin <= 0.2) {
+                temIsStable = true;
+            }
+
+        } else {
+            TemPlanBean temPlanBean = temPlanDBHelper.queryByID(temPlanID);
+            int temTime = temPlanBean.getUnitTime();
+            float temWave = temPlanBean.getTemWave();
+
+
+            float temMax = changeDataDBHelper1.getAllChangeData("temMax", temTime);
+            float temMin = changeDataDBHelper1.getAllChangeData("temMin", temTime);
+            if (temMax - temMin <= temWave) {
+                temIsStable = true;
+            }
+        }
+
+
+        int humPlanID = systemData1.getHumPlanID();
+        if (humPlanID == 0) {
+            float humMax = changeDataDBHelper1.getAllChangeData("humMax", 1);
+            float humMin = changeDataDBHelper1.getAllChangeData("humMin", 1);
+            if (humMax - humMin < 0.8) {
+                humIsStable = true;
+            }
+        } else {
+            HumPlanBean humPlanBean = humPlanDBHelper.queryByID(humPlanID);
+            int humTime = humPlanBean.getUnitTime();
+            float humWave = humPlanBean.getHumWave();
+            float humMax = changeDataDBHelper1.getAllChangeData("humMax", humTime);
+            float humMin = changeDataDBHelper1.getAllChangeData("humMin", humTime);
+            if (humMax - humMin <= humWave) {
+                humIsStable = true;
+            }
+        }
+
+
+        if (systemData1.getTemOnOrOff() == 0 && systemData1.getHumOnOrOff() == 0) {
+            return 4;
+        }
+        if (systemData1.getTemOnOrOff() == 1 && systemData1.getHumOnOrOff() == 0) {
+            if (temIsStable) {
+                return 1;
+            } else {
+                return 4;
+            }
+        }
+        if (systemData1.getTemOnOrOff() == 1 && systemData1.getHumOnOrOff() == 1) {
+            if (temIsStable && humIsStable) {
+                return 2;
+            } else {
+                return 4;
+            }
+        }
+        if (systemData1.getTemOnOrOff() == 0 && systemData1.getHumOnOrOff() == 1) {
+            if (humIsStable) {
+                return 3;
+            } else {
+                return 4;
+            }
+        }
+
+        return 4;
+
+    }
 
 
 }

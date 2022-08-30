@@ -39,11 +39,14 @@ public class SerialClient {
     }
 
     public void sendData(ModBusData<?> request) {
+
+        System.out.println("2----------------");
         if (mDataQueue == null) {
             return;
         }
+        System.out.println("3----------------");
         mDataQueue.add(request);
-
+        System.out.println("7----------------");
 
 
     }

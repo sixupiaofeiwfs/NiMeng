@@ -43,9 +43,12 @@ public class DataQueue {
     }
 
     public <T> ModBusData<T> add(ModBusData<T> request) {
+        System.out.println("4----------------");
         synchronized (mSignalRequestQueue) {
+            System.out.println("5----------------");
             mSignalRequestQueue.add(request);
         }
+        System.out.println("6----------------");
         return request;
     }
 }

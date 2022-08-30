@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.nimeng.Adapter.QueryAdapter;
 import com.nimeng.bean.QueryBean;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.QueryDBHelper;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class QueryActivity  extends BaseAvtivity{
+public class QueryActivity  extends CommonUtil {
     private ListView listView;
     private QueryAdapter queryAdapter;
     private QueryDBHelper queryDBHelper;

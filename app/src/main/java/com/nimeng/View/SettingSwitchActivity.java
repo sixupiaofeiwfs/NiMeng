@@ -7,11 +7,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.nimeng.bean.GlobalVariable;
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.ChangeDataDBHelper;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
+
+import java.util.Random;
 
 
 /**
@@ -27,13 +33,15 @@ import com.nimeng.bean.GlobalVariable;
  * <p>
  * -----------------------------------------------------------------
  */
-public class SettingSwitchActivity extends BaseAvtivity{
+public class SettingSwitchActivity extends CommonUtil {
 
    // public TextView a,b,c;
     public TextView btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn10,btn11,btn12;
-    private GlobalVariable globalVariable;
+
     private Intent intent;
-    private TextView textView1,textView2,textView3;
+    private TextView textView1,textView2,textView3,textView4,textView5;
+    private SystemDBHelper systemDBHelper;
+    SystemData systemData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +49,9 @@ public class SettingSwitchActivity extends BaseAvtivity{
 
         setContentView(R.layout.activity_settingswitch);
 
-        globalVariable=(GlobalVariable)getApplicationContext();
 
-
-
+        systemDBHelper=new SystemDBHelper(SettingSwitchActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
 
         btn1 = findViewById(R.id.settingswitch_bt1);
         btn2 = findViewById(R.id.settingswitch_bt2);
@@ -68,52 +75,10 @@ public class SettingSwitchActivity extends BaseAvtivity{
 //        textView2=findViewById(R.id.settingswitch_textview2);
 //        textView2.setText(gettime());
         textView3=findViewById(R.id.settingswitch_textview3);
+        textView4=findViewById(R.id.settingswitch_textview4);
+        textView5=findViewById(R.id.settingswitch_textview5);
 
 
-        if(!globalVariable.isSwitch_8()){
-            btn5.setVisibility(View.INVISIBLE);
-        }
-        if(!globalVariable.isSwitch_9()){
-            btn6.setVisibility(View.INVISIBLE);
-        }
-        if(!globalVariable.isSwitch_10()){
-            btn12.setVisibility(View.INVISIBLE);
-            textView3.setVisibility(View.INVISIBLE);
-
-        }
-
-        System.out.println("初始化----"+globalVariable.isSwitch_1());
-
-        if(!globalVariable.isSwitch_1()){
-            btn7.setTextColor(Color.RED);
-        }else{
-            btn7.setTextColor(Color.BLUE);
-        }
-        if(!globalVariable.isSwitch_2()){
-            btn8.setTextColor(Color.RED);
-        }else{
-            btn8.setTextColor(Color.BLUE);
-        }
-        if(!globalVariable.isSwitch_3()){
-            btn9.setTextColor(Color.RED);
-        }else{
-            btn9.setTextColor(Color.BLUE);
-        }
-        if(!globalVariable.isSwitch_4()){
-            btn10.setTextColor(Color.RED);
-        }else{
-            btn10.setTextColor(Color.BLUE);
-        }
-        if(!globalVariable.isSwitch_5()){
-            btn11.setTextColor(Color.RED);
-        }else{
-            btn11.setTextColor(Color.BLUE);
-        }
-        if(!globalVariable.isSwitch_6()){
-            btn12.setTextColor(Color.RED);
-        }else{
-            btn12.setTextColor(Color.BLUE);
-        }
 
 
 
@@ -183,14 +148,13 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("_________"+globalVariable.isSwitch_1());
-                if(globalVariable.isSwitch_1()){//开着，本次操作未关闭
-                    globalVariable.setSwitch_1(false);
+
+                if(systemDBHelper.getSwitch("1")){//开着，本次操作未关闭
+                    systemDBHelper.addSwitch("1",false);
                     btn7.setTextColor(Color.RED);
                 }else{
-                    System.out.println("----------关着");
-                    globalVariable.setSwitch_1(true);
-                    globalVariable.setSwitch_2(false);
+                    systemDBHelper.addSwitch("1",true);
+                    systemDBHelper.addSwitch("2",false);
                     btn7.setTextColor(Color.BLUE);
                     btn8.setTextColor(Color.RED);
                 }
@@ -210,12 +174,12 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(globalVariable.isSwitch_2()){//开着，本次操作未关闭
-                    globalVariable.setSwitch_2(false);
+                if(systemDBHelper.getSwitch("2")){//开着，本次操作未关闭
+                    systemDBHelper.addSwitch("2",false);
                     btn8.setTextColor(Color.RED);
                 }else{
-                    globalVariable.setSwitch_2(true);
-                    globalVariable.setSwitch_1(false);
+                    systemDBHelper.addSwitch("2",true);
+                    systemDBHelper.addSwitch("1",false);
                     btn8.setTextColor(Color.BLUE);
                     btn7.setTextColor(Color.RED);
                 }
@@ -227,11 +191,14 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(globalVariable.isSwitch_3()){
-                    globalVariable.setSwitch_3(false);
+
+                if(systemDBHelper.getSwitch("3")){
+                    systemDBHelper.addSwitch("3",false);
                     btn9.setTextColor(Color.RED);
+
+
                 }else{
-                    globalVariable.setSwitch_3(true);
+                    systemDBHelper.addSwitch("3",true);
                     btn9.setTextColor(Color.BLUE);
                 }
             }
@@ -241,11 +208,11 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(globalVariable.isSwitch_4()){
-                    globalVariable.setSwitch_4(false);
+                if(systemDBHelper.getSwitch("4")){
+                    systemDBHelper.addSwitch("4",false);
                     btn10.setTextColor(Color.RED);
                 }else{
-                    globalVariable.setSwitch_4(true);
+                    systemDBHelper.addSwitch("4",true);
                     btn10.setTextColor(Color.BLUE);
                 }
             }
@@ -255,11 +222,11 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(globalVariable.isSwitch_5()){
-                    globalVariable.setSwitch_5(false);
+                if(systemDBHelper.getSwitch("5")){
+                    systemDBHelper.addSwitch("5",false);
                     btn11.setTextColor(Color.RED);
                 }else{
-                    globalVariable.setSwitch_5(true);
+                    systemDBHelper.addSwitch("5",true);
                     btn11.setTextColor(Color.BLUE);
                 }
             }
@@ -269,11 +236,11 @@ public class SettingSwitchActivity extends BaseAvtivity{
         btn12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(globalVariable.isSwitch_6()){
-                    globalVariable.setSwitch_6(false);
+                if(systemDBHelper.getSwitch("6")){
+                    systemDBHelper.addSwitch("6",false);
                     btn12.setTextColor(Color.RED);
                 }else{
-                    globalVariable.setSwitch_6(true);
+                    systemDBHelper.addSwitch("6",true);
                     btn12.setTextColor(Color.BLUE);
                 }
             }
@@ -295,12 +262,12 @@ public class SettingSwitchActivity extends BaseAvtivity{
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(edit1.getText().toString().equals("123456")){
+                        if(edit1.getText().toString().equals(systemData.getSuperPassword())){
 
                             intent=new Intent(SettingSwitchActivity.this,SettingEquipmentParametersActivity.class);
                             startActivity(intent);
                         }else{
-                            showToast("密码错误");
+                            showToast(SettingSwitchActivity.this,"密码错误");
                         }
                     }
                 })
@@ -321,6 +288,95 @@ public class SettingSwitchActivity extends BaseAvtivity{
         });
 
 
+
+
+
+    }
+
+
+    @Override
+    protected void onStart() {
+
+        if(!systemDBHelper.getSwitch("8")){
+            btn5.setVisibility(View.INVISIBLE);
+            textView4.setVisibility(View.INVISIBLE);
+        }
+        if(!systemDBHelper.getSwitch("9")){
+            btn6.setVisibility(View.INVISIBLE);
+            textView5.setVisibility(View.INVISIBLE);
+        }
+        if(!systemDBHelper.getSwitch("10")){
+            btn12.setVisibility(View.INVISIBLE);
+            textView3.setVisibility(View.INVISIBLE);
+
+        }
+
+
+
+
+        if(!systemDBHelper.getSwitch("1")){
+            btn7.setTextColor(Color.RED);
+        }else{
+            btn7.setTextColor(Color.BLUE);
+        }
+        if(!systemDBHelper.getSwitch("2")){
+            btn8.setTextColor(Color.RED);
+        }else{
+            btn8.setTextColor(Color.BLUE);
+        }
+        if(!systemDBHelper.getSwitch("3")){
+            btn9.setTextColor(Color.RED);
+        }else{
+            btn9.setTextColor(Color.BLUE);
+        }
+        if(!systemDBHelper.getSwitch("4")){
+            btn10.setTextColor(Color.RED);
+        }else{
+            btn10.setTextColor(Color.BLUE);
+        }
+        if(!systemDBHelper.getSwitch("5")){
+            btn11.setTextColor(Color.RED);
+        }else{
+            btn11.setTextColor(Color.BLUE);
+        }
+        if(!systemDBHelper.getSwitch("6")){
+            btn12.setTextColor(Color.RED);
+        }else{
+            btn12.setTextColor(Color.BLUE);
+        }
+
+        super.onStart();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        createVelocityTracker(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                xDown = ev.getRawX();
+                yDown = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                xMove = ev.getRawX();
+                yMove = ev.getRawY();
+                //滑动的距离
+                int distanceX = (int) (xMove - xDown);
+                int distanceY = (int) (yMove - yDown);
+                //获取瞬时速度
+                int ySpeed = getScrollVelocity();
+
+
+                //右滑
+                if (distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && distanceX > 0) {
+                    startActivity(new Intent(this, DataRecordActivity.class));
+
+                } else if (-distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && -distanceX > 0) {
+                    startActivity(new Intent(this, MainActivity.class));
+
+                }
+        }
+
+        return super.dispatchTouchEvent(ev);
     }
 
 

@@ -14,11 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.nimeng.bean.HumPlanBean;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.HumPlanDBHelper;
+import com.nimeng.util.SystemDBHelper;
 
-import java.util.List;
-
-public class HumPlanEditActivity extends BaseAvtivity {
+public class HumPlanEditActivity extends CommonUtil {
 
     private EditText editName,editUnitTime,editHumWave,editHum1,editHum2,editHum3,editHum4,editHum5,editHum6,editHum7,editHum8,editHum9,editHum10;
 
@@ -28,11 +28,12 @@ public class HumPlanEditActivity extends BaseAvtivity {
     private Button button1,button2;
     private HumPlanDBHelper humplanDBHelper;
 
-    private float hum1,hum2,hum3,hum4,hum5,hum6,hum7,hum8,hum9,hum10;
+    private int hum1,hum2,hum3,hum4,hum5,hum6,hum7,hum8,hum9,hum10;
     private int humPoints;
 
     private TextView textView1,textView2,textView3,textView4,textView5,textView6,textView7,textView8,textView9,textView10;
 
+    private SystemDBHelper systemDBHelper;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,8 @@ public class HumPlanEditActivity extends BaseAvtivity {
         button1=findViewById(R.id.btn_true);
         button2=findViewById(R.id.btn_false);
         humplanDBHelper=new HumPlanDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
+
         editName=findViewById(R.id.edit_humplan_name);
         editUnitTime=findViewById(R.id.edit_humplan_unitTime);
         editHumWave=findViewById(R.id.edit_humplan_humWave);
@@ -55,12 +58,13 @@ public class HumPlanEditActivity extends BaseAvtivity {
         editHum10=findViewById(R.id.edit_humplan_hum10);
         spinner=findViewById(R.id.spinner1);
 
+        linearLayout4=findViewById(R.id.LinearLayout4);
         linearLayout5=findViewById(R.id.LinearLayout5);
         linearLayout6=findViewById(R.id.LinearLayout6);
         linearLayout7=findViewById(R.id.LinearLayout7);
         linearLayout8=findViewById(R.id.LinearLayout8);
         linearLayout9=findViewById(R.id.LinearLayout9);
-        linearLayout10=findViewById(R.id.LinearLayout10);
+
 
 
         textView1=findViewById(R.id.text1);
@@ -82,88 +86,140 @@ public class HumPlanEditActivity extends BaseAvtivity {
 
                 switch(i){
                     case 9:
-                        linearLayout9.setVisibility(View.VISIBLE);
                         linearLayout8.setVisibility(View.VISIBLE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView10.setVisibility(View.VISIBLE);
                         editHum10.setVisibility(View.VISIBLE);
+                        textView8.setVisibility(View.VISIBLE);
+                        editHum8.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editHum6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 8:
-                        linearLayout9.setVisibility(View.VISIBLE);
                         linearLayout8.setVisibility(View.VISIBLE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView10.setVisibility(View.INVISIBLE);
                         editHum10.setVisibility(View.INVISIBLE);
+                        textView8.setVisibility(View.VISIBLE);
+                        editHum8.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editHum6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 7:
-                        linearLayout8.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView8.setVisibility(View.VISIBLE);
                         editHum8.setVisibility(View.VISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editHum6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 6:
-                        linearLayout8.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
                         linearLayout7.setVisibility(View.VISIBLE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView8.setVisibility(View.INVISIBLE);
                         editHum8.setVisibility(View.INVISIBLE);
+                        textView6.setVisibility(View.VISIBLE);
+                        editHum6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 5:
-                        linearLayout7.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView6.setVisibility(View.VISIBLE);
                         editHum6.setVisibility(View.VISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 4:
-                        linearLayout7.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
                         linearLayout6.setVisibility(View.VISIBLE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView6.setVisibility(View.INVISIBLE);
                         editHum6.setVisibility(View.INVISIBLE);
+                        textView4.setVisibility(View.VISIBLE);
+                        editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 3:
-                        linearLayout6.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
+                        linearLayout6.setVisibility(View.GONE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView4.setVisibility(View.VISIBLE);
                         editHum4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        linearLayout6.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
+                        linearLayout6.setVisibility(View.GONE);
                         linearLayout5.setVisibility(View.VISIBLE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView4.setVisibility(View.INVISIBLE);
                         editHum4.setVisibility(View.INVISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        linearLayout5.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
+                        linearLayout6.setVisibility(View.GONE);
+                        linearLayout5.setVisibility(View.GONE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
                         editHum2.setVisibility(View.VISIBLE);
                         break;
                     case 0:
-                        linearLayout5.setVisibility(View.VISIBLE);
+
+                        linearLayout8.setVisibility(View.GONE);
+                        linearLayout7.setVisibility(View.GONE);
+                        linearLayout6.setVisibility(View.GONE);
+                        linearLayout5.setVisibility(View.GONE);
+                        linearLayout4.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.INVISIBLE);
                         editHum2.setVisibility(View.INVISIBLE);
                         break;
@@ -184,14 +240,14 @@ public class HumPlanEditActivity extends BaseAvtivity {
 
                 String name=editName.getText().toString();
                 if(name==""){
-                    showToast("预设方案名称不能为空");
+                    showToast(HumPlanEditActivity.this,"预设方案名称不能为空");
                     return;
                 }
 
 
 
                 if(editUnitTime.getText().toString()==" "){
-                    showToast("单位时间不能为空");
+                    showToast(HumPlanEditActivity.this,"单位时间不能为空");
                     return;
                 }
 
@@ -199,7 +255,7 @@ public class HumPlanEditActivity extends BaseAvtivity {
 
 
                 if(editHumWave.getText().toString()==""){
-                    showToast("湿度波动值不能为空");
+                    showToast(HumPlanEditActivity.this,"湿度波动值不能为空");
                     return;
                 }
                 float humWave=Float.parseFloat( editHumWave.getText().toString());
@@ -227,136 +283,145 @@ public class HumPlanEditActivity extends BaseAvtivity {
                 switch(humPoints){
                     case 0:
                         if(SHum1.equals("")){
-                            showToast("湿度一不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
+                            hum1=Integer.valueOf(SHum1);
                         }
                         break;
                     case 1:
                         if(SHum1.equals("") || SHum2.equals("")){
-                            showToast("湿度一、湿度二不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
                         }
                         break;
                     case 2:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("")){
-                            showToast("湿度一、湿度二、湿度三不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
                         }
                         break;
 
                     case 3:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") ){
-                            showToast("湿度一、湿度二、湿度三、湿度四不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
                         }
                         break;
 
                     case 4:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") || SHum5.equals("")){
-                            showToast("湿度一、湿度二、湿度三、湿度四、湿度五不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四、湿度五不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
-                            hum5=Float.valueOf(SHum5);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
+                            hum5=Integer.valueOf(SHum5);
                         }
                         break;
 
                     case 5:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") || SHum5.equals("") || SHum6.equals("")){
-                            showToast("湿度一、湿度二、湿度三、湿度四、湿度五、湿度六不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四、湿度五、湿度六不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
-                            hum5=Float.valueOf(SHum5);
-                            hum6=Float.valueOf(SHum6);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
+                            hum5=Integer.valueOf(SHum5);
+                            hum6=Integer.valueOf(SHum6);
                         }
                         break;
                     case 6:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") || SHum5.equals("") || SHum6.equals("") || SHum7.equals("")){
-                            showToast("湿度一、湿度二、湿度三、湿度四、湿度五、湿度六、湿度七不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四、湿度五、湿度六、湿度七不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
-                            hum5=Float.valueOf(SHum5);
-                            hum6=Float.valueOf(SHum6);
-                            hum7=Float.valueOf(SHum7);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
+                            hum5=Integer.valueOf(SHum5);
+                            hum6=Integer.valueOf(SHum6);
+                            hum7=Integer.valueOf(SHum7);
                         }
                         break;
                     case 7:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") || SHum5.equals("") || SHum6.equals("") || SHum7.equals("")|| SHum8.equals("")){
-                            showToast("湿度一、湿度二、湿度三、湿度四、湿度五、湿度六不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四、湿度五、湿度六不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
-                            hum5=Float.valueOf(SHum5);
-                            hum6=Float.valueOf(SHum6);
-                            hum7=Float.valueOf(SHum7);
-                            hum8=Float.valueOf(SHum8);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
+                            hum5=Integer.valueOf(SHum5);
+                            hum6=Integer.valueOf(SHum6);
+                            hum7=Integer.valueOf(SHum7);
+                            hum8=Integer.valueOf(SHum8);
                         }
                         break;
                     case 8:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") || SHum5.equals("") || SHum6.equals("") || SHum7.equals("") || SHum8.equals("") || SHum9.equals("")){
-                            showToast("湿度一、湿度二、湿度三、湿度四、湿度五、湿度六、湿度七、湿度八、湿度九不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四、湿度五、湿度六、湿度七、湿度八、湿度九不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
-                            hum5=Float.valueOf(SHum5);
-                            hum6=Float.valueOf(SHum6);
-                            hum7=Float.valueOf(SHum7);
-                            hum8=Float.valueOf(SHum8);
-                            hum9=Float.valueOf(SHum9);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
+                            hum5=Integer.valueOf(SHum5);
+                            hum6=Integer.valueOf(SHum6);
+                            hum7=Integer.valueOf(SHum7);
+                            hum8=Integer.valueOf(SHum8);
+                            hum9=Integer.valueOf(SHum9);
                         }
                         break;
                     case 9:
                         if(SHum1.equals("") || SHum2.equals("") || SHum3.equals("") || SHum4.equals("") || SHum5.equals("") || SHum6.equals("")|| SHum7.equals("") || SHum8.equals("") || SHum9.equals("") || SHum10.equals("")){
-                            showToast("湿度一、湿度二、湿度三、湿度四、湿度五、湿度六、湿度七、湿度八、湿度九、湿度十不能为空");
+                            showToast(HumPlanEditActivity.this,"湿度一、湿度二、湿度三、湿度四、湿度五、湿度六、湿度七、湿度八、湿度九、湿度十不能为空");
                             return;
                         }else{
-                            hum1=Float.valueOf(SHum1);
-                            hum2=Float.valueOf(SHum2);
-                            hum3=Float.valueOf(SHum3);
-                            hum4=Float.valueOf(SHum4);
-                            hum5=Float.valueOf(SHum5);
-                            hum6=Float.valueOf(SHum6);
-                            hum7=Float.valueOf(SHum7);
-                            hum8=Float.valueOf(SHum8);
-                            hum9=Float.valueOf(SHum9);
-                            hum10=Float.valueOf(SHum10);
+                            hum1=Integer.valueOf(SHum1);
+                            hum2=Integer.valueOf(SHum2);
+                            hum3=Integer.valueOf(SHum3);
+                            hum4=Integer.valueOf(SHum4);
+                            hum5=Integer.valueOf(SHum5);
+                            hum6=Integer.valueOf(SHum6);
+                            hum7=Integer.valueOf(SHum7);
+                            hum8=Integer.valueOf(SHum8);
+                            hum9=Integer.valueOf(SHum9);
+                            hum10=Integer.valueOf(SHum10);
                         }
                         break;
 
                 }
 
 
+                if(hum1>100 || hum1<0||hum2>100 || hum2<0||hum3>100 || hum3<0||hum4>100 || hum4<0||hum5>100 || hum5<0||hum6>100 || hum6<0||hum7>100 || hum7<0||hum8>100 || hum8<0||hum9>100 || hum9<0||hum10>100 || hum10<0){
+                    showToast(HumPlanEditActivity.this,"湿度不能大于100且不能小于0");
+                    return;
+                }
+
+                if(unitTime>30){
+                    showToast(HumPlanEditActivity.this,"稳定条件的时间不能超过30分钟");
+                       return;
+                }
                 int result= humplanDBHelper.findHumPlanByName(name);
                 if(result<=0){
                     HumPlanBean humplanBean2=new HumPlanBean();
@@ -380,19 +445,19 @@ public class HumPlanEditActivity extends BaseAvtivity {
 
                     if(humplanDBHelper.add(humplanBean2)){
                         Log.d("添加成功", "onClick: ");
-                        showToast("添加成功");
-                        List<String> list=globalVariable.getHumPlanList();
-                        list.add(humplanBean2.getName());
-                        globalVariable.setHumPlanList(list);
+                        showToast(HumPlanEditActivity.this,"添加成功");
+
+
+
                         startActivity(new Intent(HumPlanEditActivity.this,HumPlanActivity.class));
 
 
                     }else{
                         Log.d("添加失败", "onClick: ");
-                        showToast("添加失败");
+                        showToast(HumPlanEditActivity.this,"添加失败");
                     }
                 }else{
-                    showToast("该方案已经存在");
+                    showToast(HumPlanEditActivity.this,"该方案已经存在");
                 }
 
 

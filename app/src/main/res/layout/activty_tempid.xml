@@ -6,11 +6,10 @@
     android:layout_gravity="center">
 
 
-
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout1">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/tempid_toSettingSwitch"
@@ -29,29 +28,41 @@
     </LinearLayout>
 
 
-
-
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout2"
         android:layout_below="@id/tempid_LinearLayout1"
         android:layout_marginTop="20dp">
+
+
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="序号"
+            android:textColor="@color/color_01_point" />
+
+
         <TextView
             android:id="@+id/list_quzhi_fanwei"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="取值范围"
-            android:textColor="@color/color_01_point"
-            android:layout_weight="1"/>
+            android:textColor="@color/color_01_point" />
 
 
         <TextView
             android:id="@+id/list_bil"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="比例p 0-999.9"
             android:textColor="@color/color_01_point" />
 
@@ -60,8 +71,9 @@
             android:id="@+id/list_jifen"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="积分i 0-6000"
             android:textColor="@color/color_01_point" />
 
@@ -70,8 +82,9 @@
             android:id="@+id/list_weifen"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="微分d 0-3600"
             android:textColor="@color/color_01_point" />
 
@@ -80,8 +93,9 @@
             android:id="@+id/list_shezhi"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="手动设置50-5"
             android:textColor="@color/color_01_point" />
 
@@ -90,19 +104,20 @@
             android:id="@+id/list_xiaxian"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="输出下限0-99.9"
             android:textColor="@color/color_01_point" />
-
 
 
         <TextView
             android:id="@+id/list_shangxian"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="输出上限0-100.00"
             android:textColor="@color/color_01_point" />
 
@@ -111,8 +126,9 @@
             android:id="@+id/list_pianyi"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="偏移量 -5-5"
             android:textColor="@color/color_01_point" />
 
@@ -121,582 +137,656 @@
             android:id="@+id/list_fenji"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="风机转速 0-60"
             android:textColor="@color/color_01_point" />
 
     </LinearLayout>
 
 
-
-
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout3"
         android:layout_below="@id/tempid_LinearLayout2"
         android:layout_marginTop="20dp">
+
+
+        <TextView
+            android:id="@+id/num1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!--<TextView
-            android:id="@+id/tem_1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="温度: -10℃"
-            android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_1_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_1_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout4"
         android:layout_below="@id/tempid_LinearLayout3"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/color_01_point" />
 
 
         <EditText
             android:id="@+id/tem_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_2"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 10℃"
-             android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_2_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_2_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout5"
         android:layout_below="@id/tempid_LinearLayout4"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!--  <TextView
-              android:id="@+id/tem_3"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:text="温度: 20℃"
-              android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_3_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_3_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout6"
         android:layout_below="@id/tempid_LinearLayout5"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_4"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 30℃"
-             android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_4_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_4_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout7"
         android:layout_below="@id/tempid_LinearLayout6"
         android:layout_marginTop="20dp">
 
+        <TextView
+            android:id="@+id/num5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!--<TextView
-            android:id="@+id/tem_5"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="温度: 40℃"
-            android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_5_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_5_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout8"
         android:layout_below="@id/tempid_LinearLayout7"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_6"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 50℃"
-             android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_6_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_6_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout9"
         android:layout_below="@id/tempid_LinearLayout8"
         android:layout_marginTop="20dp">
+
+
+        <TextView
+            android:id="@+id/num7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_7"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 60℃"
-             android:textColor="@color/color_01_point" />-->
         <EditText
             android:id="@+id/bili_7_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_7_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
@@ -704,256 +794,283 @@
 
 
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout10"
         android:layout_below="@id/tempid_LinearLayout9"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_7"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 60℃"
-             android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_8_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_8_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
 
 
-
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout11"
         android:layout_below="@id/tempid_LinearLayout10"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num9"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="9"
+            android:textColor="@color/color_01_point" />
+
 
         <EditText
             android:id="@+id/tem_9"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_7"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 60℃"
-             android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_9_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_9_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
 
 
-
     <LinearLayout
+        android:id="@+id/tempid_LinearLayout12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tempid_LinearLayout12"
         android:layout_below="@id/tempid_LinearLayout11"
         android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/num10"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="10"
+            android:textColor="@color/color_01_point" />
 
         <EditText
             android:id="@+id/tem_10"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
-        <!-- <TextView
-             android:id="@+id/tem_7"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="温度: 60℃"
-             android:textColor="@color/color_01_point" />-->
+
         <EditText
             android:id="@+id/bili_10_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_7"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
+
         <EditText
             android:id="@+id/bili_10_8"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:inputType="text" />
 
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

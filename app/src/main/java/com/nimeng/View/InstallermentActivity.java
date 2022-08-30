@@ -15,21 +15,27 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.nimeng.bean.GlobalVariable;
+import com.nimeng.bean.Password;
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-public class InstallermentActivity extends BaseAvtivity {
+public class InstallermentActivity extends CommonUtil {
     int number=0;
-    GlobalVariable globalVariable;
     int year,month,day,hour,minute;
+    CommonUtil commonUtil=new CommonUtil();
+    SystemDBHelper systemDBHelper;
+
+    SystemData systemData;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        globalVariable=(GlobalVariable) getApplicationContext();
 
+
+        systemDBHelper=new SystemDBHelper(InstallermentActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_installment);
         Spinner spinner = (Spinner) findViewById(R.id.spinner2);
@@ -180,54 +186,69 @@ public class InstallermentActivity extends BaseAvtivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 //设置是否需要分期
-                globalVariable.setInstallmentPayment(true);
+                systemData.setInstallmentPayment(true);
                 //设置分期数
-                globalVariable.setNumberOfStages(number+1);
+                systemData.setNumberOfStages(number+1);
                 //设置超级密码
-                globalVariable.setSuperPassword(editText1.getText().toString());
-                //设置密码集合
-                List<String> passwords=new ArrayList<String>();
-                passwords.add(editText2.getText().toString());
-                passwords.add(editText4.getText().toString());
-                passwords.add(editText6.getText().toString());
-                passwords.add(editText8.getText().toString());
-                passwords.add(editText10.getText().toString());
-                passwords.add(editText12.getText().toString());
-                globalVariable.setPasswords(passwords);
-                //设置时间组
-                List<String> times=new ArrayList<String>();
-                times.add(textView1.getText().toString());
-                times.add(textView2.getText().toString());
-                times.add(textView3.getText().toString());
-                times.add(textView4.getText().toString());
-                times.add(textView5.getText().toString());
-                times.add(textView6.getText().toString());
-
-                globalVariable.setTimes(times);
-
-
-                //设置是否匹配集合
-                List<Boolean> matchs=new ArrayList<Boolean>();
-                matchs.add(false);
-                matchs.add(false);
-                matchs.add(false);
-                matchs.add(false);
-                matchs.add(false);
-                matchs.add(false);
-                globalVariable.setMatchs(matchs);
+                systemData.setSuperPassword(editText1.getText().toString());
 
 
 
-                //设置错误次数集合
-                List<Integer> errorNumbers=new ArrayList<Integer>();
-                errorNumbers.add(0);
-                errorNumbers.add(0);
-                errorNumbers.add(0);
-                errorNumbers.add(0);
-                errorNumbers.add(0);
-                errorNumbers.add(0);
-                globalVariable.setErrorNumbers(errorNumbers);
+
+
+                Password password1=new Password();
+                password1.setPassword(editText2.getText().toString());
+                password1.setErrorNumbers(0);
+                password1.setTimes(commonUtil.transferStringToDate(textView1.getText().toString()));
+                password1.setMatchs(false);
+                systemDBHelper.addPassword(password1);
+
+                Password password2=new Password();
+                password2.setPassword(editText4.getText().toString());
+                password2.setErrorNumbers(0);
+                password2.setTimes(commonUtil.transferStringToDate(textView2.getText().toString()));
+                password2.setMatchs(false);
+                systemDBHelper.addPassword(password2);
+
+
+                Password password3=new Password();
+                password3.setPassword(editText6.getText().toString());
+                password3.setErrorNumbers(0);
+                password3.setTimes(commonUtil.transferStringToDate(textView3.getText().toString()));
+                password3.setMatchs(false);
+                systemDBHelper.addPassword(password3);
+
+
+                Password password4=new Password();
+                password4.setPassword(editText8.getText().toString());
+                password4.setErrorNumbers(0);
+                password4.setTimes(commonUtil.transferStringToDate(textView4.getText().toString()));
+                password4.setMatchs(false);
+                systemDBHelper.addPassword(password4);
+
+
+                Password password5=new Password();
+                password5.setPassword(editText10.getText().toString());
+                password5.setErrorNumbers(0);
+                password5.setTimes(commonUtil.transferStringToDate(textView5.getText().toString()));
+                password5.setMatchs(false);
+                systemDBHelper.addPassword(password5);
+
+
+                Password password6=new Password();
+                password6.setPassword(editText12.getText().toString());
+                password6.setErrorNumbers(0);
+                password6.setTimes(commonUtil.transferStringToDate(textView6.getText().toString()));
+                password6.setMatchs(false);
+                systemDBHelper.addPassword(password6);
+
+
+
+
 
 
                 success();

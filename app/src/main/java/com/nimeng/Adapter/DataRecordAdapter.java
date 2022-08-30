@@ -59,7 +59,7 @@ public class DataRecordAdapter  extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        Log.d("调用getView方法", "getView: ");
+
         DataRecordViewHolder viewHolder;
         if(view==null){
             view=layoutInflater.inflate(R.layout.list_datarecord,null,false);
@@ -71,7 +71,7 @@ public class DataRecordAdapter  extends BaseAdapter {
 
         DataRecodeBean dataRecodeBean=(DataRecodeBean) getItem(i);
 
-        Log.d("数据******************", "getView: "+dataRecodeBean.getTime());
+
 
         viewHolder.time.setText(dataRecodeBean.getTime());
         viewHolder.time.setTextSize(13);

@@ -19,6 +19,7 @@ import com.nimeng.Adapter.CameraAdapter;
 
 import com.nimeng.bean.CameraBean;
 import com.nimeng.util.CameraDBHelper;
+import com.nimeng.util.CommonUtil;
 
 
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class CameraActivity extends BaseAvtivity{
+public class CameraActivity extends CommonUtil {
     private Button btn_add;
     private ListView listView;
     private EditText editName,editPort;

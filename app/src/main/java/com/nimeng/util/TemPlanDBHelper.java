@@ -9,8 +9,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 
-import com.nimeng.View.BaseAvtivity;
-import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.TemPlanBean;
 
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ public class TemPlanDBHelper extends BaseUtil {
         String sql="create table "
                 +TABLENAME+
                 " ("+
-                "id integer primary key,"+
+                "id integer primary key  AUTOINCREMENT,"+
                 "name varchar(20) not null,"+
                 "unitTime  tinyint(2) not null,"+
                 "temWave float(5) not null,"+
@@ -167,7 +165,7 @@ public class TemPlanDBHelper extends BaseUtil {
         List<TemPlanBean> list =new ArrayList<TemPlanBean>();
 
         if(!tableIsExist(TABLENAME)){
-            return list;
+            return null;
         }
 
         Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
@@ -177,75 +175,75 @@ public class TemPlanDBHelper extends BaseUtil {
                 temPlanBean.setID(result.getInt(0));
                 temPlanBean.setName(result.getString(1));
                 temPlanBean.setUnitTime(result.getInt(2));
-                temPlanBean.setTemWave(result.getFloat(3));
+                temPlanBean.setTemWave(result.getInt(3));
                 temPlanBean.setTemPoints(result.getInt(4));
 
 
                 if(result.getInt(4)==1){
-                    temPlanBean.setTem1(result.getFloat(5));
+                    temPlanBean.setTem1(result.getInt(5));
                 }else if(result.getInt(4)==2){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
                 }else if(result.getInt(4)==3){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
                 }else if(result.getInt(4)==4){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
                 }else if(result.getInt(4)==5){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
-                    temPlanBean.setTem5(result.getFloat(9));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
+                    temPlanBean.setTem5(result.getInt(9));
                 }else if(result.getInt(4)==6){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
-                    temPlanBean.setTem5(result.getFloat(9));
-                    temPlanBean.setTem6(result.getFloat(10));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
+                    temPlanBean.setTem5(result.getInt(9));
+                    temPlanBean.setTem6(result.getInt(10));
                 }else if(result.getInt(4)==7){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
-                    temPlanBean.setTem5(result.getFloat(9));
-                    temPlanBean.setTem6(result.getFloat(10));
-                    temPlanBean.setTem7(result.getFloat(11));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
+                    temPlanBean.setTem5(result.getInt(9));
+                    temPlanBean.setTem6(result.getInt(10));
+                    temPlanBean.setTem7(result.getInt(11));
                 }else if(result.getInt(4)==8){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
-                    temPlanBean.setTem5(result.getFloat(9));
-                    temPlanBean.setTem6(result.getFloat(10));
-                    temPlanBean.setTem7(result.getFloat(11));
-                    temPlanBean.setTem8(result.getFloat(12));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
+                    temPlanBean.setTem5(result.getInt(9));
+                    temPlanBean.setTem6(result.getInt(10));
+                    temPlanBean.setTem7(result.getInt(11));
+                    temPlanBean.setTem8(result.getInt(12));
                 }else if(result.getInt(4)==9){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
-                    temPlanBean.setTem5(result.getFloat(9));
-                    temPlanBean.setTem6(result.getFloat(10));
-                    temPlanBean.setTem7(result.getFloat(11));
-                    temPlanBean.setTem8(result.getFloat(12));
-                    temPlanBean.setTem9(result.getFloat(13));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
+                    temPlanBean.setTem5(result.getInt(9));
+                    temPlanBean.setTem6(result.getInt(10));
+                    temPlanBean.setTem7(result.getInt(11));
+                    temPlanBean.setTem8(result.getInt(12));
+                    temPlanBean.setTem9(result.getInt(13));
                 }else if(result.getInt(4)==10){
-                    temPlanBean.setTem1(result.getFloat(5));
-                    temPlanBean.setTem2(result.getFloat(6));
-                    temPlanBean.setTem3(result.getFloat(7));
-                    temPlanBean.setTem4(result.getFloat(8));
-                    temPlanBean.setTem5(result.getFloat(9));
-                    temPlanBean.setTem6(result.getFloat(10));
-                    temPlanBean.setTem7(result.getFloat(11));
-                    temPlanBean.setTem8(result.getFloat(12));
-                    temPlanBean.setTem9(result.getFloat(13));
-                    temPlanBean.setTem10(result.getFloat(14));
+                    temPlanBean.setTem1(result.getInt(5));
+                    temPlanBean.setTem2(result.getInt(6));
+                    temPlanBean.setTem3(result.getInt(7));
+                    temPlanBean.setTem4(result.getInt(8));
+                    temPlanBean.setTem5(result.getInt(9));
+                    temPlanBean.setTem6(result.getInt(10));
+                    temPlanBean.setTem7(result.getInt(11));
+                    temPlanBean.setTem8(result.getInt(12));
+                    temPlanBean.setTem9(result.getInt(13));
+                    temPlanBean.setTem10(result.getInt(14));
                 }
 
 
@@ -256,9 +254,10 @@ public class TemPlanDBHelper extends BaseUtil {
                 list.add(temPlanBean);
 
             }result.close();
+            return list;
         }
 
-        return list;
+       return null;
     }
 
 
@@ -272,13 +271,22 @@ public class TemPlanDBHelper extends BaseUtil {
 
         Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
 
-        return result.getCount();
+        int number=result.getCount();
+        result.close();
+        return number;
 
 
     }
 
 
     //更新被选中的信息
+
+    /**
+     *
+     * @param id 现在选中的temPlanID
+     * @param isCheckID 之前选中的temPlanID
+     * @return
+     */
     public boolean updateCheck(int id,int isCheckID){
 
         //删除之前的被选中
@@ -300,7 +308,7 @@ public class TemPlanDBHelper extends BaseUtil {
     }
 
     //通过TemID和tem？查询
-    public float queryByID(int id,int temId){
+    public int queryByID(int id,int temId){
         if(!tableIsExist(TABLENAME)){
             return 0;
         }
@@ -309,11 +317,111 @@ public class TemPlanDBHelper extends BaseUtil {
             return 0;
         }
 
-        Cursor result=db.query(TABLENAME,new String[]{"tem"+temId},"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
         if(result.getCount()==0){
+            result.close();
             return 0;
         }
-        return result.getFloat(0);
+        result.moveToFirst();
+        int numberResult= result.getInt(temId+4);
+        result.close();
+        return numberResult;
+    }
+
+
+    public TemPlanBean queryByID(int id){
+        if(!tableIsExist(TABLENAME)){
+            return null;
+        }
+
+        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        if(result!=null){
+            result.moveToFirst();
+
+            TemPlanBean temPlanBean=new TemPlanBean();
+            temPlanBean.setID(result.getInt(0));
+            temPlanBean.setName(result.getString(1));
+            temPlanBean.setUnitTime(result.getInt(2));
+            temPlanBean.setTemWave(result.getFloat(3));
+            temPlanBean.setTemPoints(result.getInt(4));
+
+
+            if(result.getInt(4)==1){
+                temPlanBean.setTem1(result.getInt(5));
+            }else if(result.getInt(4)==2){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+            }else if(result.getInt(4)==3){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+            }else if(result.getInt(4)==4){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+            }else if(result.getInt(4)==5){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+                temPlanBean.setTem5(result.getInt(9));
+            }else if(result.getInt(4)==6){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+                temPlanBean.setTem5(result.getInt(9));
+                temPlanBean.setTem6(result.getInt(10));
+            }else if(result.getInt(4)==7){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+                temPlanBean.setTem5(result.getInt(9));
+                temPlanBean.setTem6(result.getInt(10));
+                temPlanBean.setTem7(result.getInt(11));
+            }else if(result.getInt(4)==8){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+                temPlanBean.setTem5(result.getInt(9));
+                temPlanBean.setTem6(result.getInt(10));
+                temPlanBean.setTem7(result.getInt(11));
+                temPlanBean.setTem8(result.getInt(12));
+            }else if(result.getInt(4)==9){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+                temPlanBean.setTem5(result.getInt(9));
+                temPlanBean.setTem6(result.getInt(10));
+                temPlanBean.setTem7(result.getInt(11));
+                temPlanBean.setTem8(result.getInt(12));
+                temPlanBean.setTem9(result.getInt(13));
+            }else if(result.getInt(4)==10){
+                temPlanBean.setTem1(result.getInt(5));
+                temPlanBean.setTem2(result.getInt(6));
+                temPlanBean.setTem3(result.getInt(7));
+                temPlanBean.setTem4(result.getInt(8));
+                temPlanBean.setTem5(result.getInt(9));
+                temPlanBean.setTem6(result.getInt(10));
+                temPlanBean.setTem7(result.getInt(11));
+                temPlanBean.setTem8(result.getInt(12));
+                temPlanBean.setTem9(result.getInt(13));
+                temPlanBean.setTem10(result.getInt(14));
+            }
+
+
+
+            temPlanBean.setIsCheck(result.getInt(15));
+
+            result.close();
+            return temPlanBean;
+        }
+        result.close();
+        return null;
     }
 
 }

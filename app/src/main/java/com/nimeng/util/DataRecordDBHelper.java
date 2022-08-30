@@ -6,18 +6,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nimeng.View.CurveActivity;
+import com.mysql.cj.xdevapi.Table;
 import com.nimeng.bean.DataRecodeBean;
-import com.nimeng.bean.GlobalVariable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -42,6 +42,7 @@ public class DataRecordDBHelper extends BaseUtil {
     Random random=new Random();
 
 
+
     public DataRecordDBHelper(@NonNull Context context, @Nullable String name,@Nullable SQLiteDatabase.CursorFactory factory,int version){
         super(context,name,factory,version);
         db=this.getWritableDatabase();
@@ -53,10 +54,11 @@ public class DataRecordDBHelper extends BaseUtil {
         Log.d("是否创建表了", "onCreate: ");
 
 
+
         String sql="create table "
                 +TABLENAME+
                 " ("+
-                "id integer primary key,"+
+                "id integer primary key AUTOINCREMENT,"+
                 "time varchar(30) not null,"+
                 "settingTem float(5) not null,"+
                 "realtimeTem float(5) not null,"+
@@ -75,15 +77,15 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
     //添加
-    public boolean add(DataRecodeBean dataRecodeBean,boolean isEnd,String planName){
+    public boolean add(DataRecodeBean dataRecodeBean){
 
         if(!tableIsExist(TABLENAME)){
             Log.d("表不存在，创建表", "add: ");
             String sql="create table "
                     +TABLENAME+
                     " ("+
-                    "id integer primary key,"+
-                    "time varchar(30) not null,"+
+                    "id integer primary key  AUTOINCREMENT,"+
+                    "time varchar(30) unique,"+
                     "settingTem float(5) not null,"+
                     "realtimeTem float(5) not null,"+
                     "settingHum float(5) not null,"+
@@ -94,25 +96,52 @@ public class DataRecordDBHelper extends BaseUtil {
 
         }
 
-        contentValues.put("time",dataRecodeBean.getTime());
+
+        String time;
+
+        System.out.println("查询之前。。。"+dataRecodeBean.toString());
+
+        if(dataRecodeBean.getTime()==null){
+             time=getDateTimeToString(new Date());
+        }else{
+            time=dataRecodeBean.getTime();
+        }
+
+        DataRecodeBean dataRecodeBean1= queryByTime(time);
+        if(dataRecodeBean1!=null){
+
+
+            System.out.println("查询到了时间相同的数据。。。"+dataRecodeBean1.toString());
+
+            if(dataRecodeBean1.getRealtimeHum()==0){
+                contentValues.put("realtimeHum",dataRecodeBean.getRealtimeHum());
+            }
+            if(dataRecodeBean1.getRealtimeTem()==0){
+                contentValues.put("realtimeTem",dataRecodeBean.getRealtimeTem());
+            }if(dataRecodeBean1.getSettingHum()==0){
+                contentValues.put("settingHum",dataRecodeBean.getSettingHum());
+            }if(dataRecodeBean1.getSettingTem()==0){
+                contentValues.put("settingTem",dataRecodeBean.getSettingTem());
+            }
+
+            db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(dataRecodeBean1.getId())});
+            return true;
+
+        }
+
+        contentValues.put("time",time);
+        contentValues.put("realtimeHum",dataRecodeBean.getRealtimeHum());
         contentValues.put("settingTem",dataRecodeBean.getSettingTem());
         contentValues.put("realtimeTem",dataRecodeBean.getRealtimeTem());
         contentValues.put("settingHum",dataRecodeBean.getSettingHum());
-        contentValues.put("realtimeHum",dataRecodeBean.getRealtimeHum());
+
 
         long result=db.insert(TABLENAME,null,contentValues);
-        Log.d("添加成功了吗",result+"");
 
 
 
 
-        if(isEnd){
-            //将数据写入到文件中
-            String str=dataRecodeBean.getTime()+"    "+dataRecodeBean.getSettingTem()+"    "+dataRecodeBean.getRealtimeTem()+"    "+dataRecodeBean.getSettingHum()+"     "+dataRecodeBean.getRealtimeHum()+"\r\n";
-            String fileName=planName+"("+dataRecodeBean.getTime().substring(0,10)+")";
 
-            write6("datarecord",str,fileName);
-        }
 
 
 
@@ -205,27 +234,31 @@ public class DataRecordDBHelper extends BaseUtil {
 
         DataRecodeBean dataRecodeBean=new DataRecodeBean();
         if(!tableIsExist(TABLENAME)){
-                dataRecodeBean.setRealtimeTem(random.nextFloat()*100);
-                dataRecodeBean.setRealtimeHum(random.nextFloat()*100);
+               return null;
         }else{
             Cursor result=db.query(TABLENAME,null,"time=?",new String[]{time},null,null,null,null);
             if(result.getCount()==1){
                 result.moveToFirst();
+                dataRecodeBean.setId(result.getInt(0));
                 dataRecodeBean.setRealtimeTem(result.getFloat(3));
                 dataRecodeBean.setRealtimeHum(result.getFloat(5));
+                dataRecodeBean.setTime(result.getString(1));
 
-            }else{
-                dataRecodeBean.setRealtimeTem(random.nextFloat()*100);
-                dataRecodeBean.setRealtimeHum(random.nextFloat()*100);
+                result.close();
+                return dataRecodeBean;
             }
+            result.close();
+            return  null;
         }
 
-        return dataRecodeBean;
+
     }
 
 
     //根据id查询温度湿度
     public float queryByID(int id,String columnName){
+
+        float f;
         DataRecodeBean dataRecodeBean=new DataRecodeBean();
         Random random=new Random();
 
@@ -249,13 +282,19 @@ public class DataRecordDBHelper extends BaseUtil {
         if(result.getCount()==1){
             result.moveToFirst();
             if(columnName=="tem"){
-                return result.getFloat(3);
+                f=result.getFloat(3);
+                result.close();
+                return f;
             }else if(columnName=="hum"){
-                return result.getFloat(5);
+                f=result.getFloat(5);
+                result.close();
+                return f;
             } else{
+                result.close();
                 return 0;
             }
-        }else {
+        } else {
+            result.close();
             if(columnName.equals("tem")){
                 return random.nextInt(20);
             }else{
@@ -308,7 +347,7 @@ public class DataRecordDBHelper extends BaseUtil {
                     list.add(time);
                 }
 
-            }result.close();
+            } result.close();
         }
         return  list;
 
@@ -347,10 +386,6 @@ public class DataRecordDBHelper extends BaseUtil {
     }
 
 
-
-
-
-
 //删除7天前的数据
     public void delete7DaysData(){
         if(!tableIsExist(TABLENAME)){
@@ -363,10 +398,34 @@ public class DataRecordDBHelper extends BaseUtil {
         return;
 
     }
+    public String getDateTimeToString(Date date){
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String time=simpleDateFormat.format(date);
+        return time;
+    }
 
+    public List<DataRecodeBean> query20DataRecodeBean(){
+        if(!tableIsExist(TABLENAME)){
+            return null;
+        }
+        List<DataRecodeBean> list=new ArrayList<>();
+        Cursor result=db.query(TABLENAME,null,null,null,null,null,"time DESC","20");
+        if(result!=null){
+            while(result.moveToNext()){
+                DataRecodeBean dataRecodeBean=new DataRecodeBean();
+                dataRecodeBean.setId(result.getInt(0));
+                dataRecodeBean.setTime(result.getString(1));
+                dataRecodeBean.setSettingTem(result.getFloat(2));
+                dataRecodeBean.setRealtimeTem(result.getFloat(3));
+                dataRecodeBean.setSettingHum(result.getFloat(4));
+                dataRecodeBean.setRealtimeHum(result.getFloat(5));
+                list.add(dataRecodeBean);
+            }result.close();
+        }
+        result.close();
+        return list;
 
-
-
+    }
 
 
 

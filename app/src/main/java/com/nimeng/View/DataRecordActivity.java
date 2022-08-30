@@ -5,8 +5,12 @@ import static com.nimeng.View.MainActivity.DATABASE_NAME;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,10 +19,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nimeng.Adapter.DataRecordAdapter;
 import com.nimeng.bean.DataRecodeBean;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.DataRecordDBHelper;
 
 import java.util.Calendar;
@@ -38,7 +44,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class DataRecordActivity extends BaseAvtivity {
+public class DataRecordActivity extends CommonUtil {
 
 
     private ListView listView;
@@ -170,7 +176,7 @@ public class DataRecordActivity extends BaseAvtivity {
         }
 
         //planModel=new PlanModel();
-        updateListView();
+        //updateListView();
 
 
 
@@ -210,19 +216,25 @@ public class DataRecordActivity extends BaseAvtivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // updateListView();
+        if(!thread.isAlive()){
+            thread.start();
+        }
 
 
-
-
-
-    public void updateListView(){
-        list=dataRecordDBHelper.query();
-
-        Log.d("查询到的数据——————————", "updateListView: "+list.size());
-
-        adapter=new DataRecordAdapter(list,DataRecordActivity.this);
-        listView.setAdapter(adapter);
     }
+
+//    public void updateListView(){
+//        list=dataRecordDBHelper.query();
+//
+//        Log.d("查询到的数据——————————", "updateListView: "+list.size());
+//
+//        adapter=new DataRecordAdapter(list,DataRecordActivity.this);
+//        listView.setAdapter(adapter);
+//    }
 
     public void showToast(String msg){
         Toast.makeText(DataRecordActivity.this,msg,Toast.LENGTH_SHORT).show();
@@ -231,6 +243,72 @@ public class DataRecordActivity extends BaseAvtivity {
 
     private void showDate(TextView textView, int y,int mo,int d, int h,int m){
         textView.setText(y+"-"+(mo+1)+"-"+d+" "+h+":"+m+":00");
+    }
+
+
+
+    public Thread thread=new Thread(new Runnable() {
+        @Override
+        public void run() {
+
+            while (true){
+
+                SystemClock.sleep(1000);
+
+                list=dataRecordDBHelper.query20DataRecodeBean();
+
+                Message message=new Message();
+                message.what=1;
+                handler.sendMessage(message);
+
+            }
+
+        }
+    });
+
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+
+            if(msg.what==1){
+                adapter=new DataRecordAdapter(list,DataRecordActivity.this);
+                listView.setAdapter(adapter);
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        createVelocityTracker(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                xDown = ev.getRawX();
+                yDown = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                xMove = ev.getRawX();
+                yMove = ev.getRawY();
+                //滑动的距离
+                int distanceX = (int) (xMove - xDown);
+                int distanceY = (int) (yMove - yDown);
+                //获取瞬时速度
+                int ySpeed = getScrollVelocity();
+
+                if (distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && distanceX > 0) {
+                    thread.interrupt();
+                    startActivity(new Intent(this, LineChartActivity.class));
+
+                } else if (-distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && -distanceX > 0) {
+                    thread.interrupt();
+                    startActivity(new Intent(this, SettingSwitchActivity.class));
+
+                }
+        }
+
+        return super.dispatchTouchEvent(ev);
     }
 
 }

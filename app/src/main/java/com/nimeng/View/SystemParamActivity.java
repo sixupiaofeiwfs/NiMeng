@@ -13,18 +13,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SystemParamActivity extends BaseAvtivity{
+public class SystemParamActivity extends CommonUtil {
 
-    private TextView textView1,textView2,textView3,textView4,textView5,textView6,textView7,textView8,textView9,textView10;
+    private TextView textView2,textView3,textView4,textView5,textView7,textView8,textView9,textView10;
 
-    private DatePicker datePicker1,datePicker2,datePicker3,datePicker4,datePicker5;
+    private DatePicker datePicker2,datePicker3,datePicker4,datePicker5;
 
-    private TimePicker timePicker1,timePicker2,timePicker3,timePicker4,timePicker5;
+    private TimePicker timePicker2,timePicker3,timePicker4,timePicker5;
 
 
     private int year,month,day,hour,minute,second;
@@ -47,6 +51,8 @@ public class SystemParamActivity extends BaseAvtivity{
 
     private Date date1,date2,date3,date4,date5;
 
+    SystemDBHelper systemDBHelper;
+    SystemData systemData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,8 @@ public class SystemParamActivity extends BaseAvtivity{
         setContentView(R.layout.activity_systemparam);
 
         alarmManager=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
+        systemDBHelper=new SystemDBHelper(SystemParamActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
 
 
         editText=findViewById(R.id.huanxiang);
@@ -66,7 +73,7 @@ public class SystemParamActivity extends BaseAvtivity{
                      lightKeepSecond=Integer.valueOf(editText.getText().toString());
                     System.out.println("照明维持时间-----"+lightKeepSecond);
 
-                    globalVariable.setLightKeepSecond(lightKeepSecond);
+                    systemData.setLightKeepSecond(lightKeepSecond);
                 }
             }
         });
@@ -75,24 +82,25 @@ public class SystemParamActivity extends BaseAvtivity{
 
 
 
-        textView1=findViewById(R.id.text_time);
+
         textView2=findViewById(R.id.set_dingshi1);
         textView3=findViewById(R.id.set_dingshi2);
         textView4=findViewById(R.id.set_dingshi3);
         textView5=findViewById(R.id.set_dingshi4);
-        textView6=findViewById(R.id.systemparam_showtextview1);
+
         textView7=findViewById(R.id.systemparam_showtextview2);
         textView8=findViewById(R.id.systemparam_showtextview3);
         textView9=findViewById(R.id.systemparam_showtextview4);
         textView10=findViewById(R.id.systemparam_showtextview5);
 
-        datePicker1=findViewById(R.id.systemparam_datepicker1);
+
+
         datePicker2=findViewById(R.id.systemparam_datepicker2);
         datePicker3=findViewById(R.id.systemparam_datepicker3);
         datePicker4=findViewById(R.id.systemparam_datepicker4);
         datePicker5=findViewById(R.id.systemparam_datepicker5);
 
-        timePicker1=findViewById(R.id.systemparam_timepicker1);
+
         timePicker2=findViewById(R.id.systemparam_timepicker2);
         timePicker3=findViewById(R.id.systemparam_timepicker3);
         timePicker4=findViewById(R.id.systemparam_timepicker4);
@@ -183,13 +191,7 @@ public class SystemParamActivity extends BaseAvtivity{
 
 
 
-        textView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePicker1.setVisibility(View.VISIBLE);
-                timePicker1.setVisibility(View.VISIBLE);
-            }
-        });
+
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -221,26 +223,6 @@ public class SystemParamActivity extends BaseAvtivity{
 
 
 
-        datePicker1.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                SystemParamActivity.this.year=i;
-                SystemParamActivity.this.month=i1;
-                SystemParamActivity.this.day=i2;
-
-                datePicker1.setVisibility(View.GONE);
-                timePicker1.setVisibility(View.GONE);
-                showDate(textView6,i,i1,i2,hour,minute);
-            }
-        });
-
-        timePicker1.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                SystemParamActivity.this.hour=i;
-                SystemParamActivity.this.minute=i1;
-            }
-        });
 
 
 

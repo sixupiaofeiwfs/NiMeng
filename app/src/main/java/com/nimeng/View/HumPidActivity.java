@@ -7,9 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class HumPidActivity extends BaseAvtivity{
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
+
+public class HumPidActivity extends CommonUtil {
     Button temmpid_btn,humpid_toSettingSwitch;
     Intent intent;
+
+    SystemDBHelper systemDBHelper;
+    SystemData systemData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +24,8 @@ public class HumPidActivity extends BaseAvtivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_humpid);
 
+        systemDBHelper=new SystemDBHelper(HumPidActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
 
         temmpid_btn=findViewById(R.id.tempid);
         humpid_toSettingSwitch=findViewById(R.id.humpid_toSettingSwitch);
@@ -46,7 +55,7 @@ public class HumPidActivity extends BaseAvtivity{
         linearLayout5 = findViewById(R.id.humpid_LinearLayout11);
         linearLayout6 = findViewById(R.id.humpid_LinearLayout12);
 
-        if (globalVariable.getSelect2()==null||globalVariable.getSelect2().equals("")){
+        if (systemData.getSelect2()==null||systemData.getSelect2().equals("")){
             linearLayout1.setVisibility(View.VISIBLE);
             linearLayout2.setVisibility(View.GONE);
             linearLayout3.setVisibility(View.GONE);
@@ -54,7 +63,7 @@ public class HumPidActivity extends BaseAvtivity{
             linearLayout5.setVisibility(View.GONE);
             linearLayout6.setVisibility(View.GONE);
         }else {
-            if (globalVariable.getSelect2().equals("5")) {
+            if (systemData.getSelect2().equals("5")) {
                 Log.d("判断是否进入", "onItemSelected: ");
                 linearLayout1.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.GONE);
@@ -63,14 +72,14 @@ public class HumPidActivity extends BaseAvtivity{
                 linearLayout5.setVisibility(View.GONE);
                 linearLayout6.setVisibility(View.GONE);
 
-            } else if (globalVariable.getSelect2().equals("6")) {
+            } else if (systemData.getSelect2().equals("6")) {
                 linearLayout1.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.GONE);
                 linearLayout4.setVisibility(View.GONE);
                 linearLayout5.setVisibility(View.GONE);
                 linearLayout6.setVisibility(View.GONE);
-            } else if (globalVariable.getSelect2().equals("7")) {
+            } else if (systemData.getSelect2().equals("7")) {
                 linearLayout1.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.VISIBLE);
@@ -78,14 +87,14 @@ public class HumPidActivity extends BaseAvtivity{
                 linearLayout5.setVisibility(View.GONE);
                 linearLayout6.setVisibility(View.GONE);
 
-            } else if (globalVariable.getSelect2().equals("8")) {
+            } else if (systemData.getSelect2().equals("8")) {
                 linearLayout1.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.VISIBLE);
                 linearLayout4.setVisibility(View.VISIBLE);
                 linearLayout5.setVisibility(View.GONE);
                 linearLayout6.setVisibility(View.GONE);
-            } else if (globalVariable.getSelect2().equals("9")) {
+            } else if (systemData.getSelect2().equals("9")) {
                 linearLayout1.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.VISIBLE);
@@ -93,7 +102,7 @@ public class HumPidActivity extends BaseAvtivity{
                 linearLayout5.setVisibility(View.VISIBLE);
                 linearLayout6.setVisibility(View.GONE);
 
-            } else if ((globalVariable.getSelect2().equals("10"))) {
+            } else if ((systemData.getSelect2().equals("10"))) {
                 linearLayout1.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.VISIBLE);

@@ -6,7 +6,7 @@ public class StandardApparatus {
 
     private int ID;
     private String name;
-    private int port;
+    private String port;
     private String format;
     private int rate;
     private String type;
@@ -17,9 +17,31 @@ public class StandardApparatus {
     private String time;
     private int isCheck;
     private int quantity;
-    private List<Integer> list1;
-    private List<Float> list2;
+    private List<Integer> list1;//温度校准点
+    private List<Float> list2;//温度修正值
+    private List<Integer> list3;//湿度校准点
+    private List<Float> list4;//湿度修正值
 
+
+    public StandardApparatus(int ID, String name, String port, String format, int rate, String type, String model, String agreement, String number, String traceabilityUnit, String time, int isCheck, int quantity, List<Integer> list1, List<Float> list2, List<Integer> list3, List<Float> list4) {
+        this.ID = ID;
+        this.name = name;
+        this.port = port;
+        this.format = format;
+        this.rate = rate;
+        this.type = type;
+        this.model = model;
+        this.agreement = agreement;
+        this.number = number;
+        this.traceabilityUnit = traceabilityUnit;
+        this.time = time;
+        this.isCheck = isCheck;
+        this.quantity = quantity;
+        this.list1 = list1;
+        this.list2 = list2;
+        this.list3 = list3;
+        this.list4 = list4;
+    }
 
     @Override
     public String toString() {
@@ -39,26 +61,14 @@ public class StandardApparatus {
                 ", quantity=" + quantity +
                 ", list1=" + list1 +
                 ", list2=" + list2 +
+                ", list3=" + list3 +
+                ", list4=" + list4 +
                 '}';
     }
 
-    public StandardApparatus(int ID, String name, int port, String format, int rate, String type, String model, String agreement, String number, String traceabilityUnit, String time, int isCheck, int quantity, List<Integer> list1, List<Float> list2) {
-        this.ID = ID;
-        this.name = name;
-        this.port = port;
-        this.format = format;
-        this.rate = rate;
-        this.type = type;
-        this.model = model;
-        this.agreement = agreement;
-        this.number = number;
-        this.traceabilityUnit = traceabilityUnit;
-        this.time = time;
-        this.isCheck = isCheck;
-        this.quantity = quantity;
-        this.list1 = list1;
-        this.list2 = list2;
-    }
+
+
+
 
     public StandardApparatus() {
     }
@@ -79,11 +89,11 @@ public class StandardApparatus {
         this.name = name;
     }
 
-    public int getPort() {
+    public String getPort() {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort(String port) {
         this.port = port;
     }
 
@@ -181,5 +191,22 @@ public class StandardApparatus {
 
     public void setList2(List<Float> list2) {
         this.list2 = list2;
+    }
+
+
+    public List<Integer> getList3() {
+        return list3;
+    }
+
+    public void setList3(List<Integer> list3) {
+        this.list3 = list3;
+    }
+
+    public List<Float> getList4() {
+        return list4;
+    }
+
+    public void setList4(List<Float> list4) {
+        this.list4 = list4;
     }
 }

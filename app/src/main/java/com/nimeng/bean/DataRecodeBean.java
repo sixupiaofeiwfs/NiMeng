@@ -16,6 +16,7 @@ import java.util.Date;
  * -----------------------------------------------------------------
  */
 public class DataRecodeBean {
+    private int id;
     private String time;
     private float settingTem;
     private float realtimeTem;
@@ -60,5 +61,26 @@ public class DataRecodeBean {
 
     public void setRealtimeHum(float realtimeHum) {
         this.realtimeHum = realtimeHum;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    @Override
+    public String toString() {
+        return "DataRecodeBean{" +
+                "id=" + id +
+                ", time='" + time + '\'' +
+                ", settingTem=" + settingTem +
+                ", realtimeTem=" + realtimeTem +
+                ", settingHum=" + settingHum +
+                ", realtimeHum=" + realtimeHum +
+                '}';
     }
 }

@@ -12,13 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nimeng.bean.DataRecodeBean;
-import com.nimeng.bean.GlobalVariable;
 import com.nimeng.bean.LineChart;
+import com.nimeng.bean.SystemData;
 import com.nimeng.util.CommonUtil;
 import com.nimeng.util.DataRecordDBHelper;
+import com.nimeng.util.SystemDBHelper;
 
 import org.achartengine.chart.PointStyle;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -41,14 +44,16 @@ public class LineChartActivity extends Activity {
     private int x_index;// X轴的刻度值
     private Random random;// 用来获取随机数
     private DataRecordDBHelper dataRecordDBHelper;
-    private GlobalVariable globalVariable;
+
     private Button btn1,btn2;
 
     private CommonUtil commonUtil=new CommonUtil();
 
-    Thread thread1;
 
     private TextView textViewTem,textViewHum,textViewTemChange,textViewHumChange;
+
+    SystemDBHelper systemDBHelper;
+    SystemData systemData;
 
 
     @Override
@@ -56,31 +61,19 @@ public class LineChartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avtivity_linechart);//设置主界面
 
+        systemDBHelper=new SystemDBHelper(LineChartActivity.this,"NIMENG.db",null,1);
+        systemData=systemDBHelper.getSystemData();
+
         textViewTem=findViewById(R.id.textview_realTem);
         textViewHum=findViewById(R.id.textview_realHum);
         textViewTemChange=findViewById(R.id.textview_temChange);
         textViewHumChange=findViewById(R.id.textview_humChange);
 
 
-        globalVariable=(GlobalVariable)getApplicationContext();
-        thread1=new Thread(addData_thread);
-        thread1.start();
+
+        thread.start();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        System.out.println("onCreate------------------"+ thread1.isAlive());
         //创建折线图实例 （X轴标题，Y轴标题，X轴的最小值，X轴的最大值，Y轴的最小值,Y轴的最大值，坐标轴的颜色，刻度值的颜色）
         mLineChart = new LineChart("时间(s)", "温度（℃）/湿度（%）", 0, 600, -20, 100, Color.WHITE, Color.WHITE);
 
@@ -103,6 +96,9 @@ public class LineChartActivity extends Activity {
     protected void onStart() {
 
 
+        if (!thread.isAlive()){
+            thread.start();
+        }
 
         btn1=findViewById(R.id.linechart_btn1);
         btn2=findViewById(R.id.linechart_btn2);
@@ -130,7 +126,7 @@ public class LineChartActivity extends Activity {
 
 
 
-        Date startTime= globalVariable.getStartTime();
+        Date startTime= systemData.getStartTime();
         Date endTime=new Date();
 
 
@@ -180,7 +176,20 @@ public class LineChartActivity extends Activity {
                 case 0:
                     //添加数据 (添加折点)
 
-                    DataRecodeBean dataRecodeBean=dataRecordDBHelper.queryByTime(commonUtil.getDateTimeToString(new Date()));
+                    Date date=new Date();
+                    Calendar c=Calendar.getInstance();
+                    c.setTime(date);
+                    c.add(Calendar.SECOND,-3);
+                    SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+                    String strTime = sdf.format(c.getTime());
+
+
+                    DataRecodeBean dataRecodeBean=dataRecordDBHelper.queryByTime(strTime);
+
+                    System.out.println("数据情况。。。"+strTime+".."+dataRecodeBean);
+                    if(dataRecodeBean==null){
+                        break;
+                    }
 
                     textViewTem.setText(String.valueOf(dataRecodeBean.getRealtimeTem()));
                     textViewHum.setText(String.valueOf(dataRecodeBean.getRealtimeHum()));
@@ -220,28 +229,44 @@ public class LineChartActivity extends Activity {
 //    }
 
     //添加折线图数据的线程
-   private  Runnable addData_thread = new Runnable()
-    {
-        @Override
-        public void run()
-        {
+//   private  Runnable addData_thread = new Runnable()
+//    {
+//        @Override
+//        public void run()
+//        {
+//
+//            addData_thread_run = true;
+//            while(addData_thread_run)
+//            {
+//                try {
+//                    Thread.sleep(1000);// 延时1秒
+//                    mHandler.sendEmptyMessage(0);// 发送0类型信息，通知主线程更新图表
+//
+//                } catch (InterruptedException e)
+//                {
+//                    break;
+//                }
+//            }
+//        }
+//    };
 
-            addData_thread_run = true;
-            while(addData_thread_run)
-            {
-                try {
-                    Thread.sleep(1000);// 延时1秒
-                    mHandler.sendEmptyMessage(0);// 发送0类型信息，通知主线程更新图表
-
-                } catch (InterruptedException e)
-                {
-                    break;
-                }
-            }
-        }
-    };
 
 
+   public Thread thread=new Thread(new Runnable() {
+       @Override
+       public void run() {
+           while(true){
+               try {
+                   Thread.sleep(1000);
+
+                   mHandler.sendEmptyMessage(0);
+
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+           }
+       }
+   });
 
 
 

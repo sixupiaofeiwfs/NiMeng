@@ -39,7 +39,7 @@ public class StandardApparatusDBHelper extends BaseUtil{
                 "("+
                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 "name varchar(30) not null,"+
-                "port int not null,"+
+                "port varchar not null,"+
                 "format varchar not null,"+
                 "rate int not null,"+
                 "type varchar not null,"+
@@ -59,6 +59,18 @@ public class StandardApparatusDBHelper extends BaseUtil{
                 "xzz5 float ,"+
                 "jzd6 int ,"+
                 "xzz6 float ,"+
+                "jzd1_1 int ,"+
+                "xzz1_1 float ,"+
+                "jzd2_1 int ,"+
+                "xzz2_1 float ,"+
+                "jzd3_1 int ,"+
+                "xzz3_1 float ,"+
+                "jzd4_1 int ,"+
+                "xzz4_1 float ,"+
+                "jzd5_1 int ,"+
+                "xzz5_1 float ,"+
+                "jzd6_1 int ,"+
+                "xzz6_1 float ,"+
                 "traceabilityUnit varchar not null,"+
                 "time varchar not null,"+
                 "isCheck tinyint(2)"+
@@ -85,11 +97,22 @@ public class StandardApparatusDBHelper extends BaseUtil{
         if(standardApparatus.getQuantity()==1){
             contentValues.put("jzd1",standardApparatus.getList1().get(0));
             contentValues.put("xzz1",standardApparatus.getList2().get(0));
+
+            contentValues.put("jzd1_1",standardApparatus.getList3().get(0));
+            contentValues.put("xzz1_1",standardApparatus.getList4().get(0));
+
+
         }else if(standardApparatus.getQuantity()==2){
             contentValues.put("jzd1",standardApparatus.getList1().get(0));
             contentValues.put("xzz1",standardApparatus.getList2().get(0));
             contentValues.put("jzd2",standardApparatus.getList1().get(1));
             contentValues.put("xzz2",standardApparatus.getList2().get(1));
+
+
+            contentValues.put("jzd1_1",standardApparatus.getList3().get(0));
+            contentValues.put("xzz1_1",standardApparatus.getList4().get(0));
+            contentValues.put("jzd2_1",standardApparatus.getList3().get(1));
+            contentValues.put("xzz2_1",standardApparatus.getList4().get(1));
         }else if(standardApparatus.getQuantity()==3){
             contentValues.put("jzd1",standardApparatus.getList1().get(0));
             contentValues.put("xzz1",standardApparatus.getList2().get(0));
@@ -97,6 +120,14 @@ public class StandardApparatusDBHelper extends BaseUtil{
             contentValues.put("xzz2",standardApparatus.getList2().get(1));
             contentValues.put("jzd3",standardApparatus.getList1().get(2));
             contentValues.put("xzz3",standardApparatus.getList2().get(2));
+
+
+            contentValues.put("jzd1_1",standardApparatus.getList3().get(0));
+            contentValues.put("xzz1_1",standardApparatus.getList4().get(0));
+            contentValues.put("jzd2_1",standardApparatus.getList3().get(1));
+            contentValues.put("xzz2_1",standardApparatus.getList4().get(1));
+            contentValues.put("jzd3_1",standardApparatus.getList3().get(2));
+            contentValues.put("xzz3_1",standardApparatus.getList4().get(2));
         }else if(standardApparatus.getQuantity()==4){
             contentValues.put("jzd1",standardApparatus.getList1().get(0));
             contentValues.put("xzz1",standardApparatus.getList2().get(0));
@@ -106,6 +137,16 @@ public class StandardApparatusDBHelper extends BaseUtil{
             contentValues.put("xzz3",standardApparatus.getList2().get(2));
             contentValues.put("jzd4",standardApparatus.getList1().get(3));
             contentValues.put("xzz4",standardApparatus.getList2().get(3));
+
+
+            contentValues.put("jzd1_1",standardApparatus.getList3().get(0));
+            contentValues.put("xzz1_1",standardApparatus.getList4().get(0));
+            contentValues.put("jzd2_1",standardApparatus.getList3().get(1));
+            contentValues.put("xzz2_1",standardApparatus.getList4().get(1));
+            contentValues.put("jzd3_1",standardApparatus.getList3().get(2));
+            contentValues.put("xzz3_1",standardApparatus.getList4().get(2));
+            contentValues.put("jzd4_1",standardApparatus.getList3().get(3));
+            contentValues.put("xzz4_1",standardApparatus.getList4().get(3));
         }else if(standardApparatus.getQuantity()==5){
             contentValues.put("jzd1",standardApparatus.getList1().get(0));
             contentValues.put("xzz1",standardApparatus.getList2().get(0));
@@ -117,6 +158,19 @@ public class StandardApparatusDBHelper extends BaseUtil{
             contentValues.put("xzz4",standardApparatus.getList2().get(3));
             contentValues.put("jzd5",standardApparatus.getList1().get(4));
             contentValues.put("xzz5",standardApparatus.getList2().get(4));
+
+
+
+            contentValues.put("jzd1_1",standardApparatus.getList3().get(0));
+            contentValues.put("xzz1_1",standardApparatus.getList4().get(0));
+            contentValues.put("jzd2_1",standardApparatus.getList3().get(1));
+            contentValues.put("xzz2_1",standardApparatus.getList4().get(1));
+            contentValues.put("jzd3_1",standardApparatus.getList3().get(2));
+            contentValues.put("xzz3_1",standardApparatus.getList4().get(2));
+            contentValues.put("jzd4_1",standardApparatus.getList3().get(3));
+            contentValues.put("xzz4_1",standardApparatus.getList4().get(3));
+            contentValues.put("jzd5_1",standardApparatus.getList3().get(4));
+            contentValues.put("xzz5_1",standardApparatus.getList4().get(4));
         }else if(standardApparatus.getQuantity()==6){
             contentValues.put("jzd1",standardApparatus.getList1().get(0));
             contentValues.put("xzz1",standardApparatus.getList2().get(0));
@@ -130,6 +184,21 @@ public class StandardApparatusDBHelper extends BaseUtil{
             contentValues.put("xzz5",standardApparatus.getList2().get(4));
             contentValues.put("jzd6",standardApparatus.getList1().get(5));
             contentValues.put("xzz6",standardApparatus.getList2().get(5));
+
+
+
+            contentValues.put("jzd1_1",standardApparatus.getList3().get(0));
+            contentValues.put("xzz1_1",standardApparatus.getList4().get(0));
+            contentValues.put("jzd2_1",standardApparatus.getList3().get(1));
+            contentValues.put("xzz2_1",standardApparatus.getList4().get(1));
+            contentValues.put("jzd3_1",standardApparatus.getList3().get(2));
+            contentValues.put("xzz3_1",standardApparatus.getList4().get(2));
+            contentValues.put("jzd4_1",standardApparatus.getList3().get(3));
+            contentValues.put("xzz4_1",standardApparatus.getList4().get(3));
+            contentValues.put("jzd5_1",standardApparatus.getList3().get(4));
+            contentValues.put("xzz5_1",standardApparatus.getList4().get(4));
+            contentValues.put("jzd6_1",standardApparatus.getList3().get(5));
+            contentValues.put("xzz6_1",standardApparatus.getList4().get(5));
         }
         contentValues.put("traceabilityUnit",standardApparatus.getTraceabilityUnit());
         contentValues.put("time",standardApparatus.getTime());
@@ -169,7 +238,7 @@ public class StandardApparatusDBHelper extends BaseUtil{
                 StandardApparatus standardApparatus=new StandardApparatus();
                 standardApparatus.setID(result.getInt(0));
                 standardApparatus.setName(result.getString(1));
-                standardApparatus.setPort(result.getInt(2));
+                standardApparatus.setPort(result.getString(2));
                 standardApparatus.setFormat(result.getString(3));
                 standardApparatus.setRate(result.getInt(4));
                 standardApparatus.setType(result.getString(5));
@@ -180,14 +249,31 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
                 List<Integer> list1=new ArrayList<>();
                 List<Float>list2=new ArrayList<>();
+                List<Integer> list3=new ArrayList<>();
+                List<Float>list4=new ArrayList<>();
                 if(result.getInt(9)==1){
                     list1.add(result.getInt(10));
                     list2.add(result.getFloat(11));
+
+
+                    list3.add(result.getInt(22));
+                    list4.add(result.getFloat(23));
+
+
                 } if(result.getInt(9)==2){
                     list1.add(result.getInt(10));
                     list2.add(result.getFloat(11));
                     list1.add(result.getInt(12));
                     list2.add(result.getFloat(13));
+
+
+
+                    list3.add(result.getInt(22));
+                    list4.add(result.getFloat(23));
+                    list3.add(result.getInt(24));
+                    list4.add(result.getFloat(25));
+
+
                 } if(result.getInt(9)==3){
                     list1.add(result.getInt(10));
                     list2.add(result.getFloat(11));
@@ -195,6 +281,18 @@ public class StandardApparatusDBHelper extends BaseUtil{
                     list2.add(result.getFloat(13));
                     list1.add(result.getInt(14));
                     list2.add(result.getFloat(15));
+
+
+
+
+                    list3.add(result.getInt(22));
+                    list4.add(result.getFloat(23));
+                    list3.add(result.getInt(24));
+                    list4.add(result.getFloat(25));
+                    list3.add(result.getInt(26));
+                    list4.add(result.getFloat(27));
+
+
                 } if(result.getInt(9)==4){
                     list1.add(result.getInt(10));
                     list2.add(result.getFloat(11));
@@ -204,6 +302,18 @@ public class StandardApparatusDBHelper extends BaseUtil{
                     list2.add(result.getFloat(15));
                     list1.add(result.getInt(16));
                     list2.add(result.getFloat(17));
+
+
+                    list3.add(result.getInt(22));
+                    list4.add(result.getFloat(23));
+                    list3.add(result.getInt(24));
+                    list4.add(result.getFloat(25));
+                    list3.add(result.getInt(26));
+                    list4.add(result.getFloat(27));
+                    list3.add(result.getInt(28));
+                    list4.add(result.getFloat(29));
+
+
                 } if(result.getInt(9)==5){
                     list1.add(result.getInt(10));
                     list2.add(result.getFloat(11));
@@ -215,6 +325,21 @@ public class StandardApparatusDBHelper extends BaseUtil{
                     list2.add(result.getFloat(17));
                     list1.add(result.getInt(18));
                     list2.add(result.getFloat(19));
+
+
+
+                    list3.add(result.getInt(22));
+                    list4.add(result.getFloat(23));
+                    list3.add(result.getInt(24));
+                    list4.add(result.getFloat(25));
+                    list3.add(result.getInt(26));
+                    list4.add(result.getFloat(27));
+                    list3.add(result.getInt(28));
+                    list4.add(result.getFloat(29));
+                    list3.add(result.getInt(30));
+                    list4.add(result.getFloat(31));
+
+
                 } if(result.getInt(9)==6){
                     list1.add(result.getInt(10));
                     list2.add(result.getFloat(11));
@@ -228,13 +353,31 @@ public class StandardApparatusDBHelper extends BaseUtil{
                     list2.add(result.getFloat(19));
                     list1.add(result.getInt(20));
                     list2.add(result.getFloat(21));
+
+
+
+                    list3.add(result.getInt(22));
+                    list4.add(result.getFloat(23));
+                    list3.add(result.getInt(24));
+                    list4.add(result.getFloat(25));
+                    list3.add(result.getInt(26));
+                    list4.add(result.getFloat(27));
+                    list3.add(result.getInt(28));
+                    list4.add(result.getFloat(29));
+                    list3.add(result.getInt(30));
+                    list4.add(result.getFloat(31));
+                    list3.add(result.getInt(32));
+                    list4.add(result.getFloat(33));
+
                 }
 
                 standardApparatus.setList1(list1);
                 standardApparatus.setList2(list2);
-                standardApparatus.setTraceabilityUnit(result.getString(22));
-                standardApparatus.setTime(result.getString(23));
-                standardApparatus.setIsCheck(result.getInt(24));
+                standardApparatus.setList3(list3);
+                standardApparatus.setList4(list4);
+                standardApparatus.setTraceabilityUnit(result.getString(34));
+                standardApparatus.setTime(result.getString(35));
+                standardApparatus.setIsCheck(result.getInt(36));
 
                 list.add(standardApparatus);
 
@@ -254,7 +397,9 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
         Cursor result =db.query(tableName,null,"name=?",new String[]{name},null,null,null,null);
 
-        return result.getCount();
+        int number=result.getCount();
+        result.close();
+        return number;
 
 
     }

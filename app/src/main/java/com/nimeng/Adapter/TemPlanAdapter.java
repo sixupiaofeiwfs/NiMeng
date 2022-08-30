@@ -82,6 +82,18 @@ public class TemPlanAdapter extends BaseAdapter {
         viewHolder.temWave.setText(String.valueOf( temPlanBean.getTemWave()));
 
         viewHolder.points.setText(String.valueOf(temPlanBean.getTemPoints()));
+        if(temPlanBean.getTemPoints()==0){
+            viewHolder.tem1.setText("");
+            viewHolder.tem2.setText("");
+            viewHolder.tem3.setText("");
+            viewHolder.tem4.setText("");
+            viewHolder.tem5.setText("");
+            viewHolder.tem6.setText("");
+            viewHolder.tem7.setText("");
+            viewHolder.tem8.setText("");
+            viewHolder.tem9.setText("");
+            viewHolder.tem10.setText("");
+        }
         if(temPlanBean.getTemPoints()==1){
             viewHolder.tem1.setText(String.valueOf( temPlanBean.getTem1()));
             viewHolder.tem2.setText("");

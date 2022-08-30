@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NiMeng"
-        android:name="com.nimeng.bean.GlobalVariable">
+      >
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +26,7 @@
         </activity>
         <activity
             android:name=".CurveActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -35,6 +37,7 @@
 
         <activity
             android:name=".DataRecordActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -44,6 +47,7 @@
         </activity>
         <activity
             android:name=".FileActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -53,6 +57,7 @@
         </activity>
         <activity
             android:name=".TemStandardApparatusActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -62,6 +67,7 @@
         </activity>
         <activity
             android:name=".CameraActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -74,6 +80,7 @@
 
         <activity
             android:name=".SettingSwitchActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -85,6 +92,7 @@
 
         <activity
             android:name=".TurntableActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -96,6 +104,7 @@
 
         <activity
             android:name=".ComprehensiveDataActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -107,6 +116,7 @@
 
         <activity
             android:name=".LineChartActivity"
+            android:launchMode="singleTask"
             android:exported="true">
             <!--            <intent-filter>-->
             <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -119,6 +129,7 @@
 
         <activity
             android:name=".TemPlanActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -131,6 +142,7 @@
 
         <activity
             android:name=".HumPlanActivity"
+            android:launchMode="singleTask"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -142,45 +154,84 @@
 
         <activity
             android:name=".TemPidActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".HumPidActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
         <activity
             android:name=".SystemParamActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".SettingEquipmentParametersActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
         <activity
             android:name=".InstallermentActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".PasswordActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".HumStandardApparatusActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".TemPlanEditActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
         <activity
             android:name=".HumPlanEditActivity"
+            android:launchMode="singleTask"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name=".StandardappratusEditActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+        </activity>
+
+
+
+        <activity android:name=".RealTimeLineChartActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+        </activity>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         <receiver android:name="com.nimeng.receiver.TemStartReceiver"

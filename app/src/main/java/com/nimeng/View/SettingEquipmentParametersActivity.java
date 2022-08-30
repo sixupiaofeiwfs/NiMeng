@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.nimeng.bean.SystemData;
+import com.nimeng.bean.SystemSwitch;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.SystemDBHelper;
+
 /**
  * Author: wfs
  * <p>
@@ -24,7 +29,7 @@ import androidx.annotation.Nullable;
  * <p>
  * -----------------------------------------------------------------
  */
-public class SettingEquipmentParametersActivity extends BaseAvtivity{
+public class SettingEquipmentParametersActivity extends CommonUtil {
 
     private TextView textView1,textView2;
     private Intent intent;
@@ -32,12 +37,16 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
     private Button button1,button2,button3;
     private boolean switch1,switch2,switch3;
 
+    SystemDBHelper systemDBHelper;
+    SystemData systemData;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_equipment_parameters);
+        systemDBHelper=new SystemDBHelper(SettingEquipmentParametersActivity.this,"NIMENG.db",null,1);
 
-
+        systemData=systemDBHelper.getSystemData();
         textView1=findViewById(R.id.textview_xtsz);
         textView2=findViewById(R.id.textview_fqfk);
 
@@ -49,9 +58,10 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
         Spinner spinner2 = (Spinner) findViewById(R.id.shidu);
 
 
-         switch1=globalVariable.isSwitch_8();
-         switch2=globalVariable.isSwitch_9();
-         switch3=globalVariable.isSwitch_10();
+
+         switch1= systemDBHelper.getSwitch("8");
+         switch2= systemDBHelper.getSwitch("9");
+         switch3= systemDBHelper.getSwitch("10");
 
         if(switch1){
             button1.setText("关闭");
@@ -103,7 +113,8 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
                     button1.setText("关闭");
                 }
 
-                    globalVariable.setSwitch_8(!switch1);
+                systemDBHelper.addSwitch("8",!switch1);
+
                 switch1=!switch1;
             }
         });
@@ -117,8 +128,7 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
                 }else{
                     button2.setText("关闭");
                 }
-
-                globalVariable.setSwitch_9(!switch2);
+                systemDBHelper.addSwitch("9",!switch2);
                 switch2=!switch2;
             }
         });
@@ -133,7 +143,7 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
                     button3.setText("关闭");
 
                 }
-                globalVariable.setSwitch_10(!switch3);
+                systemDBHelper.addSwitch("10",!switch3);
                 switch3=!switch3;
             }
         });
@@ -145,7 +155,7 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String select1 = spinner1.getSelectedItem().toString();
                 Log.d("获取一下选中的值", "onItemSelected:" + select1);
-                globalVariable.setSelect1(select1);
+                systemData.setSelect1(select1);
             }
 
             @Override
@@ -159,7 +169,7 @@ public class SettingEquipmentParametersActivity extends BaseAvtivity{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String select2 = spinner2.getSelectedItem().toString();
                 Log.d("获取一下选中的值", "onItemSelected" + select2);
-                globalVariable.setSelect2(select2);
+                systemData.setSelect2(select2);
             }
 
             @Override

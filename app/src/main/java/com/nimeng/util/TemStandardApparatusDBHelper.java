@@ -183,6 +183,7 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
             temStandarApparatus.setTraceabilityUnit(result.getString(10));
             temStandarApparatus.setTime(result.getString(11));
             temStandarApparatus.setIsCheck(result.getInt(12));
+            result.close();
             return temStandarApparatus;
         }
         temStandarApparatus.setName(null);

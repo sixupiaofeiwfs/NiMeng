@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.nimeng.Adapter.StandardApparatusAdapter;
 import com.nimeng.bean.StandardApparatus;
+import com.nimeng.util.CommonUtil;
 import com.nimeng.util.StandardApparatusDBHelper;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import java.util.List;
  * <p>
  * -----------------------------------------------------------------
  */
-public class TemStandardApparatusActivity extends BaseAvtivity{
+public class TemStandardApparatusActivity extends CommonUtil {
     private Button btn1,btn2;
     private ListView listView;
     private StandardApparatusDBHelper standardApparatusDBHelper;
@@ -42,7 +43,7 @@ public class TemStandardApparatusActivity extends BaseAvtivity{
     private List<StandardApparatus> list;
 
     Intent intent;
-
+    String tableName="temstandardapparatus";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class TemStandardApparatusActivity extends BaseAvtivity{
         btn2=findViewById(R.id.standardapparatus_btn2);
         listView=findViewById(R.id.temstandardapparatus_list);
 
-        String tableName="temstandardapparatus";
+
 
         if(list!=null){
             list.clear();
@@ -65,7 +66,10 @@ public class TemStandardApparatusActivity extends BaseAvtivity{
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addData(TemStandardApparatusActivity.this,standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
+                Intent intent=new Intent(TemStandardApparatusActivity.this,StandardappratusEditActivity.class);
+                intent.putExtra("tableName",tableName);
+                startActivity(intent);
+               // addData(TemStandardApparatusActivity.this,standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
             }
         });
 
@@ -102,7 +106,61 @@ public class TemStandardApparatusActivity extends BaseAvtivity{
 
 
     }
-//
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        standardApparatusDBHelper =new StandardApparatusDBHelper(TemStandardApparatusActivity.this,DATABASE_NAME,null,1);
+        list=standardApparatusDBHelper.query(tableName);
+        standardApparatusAdapter=new StandardApparatusAdapter(list,TemStandardApparatusActivity.this);
+        listView.setAdapter(standardApparatusAdapter);
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(TemStandardApparatusActivity.this,StandardappratusEditActivity.class);
+                intent.putExtra("tableName",tableName);
+                startActivity(intent);
+                // addData(TemStandardApparatusActivity.this,standardApparatusDBHelper,tableName,standardApparatusAdapter,listView);
+            }
+        });
+
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent=new Intent(TemStandardApparatusActivity.this,HumStandardApparatusActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                System.out.println("adapter------>"+standardApparatusAdapter);
+
+                updateCheck(TemStandardApparatusActivity.this,standardApparatusAdapter,standardApparatusDBHelper,tableName,i,listView);
+            }
+        });
+
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                deleteData(tableName,standardApparatusDBHelper,standardApparatusAdapter,TemStandardApparatusActivity.this,i,listView);
+                return true;
+            }
+        });
+
+    }
+
+
+    //
 //    private void deleteData(int position){
 //        AlertDialog.Builder builder=new AlertDialog.Builder(TemStandardApparatusActivity.this);
 //        builder.setTitle("提示")

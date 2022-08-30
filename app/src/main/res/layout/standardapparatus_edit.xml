@@ -2,26 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
-    android:paddingBottom="20dp"
-    android:orientation="vertical"
+
     >
 
 
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout1">
+        android:id="@+id/LinearLayout0">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="添加标准器"
             android:textStyle="bold"
-            android:textSize="20dp"
-            android:text="名   称：">
+            android:textSize="30dp">
+        </TextView>
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/u56">-->
+<!--        </ImageView>-->
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="30dp">
+        </TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout1"
+        android:layout_below="@id/LinearLayout0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+           android:textSize="15dp"
+            android:text="名      称：">
         </TextView>
 
         <EditText
@@ -31,67 +64,59 @@
             android:inputType="text"
             android:layout_weight="1"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="端   口："
-            android:textStyle="bold"
-            android:textSize="20dp">
-        </TextView>
-        <EditText
-            android:id="@+id/edit_s_port"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_weight="1">
-        </EditText>
+
+
 
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LinearLayout2"
         android:layout_below="@id/LinearLayout1">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="端      口："
+
+           android:textSize="15dp">
+        </TextView>
+
+        <Spinner
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner1"
+            android:entries="@array/port"
+            android:spinnerMode="dropdown">
+        </Spinner>
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20dp"
+            android:layout_weight="3"
+
+           android:textSize="15dp"
             android:text="通讯格式：">
         </TextView>
 
-        <EditText
-            android:id="@+id/edit_s_format"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text">
-        </EditText>
+       <Spinner
+           android:layout_weight="1"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/spinner2"
+           android:entries="@array/dataFormat"
+           android:spinnerMode="dropdown">
+       </Spinner>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="通讯速率："
-            android:textStyle="bold"
-            android:textSize="20dp">
-        </TextView>
-        <EditText
-            android:id="@+id/edit_s_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number"
-            >
-
-        </EditText>
 
 
     </LinearLayout>
@@ -99,18 +124,72 @@
 
 
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LinearLayout3"
         android:layout_below="@id/LinearLayout2">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="通讯速率："
+
+           android:textSize="15dp">
+        </TextView>
+        <Spinner
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner3"
+            android:entries="@array/baudrates_name"
+            android:spinnerMode="dropdown">
+        </Spinner>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+
+           android:textSize="15dp"
+            android:text="通讯协议：">
+        </TextView>
+
+     <Spinner
+         android:layout_weight="1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/spinner4"
+         android:entries="@array/agreement"
+         android:spinnerMode="dropdown">
+     </Spinner>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout4"
+        android:layout_below="@id/LinearLayout3">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20dp"
+
+           android:textSize="15dp"
             android:text="设备类型：">
         </TextView>
 
@@ -122,13 +201,23 @@
             android:inputType="text">
         </EditText>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout5"
+        android:layout_below="@id/LinearLayout4">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="设备型号："
-            android:textStyle="bold"
-            android:textSize="20dp">
+
+           android:textSize="15dp">
         </TextView>
         <EditText
             android:id="@+id/edit_s_model"
@@ -141,39 +230,21 @@
 
     </LinearLayout>
 
-
-
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout4"
-        android:layout_below="@id/LinearLayout3">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:text="通讯协议：">
-        </TextView>
-
-        <EditText
-            android:id="@+id/edit_s_agreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="text">
-        </EditText>
+        android:id="@+id/LinearLayout6"
+        android:layout_below="@id/LinearLayout5">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="证书编号："
-            android:textStyle="bold"
-            android:textSize="20dp">
+
+           android:textSize="15dp">
         </TextView>
         <EditText
             android:id="@+id/edit_s_number"
@@ -183,25 +254,25 @@
             android:inputType="text">
         </EditText>
 
-
     </LinearLayout>
 
 
 
-
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout5"
-        android:layout_below="@id/LinearLayout4">
+        android:id="@+id/LinearLayout7"
+        android:layout_below="@id/LinearLayout6">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20dp"
+
+           android:textSize="15dp"
             android:text="溯源单位：">
         </TextView>
 
@@ -213,14 +284,24 @@
             android:inputType="text">
         </EditText>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout8"
+        android:layout_below="@id/LinearLayout7">
+
         <TextView
             android:id="@+id/btn_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="有效期(点击选择)："
-            android:textStyle="bold"
-            android:textSize="20dp"
+
+           android:textSize="15dp"
             android:clickable="true">
         </TextView>
        <DatePicker
@@ -246,10 +327,12 @@
 
 
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout6"
-        android:layout_below="@id/LinearLayout5"
+        android:id="@+id/LinearLayout9"
+        android:layout_below="@id/LinearLayout8"
         android:layout_marginTop="20dp">
 
 
@@ -257,8 +340,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20dp"
+
+           android:textSize="15dp"
             android:text="证书值个数：">
         </TextView>
 
@@ -278,20 +361,22 @@
 
 
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/standard_LinearLayout7"
-        android:layout_below="@id/LinearLayout6"
+        android:layout_below="@id/LinearLayout9"
         android:visibility="invisible">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准点1"
-            android:textSize="20dp"
+            android:text="温度校准点1"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="number"
@@ -305,10 +390,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修正值1"
-            android:textSize="20dp"
+            android:text="℃"
+            android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度修正值1"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
         </TextView>
         <EditText
             android:inputType="numberSigned"
@@ -319,11 +413,71 @@
         </EditText>
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度校准点1"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit1_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度修正值1"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit2_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
     </LinearLayout>
 
 
 
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/standard_LinearLayout8"
@@ -334,10 +488,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准点2"
-            android:textSize="20dp"
+            android:text="温度校准点2"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="number"
@@ -347,14 +501,23 @@
             android:layout_weight="1">
         </EditText>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修正值2"
-            android:textSize="20dp"
+            android:text="温度修正值2"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="numberSigned"
@@ -365,8 +528,69 @@
         </EditText>
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度校准点2"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit3_1"
+            android:layout_weight="1">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度修正值2"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit4_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/standard_LinearLayout9"
@@ -377,10 +601,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准点3"
-            android:textSize="20dp"
+            android:text="温度校准点3"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="number"
@@ -394,10 +618,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修正值3"
-            android:textSize="20dp"
+            android:text="℃"
+            android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温度修正值3"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
         </TextView>
         <EditText
             android:inputType="numberSigned"
@@ -407,9 +640,68 @@
             android:layout_weight="1">
         </EditText>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度校准点3"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit5_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度修正值3"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit6_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/standard_LinearLayout10"
@@ -420,10 +712,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准点4"
-            android:textSize="20dp"
+            android:text="温度校准点4"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="number"
@@ -432,15 +724,22 @@
             android:id="@+id/edit7"
             android:layout_weight="1">
         </EditText>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修正值4"
-            android:textSize="20dp"
+            android:text="温度修正值4"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="numberSigned"
@@ -450,9 +749,67 @@
             android:layout_weight="1">
         </EditText>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度校准点4"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit7_1"
+            android:layout_weight="1">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度修正值4"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit8_1"
+            android:layout_weight="1">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/standard_LinearLayout11"
@@ -463,10 +820,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准点5"
-            android:textSize="20dp"
+            android:text="温度校准点5"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="number"
@@ -475,15 +832,22 @@
             android:id="@+id/edit9"
             android:layout_weight="1">
         </EditText>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修正值5"
-            android:textSize="20dp"
+            android:text="温度修正值5"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="numberSigned"
@@ -493,9 +857,68 @@
             android:layout_weight="1">
         </EditText>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度校准点5"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit9_1"
+            android:layout_weight="1">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度修正值5"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit10_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/standard_LinearLayout12"
@@ -506,10 +929,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="校准点6"
-            android:textSize="20dp"
+            android:text="温度校准点6"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="number"
@@ -518,15 +941,22 @@
             android:id="@+id/edit11"
             android:layout_weight="1">
         </EditText>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修正值6"
-            android:textSize="20dp"
+            android:text="温度修正值6"
+           android:textSize="15dp"
             android:layout_weight="1"
-            android:textStyle="bold">
+            >
         </TextView>
         <EditText
             android:inputType="numberSigned"
@@ -536,10 +966,90 @@
             android:layout_weight="1">
         </EditText>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度校准点6"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit11_1"
+            android:layout_weight="1">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="湿度修正值6"
+           android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+        <EditText
+            android:inputType="numberSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit12_1"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%RH"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            >
+        </TextView>
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/standard_LinearLayout12">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="取消"
+            android:id="@+id/button1">
+        </Button>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="确定"
+            android:id="@+id/button2">
+        </Button>
+
+    </LinearLayout>
 
 
 

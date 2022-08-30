@@ -44,6 +44,9 @@
 
 
 
+
+
+
     <LinearLayout
         android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
@@ -92,8 +95,54 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout1_1"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/LinearLayout1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt1"
+            android:layout_weight="1"
+            android:text="点击查看或设置温湿度pid参数"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt2"
+            android:layout_weight="1"
+            android:text="点击设置灯控时间或使用定时功能"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt3"
+            android:layout_weight="1"
+            android:text="点击查看或设置温湿度预设方案"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/LinearLayout2"
-        android:layout_below="@id/LinearLayout1"
+        android:layout_below="@id/LinearLayout1_1"
         android:layout_marginTop="50dp"
         >
 
@@ -137,12 +186,57 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout2_2"
+        android:layout_below="@id/LinearLayout2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt4"
+            android:layout_weight="1"
+            android:text="点击查看或设置温湿度标准器"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/settingswitch_textview4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt5"
+            android:layout_weight="1"
+            android:text="点击查看或设置转盘相关信息"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/settingswitch_textview5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settingswitch_bt6"
+            android:layout_weight="1"
+            android:text="点击查看或设置相机相关信息"
+            android:textSize="10px"
+            android:textAlignment="center"
+            >
+        </TextView>
+
+    </LinearLayout>
+
+
+
 
     <LinearLayout
         android:id="@+id/LinearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/LinearLayout2"
+        android:layout_below="@id/LinearLayout2_2"
         android:layout_marginTop="50dp">
 
 
