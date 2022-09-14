@@ -34,7 +34,9 @@ public class InstallermentActivity extends CommonUtil {
 
 
 
-        systemDBHelper=new SystemDBHelper(InstallermentActivity.this,"NIMENG.db",null,1);
+       // systemDBHelper=new SystemDBHelper(InstallermentActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(InstallermentActivity.this);
+
         systemData=systemDBHelper.getSystemData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_installment);

@@ -86,4 +86,14 @@
     </string-array>
 
 
+    <string-array name="type">
+
+        <item>单一标准器(仅检测温度或湿度)</item>
+        <item>转换标准器(仅检测温度,但可以通过温度换算出温度)</item>
+        <item>复杂标准器(检测温度和湿度)</item>
+
+    </string-array>
+
+
+
 </resources>

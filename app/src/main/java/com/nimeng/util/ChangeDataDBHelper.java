@@ -66,7 +66,7 @@ public class ChangeDataDBHelper extends BaseUtil {
         //获取最大值和最小值
         List<Float> list= findMaxAndMinDataByID(id,code);
 
-
+        //System.out.println("库中存储的最大值和最小值----"+list+"    "+id+"    "+code);
 
             if(data>list.get(0)){
 
@@ -96,10 +96,18 @@ public class ChangeDataDBHelper extends BaseUtil {
         contentValues.put("time",getDateTimeToString(new Date()));
 
 
+        //System.out.println("待写入的信息..."+contentValues.toString());
+
        int i=  db.update(TABLENAME,contentValues,"id=?",new String[]{id+""});
 
+       // System.out.println("更新结果..."+i+"  "+db.isOpen());
+
+
+
        if(i==0){
-         db.insert(TABLENAME,null,contentValues);
+           contentValues.put("id",id);
+         long l= db.insert(TABLENAME,null,contentValues);
+          // System.out.println("写入结果..."+l);
        }
 
             return;
@@ -130,7 +138,7 @@ public class ChangeDataDBHelper extends BaseUtil {
                 list.add(result.getFloat(2));
             }else{
 
-                System.out.println("有数据----看一下数据"+result.getFloat(1)+"   "+result.getFloat(2)+"    "+result.getFloat(3)+"   "+result.getFloat(4));
+             //   System.out.println("有数据----看一下数据"+result.getFloat(1)+"   "+result.getFloat(2)+"    "+result.getFloat(3)+"   "+result.getFloat(4));
 
                 if(result.getFloat(1)!=0 && result.getFloat(2)!=0 && result.getFloat(3)==0 && result.getFloat(4)==0){
                     list.add(-100f);

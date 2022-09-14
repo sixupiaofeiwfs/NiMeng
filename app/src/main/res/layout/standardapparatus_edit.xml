@@ -62,8 +62,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:layout_weight="1"/>
+            android:layout_weight="3"/>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:text="从机地址">
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_s_slave"
+            android:inputType="number"
+            android:layout_weight="2">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="交互类型："
+
+            android:textSize="15dp">
+        </TextView>
+
+        <Spinner
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner0"
+            android:entries="@array/type"
+            android:spinnerMode="dropdown">
+        </Spinner>
 
 
 
@@ -118,26 +153,13 @@
        </Spinner>
 
 
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/LinearLayout3"
-        android:layout_below="@id/LinearLayout2">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="通讯速率："
 
-           android:textSize="15dp">
+            android:textSize="15dp">
         </TextView>
         <Spinner
             android:layout_weight="1"
@@ -155,21 +177,79 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
 
-           android:textSize="15dp"
+            android:textSize="15dp"
             android:text="通讯协议：">
         </TextView>
 
-     <Spinner
-         android:layout_weight="1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/spinner4"
-         android:entries="@array/agreement"
-         android:spinnerMode="dropdown">
-     </Spinner>
+        <Spinner
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner4"
+            android:entries="@array/agreement"
+            android:spinnerMode="dropdown">
+        </Spinner>
 
 
 
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout3"
+        android:layout_below="@id/LinearLayout2">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="15dp"
+          android:layout_weight="1"
+          android:text="温度读取地址:">
+      </TextView>
+        <EditText
+            android:id="@+id/temAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="15dp"
+            android:layout_weight="1">
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:text="湿度读取地址:">
+        </TextView>
+        <EditText
+            android:id="@+id/humAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:inputType="number"
+            android:layout_weight="1">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:text="读取字节数量:">
+        </TextView>
+        <EditText
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_weight="1">
+        </EditText>
 
 
     </LinearLayout>
@@ -332,8 +412,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LinearLayout9"
-        android:layout_below="@id/LinearLayout8"
-        android:layout_marginTop="20dp">
+        android:layout_below="@id/LinearLayout8">
 
 
         <TextView

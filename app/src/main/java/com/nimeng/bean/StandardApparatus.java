@@ -21,9 +21,14 @@ public class StandardApparatus {
     private List<Float> list2;//温度修正值
     private List<Integer> list3;//湿度校准点
     private List<Float> list4;//湿度修正值
+    private int slave;//从机地址
+    private int state;//0单一标准器1单一标准器(可将温度转化为湿度进行检测)2复杂标准器(单一标准器仅可以检测温度或湿度,复杂标准器可以检测温度和湿度)
+    private String temStartAddress;//温度读取的起始地址
+    private String humStartAddress;//湿度读取的起始地址
+    private int count;//读取的字节数
 
 
-    public StandardApparatus(int ID, String name, String port, String format, int rate, String type, String model, String agreement, String number, String traceabilityUnit, String time, int isCheck, int quantity, List<Integer> list1, List<Float> list2, List<Integer> list3, List<Float> list4) {
+    public StandardApparatus(int ID, String name, String port, String format, int rate, String type, String model, String agreement, String number, String traceabilityUnit, String time, int isCheck, int quantity, List<Integer> list1, List<Float> list2, List<Integer> list3, List<Float> list4, int slave) {
         this.ID = ID;
         this.name = name;
         this.port = port;
@@ -41,6 +46,7 @@ public class StandardApparatus {
         this.list2 = list2;
         this.list3 = list3;
         this.list4 = list4;
+        this.slave = slave;
     }
 
     @Override
@@ -48,7 +54,7 @@ public class StandardApparatus {
         return "StandardApparatus{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
-                ", port=" + port +
+                ", port='" + port + '\'' +
                 ", format='" + format + '\'' +
                 ", rate=" + rate +
                 ", type='" + type + '\'' +
@@ -63,12 +69,9 @@ public class StandardApparatus {
                 ", list2=" + list2 +
                 ", list3=" + list3 +
                 ", list4=" + list4 +
+                ", slave=" + slave +
                 '}';
     }
-
-
-
-
 
     public StandardApparatus() {
     }
@@ -208,5 +211,45 @@ public class StandardApparatus {
 
     public void setList4(List<Float> list4) {
         this.list4 = list4;
+    }
+
+    public int getSlave() {
+        return slave;
+    }
+
+    public void setSlave(int slave) {
+        this.slave = slave;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getTemStartAddress() {
+        return temStartAddress;
+    }
+
+    public void setTemStartAddress(String temStartAddress) {
+        this.temStartAddress = temStartAddress;
+    }
+
+    public String getHumStartAddress() {
+        return humStartAddress;
+    }
+
+    public void setHumStartAddress(String humStartAddress) {
+        this.humStartAddress = humStartAddress;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

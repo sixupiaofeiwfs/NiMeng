@@ -61,7 +61,8 @@ public class HumPlanActivity extends CommonUtil {
             list.clear();
         }
         humplanDBHelper=new HumPlanDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
-        systemDBHelper=new SystemDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
+       // systemDBHelper=new SystemDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(HumPlanActivity.this);
         systemData=systemDBHelper.getSystemData();
         updateListView();
 
@@ -169,7 +170,7 @@ public class HumPlanActivity extends CommonUtil {
                         if(humplanDBHelper.updateCheck(humplanBean.getID(),systemData.getHumPlanID())){
 
                             systemData.setHumPlanID(humplanBean.getID());
-                            systemData.setStartTime(new Date());
+                            systemData.setStartTime(getDateTimeToString(new Date()));
                             systemData.setHumUnitTime(humplanBean.getUnitTime());
                             systemData.setHumWave(humplanBean.getHumWave());
                             systemData.setStable(false);

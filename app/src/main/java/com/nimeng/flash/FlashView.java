@@ -382,7 +382,12 @@ public class FlashView extends View {
 
 
     /**
+     *
      * 设置设定温度和设定湿度的数值以及颜色
+     *
+     *
+     * @param setValue
+     * @param type   tem 或 hum
      */
     public void setValue(float setValue,String type){
         if(type=="tem"){

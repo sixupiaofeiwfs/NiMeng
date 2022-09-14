@@ -73,7 +73,12 @@ public class StandardApparatusDBHelper extends BaseUtil{
                 "xzz6_1 float ,"+
                 "traceabilityUnit varchar not null,"+
                 "time varchar not null,"+
-                "isCheck tinyint(2)"+
+                "isCheck tinyint(2),"+
+                "slave int, "+
+                "state int,"+
+                "temStartAddress varchar,"+
+                "humStartAddress varchar,"+
+                "count int "+
                 ")";
         sqLiteDatabase.execSQL(sql);
     }
@@ -203,6 +208,13 @@ public class StandardApparatusDBHelper extends BaseUtil{
         contentValues.put("traceabilityUnit",standardApparatus.getTraceabilityUnit());
         contentValues.put("time",standardApparatus.getTime());
         contentValues.put("isCheck",standardApparatus.getIsCheck());
+        contentValues.put("slave",standardApparatus.getSlave());
+        contentValues.put("state",standardApparatus.getState());
+        contentValues.put("temStartAddress",standardApparatus.getTemStartAddress());
+        contentValues.put("humStartAddress",standardApparatus.getHumStartAddress());
+        contentValues.put("count",standardApparatus.getCount());
+
+
 
         long result=db.insert(tableName,null,contentValues);
         return result>0?true:false;
@@ -217,9 +229,13 @@ public class StandardApparatusDBHelper extends BaseUtil{
     }
 
 
-
-    //查询
-    public List<StandardApparatus> query(String tableName){
+    /**
+     * 查询温湿度标准器
+     * @param tableName  温湿度表名
+     * @param isCheck    是否查询被选中的标准器 0查询所有标准器 1查询被选中的标准器
+     * @return
+     */
+    public List<StandardApparatus> query(String tableName,@Nullable int isCheck){
         List<StandardApparatus> list =new ArrayList<>();
 
         if(!tableIsExist(tableName)){
@@ -228,8 +244,13 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
         Log.d("判断数据表是否已打开", "query: "+db.isOpen());
 
+        Cursor result=null;
+        if(isCheck!=1){
+             result=db.query(tableName,null,null,null,null,null,null);
+        }else{
+             result=db.query(tableName,null,"isCheck=",new String[]{isCheck+""},null,null,null);
+        }
 
-        Cursor result=db.query(tableName,null,null,null,null,null,null);
 
         System.out.println("result--->"+result.getCount());
 
@@ -378,6 +399,13 @@ public class StandardApparatusDBHelper extends BaseUtil{
                 standardApparatus.setTraceabilityUnit(result.getString(34));
                 standardApparatus.setTime(result.getString(35));
                 standardApparatus.setIsCheck(result.getInt(36));
+                standardApparatus.setSlave(result.getInt(37));
+                standardApparatus.setState(result.getInt(38));
+                standardApparatus.setTemStartAddress(result.getString(39));
+                standardApparatus.setHumStartAddress(result.getString(40));
+                standardApparatus.setCount(result.getInt(41));
+
+
 
                 list.add(standardApparatus);
 

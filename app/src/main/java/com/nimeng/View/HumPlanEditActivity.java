@@ -41,8 +41,8 @@ public class HumPlanEditActivity extends CommonUtil {
         button1=findViewById(R.id.btn_true);
         button2=findViewById(R.id.btn_false);
         humplanDBHelper=new HumPlanDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
-        systemDBHelper=new SystemDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
-
+        //systemDBHelper=new SystemDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(HumPlanEditActivity.this);
         editName=findViewById(R.id.edit_humplan_name);
         editUnitTime=findViewById(R.id.edit_humplan_unitTime);
         editHumWave=findViewById(R.id.edit_humplan_humWave);

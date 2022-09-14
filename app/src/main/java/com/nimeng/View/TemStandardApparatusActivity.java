@@ -59,7 +59,7 @@ public class TemStandardApparatusActivity extends CommonUtil {
             list.clear();
         }
         standardApparatusDBHelper =new StandardApparatusDBHelper(TemStandardApparatusActivity.this,DATABASE_NAME,null,1);
-        list=standardApparatusDBHelper.query(tableName);
+        list=standardApparatusDBHelper.query(tableName,0);
         standardApparatusAdapter=new StandardApparatusAdapter(list,TemStandardApparatusActivity.this);
         listView.setAdapter(standardApparatusAdapter);
 
@@ -112,7 +112,7 @@ public class TemStandardApparatusActivity extends CommonUtil {
         super.onStart();
 
         standardApparatusDBHelper =new StandardApparatusDBHelper(TemStandardApparatusActivity.this,DATABASE_NAME,null,1);
-        list=standardApparatusDBHelper.query(tableName);
+        list=standardApparatusDBHelper.query(tableName,0);
         standardApparatusAdapter=new StandardApparatusAdapter(list,TemStandardApparatusActivity.this);
         listView.setAdapter(standardApparatusAdapter);
 

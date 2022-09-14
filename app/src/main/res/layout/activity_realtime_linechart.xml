@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout1">
+
+
+
+        <TextView
+            android:id="@+id/linechart_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首页"
+            android:textSize="25dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="100dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实时趋势图"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_weight="5"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:id="@+id/linechart_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据记录"
+            android:textSize="25dp"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/LinearLayout1">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:clickable="true"></TextView>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="98"
+
+
+            />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"></TextView>
+    </LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>

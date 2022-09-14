@@ -26,7 +26,7 @@ public class StandardappratusEditActivity extends CommonUtil {
 
     //控制证书值个数的显示
     LinearLayout linearLayout1,linearLayout2,linearLayout3,linearLayout4,linearLayout5,linearLayout6;
-    Spinner spinner,spinner1,spinner2,spinner3,spinner4;
+    Spinner  spinner, spinner0, spinner1,spinner2,spinner3,spinner4;
 
     //证书有效期的时间日期选择器
     DatePicker datePicker;
@@ -42,13 +42,13 @@ public class StandardappratusEditActivity extends CommonUtil {
     StandardApparatusDBHelper standardApparatusDBHelper;
     String tableName;
 
-    private EditText editName,editType,editModel,editNumber,editTraceabilityUnit;
+    private EditText editTemAddress, editHumAddress,editCount, editSlave,editName,editType,editModel,editNumber,editTraceabilityUnit;
     private EditText edit_jzd1,edit_xzz1,edit_jzd2,edit_xzz2,edit_jzd3,edit_xzz3,edit_jzd4,edit_xzz4,edit_jzd5,edit_xzz5,edit_jzd6,edit_xzz6;
     private EditText edit_jzd1_1,edit_xzz1_1,edit_jzd2_1,edit_xzz2_1,edit_jzd3_1,edit_xzz3_1,edit_jzd4_1,edit_xzz4_1,edit_jzd5_1,edit_xzz5_1,edit_jzd6_1,edit_xzz6_1;
 
 
    Button button1,button2;
-    String name,type,number,model,traceabilityUnit,time;
+    String slave, name,type,number,model,traceabilityUnit,time,temAddress,humAddress,count;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +65,9 @@ public class StandardappratusEditActivity extends CommonUtil {
         linearLayout5=findViewById(R.id.standard_LinearLayout11);
         linearLayout6=findViewById(R.id.standard_LinearLayout12);
 
+
         spinner=findViewById(R.id.standard_spinner1);
+        spinner0=findViewById(R.id.spinner0);
         spinner1=findViewById(R.id.spinner1);
         spinner2=findViewById(R.id.spinner2);
         spinner3=findViewById(R.id.spinner3);
@@ -177,12 +179,15 @@ public class StandardappratusEditActivity extends CommonUtil {
             @Override
             public void onClick(View view) {
 
-
+                editSlave=findViewById(R.id.edit_s_slave);
                 editName=findViewById(R.id.edit_s_name);
                 editType=findViewById(R.id.edit_s_type);
                 editModel=findViewById(R.id.edit_s_model);
                 editNumber=findViewById(R.id.edit_s_number);
                 editTraceabilityUnit=findViewById(R.id.edit_s_traceabilityUnit);
+                editTemAddress=findViewById(R.id.temAddress);
+                editHumAddress=findViewById(R.id.humAddress);
+                editCount=findViewById(R.id.count);
 
 
                 edit_jzd1=findViewById(R.id.edit1);
@@ -213,16 +218,31 @@ public class StandardappratusEditActivity extends CommonUtil {
                 edit_xzz6_1=findViewById(R.id.edit12_1);
 
 
+                slave=editSlave.getText().toString();
                 name=editName.getText().toString();
                 type=editType.getText().toString();
                 model=editModel.getText().toString();
                 number=editNumber.getText().toString();
                 traceabilityUnit=editTraceabilityUnit.getText().toString();
                 time=editTime.getText().toString();
+                temAddress=editTemAddress.getText().toString();
+                humAddress=editHumAddress.getText().toString();
+                count=editCount.getText().toString();
+
+
+
 
                 System.out.println(name+"  "+type+" "+model+" "+number+" "+traceabilityUnit+" "+time);
 
 
+                if(slave.equals("")){
+                    showToast(StandardappratusEditActivity.this,"从机地址不能为空");
+                    return;
+                }
+                if(slave.equals("1")){
+                    showToast(StandardappratusEditActivity.this,"该从机已被使用,请输入其他值");
+                    return;
+                }
                 if(name.equals("")){
                     showToast(StandardappratusEditActivity.this,"名称不能为空");
                     return;
@@ -246,6 +266,17 @@ public class StandardappratusEditActivity extends CommonUtil {
                 if(time==""){
                     showToast(StandardappratusEditActivity.this,"有效期不能为空");
                     return;
+                }
+                if(temAddress.equals("")){
+                    showToast(StandardappratusEditActivity.this,"温度读取地址不能为空");
+                    return;
+                }
+                if(humAddress.equals("")){
+                    showToast(StandardappratusEditActivity.this,"湿度读取地址不能为空");
+                    return;
+                }
+                if(count.equals("")){
+                    showToast(StandardappratusEditActivity.this,"读取字节数不能为空");
                 }
 
 
@@ -374,6 +405,16 @@ public class StandardappratusEditActivity extends CommonUtil {
                     standardApparatus.setList4(list4);
                     standardApparatus.setTraceabilityUnit(traceabilityUnit);
                     standardApparatus.setTime(time);
+                    standardApparatus.setSlave(Integer.valueOf(slave));
+                    standardApparatus.setState((int)spinner0.getSelectedItemId()+1);
+                    standardApparatus.setTemStartAddress(temAddress);
+                    standardApparatus.setHumStartAddress(humAddress);
+                    standardApparatus.setCount(Integer.valueOf(count));
+
+
+
+
+
 
                     System.out.println("添加标准器---"+standardApparatus);
                     System.out.println(tableName);

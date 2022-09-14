@@ -307,7 +307,14 @@ public class TemPlanDBHelper extends BaseUtil {
         return true;
     }
 
-    //通过TemID和tem？查询
+
+
+    /**
+     *   查询某个温度方案的第几个设定温度值
+     * @param id  预设方案编号
+     * @param temId 第几个温度值
+     * @return
+     */
     public int queryByID(int id,int temId){
         if(!tableIsExist(TABLENAME)){
             return 0;

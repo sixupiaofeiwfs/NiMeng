@@ -76,7 +76,9 @@ public class TemPlanActivity extends CommonUtil {
 
     @Override
     protected void onStart() {
-        systemDBHelper=new SystemDBHelper(TemPlanActivity.this,"NIMENG.db",null,1);
+       // systemDBHelper=new SystemDBHelper(TemPlanActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(TemPlanActivity.this);
+
         systemData=systemDBHelper.getSystemData();
         if(list!=null){
             list.clear();
@@ -192,7 +194,7 @@ public class TemPlanActivity extends CommonUtil {
 
 
                             systemData.setTemPlanID(templanBean.getID());
-                            systemData.setStartTime(new Date());
+                            systemData.setStartTime(getDateTimeToString(new Date()));
                             systemData.setTemUnitTime(templanBean.getUnitTime());
                             systemData.setTemWave(templanBean.getTemWave());
                             systemData.setStable(false);

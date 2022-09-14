@@ -33,7 +33,8 @@ public class PasswordActivity  extends CommonUtil {
         btn1= findViewById(R.id.password_btn1);
 
         int excutingNumber=checkTime();
-        systemDBHelper=new SystemDBHelper(PasswordActivity.this,"NIMENG.db",null,1);
+        //systemDBHelper=new SystemDBHelper(PasswordActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(PasswordActivity.this);
         systemData=systemDBHelper.getSystemData();
 
         btn1.setOnClickListener(new View.OnClickListener() {

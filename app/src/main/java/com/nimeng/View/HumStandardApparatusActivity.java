@@ -59,7 +59,7 @@ public class HumStandardApparatusActivity extends CommonUtil {
         }
 
         standardApparatusDBHelper =new StandardApparatusDBHelper(HumStandardApparatusActivity.this,DATABASE_NAME,null,1);
-        list=standardApparatusDBHelper.query(tableName);
+        list=standardApparatusDBHelper.query(tableName,0);
         standardApparatusAdapter =new StandardApparatusAdapter(list,HumStandardApparatusActivity.this);
         listView.setAdapter(standardApparatusAdapter);
 

@@ -25,6 +25,7 @@
         <entry key="..\:/All/app/src/main/res/layout/plan_edit.xml" value="0.25815217391304346" />
         <entry key="..\:/All/app/src/main/res/layout/templan_edit.xml" value="0.3269927536231884" />
         <entry key="..\:/NiMeng/app/src/main/res/drawable/ic_launcher_background.xml" value="0.338" />
+        <entry key="..\:/NiMeng/app/src/main/res/drawable/tableline.xml" value="0.1805" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_comprehensive_data.xml" value="0.23333333333333334" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_comprehensive_data_redord.xml" value="0.25" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_curve.xml" value="0.3619791666666667" />
@@ -34,7 +35,13 @@
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_programme.xml" value="0.3061594202898551" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_programmer.xml" value="0.2125" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_query.xml" value="0.25" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/activity_setting_equipment_parameters.xml" value="0.1" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/activity_systemparam.xml" value="0.1953125" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/activity_temstandardapparatus.xml" value="0.16485507246376813" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/activity_turntable.xml" value="0.16875" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/activty_humpid.xml" value="0.1" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/activty_tempid.xml" value="0.1" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/input.xml" value="0.10729166666666666" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/layout.xml" value="0.365625" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_comprehensivedata.xml" value="0.31929347826086957" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_equipment.xml" value="0.3619791666666667" />
@@ -43,6 +50,11 @@
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_programme.xml" value="0.3061594202898551" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_programmer.xml" value="0.2125" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/list_query.xml" value="0.67" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/list_standardapparatus.xml" value="0.23020833333333332" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/list_templan.xml" value="0.18333333333333332" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/loading.xml" value="0.18333333333333332" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/reachstability.xml" value="0.24947916666666667" />
+        <entry key="..\:/NiMeng/app/src/main/res/layout/standardapparatus_edit.xml" value="0.20652173913043478" />
         <entry key="..\:/NiMeng/app/src/main/res/layout/test.xml" value="0.2171875" />
         <entry key="..\:/NiMeng3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/NiMeng3/app/src/main/res/drawable/ic_launcher_background.xml" value="0.222" />
@@ -63,7 +75,8 @@
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_main.xml" value="0.27760416666666665" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_password.xml" value="0.1648148148148148" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_query.xml" value="0.27760416666666665" />
-        <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_realtime_linechart.xml" value="0.34739583333333335" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_querydatarecord.xml" value="0.19791666666666666" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_realtime_linechart.xml" value="0.33866666666666667" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_setting_equipment_parameters.xml" value="0.27760416666666665" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_settingswitch.xml" value="0.25280898876404495" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_standardapparatus.xml" value="0.27760416666666665" />
@@ -78,6 +91,7 @@
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activty_tempid.xml" value="0.27760416666666665" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/avtivity_linechart.xml" value="0.1" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/humplan_edit.xml" value="0.36614583333333334" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/layout_markview.xml" value="0.23020833333333332" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/line_chart.xml" value="0.34739583333333335" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/list_comprehensivedata.xml" value="0.36614583333333334" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/list_datarecord.xml" value="0.36614583333333334" />
@@ -86,10 +100,12 @@
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/list_templan.xml" value="0.14994934143870314" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/maindatashow.xml" value="0.2246376811594203" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/password_edit.xml" value="0.17806484295845998" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/reachstability.xml" value="0.1" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/setview_edit.xml" value="0.2246376811594203" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/standardapparatus_edit.xml" value="0.1" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/templan_edit.xml" value="0.33" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/warning.xml" value="0.2246376811594203" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/menu/bar.xml" value="0.3078125" />
         <entry key="..\:/Nimeng/app/src/main/res/layout/activity_programmer.xml" value="0.3678977272727273" />
         <entry key="..\:/niMENG/app/src/main/res/layout/activity_curve.xml" value="0.2015625" />
         <entry key="..\:/niMENG/app/src/main/res/layout/activity_main.xml" value="0.2015625" />

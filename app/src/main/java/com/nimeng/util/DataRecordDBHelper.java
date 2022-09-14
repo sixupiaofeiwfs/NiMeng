@@ -85,7 +85,7 @@ public class DataRecordDBHelper extends BaseUtil {
                     +TABLENAME+
                     " ("+
                     "id integer primary key  AUTOINCREMENT,"+
-                    "time varchar(30) unique,"+
+                    "time varchar(30) ,"+
                     "settingTem float(5) not null,"+
                     "realtimeTem float(5) not null,"+
                     "settingHum float(5) not null,"+
@@ -99,7 +99,6 @@ public class DataRecordDBHelper extends BaseUtil {
 
         String time;
 
-        System.out.println("查询之前。。。"+dataRecodeBean.toString());
 
         if(dataRecodeBean.getTime()==null){
              time=getDateTimeToString(new Date());
@@ -111,7 +110,6 @@ public class DataRecordDBHelper extends BaseUtil {
         if(dataRecodeBean1!=null){
 
 
-            System.out.println("查询到了时间相同的数据。。。"+dataRecodeBean1.toString());
 
             if(dataRecodeBean1.getRealtimeHum()==0){
                 contentValues.put("realtimeHum",dataRecodeBean.getRealtimeHum());
@@ -125,6 +123,7 @@ public class DataRecordDBHelper extends BaseUtil {
             }
 
             db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(dataRecodeBean1.getId())});
+
             return true;
 
         }
@@ -199,7 +198,7 @@ public class DataRecordDBHelper extends BaseUtil {
             return list;
         }
 
-        Cursor result=db.query(TABLENAME,null,"time between=? and=?",new String[]{startTime,endTime},null,null,null,null);
+        Cursor result=db.query(TABLENAME,null,"time between  ? and ?",new String[]{startTime,endTime},null,null,null,null);
         if(result!=null){
             while (result.moveToNext()){
                 DataRecodeBean dataRecodeBean=new DataRecodeBean();
@@ -237,6 +236,9 @@ public class DataRecordDBHelper extends BaseUtil {
                return null;
         }else{
             Cursor result=db.query(TABLENAME,null,"time=?",new String[]{time},null,null,null,null);
+
+
+
             if(result.getCount()==1){
                 result.moveToFirst();
                 dataRecodeBean.setId(result.getInt(0));
@@ -404,12 +406,12 @@ public class DataRecordDBHelper extends BaseUtil {
         return time;
     }
 
-    public List<DataRecodeBean> query20DataRecodeBean(){
+    public List<DataRecodeBean> query20DataRecodeBean(String limit){
         if(!tableIsExist(TABLENAME)){
             return null;
         }
         List<DataRecodeBean> list=new ArrayList<>();
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,"time DESC","20");
+        Cursor result=db.query(TABLENAME,null,null,null,null,null,"time DESC",limit);
         if(result!=null){
             while(result.moveToNext()){
                 DataRecodeBean dataRecodeBean=new DataRecodeBean();

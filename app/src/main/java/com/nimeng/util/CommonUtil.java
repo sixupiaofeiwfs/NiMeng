@@ -103,8 +103,8 @@ public class CommonUtil extends Activity {
 
     public  int  checkTime() {
 
-        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
-
+        //systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(CommonUtil.this);
 
         Date newDate=new Date();
 
@@ -166,7 +166,8 @@ public class CommonUtil extends Activity {
 
 
     public void deleteData(String tableName, StandardApparatusDBHelper standardApparatusDBHelper, StandardApparatusAdapter standardApparatusAdapter, Context context, int position, ListView listView){
-        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        //systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(CommonUtil.this);
         systemData=systemDBHelper.getSystemData();
         AlertDialog.Builder builder=new AlertDialog.Builder(context);
         builder.setTitle("提示")
@@ -205,7 +206,7 @@ public class CommonUtil extends Activity {
 
 
     public void updateListView(StandardApparatusDBHelper standardApparatusDBHelper,String tableName,StandardApparatusAdapter standardApparatusAdapter, ListView listView){
-        List<StandardApparatus> list=standardApparatusDBHelper.query(tableName);
+        List<StandardApparatus> list=standardApparatusDBHelper.query(tableName,0);
         standardApparatusAdapter.setList(list);
         listView.setAdapter(standardApparatusAdapter);
     }
@@ -216,7 +217,8 @@ public class CommonUtil extends Activity {
 
     public void updateCheck(Context context,StandardApparatusAdapter standardApparatusAdapter ,StandardApparatusDBHelper standardApparatusDBHelper,String tableName,int position,ListView listView){
 
-        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+       // systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(CommonUtil.this);
         systemData=systemDBHelper.getSystemData();
 
         StandardApparatus standardApparatus=(StandardApparatus) standardApparatusAdapter.getItem(position);
@@ -319,7 +321,8 @@ public class CommonUtil extends Activity {
     public  long getDatePoor() {
 
         Date date=new Date();
-        systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        //systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(CommonUtil.this);
         SystemData systemData1=systemDBHelper.getSystemData();
         if(systemData1.getStartTime()==null){
             return 1;
@@ -330,7 +333,7 @@ public class CommonUtil extends Activity {
         long nm = 1000 * 60;
         // long ns = 1000;
         // 获得两个时间的毫秒时间差异
-        long diff = date.getTime() - systemData1.getStartTime().getTime();
+        long diff = date.getTime() - getTimeToDate( systemData1.getStartTime()).getTime();
         // 计算差多少天
         long day = diff / nd;
         // 计算差多少小时
@@ -404,5 +407,18 @@ public class CommonUtil extends Activity {
         }
 
     }
+
+    public String getNextTime(){
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+         c.add(Calendar.SECOND, -5);//前一秒
+       // c.add(Calendar.SECOND, 1);//后一秒
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+        String strTime = sdf.format(c.getTime());
+        System.out.println(strTime);
+        return strTime;
+    }
+
 
 }

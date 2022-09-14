@@ -69,6 +69,7 @@ public class StandardApparatusAdapter extends BaseAdapter {
         System.out.println(standardApparatus+"------------"+standardApparatus.getQuantity());
         System.out.println("-------------------");
 
+        standardApparatusView.slave.setText(String.valueOf(standardApparatus.getSlave()));
         standardApparatusView.name.setText(standardApparatus.getName());
         standardApparatusView.name.setTextSize(13);
         standardApparatusView.port.setText(String.valueOf(standardApparatus.getPort()));
@@ -81,6 +82,17 @@ public class StandardApparatusAdapter extends BaseAdapter {
         standardApparatusView.quantity.setText(String.valueOf(standardApparatus.getQuantity()));
         standardApparatusView.traceabilityUnit.setText(standardApparatus.getTraceabilityUnit());
         standardApparatusView.time.setText(standardApparatus.getTime());
+        if(standardApparatus.getState()==1){
+            standardApparatusView.state.setText("单一标准器");
+        }if(standardApparatus.getState()==2){
+            standardApparatusView.state.setText("可转换单一标准器");
+        }if(standardApparatus.getState()==3){
+            standardApparatusView.state.setText("复杂标准器");
+        }
+        standardApparatusView.temAddress.setText(standardApparatus.getTemStartAddress());
+        standardApparatusView.humAddress.setText(standardApparatus.getHumStartAddress());
+        standardApparatusView.count.setText(String.valueOf(standardApparatus.getCount()));
+
 
         if(standardApparatus.getIsCheck()==1){
             standardApparatusView.isCheck.setText("是");
@@ -94,9 +106,10 @@ public class StandardApparatusAdapter extends BaseAdapter {
 
     class StandardApparatusView{
 
-        TextView name,port,format,rate,type,model,agreement,number,quantity,traceabilityUnit,time,isCheck;
+        TextView name,slave,port,format,rate,type,model,agreement,number,quantity,traceabilityUnit,time,isCheck,state,temAddress,humAddress,count;
         public StandardApparatusView(View view){
             name=view.findViewById(R.id.list_s_name);
+            slave=view.findViewById(R.id.list_s_slave);
             port=view.findViewById(R.id.list_s_port);
             format=view.findViewById(R.id.list_s_format);
             rate=view.findViewById(R.id.list_s_rate);
@@ -108,6 +121,12 @@ public class StandardApparatusAdapter extends BaseAdapter {
             traceabilityUnit=view.findViewById(R.id.list_s_traceabilityUnit);
             time=view.findViewById(R.id.list_s_time);
             isCheck=view.findViewById(R.id.list_s_isCheck);
+            state=view.findViewById(R.id.list_s_state);
+            temAddress=view.findViewById(R.id.list_s_temAddress);
+            humAddress=view.findViewById(R.id.list_s_humAddress);
+            count=view.findViewById(R.id.list_s_count);
+
+
 
         }
     }

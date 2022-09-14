@@ -2,19 +2,32 @@ package com.nimeng.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.nimeng.bean.SystemData;
 import com.nimeng.bean.SystemSwitch;
 import com.nimeng.util.CommonUtil;
+import com.nimeng.util.ModbusError;
+import com.nimeng.util.ModbusRtuMaster;
+import com.nimeng.util.ModbusUtil;
 import com.nimeng.util.SystemDBHelper;
+
+import java.io.IOException;
+
+import tp.xmaihh.serialport.SerialHelper;
+import tp.xmaihh.serialport.bean.ComBean;
 
 /**
  * Author: wfs
@@ -40,11 +53,65 @@ public class SettingEquipmentParametersActivity extends CommonUtil {
     SystemDBHelper systemDBHelper;
     SystemData systemData;
 
+    SerialHelper serialHelper;
+    ModbusRtuMaster modbusRtuMaster;
+
+    ModbusUtil modbusUtil=new ModbusUtil();
+
+
+    EditText editText1,editText2,editText3,editText4,editText5,editText6,editText7,editText8,editText9,editText10,editText11,editText12,editText13,editText14,editText15;
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_equipment_parameters);
-        systemDBHelper=new SystemDBHelper(SettingEquipmentParametersActivity.this,"NIMENG.db",null,1);
+       // systemDBHelper=new SystemDBHelper(SettingEquipmentParametersActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(SettingEquipmentParametersActivity.this);
+
+        if(!thread.isAlive()){
+            thread.start();
+        }
+
+        editText1=findViewById(R.id.edit1);
+        editText2=findViewById(R.id.edit2);
+        editText3=findViewById(R.id.edit3);
+        editText4=findViewById(R.id.edit4);
+        editText5=findViewById(R.id.edit5);
+        editText6=findViewById(R.id.edit6);
+        editText7=findViewById(R.id.edit7);
+        editText8=findViewById(R.id.edit8);
+        editText9=findViewById(R.id.edit9);
+        editText10=findViewById(R.id.edit10);
+        editText11=findViewById(R.id.edit11);
+        editText12=findViewById(R.id.edit12);
+        editText13=findViewById(R.id.edit13);
+        editText14=findViewById(R.id.edit14);
+        editText15=findViewById(R.id.edit15);
+
+
+
+        serialHelper=new SerialHelper("/dev/ttyS0",9600) {
+            @Override
+            protected void onDataReceived(ComBean comBean) {
+
+                Message message =handler.obtainMessage();
+                message.obj=comBean;
+                handler.sendMessage(message);
+
+            }
+        };
+
+        try {
+            if(!serialHelper.isOpen())
+                serialHelper.open();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        modbusRtuMaster=new ModbusRtuMaster(serialHelper);
 
         systemData=systemDBHelper.getSystemData();
         textView1=findViewById(R.id.textview_xtsz);
@@ -180,4 +247,63 @@ public class SettingEquipmentParametersActivity extends CommonUtil {
 
 
     }
+
+
+    public Thread thread =new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while(true){
+
+                SystemClock.sleep(1000);
+
+                try {
+                    modbusRtuMaster.readHoldingRegisters(1,0x0384,16);
+                    modbusRtuMaster.readHoldingRegisters(1,0x00C8,2);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
+
+            }
+        }
+    });
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+
+            ComBean comBean=(ComBean) msg.obj;
+            String result= ModbusUtil.bytesToHex(comBean.bRec,comBean.bRec.length);
+
+            System.out.println("系统设置-----------");
+            System.out.println(result);
+            System.out.println("---------------------");
+
+            int number1=result.indexOf("010304");//压缩机保护延时
+            int number2=result.indexOf("010320");//系统参数
+
+            if(result.length()>=number2+74 && number2!=-1){
+                editText1.setText(String.valueOf(modbusUtil.covert(result.substring(number2+6,number2+10))));
+                editText3.setText(String.valueOf(modbusUtil.covert(result.substring(number2+10,number2+14))));
+                editText5.setText(String.valueOf(modbusUtil.covert(result.substring(number2+14,number2+18))/100.00f));
+                editText6.setText(String.valueOf(modbusUtil.covert(result.substring(number2+18,number2+22))/100.00f));
+                editText7.setText(String.valueOf(modbusUtil.covert(result.substring(number2+22,number2+26))));
+                editText8.setText(String.valueOf(modbusUtil.covert(result.substring(number2+26,number2+30))));
+                editText9.setText(String.valueOf(modbusUtil.covert(result.substring(number2+30,number2+34))/100.00f));
+                editText10.setText(String.valueOf(modbusUtil.covert(result.substring(number2+34,number2+38))/100.00f));
+                editText11.setText(String.valueOf(modbusUtil.covert(result.substring(number2+38,number2+42))/100.00f));
+            }
+
+            if(result.length()>=number1+18 && number1!=-1){
+                editText2.setText(String.valueOf(modbusUtil.covert(result.substring(number1+6,number1+10))));
+                editText4.setText(String.valueOf(modbusUtil.covert(result.substring(number1+10,number1+14))));
+            }
+
+
+
+
+
+        }
+
+    };
+
 }

@@ -61,7 +61,8 @@ public class SystemParamActivity extends CommonUtil {
         setContentView(R.layout.activity_systemparam);
 
         alarmManager=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        systemDBHelper=new SystemDBHelper(SystemParamActivity.this,"NIMENG.db",null,1);
+       // systemDBHelper=new SystemDBHelper(SystemParamActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(SystemParamActivity.this);
         systemData=systemDBHelper.getSystemData();
 
 
