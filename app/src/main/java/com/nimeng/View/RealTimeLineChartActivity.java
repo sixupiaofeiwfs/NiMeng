@@ -1,167 +1,571 @@
 package com.nimeng.View;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import android.app.Activity;
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import androidx.core.content.ContextCompat;
+
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.ValueShape;
-import lecho.lib.hellocharts.view.LineChartView;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.Legend.LegendForm;
+import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.components.YAxis.AxisDependency;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.mysql.cj.protocol.InternalDate;
+import com.nimeng.View.R;
+import com.nimeng.bean.DataRecodeBean;
+import com.nimeng.bean.DemoBase;
+import com.nimeng.bean.SystemData;
+import com.nimeng.util.CommonUtil;
+import com.nimeng.util.DataRecordDBHelper;
+import com.nimeng.util.SystemDBHelper;
 
-public class RealTimeLineChartActivity extends Activity {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
-    private LineChartView mLineChart; // 折线图对象
 
-    // 横轴
-    private String[] data = {"9s前", "8s前", "7s前", "6s前", "5s前", "4s前", "3s前", "2s前", "1s前", "现在"};
+public class RealTimeLineChartActivity extends CommonUtil {
 
-    // 每个点对应的y轴数据
-    private float[] score = {541, 429, 865, 901, 503, 787, 515, 326, 892, 455};
+    private LineChart chart;
 
-    // 转换为LineChartView可以录入的集合对象
-    private List<AxisValue> mAxisValues = new ArrayList<AxisValue>();
-    private List<PointValue> mPointValues = new ArrayList<PointValue>();
 
-    // 单条线的对象
-    private Line mLine;
-    // 线的集合
-    private List<Line> mLines = new ArrayList<Line>();
-    // 折线图数据对象
-    private LineChartData mData = new LineChartData();
+    DataRecordDBHelper dataRecordDBHelper;
 
-    // 坐标轴对象
-    private Axis mAxis = new Axis();
+    LineData data;
+
+    LineDataSet temLineDataSet,humLineDataSet;
+
+    private TextView btn1,btn2;
+
+
+    private TextView textView1,textView2;
+    SystemDBHelper systemDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.line_chart);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_realtime_linechart);
+        LinearLayout linearLayout1=findViewById(R.id.LinearLayout1);
+        linearLayout1.setBackgroundColor(Color.LTGRAY);
 
-        // 找控件
-        mLineChart = findViewById(R.id.line_chart);
-        // 把数组中的数据录入集合中
-        for (int i = 0; i < 10; i++) {
-            mAxisValues.add(new AxisValue(i).setLabel(data[i])); // 设置x轴坐标显示
-            mPointValues.add(new PointValue(i, score[i]));
+        LinearLayout linearLayout2=findViewById(R.id.LinearLayout2);
+        linearLayout2.setBackgroundColor(Color.LTGRAY);
+
+
+        textView1=findViewById(R.id.text1);
+       // textView1.setBackgroundColor(Color.LTGRAY);
+        textView2=findViewById(R.id.text2);
+       // textView2.setBackgroundColor(Color.LTGRAY);
+
+         dataRecordDBHelper=new DataRecordDBHelper(RealTimeLineChartActivity.this,"NIMENG.db",null,1);
+
+        systemDBHelper=new SystemDBHelper(RealTimeLineChartActivity.this,"NIMENG.db",null,1);
+        SystemData systemData=systemDBHelper.getSystemData();
+
+        setTitle("温湿度运行曲线图");
+
+        chart = findViewById(R.id.chart1);
+
+
+
+
+        //不设置描述信息
+        chart.getDescription().setEnabled(false);
+
+
+
+        // 设置可以触摸
+        chart.setTouchEnabled(true);
+
+
+
+        chart.setDragEnabled(true);//启动缩放
+        chart.setScaleEnabled(true);//启动拖动
+        chart.setDrawGridBackground(false);
+
+
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(true);
+
+        // set an alternative background color
+        chart.setBackgroundColor(Color.LTGRAY);
+
+        data= new LineData();
+        data.setValueTextColor(Color.BLACK);
+
+
+
+
+        // add empty data
+        chart.setData(data);
+
+
+
+        // get the legend (only possible after setting data)
+        Legend temLegend = chart.getLegend();
+
+
+        // modify the legend ...
+        temLegend.setForm(LegendForm.LINE);
+        temLegend.setTextColor(Color.WHITE);
+
+
+        XAxis temXL = chart.getXAxis();
+       // xl.setTypeface(tfLight);
+        temXL.setTextColor(Color.BLACK);
+        temXL.setDrawGridLines(true);//绘制网格线
+        temXL.setAvoidFirstLastClipping(true);
+        temXL.setEnabled(true);
+        temXL.setPosition(XAxis.XAxisPosition.BOTTOM);
+        temXL.setValueFormatter(new ValueFormatter() {
+         @Override
+         public String getFormattedValue(float value) {
+             Date date=systemData.getStartTime();
+             Calendar c=Calendar.getInstance();
+             c.setTime(date);
+             c.add(Calendar.SECOND,Math.round(value));
+             SimpleDateFormat sdf =new SimpleDateFormat("HH:mm:ss" );
+             String strTime = sdf.format(c.getTime());
+             return strTime;
+         }
+     });
+
+
+
+        YAxis leftAxis = chart.getAxisLeft();
+      //  leftAxis.setTypeface(tfLight);
+        leftAxis.setTextColor(Color.RED);
+        leftAxis.setAxisMaximum(100f);
+        leftAxis.setAxisMinimum(-20f);
+        leftAxis.setDrawGridLines(true);
+
+        YAxis rightAxis = chart.getAxisRight();
+      //  rightAxis.setTypeface(tfRegular);
+        rightAxis.setTextColor(Color.BLUE);
+        rightAxis.setAxisMaximum(100f);
+        rightAxis.setAxisMinimum(0f);
+        rightAxis.setEnabled(true);
+
+
+
+
+
+        temLineDataSet=createSet("tem");
+        humLineDataSet= createSet("hum");
+
+
+        Date date=new Date();
+        if(systemData!=null && systemData.getStartTime()!=null){
+            int limit=(int)(date.getTime()-systemData.getStartTime().getTime())/1000;
+            List<DataRecodeBean> list=dataRecordDBHelper.query20DataRecodeBean(String.valueOf(limit));
+            if(list!=null){
+                for (int i = 0; i < list.size(); i++) {
+                    temLineDataSet.addEntry(new Entry(temLineDataSet.getEntryCount(),list.get(i).getRealtimeTem()));
+                    humLineDataSet.addEntry(new Entry(humLineDataSet.getEntryCount(),list.get(i).getRealtimeHum()));
+                }
+            }
         }
 
-        // 创建线对象
-        mLine = new Line(mPointValues);
-        // 设置线的颜色
-        mLine.setColor(Color.parseColor("#451F66"));
-        // 设置点的形状(圆、菱形、方形)
-        mLine.setShape(ValueShape.DIAMOND);
-        // 设置平滑效果
-//        mLine.setCubic(true);
-        // 设置填充效果
-        mLine.setFilled(true);
-        // 是否显示点数据
-        mLine.setHasLabels(true);
-        // 是否显示点
-        mLine.setHasPoints(true);
-//        //设计点击坐标提醒
-//        mLine.setHasLabelsOnlyForSelected(true);
-//        //设置是否用线显示
-//        mLine.setHasLines(false);
 
-        // 把所有的线添加到集合中
-        mLines.add(mLine);
 
-        // 把x轴数据设置给坐标轴对象
-        mAxis.setValues(mAxisValues);
-        // 设置坐标轴是否显示
-        mAxis.setHasTiltedLabels(true);
-        // 设置x轴颜色
-        mAxis.setTextColor(Color.parseColor("#99338D"));
-        // 设置x轴标题
-        mAxis.setName("山东农业大学南校区光照强度");
-        // 设置字体大小
-        mAxis.setTextSize(20);
-        // 设置x轴是否有分割线
-        mAxis.setHasLines(true);
 
-        // 把所有的线设置到数据对象中
-        mData.setLines(mLines);
-        // 设置坐标轴x到数据对象中
-        mData.setAxisXBottom(mAxis);
-        // 把数据设置到折线控件上
-        mLineChart.setLineChartData(mData);
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry entry, Highlight highlight) {
 
-        // 设置图表是否支持缩放滑动和平移
-//        mLineChart.setInteractive(false);
-        // 设置缩放的轴
-        mLineChart.setZoomType(ZoomType.HORIZONTAL);
-        // 设置最高放大倍数
-        mLineChart.setMaxZoom(2);
 
-        new Thread() {
+                Date date=systemData.getStartTime();
+                Calendar c=Calendar.getInstance();
+                c.setTime(date);
+                c.add(Calendar.SECOND,Math.round(entry.getX()));
+                SimpleDateFormat sdf =new SimpleDateFormat("HH:mm:ss" );
+                String time = sdf.format(c.getTime());
 
+
+                Toast.makeText(RealTimeLineChartActivity.this,"时间："+time+" 值："+entry.getY(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
+
+
+
+
+
+//        feedMultiple();
+
+//        data.addDataSet(temLineDataSet);
+//        data.addDataSet(humLineDataSet);
+
+
+//        MyMarkers myMarkers=new MyMarkers(RealTimeLineChartActivity.this,R.layout.activity_realtime_linechart);
+//        chart.setMarker(myMarkers);
+
+
+        btn1=findViewById(R.id.linechart_btn1);
+        btn2=findViewById(R.id.linechart_btn2);
+
+    }
+
+    @Override
+    protected void onStart() {
+
+        feedMultiple();
+
+        SystemData systemData= systemDBHelper.getSystemData();
+        if(systemData.getTemIsClick()==0){
+            data.addDataSet(humLineDataSet);
+        }if(systemData.getHumIsClick()==0){
+            data.addDataSet(temLineDataSet);
+
+        }
+
+
+
+
+
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RealTimeLineChartActivity.this,MainActivity.class));
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RealTimeLineChartActivity.this,DataRecordActivity.class));
+            }
+        });
+
+
+
+        textView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SystemData systemData=systemDBHelper.getSystemData();
+                System.out.println("开始前："+systemData.getTemIsClick());
+                if(systemData.getTemIsClick()==0){
+                    data.removeDataSet(humLineDataSet);
+//                    float ratio = (float) temLineDataSet.getEntryCount()/(float) 60;
+//                    chart.zoom(ratio,2f,0,0);
+                    systemData.setTemIsClick(1);
+                }else{
+                    data.addDataSet(humLineDataSet);
+                    systemData.setTemIsClick(0);
+
+                }
+
+                System.out.println(systemData);
+                systemDBHelper.updateSystemData(systemData);
+
+
+
+
+
+            }
+        });
+
+
+
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SystemData systemData=systemDBHelper.getSystemData();
+
+                if(systemData.getHumIsClick()==0){
+                    data.removeDataSet(temLineDataSet);
+//                    float ratio = (float) humLineDataSet.getEntryCount()/(float) 60;
+//                    chart.zoom(ratio,2f,0,0);
+                    systemData.setHumIsClick(1);
+                }else{
+                    data.addDataSet(temLineDataSet);
+                    systemData.setHumIsClick(0);
+
+                }
+
+                System.out.println(systemData);
+                systemDBHelper.updateSystemData(systemData);
+
+            }
+        });
+
+        super.onStart();
+
+
+
+
+
+
+    }
+
+
+
+    private void addEntry(String code) {
+       data=chart.getData();
+
+    if(code=="tem"){
+
+            Date date=new Date();
+            Calendar c=Calendar.getInstance();
+            c.setTime(date);
+            c.add(Calendar.SECOND,-1);
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+            String strTime = sdf.format(c.getTime());
+
+            DataRecodeBean dataRecodeBean=dataRecordDBHelper.queryByTime(strTime);
+
+            if(dataRecodeBean!=null){
+                temLineDataSet.addEntry(new Entry(temLineDataSet.getEntryCount(),dataRecodeBean.getRealtimeTem()));
+            }
+
+
+           // data.addEntry(new Entry(temLineDataSet.getEntryCount(), dataRecodeBean.getRealtimeTem()), 0);
+
+
+
+            data.notifyDataChanged();
+
+            // let the chart know it's data has changed
+            chart.notifyDataSetChanged();
+
+
+            // 可以显示的最大x轴范围
+            chart.setVisibleXRangeMaximum(300);
+            // chart.setVisibleYRange(30, AxisDependency.LEFT);
+
+            // move to the latest entry
+            chart.moveViewToX(data.getEntryCount());
+
+
+        }
+        else{
+
+
+            Date date=new Date();
+            Calendar c=Calendar.getInstance();
+            c.setTime(date);
+            c.add(Calendar.SECOND,-1);
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+            String strTime = sdf.format(c.getTime());
+
+
+
+            DataRecodeBean dataRecodeBean=dataRecordDBHelper.queryByTime(strTime);
+            if(dataRecodeBean!=null){
+                humLineDataSet.addEntry(new Entry(humLineDataSet.getEntryCount(),dataRecodeBean.getRealtimeHum()));
+            }
+
+
+
+
+            data.notifyDataChanged();
+
+            // let the chart know it's data has changed
+            chart.notifyDataSetChanged();
+
+
+            // 可以显示的最大x轴范围
+            chart.setVisibleXRangeMaximum(300);
+            // chart.setVisibleYRange(30, AxisDependency.LEFT);
+
+            // move to the latest entry
+            chart.moveViewToX(data.getEntryCount());
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    private LineDataSet createSet(String code) {
+
+        LineDataSet set=new LineDataSet(null,"");
+
+        if(code=="tem"){
+             set.setLabel("温度");
+            //控制该数据使用哪个Y轴（左侧还是右侧）
+            set.setAxisDependency(AxisDependency.LEFT);
+            set.setColor(Color.RED);
+        }else{
+            set.setLabel("湿度");
+            set.setAxisDependency(AxisDependency.RIGHT);
+            set.setColor(Color.BLUE);
+        }
+
+
+
+
+        set.setCircleColor(Color.WHITE);
+        set.setLineWidth(1f);
+        set.setCircleRadius(2f);
+
+
+
+        set.setFillAlpha(65);//透明度
+        set.setFillColor(ColorTemplate.getHoloBlue());
+
+
+        set.setHighLightColor(Color.rgb(244, 117, 117));
+        set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(9f);
+        set.setDrawValues(false);
+
+
+        return set;
+    }
+
+    private Thread thread;
+
+
+
+
+    private void feedMultiple() {
+
+        if (thread != null)
+            thread.interrupt();
+
+        final Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                addEntry("tem");
+                addEntry("hum");
+            }
+        };
+
+        thread = new Thread(new Runnable() {
+
+            @Override
             public void run() {
 
-                while (true) {
+              while(true){
+
+                    // Don't generate garbage runnables inside the loop.
+                    runOnUiThread(runnable);
+
                     try {
-                        sleep(1000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    // 把随机生成的数更新到折线图上
-                    final double randomPoint = Math.random() * 1000;
-
-                    // 切换到主线程中执行
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            addNewPoint((float) randomPoint);
-                        }
-                    });
-
 
                 }
+
+
+
+
             }
+        });
 
-        }.start();
+        thread.start();
     }
 
-    /**
-     * 在调用后，在折线图中增加一个新的点，删除一个旧的点，更新折线图显示
-     *
-     * @param newData 新的点数据
-     */
-    private void addNewPoint(float newData) {
-        // 先创建一个长度为11的数组
-        float[] temp = new float[11];
-        // 复制之前10个数组的数据到temp数组中
-        for (int i = 0; i < 10; i++) {
-            temp[i] = score[i];
-        }
-        // 补充最后一个元素的数据
-        temp[10] = newData;
 
-        // 把新数组的后十个元素覆盖到原数组中
-        for (int i = 0; i < 10; i++) {
-            score[i] = temp[i + 1];
-        }
 
-        // 之前集合中的数据清空
-        mPointValues.clear();
-        // 再次存入数组中新的数据
-        for (int i = 0; i < 10; i++) {
-            mPointValues.add(new PointValue(i, score[i]));
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (thread != null) {
+            thread.interrupt();
         }
-        // 重新设置数据
-        mLineChart.setLineChartData(mData);
     }
 
+
+    class MyMarkers extends MarkerView{
+
+        public MyMarkers(Context context, int layoutResource) {
+            super(context, layoutResource);
+        }
+
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            super.refreshContent(e, highlight);
+            Toast.makeText(RealTimeLineChartActivity.this,"时间："+e.getX()+" 值："+e.getY(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        createVelocityTracker(ev);
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                xDown = ev.getRawX();
+//                yDown = ev.getRawY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                xMove = ev.getRawX();
+//                yMove = ev.getRawY();
+//                //滑动的距离
+//                int distanceX = (int) (xMove - xDown);
+//                int distanceY = (int) (yMove - yDown);
+//                //获取瞬时速度
+//                int ySpeed = getScrollVelocity();
+//
+//                if (distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && distanceX > 0) {
+//                    startActivity(new Intent(this, MainActivity.class));
+//
+//                } else if (-distanceX > XDISTANCE_MIN && (distanceY < YDISTANCE_MIN && distanceY > -YDISTANCE_MIN) && ySpeed < YSPEED_MIN && -distanceX > 0) {
+//                    startActivity(new Intent(this, DataRecordActivity.class));
+//
+//                }
+//        }
+//
+//        return super.dispatchTouchEvent(ev);
+//    }
 }
+
+
 

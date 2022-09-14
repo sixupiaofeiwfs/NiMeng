@@ -61,7 +61,14 @@ public class SystemDBHelper extends BaseUtil{
                 "settingTem int ,"+                             //设定温度
                 "settingHum int ,"+                            //设定湿度
                 "temOnOrOff int,"+                              //温度开关状态
-                "humOnOrOff int"+                               //湿度开关状态
+                "humOnOrOff int,"+                               //湿度开关状态
+                "temIsClick int,"+                              //温度坐标轴是否点击
+                "humIsClick int,"+                               //湿度坐标轴是否点击
+                "isFormal int,"+                                 //是否生产环境
+                "temChange varchar,"+                           // 温度变化速率
+                "humChange varchar,"+                            //湿度变化速率
+                "temPower varchar,"+                            //温度功率
+                "humPower varchar"+                             //湿度功率
                 ")";
 
 
@@ -126,6 +133,13 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("settingHum",systemData.getSettingHum());
         contentValues.put("temOnOrOff",systemData.getTemOnOrOff());
         contentValues.put("humOnOrOff",systemData.getHumOnOrOff());
+        contentValues.put("temIsClick",systemData.getTemIsClick());
+        contentValues.put("humIsClick",systemData.getHumIsClick());
+        contentValues.put("isFormal",systemData.getIsFormal());
+        contentValues.put("temChange",systemData.getTemChange());
+        contentValues.put("humChange",systemData.getHumChange());
+        contentValues.put("temPower",systemData.getTemPower());
+        contentValues.put("humPower",systemData.getHumPower());
 
 
           long result= db.insert(TABLENAME,null,contentValues);
@@ -135,7 +149,6 @@ public class SystemDBHelper extends BaseUtil{
     }
 
     public void updateSystemData(SystemData systemData){
-        CommonUtil commonUtil=new CommonUtil();
         ContentValues contentValues=new ContentValues();
         contentValues.put("temUnitTime",systemData.getTemUnitTime());
         contentValues.put("humUnitTime",systemData.getHumUnitTime());
@@ -145,10 +158,10 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("temPlanID",systemData.getTemPlanID());
         contentValues.put("humPlanID",systemData.getHumPlanID());
         if(systemData.getStartTime()!=null){
-            contentValues.put("startTime",commonUtil.getDateTimeToString(systemData.getStartTime()));
+            contentValues.put("startTime",getDateTimeToString(systemData.getStartTime()));
         }
         if(systemData.getStableTime()!=null){
-            contentValues.put("stableTime",commonUtil.getDateTimeToString(systemData.getStableTime()));
+            contentValues.put("stableTime",getDateTimeToString(systemData.getStableTime()));
         }
 
         contentValues.put("executingTemID",systemData.getExecutingTemID());
@@ -157,10 +170,10 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("humStandardID",systemData.getHumStandardID());
         contentValues.put("haveJurisdiction",systemData.isHaveJurisdiction());
         if(systemData.getDataRecordingTime()!=null){
-            contentValues.put("dataRecordingTime",commonUtil.getDateTimeToString(systemData.getDataRecordingTime()));
+            contentValues.put("dataRecordingTime",getDateTimeToString(systemData.getDataRecordingTime()));
         }
         if(systemData.getLightStartTime()!=null){
-            contentValues.put("lightStartTime",commonUtil.getDateTimeToString(systemData.getLightStartTime()));
+            contentValues.put("lightStartTime",getDateTimeToString(systemData.getLightStartTime()));
         }
 
         contentValues.put("lightKeepSecond",systemData.getLightKeepSecond());
@@ -173,7 +186,13 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("settingHum",systemData.getSettingHum());
         contentValues.put("temOnOrOff",systemData.getTemOnOrOff());
         contentValues.put("humOnOrOff",systemData.getHumOnOrOff());
-
+        contentValues.put("temIsClick",systemData.getTemIsClick());
+        contentValues.put("humIsClick",systemData.getHumIsClick());
+        contentValues.put("isFormal",systemData.getIsFormal());
+        contentValues.put("temChange",systemData.getTemChange());
+        contentValues.put("humChange",systemData.getHumChange());
+        contentValues.put("temPower",systemData.getTemPower());
+        contentValues.put("humPower",systemData.getHumPower());
         long result=db.update(TABLENAME,contentValues,"id=?",new String[]{"1"});
         return ;
 
@@ -193,7 +212,13 @@ public class SystemDBHelper extends BaseUtil{
             systemData.setHumUnitTime(result.getInt(2));
             systemData.setTemWave(result.getFloat(3));
             systemData.setHumWave(result.getFloat(4));
-            systemData.setStable(Boolean.valueOf(String.valueOf(result.getInt(5))));
+            if(result.getInt(5)>0){
+                systemData.setStable(true);
+            }else{
+                systemData.setStable(false);
+            }
+
+
             systemData.setTemPlanID(result.getInt(6));
             systemData.setHumPlanID(result.getInt(7));
 
@@ -211,7 +236,12 @@ public class SystemDBHelper extends BaseUtil{
             systemData.setExecutingHumID(result.getInt(11));
             systemData.setTemStandardID(result.getInt(12));
             systemData.setHumStandardID(result.getInt(13));
-            systemData.setHaveJurisdiction(Boolean.valueOf(String.valueOf(result.getInt(14))));
+            if(result.getInt(14)>0){
+                systemData.setHaveJurisdiction(true);
+            }else{
+                systemData.setHaveJurisdiction(false);
+            }
+
             if(result.getString(15)!=null){
                 systemData.setDataRecordingTime(transferStringToDate(result.getString(15)));
             }
@@ -224,12 +254,24 @@ public class SystemDBHelper extends BaseUtil{
             systemData.setSelect1(result.getString(18));
             systemData.setSelect2(result.getString(19));
             systemData.setNumberOfStages(result.getInt(20));
-            systemData.setInstallmentPayment(Boolean.valueOf(String.valueOf(result.getInt(21))));
+            if(result.getInt(21)>0){
+                systemData.setInstallmentPayment(true);
+            }else{
+                systemData.setInstallmentPayment(false);
+            }
+
             systemData.setSuperPassword(result.getString(22));
             systemData.setSettingTem(result.getInt(23));
             systemData.setSettingHum(result.getInt(24));
             systemData.setTemOnOrOff(result.getInt(25));
             systemData.setHumOnOrOff(result.getInt(26));
+            systemData.setTemIsClick(result.getInt(27));
+            systemData.setHumIsClick(result.getInt(28));
+            systemData.setIsFormal(result.getInt(29));
+            systemData.setTemChange(result.getString(30));
+            systemData.setHumChange(result.getString(31));
+            systemData.setTemPower(result.getString(32));
+            systemData.setHumPower(result.getString(33));
 
             result.close();
             return systemData;
@@ -248,11 +290,20 @@ public class SystemDBHelper extends BaseUtil{
         if(!tableIsExist("systemSwitch")){
             createSwitch();
         }
+
         ContentValues contentValues=new ContentValues();
-        contentValues.put("id",switchID);
         contentValues.put("onOrOff",isSwitch);
-        long result=db.insert("systemSwitch",null,contentValues);
-        return result>0?true:false;
+        long result1=db.update("systemSwitch",contentValues,"id=?",new String[]{switchID});
+        if(result1<=0){
+            contentValues.put("id",switchID);
+            long result=db.insert("systemSwitch",null,contentValues);
+            return result>0?true:false;
+        }
+
+       return true;
+
+
+
     }
     public boolean getSwitch(String switchID){
         if(!tableIsExist("systemSwitch")){
@@ -266,8 +317,14 @@ public class SystemDBHelper extends BaseUtil{
                 result.moveToFirst();
 
                 int number=result.getInt(1);
+
+
                 result.close();
-                return Boolean.valueOf(String.valueOf( number));
+                return number>0?true:false;
+
+
+
+
             }
 
     }

@@ -93,8 +93,10 @@ public class LineChart
         mMltRenderer.setPointSize((float) 3);//设置折线点的大小
         mMltRenderer.setShowLegend(true);// 下面的 图例标注，如圆点的蓝色的折线是X轴...
         mMltRenderer.setZoomButtonsVisible(false);// 隐藏放大缩小按钮
-        mMltRenderer.setZoomEnabled(true, true);// 设置缩放,这边是横向可以缩放,竖向不能缩放
-        mMltRenderer.setPanEnabled(true, true);// 设置滑动,这边是横向可以滑动,竖向不可滑动
+        mMltRenderer.setZoomEnabled(true, false);// 设置缩放,这边是横向可以缩放,竖向不能缩放
+        mMltRenderer.setPanEnabled(false, false);// 设置滑动,这边是横向可以滑动,竖向不可滑动
+
+
 
         mMltRenderer.setAxisTitleTextSize(20);//设置坐标轴标题的大小
         mMltRenderer.setLabelsTextSize(20);//设置坐标轴数字的大小

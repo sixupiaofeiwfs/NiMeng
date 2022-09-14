@@ -59,12 +59,12 @@ public class SettingSwitchActivity extends CommonUtil {
         btn4 = findViewById(R.id.settingswitch_bt4);
         btn5 = findViewById(R.id.settingswitch_bt5);
         btn6 = findViewById(R.id.settingswitch_bt6);
-        btn7 = findViewById(R.id.settingswitch_bt7);
-        btn8 = findViewById(R.id.settingswitch_bt8);
-        btn9 = findViewById(R.id.settingswitch_bt9);
-        btn10 = findViewById(R.id.settingswitch_bt10);
-        btn11 = findViewById(R.id.settingswitch_bt11);
-        btn12 = findViewById(R.id.settingswitch_bt12);
+        btn7 = findViewById(R.id.settingswitch_bt7);//露点仪
+        btn8 = findViewById(R.id.settingswitch_bt8);//数字式温度计
+        btn9 = findViewById(R.id.settingswitch_bt9);//报警
+        btn10 = findViewById(R.id.settingswitch_bt10);//状态指示
+        btn11 = findViewById(R.id.settingswitch_bt11);//语音播报
+        btn12 = findViewById(R.id.settingswitch_bt12);//自动拍摄
 
 
 
@@ -152,11 +152,16 @@ public class SettingSwitchActivity extends CommonUtil {
                 if(systemDBHelper.getSwitch("1")){//开着，本次操作未关闭
                     systemDBHelper.addSwitch("1",false);
                     btn7.setTextColor(Color.RED);
+
                 }else{
+                    System.out.println("设置露点仪开启");
                     systemDBHelper.addSwitch("1",true);
                     systemDBHelper.addSwitch("2",false);
                     btn7.setTextColor(Color.BLUE);
                     btn8.setTextColor(Color.RED);
+
+                   SystemDBHelper  systemDBHelper1=new SystemDBHelper(SettingSwitchActivity.this,"NIMENG.db",null,1);
+                    System.out.println("成功没："+ systemDBHelper1.getSwitch("1"));
                 }
             }
         });
@@ -177,11 +182,13 @@ public class SettingSwitchActivity extends CommonUtil {
                 if(systemDBHelper.getSwitch("2")){//开着，本次操作未关闭
                     systemDBHelper.addSwitch("2",false);
                     btn8.setTextColor(Color.RED);
+
                 }else{
                     systemDBHelper.addSwitch("2",true);
                     systemDBHelper.addSwitch("1",false);
                     btn8.setTextColor(Color.BLUE);
                     btn7.setTextColor(Color.RED);
+
                 }
             }
         });
@@ -200,6 +207,7 @@ public class SettingSwitchActivity extends CommonUtil {
                 }else{
                     systemDBHelper.addSwitch("3",true);
                     btn9.setTextColor(Color.BLUE);
+
                 }
             }
         });
@@ -211,9 +219,11 @@ public class SettingSwitchActivity extends CommonUtil {
                 if(systemDBHelper.getSwitch("4")){
                     systemDBHelper.addSwitch("4",false);
                     btn10.setTextColor(Color.RED);
+
                 }else{
                     systemDBHelper.addSwitch("4",true);
                     btn10.setTextColor(Color.BLUE);
+
                 }
             }
         });
@@ -225,9 +235,11 @@ public class SettingSwitchActivity extends CommonUtil {
                 if(systemDBHelper.getSwitch("5")){
                     systemDBHelper.addSwitch("5",false);
                     btn11.setTextColor(Color.RED);
+
                 }else{
                     systemDBHelper.addSwitch("5",true);
                     btn11.setTextColor(Color.BLUE);
+
                 }
             }
         });
@@ -239,9 +251,11 @@ public class SettingSwitchActivity extends CommonUtil {
                 if(systemDBHelper.getSwitch("6")){
                     systemDBHelper.addSwitch("6",false);
                     btn12.setTextColor(Color.RED);
+
                 }else{
                     systemDBHelper.addSwitch("6",true);
                     btn12.setTextColor(Color.BLUE);
+
                 }
             }
         });
@@ -297,6 +311,8 @@ public class SettingSwitchActivity extends CommonUtil {
     @Override
     protected void onStart() {
 
+        systemDBHelper=new SystemDBHelper(SettingSwitchActivity.this,"NIMENG.db",null,1);
+
         if(!systemDBHelper.getSwitch("8")){
             btn5.setVisibility(View.INVISIBLE);
             textView4.setVisibility(View.INVISIBLE);
@@ -312,7 +328,7 @@ public class SettingSwitchActivity extends CommonUtil {
         }
 
 
-
+        System.out.println("露点仪开关。。。"+systemDBHelper.getSwitch("1"));
 
         if(!systemDBHelper.getSwitch("1")){
             btn7.setTextColor(Color.RED);

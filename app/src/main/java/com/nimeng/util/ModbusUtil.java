@@ -7,14 +7,22 @@ import com.modbus.SerialPortParams;
 import com.modbus.SerialUtils;
 import com.modbus.modbus.ModBusData;
 import com.modbus.modbus.ModBusDataListener;
+import com.serotonin.modbus4j.ModbusFactory;
+import com.serotonin.modbus4j.ModbusMaster;
+import com.serotonin.modbus4j.msg.ReadHoldingRegistersRequest;
+import com.serotonin.modbus4j.msg.ReadHoldingRegistersResponse;
+import com.serotonin.modbus4j.msg.WriteCoilResponse;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import gnu.io.SerialPort;
 
 public class ModbusUtil {
 
@@ -23,301 +31,12 @@ public class ModbusUtil {
     public boolean levelWarning,TemWarning,temSwitchState,humSwitchState,temAdjustState,humAdjustState;
 
     public String temProtectTime,humProtectTime;
+    float settingTem=0;
 
     SerialPortParams build=new SerialPortParams.Builder().serialPortPath(ADDRESS).build();
     final SerialClient serialClient= SerialUtils.getInstance().getSerialClient(ADDRESS);
 
 
-
-
-
-
-
-    //获取温度功率
-    public float getTemPower(){
-
-
-        serialClient.sendData(new ModBusData<Object>(01, 03, 0x000F, 2, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-               temPower =sixteentofloat(hexValue,0);
-                return ;
-            }
-
-            @Override
-            public void onFailed(String str) {
-                temPower=0f;
-                return;
-            }
-        }));
-
-        return temPower;
-
-    }
-
-
-    //获取湿度功率
-    public float getHumPower(){
-        serialClient.sendData(new ModBusData<Object>(01, 03, 0x0015, 2, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-                humPower=sixteentofloat(hexValue,0);
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-                humPower=0;
-            }
-        }));
-
-        return humPower;
-    }
-
-
-    //获取温度开关状态
-    public boolean getTemSwitchState(){
-        serialClient.sendData(new ModBusData<Object>(01, 01, 0000, 2, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-                String s=deleteSpace(hexValue);
-                int number=getAccountOfMessage(s);
-                String result=getSubMessage(s,number);
-                if(result.equals("00")){
-                    temSwitchState=false;
-                }else{
-                    temSwitchState=true;
-                }
-            }
-
-            @Override
-            public void onFailed(String str) {
-                temSwitchState=false;
-            }
-        }));
-        return temSwitchState;
-    }
-    //获取湿度开关状态
-    public boolean getHumSwitchState(){
-        serialClient.sendData(new ModBusData<Object>(01, 01, 0002, 2, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-                String s=deleteSpace(hexValue);
-                int number=getAccountOfMessage(s);
-                String result=getSubMessage(s,number);
-                if(result.equals("00")){
-                    humSwitchState=false;
-                }else{
-                    humSwitchState=true;
-                }
-            }
-
-            @Override
-            public void onFailed(String str) {
-                humSwitchState=false;
-            }
-        }));
-        return humSwitchState;
-    }
-
-    //获取温度自整定开关状态
-    public boolean getTemAdjustState(){
-        serialClient.sendData(new ModBusData<Object>(01, 01, 0004, 2, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-                String s=deleteSpace(hexValue);
-                int number=getAccountOfMessage(s);
-                String result=getSubMessage(s,number);
-                if(result.equals("00")){
-                    temAdjustState=false;
-                }else{
-                    temAdjustState=true;
-                }
-            }
-
-            @Override
-            public void onFailed(String str) {
-                temAdjustState=false;
-            }
-        }));
-        return temAdjustState;
-    }
-
-    //获取湿度自整定开关状态
-    public boolean getHumAdjustState(){
-        serialClient.sendData(new ModBusData<Object>(01, 01, 0006, 2, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-                String s=deleteSpace(hexValue);
-                int number=getAccountOfMessage(s);
-                String result=getSubMessage(s,number);
-                if(result.equals("00")){
-                    humAdjustState=false;
-                }else{
-                    humAdjustState=true;
-                }
-            }
-
-            @Override
-            public void onFailed(String str) {
-                humAdjustState=false;
-            }
-        }));
-        return humAdjustState;
-    }
-    //开启温度
-    //关闭温度
-    public void setTemOnOrOff(boolean b){
-
-
-        List<byte[]> list=new ArrayList<>();
-        byte[] bytes;
-        if(b){
-            bytes=new byte[]{00,01};
-        }else{
-            bytes=new byte[]{00,00};
-        }
-
-        list.add(bytes);
-        serialClient.sendData(new ModBusData<Object>(01,05,0000,list));
-    }
-
-
-    //开启湿度
-    //关闭湿度
-    public void setHumOnOrOff(boolean b){
-        List<byte[]> list=new ArrayList<>();
-        byte[] bytes;
-        if(b){
-            bytes=new byte[]{00,01};
-        }else{
-            bytes=new byte[]{00,00};
-        }
-
-        list.add(bytes);
-        serialClient.sendData(new ModBusData<Object>(01,05,0002,list));
-    }
-
-    //开启灯控开关
-    public void setLightOn(){
-
-        List<byte[]> list=new ArrayList<>();
-        byte[] bytes={00,01};
-        list.add(bytes);
-
-        System.out.println("1----------------");
-
-        serialClient.sendData(new ModBusData<Object>(01,05,0xFC07,list));
-    }
-    //关闭灯控开关
-    public void setLightOff(){
-
-        List<byte[]> list=new ArrayList<>();
-        byte[] bytes={00,00};
-        list.add(bytes);
-        serialClient.sendData(new ModBusData<Object>(01,05,0xFC07,list));
-    }
-
-
-    public  byte[] hex2Byte(String hex) {
-        String digital = "0123456789ABCDEF";
-        char[] hex2char = hex.toCharArray();
-        byte[] bytes = new byte[hex.length() / 2];
-        int temp;
-        for (int i = 0; i < bytes.length; i++) {
-            // 其实和上面的函数是一样的 multiple 16 就是右移4位 这样就成了高4位了
-            // 然后和低四位相加， 相当于 位操作"|"
-            //相加后的数字 进行 位 "&" 操作 防止负数的自动扩展. {0xff byte最大表示数}
-            temp = digital.indexOf(hex2char[2 * i]) * 16;
-            temp += digital.indexOf(hex2char[2 * i + 1]);
-            bytes[i] = (byte) (temp & 0xff);
-        }
-        return bytes;
-    }
-
-    public  byte[] mergeBytes(byte[] data1, byte[] data2) {
-        byte[] data3 = new byte[data1.length + data2.length];
-        System.arraycopy(data1, 0, data3, 0, data1.length);
-        System.arraycopy(data2, 0, data3, data1.length, data2.length);
-        return data3;
-    }
-
-    //设定温度
-    public void setTem(int tem){
-
-
-        String data= Integer.toHexString(tem).toUpperCase(Locale.ROOT);
-
-        byte[] newByte=hex2Byte(data);
-        System.out.println("设定温度时："+newByte.toString());
-        byte[] bytes={00,02,04,00,00};
-        byte[] bytesAndBytes=mergeBytes(bytes,newByte);
-        List<byte[]> list=new ArrayList<>();
-        list.add(bytesAndBytes);
-        serialClient.sendData(new ModBusData<Object>(01,10,0x001F,list));
-
-    }
-    //设定湿度
-    public void setHum(int hum){
-
-        String data= Integer.toHexString(hum).toUpperCase(Locale.ROOT);
-        byte[] newByte=hex2Byte(data);
-        byte[] bytes={00,02,04,00,00};
-        byte[] bytesAndBytes=mergeBytes(bytes,newByte);
-        List<byte[]> list=new ArrayList<>();
-        list.add(bytesAndBytes);
-        serialClient.sendData(new ModBusData<Object>(01,10,0x0021,list));
-    }
-
-    //获取液位报警
-    public boolean getLevelWarning(){
-
-        serialClient.sendData(new ModBusData<Object>(01, 03, 0xF801, 1, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-
-                String s=deleteSpace(hexValue);
-                int number=getAccountOfMessage(s);
-                String result=getSubMessage(s,number);
-                if(result.equals("00")){
-                    levelWarning=false;
-                }else{
-                    levelWarning=true;
-                }
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-                levelWarning=false;
-            }
-        }));
-
-        return levelWarning;
-    }
-    //获取超温报警
-    public boolean getTemWarning(){
-        serialClient.sendData(new ModBusData<Object>(01, 03, 0xF800, 1, new ModBusDataListener() {
-            @Override
-            public void onSucceed(String hexValue, byte[] bytes) {
-                String s=deleteSpace(hexValue);
-                int number=getAccountOfMessage(s);
-                String result=getSubMessage(s,number);
-                if(result.equals("00")){
-                    TemWarning=false;
-                }else{
-                    TemWarning=true;
-                }
-            }
-
-            @Override
-            public void onFailed(String str) {
-                TemWarning=false;
-            }
-        }));
-
-        return TemWarning;
-    }
 
 
     //获取制冷压缩机保护延时
@@ -361,6 +80,7 @@ public class ModbusUtil {
 
     //温度pid参数相关
     //湿度pid参数相关
+
 
 
 
@@ -439,9 +159,37 @@ public class ModbusUtil {
     }
 
 
+    //根据字节数获取浮点型数据
+    public float getFloatMessage(String s,int count){
+
+        String resultString="";
+        float result=0;
+
+        String preString=s.substring(10,14);
+        String postString=s.substring(6,10);
+        System.out.println(preString+"  "+postString);
+        String s1=preString+postString;
+        BigInteger bigInteger=new BigInteger(s1,16);
+        float f=Float.intBitsToFloat(bigInteger.intValue());
+        BigDecimal bigDecimal=new BigDecimal(f);
+        String t=bigDecimal.toPlainString();
+
+        if(t.length()<5){
+            resultString=t;
+        }else{
+            resultString=t.substring(0,5);
+        }
+
+        if(resultString!="" && resultString!=null){
+
+            result=Float.valueOf( resultString);
 
 
+        }
 
+        return result;
+
+    }
 
 
     //十六进制转十进制
@@ -468,5 +216,52 @@ public class ModbusUtil {
 
 
 
+    /** 十六进制转换成字节数组 */
+    public static byte[] hexStringToBytes(String hexString) {
+        if (hexString == null || hexString.equals("")) {
+            return null;
+        }
+        hexString = hexString.toUpperCase(); // 十六进制转大写字母
+        int length = hexString.length() / 2; // 获取十六进制的长度，2个字符为一个十六进制
+        char[] hexChars = hexString.toCharArray();
+        byte[] d = new byte[length];
+        for (int i = 0; i < length; i++) {
+            int pos = i * 2;
+            d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
+        }
+        return d;
+    }
+
+    /** char转byte */
+    private static byte charToByte(char c) {
+        return (byte) "0123456789ABCDEF".indexOf(c);
+    }
+
+
+    public static final char[] HEX = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(byte[] bytes, int length) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < Math.min(length, bytes.length); j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX[v >>> 4];
+            hexChars[j * 2 + 1] = HEX[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
+
+
+    public static byte[] hex2Byte(String hex) {
+        String[] parts = hex.split(" ");
+        byte[] bytes = new byte[parts.length];
+        for (int i = 0; i < parts.length; i++) {
+            bytes[i] = (byte) Integer.parseInt(parts[i], 16);
+        }
+        return bytes;
+    }
+
+
 
 }
+
+

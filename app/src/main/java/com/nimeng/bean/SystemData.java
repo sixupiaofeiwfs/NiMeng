@@ -30,6 +30,19 @@ public class SystemData {
     private int settingHum;
     private int temOnOrOff;
     private int humOnOrOff;
+    private int temIsClick;//折线图中是否点击了温度坐标轴
+    private int humIsClick;//折线图中是否点击了湿度坐标轴
+    private int isFormal;//是否生产环境 1是0否
+
+    private String temChange;//温度变化速率
+    private String humChange;//湿度变化速率
+
+    private String temPower;//温度功率
+    private String humPower;//湿度功率
+
+
+
+
 
     @Override
     public String toString() {
@@ -59,10 +72,17 @@ public class SystemData {
                 ", superPassword='" + superPassword + '\'' +
                 ", settingTem=" + settingTem +
                 ", settingHum=" + settingHum +
+                ", temOnOrOff=" + temOnOrOff +
+                ", humOnOrOff=" + humOnOrOff +
+                ", temIsClick=" + temIsClick +
+                ", humIsClick=" + humIsClick +
+                ", isFormal=" + isFormal +
+                ", temChange='" + temChange + '\'' +
+                ", humChange='" + humChange + '\'' +
                 '}';
     }
 
-    public SystemData(int id, int temUnitTime, int humUnitTime, float temWave, float humWave, boolean isStable, int temPlanID, int humPlanID, Date startTime, Date stableTime, int executingTemID, int executingHumID, int temStandardID, int humStandardID, boolean haveJurisdiction, Date dataRecordingTime, Date lightStartTime, int lightKeepSecond, String select1, String select2, int numberOfStages, boolean isInstallmentPayment, String superPassword) {
+    public SystemData(int id, int temUnitTime, int humUnitTime, float temWave, float humWave, boolean isStable, int temPlanID, int humPlanID, Date startTime, Date stableTime, int executingTemID, int executingHumID, int temStandardID, int humStandardID, boolean haveJurisdiction, Date dataRecordingTime, Date lightStartTime, int lightKeepSecond, String select1, String select2, int numberOfStages, boolean isInstallmentPayment, String superPassword, int settingTem, int settingHum, int temOnOrOff, int humOnOrOff, int temIsClick, int humIsClick, int isFormal, String temChange, String humChange) {
         this.id = id;
         this.temUnitTime = temUnitTime;
         this.humUnitTime = humUnitTime;
@@ -86,6 +106,15 @@ public class SystemData {
         this.numberOfStages = numberOfStages;
         this.isInstallmentPayment = isInstallmentPayment;
         this.superPassword = superPassword;
+        this.settingTem = settingTem;
+        this.settingHum = settingHum;
+        this.temOnOrOff = temOnOrOff;
+        this.humOnOrOff = humOnOrOff;
+        this.temIsClick = temIsClick;
+        this.humIsClick = humIsClick;
+        this.isFormal = isFormal;
+        this.temChange = temChange;
+        this.humChange = humChange;
     }
 
     public SystemData() {
@@ -306,5 +335,61 @@ public class SystemData {
 
     public void setHumOnOrOff(int humOnOrOff) {
         this.humOnOrOff = humOnOrOff;
+    }
+
+    public int getTemIsClick() {
+        return temIsClick;
+    }
+
+    public void setTemIsClick(int temIsClick) {
+        this.temIsClick = temIsClick;
+    }
+
+    public int getHumIsClick() {
+        return humIsClick;
+    }
+
+    public void setHumIsClick(int humIsClick) {
+        this.humIsClick = humIsClick;
+    }
+
+    public int getIsFormal() {
+        return isFormal;
+    }
+
+    public void setIsFormal(int isFormal) {
+        this.isFormal = isFormal;
+    }
+
+    public String getTemChange() {
+        return temChange;
+    }
+
+    public void setTemChange(String temChange) {
+        this.temChange = temChange;
+    }
+
+    public String getHumChange() {
+        return humChange;
+    }
+
+    public void setHumChange(String humChange) {
+        this.humChange = humChange;
+    }
+
+    public String getTemPower() {
+        return temPower;
+    }
+
+    public void setTemPower(String temPower) {
+        this.temPower = temPower;
+    }
+
+    public String getHumPower() {
+        return humPower;
+    }
+
+    public void setHumPower(String humPower) {
+        this.humPower = humPower;
     }
 }

@@ -25,7 +25,9 @@ public class SerialPortParams {
     //Serial port stop bits
     private int serialPortStopBits = Constants.STOPBITS_1;
     //Serial port parity
-    private int serialPortParity = Constants.NO_PARITY;
+    //private int serialPortParity = Constants.NO_PARITY;
+
+    private int serialPortParity=Constants.ODD_PARITY;
     //Serial port reader time interval,i.e. read the port in every 100ms
     private int serialPortReaderIntervalTimeInMillis = 100;
 

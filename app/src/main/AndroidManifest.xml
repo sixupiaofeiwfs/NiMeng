@@ -217,7 +217,10 @@
         </activity>
 
 
-
+        <activity android:name=".QueryDataRecordActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+        </activity>
 
 
 

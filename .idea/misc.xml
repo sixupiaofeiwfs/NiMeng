@@ -63,7 +63,8 @@
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_main.xml" value="0.27760416666666665" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_password.xml" value="0.1648148148148148" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_query.xml" value="0.27760416666666665" />
-        <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_realtime_linechart.xml" value="0.34739583333333335" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_querydatarecord.xml" value="0.19791666666666666" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_realtime_linechart.xml" value="0.33866666666666667" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_setting_equipment_parameters.xml" value="0.27760416666666665" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_settingswitch.xml" value="0.25280898876404495" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activity_standardapparatus.xml" value="0.27760416666666665" />
@@ -78,6 +79,7 @@
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/activty_tempid.xml" value="0.27760416666666665" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/avtivity_linechart.xml" value="0.1" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/humplan_edit.xml" value="0.36614583333333334" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/layout_markview.xml" value="0.23020833333333332" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/line_chart.xml" value="0.34739583333333335" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/list_comprehensivedata.xml" value="0.36614583333333334" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/list_datarecord.xml" value="0.36614583333333334" />
@@ -86,10 +88,12 @@
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/list_templan.xml" value="0.14994934143870314" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/maindatashow.xml" value="0.2246376811594203" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/password_edit.xml" value="0.17806484295845998" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/layout/reachstability.xml" value="0.1" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/setview_edit.xml" value="0.2246376811594203" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/standardapparatus_edit.xml" value="0.1" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/templan_edit.xml" value="0.33" />
         <entry key="..\:/Nimeng-new/app/src/main/res/layout/warning.xml" value="0.2246376811594203" />
+        <entry key="..\:/Nimeng-new/app/src/main/res/menu/bar.xml" value="0.3078125" />
         <entry key="..\:/Nimeng/app/src/main/res/layout/activity_programmer.xml" value="0.3678977272727273" />
         <entry key="..\:/niMENG/app/src/main/res/layout/activity_curve.xml" value="0.2015625" />
         <entry key="..\:/niMENG/app/src/main/res/layout/activity_main.xml" value="0.2015625" />
@@ -101,7 +105,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

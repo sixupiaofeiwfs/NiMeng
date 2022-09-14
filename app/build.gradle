@@ -43,9 +43,13 @@ dependencies {
    implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation files('libs\\achartengine-1.1.0.jar')
+    implementation files('libs\\hellocharts-library-1.5.8.jar')
+    implementation files('libs\\modbus4J.jar')
+    implementation files('libs\\rxtx-2.2.2.jar')
     testImplementation 'junit:junit:4.13.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.ghgande:j2mod:2.5.3'
+    implementation 'io.github.xmaihh:serialport:2.1.1'
 
 
 
