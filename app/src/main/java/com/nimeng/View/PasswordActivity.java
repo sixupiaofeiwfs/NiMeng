@@ -69,7 +69,7 @@ public class PasswordActivity  extends CommonUtil {
         int errorNumber=systemDBHelper.getPassword().get(excutingNumber-1).getErrorNumbers();
 
         if(errorNumber>=3){
-            System.out.println(0);
+
             Toast.makeText(PasswordActivity.this,"警告！密码已达错误上限，请联系官方解决",Toast.LENGTH_SHORT).show();
            editText.setEnabled(false);
            btn1.setEnabled(false);
@@ -78,7 +78,7 @@ public class PasswordActivity  extends CommonUtil {
 
 
                 if(!executingPassword.equals(edit1) && !superPassword.equals(edit1)){
-                    System.out.println(1);
+
                     errorNumber=errorNumber+1;
 
                     Password password=new Password();

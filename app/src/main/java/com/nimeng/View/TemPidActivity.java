@@ -51,10 +51,47 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
 
     ModbusUtil modbusUtil=new ModbusUtil();
 
+    private boolean yes=true;
+
+
+
+
+    public Thread thread =new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while(yes){
+                method();
+            }
+        }
+    });
+
+
+    public void method(){
+        try {
+            modbusRtuMaster.readHoldingRegisters(1,0x012C,56);
+            modbusRtuMaster.readHoldingRegisters(1,0x012C,56);
+        } catch (ModbusError modbusError) {
+            modbusError.printStackTrace();
+        }
+
+
+        yes=false;
+        thread.interrupt();
+    }
+
+
 
 
     @Override
-    protected void onStart() {
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activty_tempid);
+       // systemDBHelper=new SystemDBHelper(TemPidActivity.this,"NIMENG.db",null,1);
+        systemDBHelper=new SystemDBHelper(TemPidActivity.this);
+        systemData=systemDBHelper.getSystemData();
+
+
 
         serialHelper=new SerialHelper("/dev/ttyS0",9600) {
             @Override
@@ -72,8 +109,6 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
 
         };
 
-
-
         try {
             if(!serialHelper.isOpen())
                 serialHelper.open();
@@ -84,27 +119,13 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
 
         modbusRtuMaster=new ModbusRtuMaster(serialHelper);
 
-        try {
-            System.out.println("执行发送命令...");
-            modbusRtuMaster.readHoldingRegisters(1,0x012C,56);
-        } catch (ModbusError modbusError) {
-            modbusError.printStackTrace();
+
+
+
+        if(!thread.isAlive()){
+            thread.start();
         }
-        super.onStart();
 
-
-
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activty_tempid);
-       // systemDBHelper=new SystemDBHelper(TemPidActivity.this,"NIMENG.db",null,1);
-        systemDBHelper=new SystemDBHelper(TemPidActivity.this);
-        systemData=systemDBHelper.getSystemData();
 
 
 
@@ -145,7 +166,6 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
         linearLayout6 = findViewById(R.id.tempid_LinearLayout12);
 
 
-        Log.d("获取一下选中的值", "systemData.getSelect1()");
 
 
         if (systemData.getSelect1() == null || systemData.getSelect1().equals("")) {
@@ -368,12 +388,12 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-
             if(msg.what==1){
                 ComBean comBean=(ComBean) msg.obj;
                 if(comBean==null){
                     return;
                 }
+
 
 
                 String result= ModbusUtil.bytesToHex(comBean.bRec,comBean.bRec.length) ;
@@ -493,6 +513,10 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        if(editText.getText()==null || editText.getText().toString().equals("")){
+                            showToast(TemPidActivity.this,"修改的参数不能为空");
+                            return;
+                        }
 
                         System.out.println("发送..."+view.getId()+"   "+Float.valueOf(editText.getText().toString()));
                         sendModbusMessage(view.getId(),Float.valueOf(editText.getText().toString()));
@@ -512,282 +536,496 @@ public class TemPidActivity extends CommonUtil implements View.OnClickListener {
         }
 
 
-        private void sendModbusMessage(int id,float f){
+        private void sendModbusMessage(int id,float f) {
 
-        String Hex1="",Hex2="";
-
-        switch (id){
+            switch (id){
             case  R.id.bili_1_1:
 
-                Hex1="01 10 01 2C 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x012C, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x012C, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case R.id.bili_1_2:
 
-                Hex1="01 10 01 2D 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x012D, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x012D, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
+
             case  R.id.bili_1_3:
-                Hex1="01 10 01 2E 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x012E, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x012E, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case R.id.bili_1_4:
-                Hex1="01 10 01 2F 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x012F, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x012F, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case  R.id.bili_1_5:
-                Hex1="01 10 01 30 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0130, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0130, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_1_6:
-                Hex1="01 10 01 31 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0131, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0131, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_1_7:
 
-                Hex1="01 10 01 32 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0132, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0132, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_1_8:
 
-                Hex1="01 10 01 33 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0133, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0133, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_2_1:
 
-                Hex1="01 10 01 34 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0134, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0134, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_2_2:
-                Hex1="01 10 01 35 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0135, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0135, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_2_3:
-                Hex1="01 10 01 36 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0136, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0136, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_2_4:
-                Hex1="01 10 01 37 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0137, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0137, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_2_5:
-                Hex1="01 10 01 38 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0138, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0138, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_2_6:
-                Hex1="01 10 01 39 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0139, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0139, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_2_7:
-
-                Hex1="01 10 01 3A 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x013A, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x013A, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_2_8:
-                Hex1="01 10 01 3B 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x013B, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x013B, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case  R.id.bili_3_1:
-                Hex1="01 10 01 3C 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x013C, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x013C, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_3_2:
-                Hex1="01 10 01 3D 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x013D, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x013D, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_3_3:
-                Hex1="01 10 01 3E 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x013E, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x013E, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_3_4:
-                Hex1="01 10 01 3F 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x013F, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x013F, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_3_5:
-                Hex1="01 10 01 40 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0140, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0140, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_3_6:
-                Hex1="01 10 01 41 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0141, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0141, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_3_7:
-                Hex1="01 10 01 42 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0142, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0142, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_3_8:
-                Hex1="01 10 01 43 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0143, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0143, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case  R.id.bili_4_1:
-                Hex1="01 10 01 44 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0144, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0144, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_4_2:
-                Hex1="01 10 01 45 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0145, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0145, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_4_3:
-                Hex1="01 10 01 46 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0146, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0146, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_4_4:
-                Hex1="01 10 01 47 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0147, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0147, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_4_5:
-                Hex1="01 10 01 48 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0148, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0148, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_4_6:
-                Hex1="01 10 01 49 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0149, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0149, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_4_7:
-                Hex1="01 10 01 4A 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x014A, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x014A, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_4_8:
-                Hex1="01 10 01 4B 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x014B, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x014B, (int)f*100);
+
+
+
+
+
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case  R.id.bili_5_1:
-                Hex1="01 10 01 4C 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x014C, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x014C, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_5_2:
-                Hex1="01 10 01 4D 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x014D, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x014D, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_5_3:
-                Hex1="01 10 01 4E 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x014E, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x014E, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_5_4:
-                Hex1="01 10 01 4F 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x014F, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x014F, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_5_5:
-                Hex1="01 10 01 50 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0150, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0150, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_5_6:
-                Hex1="01 10 01 51 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0151, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0151, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_5_7:
-                Hex1="01 10 01 52 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0152, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0152, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_5_8:
-                Hex1="01 10 01 53 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0153, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0153, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case  R.id.bili_6_1:
-                Hex1="01 10 01 54 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0154, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0154, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_6_2:
-                Hex1="01 10 01 55 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0155, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0155, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_6_3:
-                Hex1="01 10 01 56 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0156, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0156, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_6_4:
-                Hex1="01 10 01 57 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0157, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0157, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_6_5:
-                Hex1="01 10 01 58 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0158, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0158, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_6_6:
-                Hex1="01 10 01 59 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0159, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0159, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_6_7:
-                Hex1="01 10 01 5A 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x015A, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x015A, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_6_8:
-                Hex1="01 10 01 5B 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x015B, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x015B, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
             case  R.id.bili_7_1:
-                Hex1="01 10 01 5C 00 01 02";
-                Hex2= Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x015C, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x015C, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_7_2:
-                Hex1="01 10 01 5D 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x015D, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x015D, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_7_3:
-                Hex1="01 10 01 5E 00 01 02";
-                Hex2=Integer.toHexString((int)f);
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x015E, (int)f);
+                    modbusRtuMaster.writeSingleRegister(1, 0x015E, (int)f);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_7_4:
-                Hex1="01 10 01 5F 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x015F, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x015F, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_7_5:
-                Hex1="01 10 01 60 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0160, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0160, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_7_6:
-                Hex1="01 10 01 61 00 01 02";
-                Hex2=Integer.toHexString((int)(f*10));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0161, (int)f*10);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0161, (int)f*10);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case  R.id.bili_7_7:
-                Hex1="01 10 01 62 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0162, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0162, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
             case R.id.bili_7_8:
-                Hex1="01 10 01 63 00 01 02";
-                Hex2=Integer.toHexString((int)(f*100));
+                try {
+                    modbusRtuMaster.writeSingleRegister(1, 0x0163, (int)f*100);
+                    modbusRtuMaster.writeSingleRegister(1, 0x0163, (int)f*100);
+                } catch (ModbusError modbusError) {
+                    modbusError.printStackTrace();
+                }
                 break;
 
         }
 
 
-            switch (Hex2.length()){
-                case 1:
-                    Hex2=" 0"+Hex2+" 00";
-                    break;
-                case 2:
-                    Hex2=" "+Hex2+" 00";
-                    break;
-                case 3:
-                    Hex2=" "+Hex2.substring(1,3)+" 0"+Hex2.substring(0,1);
-                    break;
+            try {
+                modbusRtuMaster.writeSingleCoil(1,0004,true);
+                modbusRtuMaster.writeSingleCoil(1,0004,true);
+            } catch (ModbusError modbusError) {
+                modbusError.printStackTrace();
             }
 
 
-
-        String hex=Hex1+Hex2;
-            System.out.println("参与校验..."+hex);
-        int Icrc= CRC16.compute(ModbusUtil.hex2Byte(hex));
-            System.out.println("校验结果..."+Icrc);
-        String Scrc=Integer.toHexString(Icrc);
-            System.out.println("文本校验结果..."+Scrc);
-        if(Scrc.length()<4){
-            Scrc="0"+Scrc;
         }
 
-        String fCrc=Scrc.substring(2,4)+Scrc.substring(0,2);
-        System.out.println("设置pid参数..."+modbusUtil.deleteSpace(hex)+fCrc);
-        serialHelper.sendHex(modbusUtil.deleteSpace(hex)+fCrc);
-        serialHelper.sendHex(modbusUtil.deleteSpace(hex)+fCrc);
-        }
 
 
     }

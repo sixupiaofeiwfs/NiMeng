@@ -1,9 +1,11 @@
 package com.nimeng.View;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,18 +24,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SystemParamActivity extends CommonUtil {
+public class SystemParamActivity extends CommonUtil  implements View.OnClickListener{
 
-    private TextView textView2,textView3,textView4,textView5,textView7,textView8,textView9,textView10;
+    private TextView textView7,textView8,textView9,textView10;
 
-    private DatePicker datePicker2,datePicker3,datePicker4,datePicker5;
-
-    private TimePicker timePicker2,timePicker3,timePicker4,timePicker5;
 
 
     private int year,month,day,hour,minute,second;
 
-    private EditText editText;
+    private TextView editText;
     private int lightKeepSecond;
 
 
@@ -66,28 +65,13 @@ public class SystemParamActivity extends CommonUtil {
         systemData=systemDBHelper.getSystemData();
 
 
-        editText=findViewById(R.id.huanxiang);
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(!b){
-                     lightKeepSecond=Integer.valueOf(editText.getText().toString());
-                    System.out.println("照明维持时间-----"+lightKeepSecond);
 
-                    systemData.setLightKeepSecond(lightKeepSecond);
-                }
-            }
-        });
+        editText=findViewById(R.id.text_lightTime);
+        editText.setOnClickListener(this);
 
 
 
 
-
-
-        textView2=findViewById(R.id.set_dingshi1);
-        textView3=findViewById(R.id.set_dingshi2);
-        textView4=findViewById(R.id.set_dingshi3);
-        textView5=findViewById(R.id.set_dingshi4);
 
         textView7=findViewById(R.id.systemparam_showtextview2);
         textView8=findViewById(R.id.systemparam_showtextview3);
@@ -96,16 +80,6 @@ public class SystemParamActivity extends CommonUtil {
 
 
 
-        datePicker2=findViewById(R.id.systemparam_datepicker2);
-        datePicker3=findViewById(R.id.systemparam_datepicker3);
-        datePicker4=findViewById(R.id.systemparam_datepicker4);
-        datePicker5=findViewById(R.id.systemparam_datepicker5);
-
-
-        timePicker2=findViewById(R.id.systemparam_timepicker2);
-        timePicker3=findViewById(R.id.systemparam_timepicker3);
-        timePicker4=findViewById(R.id.systemparam_timepicker4);
-        timePicker5=findViewById(R.id.systemparam_timepicker5);
 
 
 
@@ -116,68 +90,10 @@ public class SystemParamActivity extends CommonUtil {
         button4=findViewById(R.id.Bdingshi3);
         button5=findViewById(R.id.Bdingshi4);
 
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(button2.getText().toString().equals("开启")){
-                    setTemStart(false);
-                    button2.setText("关闭");
-                }else {
-                    setTemStart(true);
-                    button2.setText("开启");
-                    textView7.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(button3.getText().toString().equals("开启")){
-                    setTemEnd(false);
-                    button3.setText("关闭");
-                }else{
-                    setTemEnd(true);
-                    button3.setText("开启");
-                    textView8.setVisibility(View.GONE);
-                }
-
-            }
-        });
-
-
-
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(button4.getText().toString().equals("开启")){
-                    setHumStart(false);
-                    button4.setText("关闭");
-                }else {
-                    setHumStart(true);
-                    button4.setText("开启");
-                    textView9.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(button5.getText().toString().equals("开启")){
-                    setHumEnd(false);
-                    button5.setText("关闭");
-                }else{
-                    setHumEnd(true);
-                    button5.setText("开启");
-                    textView10.setVisibility(View.GONE);
-                }
-
-            }
-        });
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
 
 
 
@@ -191,133 +107,6 @@ public class SystemParamActivity extends CommonUtil {
         second=calendar.get(Calendar.SECOND);
 
 
-
-
-        textView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePicker2.setVisibility(View.VISIBLE);
-                timePicker2.setVisibility(View.VISIBLE);
-            }
-        });
-        textView3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePicker3.setVisibility(View.VISIBLE);
-                timePicker3.setVisibility(View.VISIBLE);
-            }
-        });
-        textView4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePicker4.setVisibility(View.VISIBLE);
-                timePicker4.setVisibility(View.VISIBLE);
-            }
-        });
-        textView5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePicker5.setVisibility(View.VISIBLE);
-                timePicker5.setVisibility(View.VISIBLE);
-            }
-        });
-
-
-
-
-
-
-        datePicker2.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                SystemParamActivity.this.year=i;
-                SystemParamActivity.this.month=i1;
-                SystemParamActivity.this.day=i2;
-
-                datePicker2.setVisibility(View.GONE);
-                timePicker2.setVisibility(View.GONE);
-                showDate(textView7,i,i1,i2,hour,minute);
-
-                date1=transferStringToDate(textView7.getText().toString());
-            }
-        });
-
-        timePicker2.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                SystemParamActivity.this.hour=i;
-                SystemParamActivity.this.minute=i1;
-            }
-        });
-
-
-
-        datePicker3.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                SystemParamActivity.this.year=i;
-                SystemParamActivity.this.month=i1;
-                SystemParamActivity.this.day=i2;
-
-                datePicker3.setVisibility(View.GONE);
-                timePicker3.setVisibility(View.GONE);
-                showDate(textView8,i,i1,i2,hour,minute);
-
-                date2=transferStringToDate(textView8.getText().toString());
-            }
-        });
-
-        timePicker3.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                SystemParamActivity.this.hour=i;
-                SystemParamActivity.this.minute=i1;
-            }
-        });
-
-
-        datePicker4.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                SystemParamActivity.this.year=i;
-                SystemParamActivity.this.month=i1;
-                SystemParamActivity.this.day=i2;
-
-                datePicker4.setVisibility(View.GONE);
-                timePicker4.setVisibility(View.GONE);
-                showDate(textView9,i,i1,i2,hour,minute);
-            }
-        });
-
-        timePicker5.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                SystemParamActivity.this.hour=i;
-                SystemParamActivity.this.minute=i1;
-            }
-        });
-
-
-        datePicker5.init(year, month, day, new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-                SystemParamActivity.this.year=i;
-                SystemParamActivity.this.month=i1;
-                SystemParamActivity.this.day=i2;
-
-                datePicker5.setVisibility(View.GONE);
-                timePicker5.setVisibility(View.GONE);
-                showDate(textView10,i,i1,i2,hour,minute);
-            }
-        });
-
-        timePicker5.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                SystemParamActivity.this.hour=i;
-                SystemParamActivity.this.minute=i1;
-            }
-        });
 
 
 
@@ -383,16 +172,153 @@ public class SystemParamActivity extends CommonUtil {
 
 
     private void showDate(TextView textView, int y,int mo,int d, int h,int m){
+
+        String moS=String.valueOf(mo+1);
+        if(mo+1<10){
+            moS="0"+moS;
+        }
+        String dS=String.valueOf(d);
+        if(d<10){
+            dS="0"+dS;
+        }
+        String hs=String.valueOf(h);
+        if(h<10){
+            hs="0"+hs;
+        }
+        String ms=String.valueOf(m);
+        if(m<10){
+            ms="0"+ms;
+        }
+
         textView.setVisibility(View.VISIBLE);
-        textView.setText(y+"-"+(mo+1)+"-"+d+" "+h+":"+m+":00");
+        textView.setText(y+"-"+moS+"-"+dS+" "+hs+":"+ms+":00");
     }
 
 
+    @Override
+    protected void onStart() {
+
+        editText.setText(String.valueOf(systemData.getLightKeepSecond()));
+
+        super.onStart();
+    }
+
+    @Override
+    public void onClick(View view) {
+
+
+        switch (view.getId()){
+
+            case R.id.text_lightTime:
+                View view1=View.inflate(SystemParamActivity.this,R.layout.input,null);
+                AlertDialog.Builder builder=new AlertDialog.Builder(SystemParamActivity.this);
+                EditText editText1=view1.findViewById(R.id.text1);
+                builder.setView(view1)
+                        .setTitle("修改照明时间")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                lightKeepSecond=Integer.valueOf(editText1.getText().toString());
+                                System.out.println("照明维持时间-----"+lightKeepSecond);
+
+                                systemData.setLightKeepSecond(lightKeepSecond);
+
+                                systemDBHelper.updateSystemData(systemData);
+                                onStart();
+
+
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+                break;
+
+
+            case R.id.Bdingshi1:
+                method(button2,textView7);
+                break;
+
+            case R.id.Bdingshi2:
+                method(button3,textView8);
+                break;
+
+            case R.id.Bdingshi3:
+                method(button4,textView9);
+                break;
+
+
+            case R.id.Bdingshi4:
+                method(button5,textView10);
+                break;
+        }
+
+
+    }
+
+
+    public void method(Button button,TextView textView){
+        View view1=View.inflate(SystemParamActivity.this,R.layout.layout_dateandtime,null);
+        AlertDialog.Builder builder=new AlertDialog.Builder(SystemParamActivity.this);
+
+        DatePicker datePicker=view1.findViewById(R.id.datepicker);
+        TimePicker timePicker=view1.findViewById(R.id.timepicker);
 
 
 
 
+        builder.setTitle("选择时间和日期")
+                .setView(view1)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(button.getText().toString().equals("启用")){
+                            button.setText("修改");
 
+
+                            System.out.println(datePicker.getYear());
+                            showDate(textView,datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
+                            date1=transferStringToDate(textView.getText().toString());
+                            if(button.equals(button2)){
+                                setTemStart(false);
+                            }else if(button.equals(button3)){
+                                setTemEnd(false);
+                            }else if (button.equals(button4)){
+                                setHumStart(false);
+                            }else if (button.equals(button5)){
+                                setHumEnd(false);
+                            }
+
+
+                        }else {
+                            if(button.equals(button2)){
+                                setTemStart(true);
+                            }else if(button.equals(button3)){
+                                setTemEnd(true);
+                            }else if (button.equals(button4)){
+                                setHumStart(true);
+                            }else if (button.equals(button5)){
+                                setHumEnd(true);
+                            }
+                            button.setText("启用");
+
+                        }
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+    }
 
 
 }

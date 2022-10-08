@@ -235,6 +235,11 @@ public class StandardappratusEditActivity extends CommonUtil {
                 System.out.println(name+"  "+type+" "+model+" "+number+" "+traceabilityUnit+" "+time);
 
 
+                if(name.equals("")){
+                    showToast(StandardappratusEditActivity.this,"标准器名称不能为空");
+                    return;
+                }
+
                 if(slave.equals("")){
                     showToast(StandardappratusEditActivity.this,"从机地址不能为空");
                     return;

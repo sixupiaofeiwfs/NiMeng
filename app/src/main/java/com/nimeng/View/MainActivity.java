@@ -90,6 +90,8 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
     private Button btn_tem;
     private Button btn_hum;
 
+    private Button btn_humzd;
+    private Button btn_temzd;
 
 
 
@@ -198,6 +200,18 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         imageView1.setOnClickListener(this);
 
         imageViewLogo = findViewById(R.id.main_logo);
+
+        imageViewLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,TestActivity.class));
+                return;
+            }
+        });
+
+
+
+
         spinner1 = (Spinner) findViewById(R.id.main_spinner1);
         spinner2 = (Spinner) findViewById(R.id.main_spinner2);
 
@@ -205,6 +219,13 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         btn_hum = findViewById(R.id.mian_btn2);
         btn_tem.setOnClickListener(this);
         btn_hum.setOnClickListener(this);
+
+
+        btn_temzd=findViewById(R.id.main_btn_1);
+        btn_humzd=findViewById(R.id.main_btn2);
+        btn_temzd.setOnClickListener(this);
+        btn_humzd.setOnClickListener(this);
+
 
 
 
@@ -373,8 +394,11 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String temPlanName=adapterView.getItemAtPosition(i).toString();
+                int temPlanID = temPlanDBHelper.findTemPlanByName(temPlanName); //现在选择的温度方案id
+
                 SystemData spinnerSystemData=systemDBHelper.getSystemData();
-                int temPlanID=i+1; //现在选择的温度方案id
                 int spinnerTem= temPlanDBHelper.queryByID(temPlanID,1);
                 System.out.println("选中的方案第一个温度值..."+spinnerTem+ "temPlanID..."+temPlanID+" temState:"+spinnerSystemData.getTemState()+"    "+spinnerSystemData.getSettingTem());
                 if(temPlanID!=1){
@@ -427,8 +451,16 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+
+              //  System.out.println("这个l什么意思..."+l+"      "+adapterView.getItemAtPosition(i).toString());
+
+                String humPlanName=adapterView.getItemAtPosition(i).toString();
+                System.out.println("..."+humPlanName);
                 SystemData spinnerSystemData=systemDBHelper.getSystemData();
-                int humPlanID=i+1; //现在选择的温度方案id
+                int humPlanID = humPlanDBHelper.findHumPlanByName(humPlanName);//现在选择的温度方案id
+
+                System.out.println("..."+humPlanID);
+
                 int spinnerHum= humPlanDBHelper.queryByID(humPlanID,1);
                 System.out.println("选中的方案第一个湿度值..."+spinnerHum);
                 if(humPlanID!=1){
@@ -844,7 +876,7 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             return;
         }
 
-        write6("datarecord", str, fileName);
+        write6("datarecord", str+"\n", fileName);
 
     }
 
@@ -938,7 +970,7 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         SystemData systemData=systemDBHelper.getSystemData();
         Date date = new Date();
         Intent intent = new Intent(LIGHTONACTION);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 1);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent,1);
 
         if (isClose) {
             alarmManager.cancel(pendingIntent);
@@ -967,7 +999,7 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                         modbusRtuMaster.readHoldingRegisters(1,0000,4);
                         modbusRtuMaster.readHoldingRegisters(1,0x000B,12);
                         modbusRtuMaster.readHoldingRegisters(1,0x001F,8);
-
+                        modbusRtuMaster.readHoldingRegisters(1,0x00C8,2);
 //                        System.out.println("发送信息...");
 //                        modbusRtuMaster.readHoldingRegisters(2,0000,2);
 
@@ -1069,6 +1101,7 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             int number4=result.indexOf("010101");//开关状态
             int number5=result.indexOf("020304");//标准器读数
             int number6=result.indexOf("010310");//温湿度设定值
+            int number7=result.indexOf("010304");//压缩机保护延时
             //System.out.println("标准器读数..."+number5+"    "+result);
             if(number5!=-1 && result.length()>=number5+18){
                 String standardTem=String.valueOf(modbusUtil.covert(result.substring(6,10))/100.00);
@@ -1094,44 +1127,66 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
 
 
+
+
             if(number1!=-1 && result.length()>=number1+26){
                 float floatTem=modbusUtil.sixteentofloat(result,number1+14,4);
 
                 DataRecodeBean dataRecodeBean=new DataRecodeBean();
-                if(systemData.getTemOnOrOff()==1){
-                    if(floatTem>-21 && floatTem<101){
+                if(systemData==null){
+                    return;
+                }
 
-                        //测试时修正
-                        floatTem=floatTem+0.16f;
 
-                        //保留两位小数
-                        DecimalFormat decimalFormat=new DecimalFormat("#.00");
-                        floatTem=Float.valueOf( decimalFormat.format(floatTem));
+                if(floatTem>-21 && floatTem<101){
 
+//                    //测试时修正
+//                    floatTem=floatTem+0.16f;
+
+                    //保留两位小数
+                    DecimalFormat decimalFormat=new DecimalFormat("#.00");
+                    floatTem=Float.valueOf( decimalFormat.format(floatTem));
+
+
+                    if(systemData.getTemOnOrOff()==1){
 
                         mTemView.setProgress(floatTem,"tem");
                         dataRecodeBean.setRealtimeTem(floatTem);
+
+                    }if(systemData.getTemOnOrOff()==0){
+                        mTemView.setProgress(0,"tem");
                     }
-                }if(systemData.getTemOnOrOff()==0){
-                    mTemView.setProgress(0,"tem");
+
                 }
+
+
+
                 float floatHum=modbusUtil.sixteentofloat(result,number1+6,4);
-                if(systemData.getHumOnOrOff()==1){
-                    if(floatHum>=0 && floatHum<101){
 
-                        //测试时修正
-                        floatHum=floatHum+0.59f;
 
-                        //保留两位小数
-                        DecimalFormat decimalFormat=new DecimalFormat("#.00");
-                        floatHum=Float.valueOf( decimalFormat.format(floatHum));
+                if(floatHum>=0 && floatHum<101){
 
+//                    //测试时修正
+//                    floatHum=floatHum+0.59f;
+
+                    //保留两位小数
+                    DecimalFormat decimalFormat=new DecimalFormat("#.00");
+                    floatHum=Float.valueOf( decimalFormat.format(floatHum));
+
+
+                    if(systemData.getHumOnOrOff()==1){
                         mHumView.setProgress(floatHum,"hum");
                         dataRecodeBean.setRealtimeHum(floatHum);
+
+                    }if(systemData.getHumOnOrOff()==0){
+                        mHumView.setProgress(0,"hum");
                     }
-                }if(systemData.getHumOnOrOff()==0){
-                    mHumView.setProgress(0,"hum");
+
+
+
                 }
+
+
 
 
 
@@ -1172,6 +1227,47 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
             }
 
+
+            //为避免在某一时间点出现温湿度值为空的情况,将上一秒的温湿度作为该时间点的温湿度保存
+            if(number1==-1){
+                //1.上一秒有数据
+               //1)取上一秒的时间
+                String time= getNextTime(new Date(),-1);
+                DataRecodeBean dataRecodeBean = dataRecordDBHelper.queryByTime(time);
+                if(dataRecodeBean!=null){
+                   DataRecodeBean dataRecodeBean1= new DataRecodeBean();
+                   float realtimeTem,realtimeHum;
+                   if(dataRecodeBean.getRealtimeTem()==0){
+                       realtimeTem=0;
+                   }else{
+                       realtimeTem=dataRecodeBean.getRealtimeTem()+0.01f;
+                   }
+                    if(dataRecodeBean.getRealtimeHum()==0){
+                        realtimeHum=0;
+                    }else{
+                        realtimeHum=dataRecodeBean.getRealtimeHum()-0.01f;
+                    }
+
+                    DecimalFormat decimalFormat=new DecimalFormat("#.00");
+                    realtimeHum=Float.valueOf( decimalFormat.format(realtimeHum));
+                    realtimeTem=Float.valueOf( decimalFormat.format(realtimeTem));
+                    dataRecodeBean1.setRealtimeHum(realtimeHum);
+                   dataRecodeBean1.setRealtimeTem(realtimeTem);
+                   dataRecodeBean1.setSettingTem(dataRecodeBean.getSettingTem());
+                   dataRecodeBean1.setSettingHum(dataRecodeBean.getSettingHum());
+                   dataRecodeBean1.setTime(getDateTimeToString(new Date()));
+                   dataRecordDBHelper.add(dataRecodeBean1);
+
+
+                    mHumView.setProgress(realtimeHum,"hum");
+                    mTemView.setProgress(realtimeTem,"tem");
+                }
+
+
+            }
+
+
+
             if(number2!=-1 && result.length()>=number2+58){
 
 
@@ -1203,10 +1299,11 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                 String s=result.substring(number4+6,number4+8);
                 String crc=result.substring(number4+8,number4+12);
 
-                if(!s.equals("00") && !s.equals("01") && !s.equals("02") && !s.equals("03")){
+                if(!s.equals("00") && !s.equals("01") && !s.equals("02") && !s.equals("03") && !s.equals("05") && !s.equals("07") && !s.equals("0A") && !s.equals("0B")){
                     getOnOrOff();
                 }
 
+                System.out.println("开关状态..."+result);
 
                 if(s.equals("00") && crc.equals("5188")){
                     systemData.setTemOnOrOff(0);
@@ -1229,12 +1326,63 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                     systemData.setHumOnOrOff(1);
                     btn_tem.setText("温度停止");
                     btn_hum.setText("湿度停止");
+                }if(s.equals("05") && crc.equals("918B")){//温度+温度整定
+                    systemData.setTemOnOrOff(1);
+                    systemData.setHumOnOrOff(0);
+
+                    btn_tem.setText("温度停止");
+                    btn_hum.setText("湿度启动");
+                    btn_temzd.setText("整定停止");
+                    btn_humzd.setText("整定启动");
+
+                }if(s.equals("07") && crc.equals("104A")){// 温度+温度整定+湿度
+
+                    systemData.setTemOnOrOff(1);
+                    systemData.setHumOnOrOff(1);
+
+                    btn_tem.setText("温度停止");
+                    btn_hum.setText("湿度停止");
+                    btn_temzd.setText("整定停止");
+                    btn_humzd.setText("整定启动");
+                }if(s.equals("0A") && crc.equals("D18F")){//湿度+湿度整定
+
+                    systemData.setTemOnOrOff(0);
+                    systemData.setHumOnOrOff(1);
+
+                    btn_tem.setText("温度启动");
+                    btn_hum.setText("湿度停止");
+                    btn_temzd.setText("整定启动");
+                    btn_humzd.setText("整定停止");
+                }if (s.equals("0B") && crc.equals("104F")){//温度+湿度+湿度整定
+                    systemData.setTemOnOrOff(1);
+                    systemData.setHumOnOrOff(1);
+
+                    btn_tem.setText("温度停止");
+                    btn_hum.setText("湿度停止");
+                    btn_temzd.setText("整定启动");
+                    btn_humzd.setText("整定停止");
+                }if(s.equals("0F") && crc.equals("118C")){//温度+湿度+温度整定+湿度整定
+                    systemData.setTemOnOrOff(1);
+                    systemData.setHumOnOrOff(1);
+
+                    btn_tem.setText("温度停止");
+                    btn_hum.setText("湿度停止");
+                    btn_temzd.setText("整定停止");
+                    btn_humzd.setText("整定停止");
                 }
 
 
 
                 //onStart();
                 //return;
+            }if(number7!=-1){
+                if(result.length()>=number7+18){
+                    int temProtectTime=modbusUtil.covert(result.substring(number7+6, number7+10));
+                    int humProtectTime= modbusUtil.covert(result.substring(number7+10,number7+14));
+                    systemData.setTemProtectTime(temProtectTime);
+                    systemData.setHumProtectTime(humProtectTime);
+                }
+
             }
             systemDBHelper.updateSystemData(systemData);
 
@@ -1469,7 +1617,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
 
            // System.out.println("写入时方案编号为:0,值为:"+(temMax-temMin)+"℃/5min");
-            systemData1.setTemChange((temMax-temMin)+"℃/5min");
+            DecimalFormat decimalFormat=new DecimalFormat("#0.00");
+            float temChange=temMax-temMin;
+            systemData1.setTemChange(decimalFormat.format(temChange)+"℃/5min");
 
 
 
@@ -1487,7 +1637,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
 
             //System.out.println("写入时方案编号为:"+temPlanID+",值为:"+(temMax-temMin)+"℃/"+temTime+"min");
-            systemData1.setTemChange((temMax-temMin)+"℃/"+temTime+"min");
+            DecimalFormat decimalFormat=new DecimalFormat("#0.00");
+            float temChange=temMax-temMin;
+            systemData1.setTemChange(decimalFormat.format(temChange)+"℃/"+temTime+"min");
 
 
 
@@ -1503,7 +1655,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             }
 
            // System.out.println("写入时方案编号为:0,值为:"+(humMax-humMin)+"%/min");
-            systemData1.setHumChange((humMax-humMin)+"%/min");
+            DecimalFormat decimalFormat=new DecimalFormat("#.00");
+            float humChange=humMax-humMin;
+            systemData1.setHumChange(decimalFormat.format(humChange)+"%/min");
 
 
         } else {
@@ -1517,7 +1671,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             }
 
           //  System.out.println("写入时方案编号为:"+humPlanID+",值为:"+(humMax-humMin)+"%/"+humTime+"min");
-            systemData1.setHumChange((humMax-humMin)+"%/"+humTime+"min");
+            DecimalFormat decimalFormat=new DecimalFormat("#.00");
+            float humChange=humMax-humMin;
+            systemData1.setHumChange(decimalFormat.format(humChange)+"%/"+humTime+"min");
 
         }
 
@@ -1628,11 +1784,13 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
         switch (id){
             case R.id.wd:
-                dateClick();
+                //dateClick();
+                settings(1,(FlashView) view);
                 break;
 
             case R.id.sd:
-                dateClick();
+               // dateClick();
+                settings(2,(FlashView)view);
                 break;
             case R.id.main_light:
                 lightClick();
@@ -1643,6 +1801,16 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
             case R.id.mian_btn2:
                 method(2,btn_hum);
+                break;
+
+
+            case R.id.main_btn_1:
+                zdOnOrOff(3,btn_temzd);
+                break;
+
+
+            case R.id.main_btn2:
+                zdOnOrOff(4,btn_humzd);
                 break;
         }
     }
@@ -1749,6 +1917,14 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         textView10.setText(systemDataOnClick.getStandardHum()+"  %RH");
 
 
+
+        //压缩机保护相关内容
+        TextView textView11=view1.findViewById(R.id.temProtectTime);
+        textView11.setText(systemDataOnClick.getTemProtectTime()+"  s");
+        TextView textView12=view1.findViewById(R.id.humProtectTime);
+        textView12.setText(systemDataOnClick.getHumProtectTime()+"  s");
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("详细数据：")
                 .setView(view1);
@@ -1804,6 +1980,20 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             try {
                 modbusRtuMaster.writeSingleCoil(1,0001,onOrOff);
                 modbusRtuMaster.writeSingleCoil(1,0001,onOrOff);
+            } catch (ModbusError modbusError) {
+                modbusError.printStackTrace();
+            }
+        }else if(code==3){
+            try {
+                modbusRtuMaster.writeSingleCoil(1,0002,onOrOff);
+                modbusRtuMaster.writeSingleCoil(1,0002,onOrOff);
+            } catch (ModbusError modbusError) {
+                modbusError.printStackTrace();
+            }
+        }else if(code==4){
+            try {
+                modbusRtuMaster.writeSingleCoil(1,0003,onOrOff);
+                modbusRtuMaster.writeSingleCoil(1,0003,onOrOff);
             } catch (ModbusError modbusError) {
                 modbusError.printStackTrace();
             }
@@ -1919,7 +2109,10 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                 }
 
                 //更新开启时间(为了保证曲线图的连续稳定的展示,必须设置为无论温度或湿度哪一个重新启动都会更新启动时间)
-                    systemData1.setStartTime(getDateTimeToString(new Date()));
+                    if(systemData1.getStartTime()==null){
+                        systemData1.setStartTime(getDateTimeToString(new Date()));
+                    }
+
 
 
 
@@ -1967,6 +2160,12 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(editText.getText().toString().equals("")){
+                            showToast(MainActivity.this,"设定值不能为空");
+                            return;
+                        }
+
                         flashView.setValue(Float.valueOf(editText.getText().toString()), finalType);
 
                         if(code==1){
@@ -1999,11 +2198,14 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
     public boolean onLongClick(View view) {
         switch(view.getId()){
             case R.id.wd:
-                settings(1,(FlashView) view);
+               // settings(1,(FlashView) view);
+                dateClick();
+
                 break;
 
             case R.id.sd:
-                settings(2,(FlashView)view);
+
+                dateClick();
                 break;
         }
         return true;
@@ -2064,6 +2266,26 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
             }
         }
     });
+
+
+    public void zdOnOrOff(int code,Button button){
+
+       String text= button.getText().toString();
+       String text1=text.substring(0,2);
+
+
+        System.out.println("点击整定..."+text+"   "+text1);
+
+       if (text.indexOf("启动")!=-1){  //停止-->开启
+           button.setText(text1+"停止");
+           writeOnOrOff(code,true);
+       }else{
+           button.setText(text1+"启动");
+           writeOnOrOff(code,false);
+       }
+
+
+    }
 }
 
 

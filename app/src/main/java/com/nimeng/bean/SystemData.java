@@ -54,6 +54,9 @@ public class SystemData {
     private int humState;
 
 
+    private int temProtectTime;//制冷压缩机保护时间
+    private int humProtectTime;//除湿压缩机保护时间
+
 
 
 
@@ -349,6 +352,21 @@ public class SystemData {
         this.standardHum = standardHum;
     }
 
+    public int getTemProtectTime() {
+        return temProtectTime;
+    }
+
+    public void setTemProtectTime(int temProtectTime) {
+        this.temProtectTime = temProtectTime;
+    }
+
+    public int getHumProtectTime() {
+        return humProtectTime;
+    }
+
+    public void setHumProtectTime(int humProtectTime) {
+        this.humProtectTime = humProtectTime;
+    }
 
     public SystemData(int id, int temUnitTime, int humUnitTime, float temWave, float humWave, boolean isStable, int temPlanID, int humPlanID, String startTime, Date stableTime, int executingTemID, int executingHumID, int temStandardID, int humStandardID, boolean haveJurisdiction, Date dataRecordingTime, Date lightStartTime, int lightKeepSecond, String select1, String select2, int numberOfStages, boolean isInstallmentPayment, String superPassword, int settingTem, int settingHum, int temOnOrOff, int humOnOrOff, int temIsClick, int humIsClick, int isFormal, String temChange, String humChange, String temPower, String humPower, String standardTem, String standardHum, int temState, int humState) {
         this.id = id;

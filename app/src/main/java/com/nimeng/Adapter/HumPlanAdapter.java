@@ -79,7 +79,19 @@ public class HumPlanAdapter extends BaseAdapter {
         viewHolder.humWave.setText(String.valueOf( humPlanBean.getHumWave()));
 
         viewHolder.points.setText(String.valueOf(humPlanBean.getHumPoints()));
-        if(humPlanBean.getHumPoints()==1){
+
+        if(humPlanBean.getHumPoints()==0){
+            viewHolder.hum1.setText("");
+            viewHolder.hum2.setText("");
+            viewHolder.hum3.setText("");
+            viewHolder.hum4.setText("");
+            viewHolder.hum5.setText("");
+            viewHolder.hum6.setText("");
+            viewHolder.hum7.setText("");
+            viewHolder.hum8.setText("");
+            viewHolder.hum9.setText("");
+            viewHolder.hum10.setText("");
+        }else if(humPlanBean.getHumPoints()==1){
             viewHolder.hum1.setText(String.valueOf( humPlanBean.getHum1()));
             viewHolder.hum2.setText("");
             viewHolder.hum3.setText("");

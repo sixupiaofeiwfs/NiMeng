@@ -62,10 +62,19 @@
 
         <Spinner
             android:id="@+id/main_spinner1"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
             />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="整定启动"
+            android:id="@+id/main_btn_1"
+            android:textColor="@color/color_01_point">
+        </Button>
+
 
         <Button
             android:layout_width="wrap_content"
@@ -80,7 +89,7 @@
 
         <Spinner
             android:id="@+id/main_spinner2"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
             android:layout_marginLeft="250dp">
@@ -90,8 +99,17 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="整定启动"
+            android:textColor="@color/purple_700"
+            android:id="@+id/main_btn2">
+        </Button>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="湿度启动"
-            android:textColor="@color/teal_200"
+            android:textColor="@color/purple_700"
             android:id="@+id/mian_btn2">
         </Button>
 

@@ -171,6 +171,7 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:textSize="20dp"
+            android:text="温度-10℃"
             />
 
 
@@ -264,7 +265,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="温度0℃"/>
 
 
         <TextView
@@ -356,7 +358,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="温度10℃"/>
 
 
         <TextView
@@ -448,7 +451,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="温度20℃"/>
 
 
         <TextView
@@ -540,7 +544,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="温度30℃"/>
 
 
         <TextView
@@ -632,7 +637,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="温度40℃"/>
 
 
         <TextView
@@ -725,7 +731,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="温度50℃"/>
 
         <TextView
             android:id="@+id/bili_7_1"

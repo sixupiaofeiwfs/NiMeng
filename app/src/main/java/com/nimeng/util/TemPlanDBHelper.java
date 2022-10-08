@@ -271,7 +271,12 @@ public class TemPlanDBHelper extends BaseUtil {
 
         Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
 
-        int number=result.getCount();
+        if (result==null || result.getCount()==0){
+            result.close();
+            return 0;
+        }
+        result.moveToFirst();
+        int number=result.getInt(0);
         result.close();
         return number;
 

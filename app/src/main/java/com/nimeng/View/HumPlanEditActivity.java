@@ -239,14 +239,14 @@ public class HumPlanEditActivity extends CommonUtil {
             public void onClick(View view) {
 
                 String name=editName.getText().toString();
-                if(name==""){
+                if(name.equals("")){
                     showToast(HumPlanEditActivity.this,"预设方案名称不能为空");
                     return;
                 }
 
 
 
-                if(editUnitTime.getText().toString()==" "){
+                if(editUnitTime.getText().toString().equals("")){
                     showToast(HumPlanEditActivity.this,"单位时间不能为空");
                     return;
                 }
@@ -254,7 +254,7 @@ public class HumPlanEditActivity extends CommonUtil {
                 int unitTime=Integer.valueOf(editUnitTime.getText().toString());
 
 
-                if(editHumWave.getText().toString()==""){
+                if(editHumWave.getText().toString().equals("")){
                     showToast(HumPlanEditActivity.this,"湿度波动值不能为空");
                     return;
                 }

@@ -41,6 +41,7 @@ public class DataRecordDBHelper extends BaseUtil {
     public static final String TABLENAME="data";
     Random random=new Random();
 
+    CommonUtil commonUtil=new CommonUtil();
 
 
     public DataRecordDBHelper(@NonNull Context context, @Nullable String name,@Nullable SQLiteDatabase.CursorFactory factory,int version){
@@ -107,6 +108,9 @@ public class DataRecordDBHelper extends BaseUtil {
         }
 
         DataRecodeBean dataRecodeBean1= queryByTime(time);
+        //查询上一秒是否有数据,没有数据的添加一条与当前数据相同的数据
+        String prefixTime=commonUtil.getNextTime(new Date(),-1);//上一秒
+        DataRecodeBean dataRecodeBean2=queryByTime(prefixTime);
         if(dataRecodeBean1!=null){
 
 
@@ -140,6 +144,15 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
 
+
+        if(dataRecodeBean2==null ){
+            contentValues.put("time",prefixTime);
+            contentValues.put("realtimeHum",dataRecodeBean.getRealtimeHum());
+            contentValues.put("settingTem",dataRecodeBean.getSettingTem());
+            contentValues.put("realtimeTem",dataRecodeBean.getRealtimeTem());
+            contentValues.put("settingHum",dataRecodeBean.getSettingHum());
+            db.insert(TABLENAME,null,contentValues);
+        }
 
 
 
@@ -258,50 +271,24 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
     //根据id查询温度湿度
-    public float queryByID(int id,String columnName){
+    public DataRecodeBean queryByID(int id){
 
-        float f;
         DataRecodeBean dataRecodeBean=new DataRecodeBean();
-        Random random=new Random();
-
-
-
-
-        if(!tableIsExist(TABLENAME)){
-
-
-
-            if(columnName.equals("tem")){
-                return random.nextInt(20);
-            }else{
-                return random.nextInt(100);
-            }
-
-        }
 
         Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
 
         if(result.getCount()==1){
             result.moveToFirst();
-            if(columnName=="tem"){
-                f=result.getFloat(3);
-                result.close();
-                return f;
-            }else if(columnName=="hum"){
-                f=result.getFloat(5);
-                result.close();
-                return f;
-            } else{
-                result.close();
-                return 0;
-            }
+            dataRecodeBean.setId(result.getInt(0));
+            dataRecodeBean.setRealtimeTem(result.getFloat(3));
+            dataRecodeBean.setRealtimeHum(result.getFloat(5));
+            dataRecodeBean.setTime(result.getString(1));
+            result.close();
+            return dataRecodeBean;
+
         } else {
             result.close();
-            if(columnName.equals("tem")){
-                return random.nextInt(20);
-            }else{
-                return random.nextInt(100);
-            }
+           return null;
         }
 
 

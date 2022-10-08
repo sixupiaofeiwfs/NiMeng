@@ -205,8 +205,7 @@ public class ModbusRtuMaster {
      */
     public void writeSingleRegister(int slave, int address, int value) throws ModbusError {
         byte[] sendBytes = execute(slave, ModbusFunction.WRITE_SINGLE_REGISTER, address, 1, value, null);
-        System.out.println("---------------------------");
-        System.out.println(Arrays.toString(sendBytes));
+
         this.serialHelper.send(sendBytes);
     }
 
@@ -220,7 +219,6 @@ public class ModbusRtuMaster {
      */
     public void writeHoldingRegisters(int slave, int address, int sCount, int [] data) throws ModbusError {
         byte[] sendBytes = execute(slave, ModbusFunction.WRITE_HOLDING_REGISTERS, address, sCount, 0, data);
-
         this.serialHelper.send(sendBytes);
     }
 

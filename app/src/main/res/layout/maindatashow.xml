@@ -247,9 +247,69 @@
         </TextView>
 
 
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout7"
+        android:layout_below="@id/LinearLayout6"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        >
+
+        <TextView
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="制冷压缩机保护:">
+        </TextView>
+
+        <TextView
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/temProtectTime"
+            android:textStyle="bold">
+        </TextView>
+
+
     </LinearLayout>
 
 
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearLayout8"
+        android:layout_below="@id/LinearLayout7"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        >
+
+        <TextView
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="除湿压缩机保护:">
+        </TextView>
+
+        <TextView
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/humProtectTime"
+            android:textStyle="bold">
+        </TextView>
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

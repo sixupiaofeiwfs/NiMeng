@@ -22,6 +22,9 @@
     <color name="color_02_point_in">#99ffcc</color>
 
     <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+
 
 
 </resources>

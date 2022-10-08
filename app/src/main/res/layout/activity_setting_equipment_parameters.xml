@@ -14,20 +14,28 @@
             android:id="@+id/textview_xtsz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
+            android:textAlignment="center"
             android:text="系统设置"
             android:clickable="true"
-            android:textSize="20dp">
+            android:textSize="35dp">
         </TextView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:src="@drawable/u56">
+        </ImageView>
 
         <TextView
             android:id="@+id/textview_fqfk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
             android:text="分期付款"
             android:clickable="true"
-            android:textSize="20dp">
+            android:textSize="35dp">
         </TextView>
 
     </LinearLayout>
@@ -49,22 +57,26 @@
           android:layout_height="wrap_content"
           android:text="湿度运行时间"
           android:textStyle="bold"
-          android:layout_weight="3"
           android:textSize="20dp"
+
+
+          android:layout_marginLeft="200dp"
           />
-      <EditText
-          android:layout_width="wrap_content"
+      <TextView
+          android:layout_width="100dp"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
           android:textSize="20dp"
-          android:id="@+id/edit1"
+          android:id="@+id/asep_edit1"
+
+          android:layout_marginLeft="50dp"
           />
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="分钟"
-          android:layout_weight="1"
           android:textSize="20dp"
+
+          android:layout_marginLeft="100dp"
           />
 
       <TextView
@@ -72,22 +84,26 @@
           android:layout_height="wrap_content"
           android:textStyle="bold"
           android:text="制冷压缩机保护"
-          android:layout_weight="3"
           android:textSize="20dp"
+
+
+          android:layout_marginLeft="150dp"
           />
-      <EditText
-          android:layout_width="wrap_content"
+      <TextView
+          android:layout_width="100dp"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
           android:textSize="20dp"
-          android:id="@+id/edit2"
+          android:id="@+id/asep_edit2"
+
+          android:layout_marginLeft="50dp"
           />
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="秒"
-          android:layout_weight="1"
           android:textSize="20dp"
+
+          android:layout_marginLeft="50dp"
           />
 
   </LinearLayout>
@@ -98,28 +114,32 @@
         android:layout_height="wrap_content"
         android:id="@+id/l2"
         android:layout_below="@id/l1"
+        android:layout_marginTop="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="化霜换向时间"
             android:textStyle="bold"
-            android:layout_weight="3"
             android:textSize="20dp"
+
+            android:layout_marginLeft="200dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="20dp"
-            android:id="@+id/edit3"
+            android:id="@+id/asep_edit3"
+
+            android:layout_marginLeft="50dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="分钟"
-            android:layout_weight="1"
             android:textSize="20dp"
+
+            android:layout_marginLeft="100dp"
             />
 
         <TextView
@@ -127,21 +147,22 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="除湿压缩机保护"
-            android:layout_weight="3"
             android:textSize="20dp"
+
+            android:layout_marginLeft="150dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit4"
+            android:id="@+id/asep_edit4"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="秒"
-            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
             />
 
@@ -153,27 +174,29 @@
         android:layout_height="wrap_content"
         android:id="@+id/l3"
         android:layout_below="@id/l2"
+        android:layout_marginTop="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="当前湿度参考值"
             android:textStyle="bold"
-            android:layout_weight="3"
             android:textSize="20dp"
+
+            android:layout_marginLeft="200dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit5"
+            android:id="@+id/asep_edit5"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="%RH"
-            android:layout_weight="1"
+           android:layout_marginLeft="80dp"
             android:textSize="20dp"
             />
 
@@ -182,7 +205,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="电磁阀Y2"
-            android:layout_weight="3"
+            android:layout_marginLeft="170dp"
             android:textSize="20dp"
             />
 
@@ -190,8 +213,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="开启"
-            android:layout_weight="2"
-            android:textSize="20dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="15dp"
             />
 
 
@@ -205,6 +228,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/l4"
         android:layout_below="@id/l3"
+        android:layout_marginTop="20dp"
 
         >
         <TextView
@@ -212,21 +236,21 @@
             android:layout_height="wrap_content"
             android:text="设定湿度参考值"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="200dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit6"
+            android:id="@+id/asep_edit6"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="%RH"
-            android:layout_weight="1"
+           android:layout_marginLeft="80dp"
             android:textSize="20dp"
             />
 
@@ -235,7 +259,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="电磁阀Y2"
-            android:layout_weight="3"
+            android:layout_marginLeft="170dp"
             android:textSize="20dp"
             />
 
@@ -243,8 +267,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="开启"
-            android:layout_weight="2"
-            android:textSize="20dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="15dp"
             />
 
 
@@ -257,6 +281,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/l5"
         android:layout_below="@id/l4"
+        android:layout_marginTop="20dp"
 
         >
         <TextView
@@ -264,21 +289,22 @@
             android:layout_height="wrap_content"
             android:text="剩余运行时间"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="200dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit7"
+            android:id="@+id/asep_edit7"
+            android:clickable="false"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="分钟"
-            android:layout_weight="1"
+            android:layout_marginLeft="90dp"
             android:textSize="20dp"
             />
 
@@ -287,7 +313,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="电磁阀Y2"
-            android:layout_weight="3"
+            android:layout_marginLeft="180dp"
             android:textSize="20dp"
             />
 
@@ -295,8 +321,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="开启"
-            android:layout_weight="2"
-            android:textSize="20dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="15dp"
             />
 
 
@@ -308,27 +334,29 @@
         android:layout_height="wrap_content"
         android:id="@+id/l6"
         android:layout_below="@id/l5"
+        android:layout_marginTop="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="化霜换向剩余时间"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="200dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit8"
+            android:id="@+id/asep_edit8"
+            android:clickable="false"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="分钟"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
             android:textSize="20dp"
             />
 
@@ -337,15 +365,15 @@
             android:layout_height="wrap_content"
             android:text="设定湿度小于值"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="150dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit9"
+            android:id="@+id/asep_edit9"
             />
 
 
@@ -359,21 +387,22 @@
         android:layout_height="wrap_content"
         android:id="@+id/l7"
         android:layout_below="@id/l6"
+        android:layout_marginTop="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="风机转速设定"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="200dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit10"
+            android:id="@+id/asep_edit10"
             />
 
         <TextView
@@ -381,15 +410,15 @@
             android:layout_height="wrap_content"
             android:text="单双毛控制点"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="275dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit11"
+            android:id="@+id/asep_edit11"
             />
 
 
@@ -402,6 +431,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/l8"
         android:layout_below="@id/l7"
+        android:layout_marginTop="20dp"
         >
 
         <TextView
@@ -409,15 +439,15 @@
             android:layout_height="wrap_content"
             android:text="控温长通毛控制点"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="200dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit12"
+            android:id="@+id/asep_edit12"
             />
 
         <TextView
@@ -425,15 +455,15 @@
             android:layout_height="wrap_content"
             android:text="降温三毛全通控制点"
             android:textStyle="bold"
-            android:layout_weight="3"
+            android:layout_marginLeft="260dp"
             android:textSize="20dp"
             />
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp"
-            android:id="@+id/edit13"
+            android:id="@+id/asep_edit13"
             />
 
     </LinearLayout>
@@ -445,13 +475,15 @@
     android:layout_height="wrap_content"
     android:id="@+id/l9"
     android:layout_below="@id/l8"
+    android:layout_marginTop="20dp"
     >
 
     <TextView
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="制冷温湿度控制点："
-        android:layout_weight="3"
+        android:layout_marginLeft="200dp"
         android:textSize="20dp"
         />
 
@@ -459,72 +491,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SV="
-        android:layout_weight="1"
         android:textSize="20dp"
         />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+       android:layout_marginLeft="50dp"
         android:textSize="20dp"
-        android:id="@+id/edit14"
+        android:id="@+id/asep_edit14"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="℃"
-        android:layout_weight="1"
         android:textSize="20dp"
         />
+<!--        android:layout_marginLeft="50dp"-->
+
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PV="
-        android:layout_weight="1"
+       android:layout_marginLeft="50dp"
         android:textSize="20dp"
         />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+       android:layout_marginLeft="50dp"
         android:textSize="20dp"
-        android:id="@+id/edit15"
+        android:id="@+id/asep_edit15"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="℃"
-        android:layout_weight="1"
         android:textSize="20dp"
         />
 
+<!--    android:layout_marginLeft="50dp"-->
 
 
     <TextView
-        android:layout_width="115dp"
-        android:layout_height="40dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="默认："
-        android:layout_weight="1"
+       android:layout_marginLeft="50dp"
         android:textSize="20dp"
         />
 
     <TextView
-        android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="SV=40"
-        android:layout_weight="1"
         android:textSize="20dp"
         />
 
     <TextView
-        android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="PV=45"
-        android:layout_weight="1"
+       android:layout_marginLeft="50dp"
         android:textSize="20dp"
         />
 
@@ -538,12 +570,16 @@
         android:id="@+id/s20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/l9">
+        android:layout_below="@id/l9"
+        android:layout_marginTop="20dp"
+        >
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="温度PID取值范围设置："
+            android:layout_marginLeft="200dp"
             android:textSize="20dp" />
 
 
@@ -556,9 +592,10 @@
 
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
+            android:layout_marginLeft="100dp"
             android:text="湿度PID取值范围设置："
             android:textSize="20dp" />
 
@@ -579,52 +616,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/l10"
-        android:layout_below="@id/s20">
+        android:layout_below="@id/s20"
+        android:layout_marginTop="20dp"
+        >
 
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="转盘显示开关"
-            android:layout_weight="1"
+            android:layout_marginLeft="200dp"
             android:textSize="20dp">
         </TextView>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="20dp"
             android:id="@+id/btn_1">
         </Button>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="相机显示开关"
-            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
             android:textSize="20dp">
         </TextView>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="20dp"
             android:id="@+id/btn_2">
         </Button>
 
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="自动拍摄显示开关"
-            android:layout_weight="1"
+           android:layout_marginLeft="50dp"
             android:textSize="20dp">
         </TextView>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+           android:layout_marginLeft="20dp"
             android:id="@+id/btn_3">
         </Button>
 

@@ -149,6 +149,9 @@ public class HumPlanActivity extends CommonUtil {
 
     public void updateListView(){
         list=humplanDBHelper.query();
+
+        System.out.println(list);
+
         adapter=new HumPlanAdapter(list,HumPlanActivity.this);
         listView.setAdapter(adapter);
     }

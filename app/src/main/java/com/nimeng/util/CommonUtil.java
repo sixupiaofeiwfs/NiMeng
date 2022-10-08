@@ -154,6 +154,11 @@ public class CommonUtil extends Activity {
 
 
     public Date getTimeToDate(String time){
+
+        if("".equals(time) || time==null){
+            return  null;
+        }
+
         Date date =new Date();
         try {
             date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
@@ -408,17 +413,21 @@ public class CommonUtil extends Activity {
 
     }
 
-    public String getNextTime(){
-        Date date = new Date();
+    /**
+     *
+     * @param second  负数代表前几秒   正数代表后几秒
+     * @return
+     */
+    public String getNextTime( Date date, int second){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-         c.add(Calendar.SECOND, -5);//前一秒
-       // c.add(Calendar.SECOND, 1);//后一秒
+         c.add(Calendar.SECOND, second);
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
         String strTime = sdf.format(c.getTime());
-        System.out.println(strTime);
+       // System.out.println(strTime);
         return strTime;
     }
+
 
 
 }

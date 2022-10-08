@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LinearLayout0"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="100dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="实际温度:"
+                android:textSize="30dp">
+            </TextView>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/sj_tem"
+                android:textSize="30dp"
+                android:minWidth="50dp"
+                android:inputType="numberDecimal">
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/LinearLayout0"
+            android:id="@+id/LinearLayout1"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="100dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="露点温度:"
+                android:textSize="30dp">
+            </TextView>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ld_tem"
+                android:textSize="30dp"
+                android:minWidth="50dp"
+                android:layout_marginLeft="50dp"
+                android:inputType="numberDecimal">
+            </EditText>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LinearLayout2"
+            android:layout_below="@id/LinearLayout1"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="100dp">
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确定"
+                android:id="@+id/queding"
+                android:minWidth="150dp"
+                android:textSize="30dp">
+            </Button>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/LinearLayout2"
+            android:id="@+id/LinearLayout3"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="100dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相对湿度:"
+                android:textSize="30dp">
+            </TextView>
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/xd_hum"
+              android:layout_marginLeft="50dp"
+              android:minWidth="50dp"
+              android:textSize="30dp">
+          </TextView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+
+</LinearLayout>

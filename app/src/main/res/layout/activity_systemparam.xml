@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/pid_1"
         android:layout_marginTop="40dp"
+        android:layout_marginLeft="100dp"
         >
 
         <TextView
@@ -63,18 +64,19 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:id="@+id/text_huanxiang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_marginLeft="250dp"
             android:text="照明自动关闭（s）"
+            android:textSize="20dp"
             android:textAlignment="center"/>
 
-        <EditText
-            android:id="@+id/huanxiang"
+        <TextView
+            android:id="@+id/text_lightTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="250dp"
+            android:textSize="20dp"
             android:inputType="number" />
 
 
@@ -83,17 +85,18 @@
 
     <LinearLayout
         android:id="@+id/pid3"
+        android:layout_marginLeft="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/pid2"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="100dp">
 
 
         <TextView
             android:id="@+id/text_dingshi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="使用定时功能"
+            android:text="定时功能"
             android:textSize="20dp"
             android:textStyle="bold"
             />
@@ -110,35 +113,19 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:id="@+id/set_dingshi1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击设置温度定时开启时间"
-            android:layout_weight="3"
+            android:textSize="20dp"
+            android:layout_marginLeft="250dp"
             android:textAlignment="center"
              />
-
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/systemparam_datepicker2"
-            android:layout_weight="2"
-            android:spinnersShown="true"
-            android:calendarViewShown="true"
-            android:visibility="gone">
-        </DatePicker>
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:id="@+id/systemparam_timepicker2"
-            android:visibility="gone">
-        </TimePicker>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:textSize="20dp"
             android:id="@+id/systemparam_showtextview2"
             android:visibility="invisible">
         </TextView>
@@ -146,8 +133,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:id="@+id/Bdingshi1"
+            android:layout_marginLeft="20dp"
             android:text="启用" />
 
     </LinearLayout>
@@ -160,42 +147,27 @@
         android:layout_marginTop="20dp">
 
         <TextView
-            android:id="@+id/set_dingshi2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击设置温度定时关闭时间"
-            android:layout_weight="3"
+            android:textSize="20dp"
+            android:layout_marginLeft="250dp"
             android:textAlignment="center"
             />
 
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/systemparam_datepicker3"
-            android:layout_weight="2"
-            android:spinnersShown="true"
-            android:calendarViewShown="true"
-            android:visibility="gone">
-        </DatePicker>
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:id="@+id/systemparam_timepicker3"
-            android:visibility="gone">
-        </TimePicker>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:textSize="20dp"
             android:id="@+id/systemparam_showtextview3"
             android:visibility="invisible">
         </TextView>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
             android:id="@+id/Bdingshi2"
             android:text="启用" />
 
@@ -208,40 +180,26 @@
         android:layout_marginTop="20dp">
 
         <TextView
-            android:id="@+id/set_dingshi3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击设置湿度定时开启时间"
-            android:layout_weight="3"
+            android:layout_marginLeft="250dp"
+            android:textSize="20dp"
             android:textAlignment="center"
             />
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/systemparam_datepicker4"
-            android:layout_weight="2"
-            android:spinnersShown="true"
-            android:calendarViewShown="true"
-            android:visibility="gone">
-        </DatePicker>
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:id="@+id/systemparam_timepicker4"
-            android:visibility="gone">
-        </TimePicker>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/systemparam_showtextview4"
             android:visibility="invisible">
         </TextView>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
             android:id="@+id/Bdingshi3"
             android:text="启用" />
 
@@ -254,33 +212,19 @@
         android:layout_marginTop="20dp">
 
         <TextView
-            android:id="@+id/set_dingshi4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击设置湿度定时关闭时间"
-            android:layout_weight="3"
+            android:layout_marginLeft="250dp"
+            android:textSize="20dp"
             android:textAlignment="center"
             />
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/systemparam_datepicker5"
-            android:layout_weight="2"
-            android:spinnersShown="true"
-            android:calendarViewShown="true"
-            android:visibility="gone">
-        </DatePicker>
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:id="@+id/systemparam_timepicker5"
-            android:visibility="gone">
-        </TimePicker>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/systemparam_showtextview5"
             android:visibility="invisible">
         </TextView>
@@ -288,7 +232,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
             android:id="@+id/Bdingshi4"
             android:text="启用" />
 

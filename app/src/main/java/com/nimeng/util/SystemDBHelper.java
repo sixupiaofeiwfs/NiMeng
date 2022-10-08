@@ -92,7 +92,9 @@ public class SystemDBHelper extends BaseUtil{
                 "standardTem varchar,"+                         //标准器温度
                 "standardHum varchar,"+                          //标准器湿度
                 "temState int,"+
-                "humState int"+
+                "humState int,"+
+                "temProtectTime int ,"+
+                "humProtectTime int"+
                 ")";
 
 
@@ -170,6 +172,8 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("standardHum",systemData.getStandardHum());
         contentValues.put("temState",systemData.getTemState());
         contentValues.put("humState",systemData.getHumState());
+        contentValues.put("temProtectTime",systemData.getTemProtectTime());
+        contentValues.put("humProtectTime",systemData.getHumProtectTime());
 
 
           long result= writeDB.insert(TABLENAME,null,contentValues);
@@ -234,6 +238,8 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("standardHum",systemData.getStandardHum());
         contentValues.put("temState",systemData.getTemState());
         contentValues.put("humState",systemData.getHumState());
+        contentValues.put("temProtectTime",systemData.getTemProtectTime());
+        contentValues.put("humProtectTime",systemData.getHumProtectTime());
 
 
 
@@ -328,6 +334,8 @@ public class SystemDBHelper extends BaseUtil{
             systemData.setStandardHum(result.getString(35));
             systemData.setTemState(result.getInt(36));
             systemData.setHumState(result.getInt(37));
+            systemData.setTemProtectTime(result.getInt(38));
+            systemData.setHumProtectTime(result.getInt(39));
             result.close();
 
 
