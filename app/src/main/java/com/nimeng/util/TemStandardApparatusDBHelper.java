@@ -89,6 +89,7 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
 
 
         long result =db.insert(TABLENAME,null,contentValues);
+        //db.close();
         return result >0? true:false;
     }
 
@@ -96,6 +97,7 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
     //删除
     public boolean delete(int ID){
         int result=db.delete(TABLENAME,"id=?",new String[]{String.valueOf(ID)});
+      //  db.close();
         return result>0?true:false;
     }
 
@@ -105,15 +107,20 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
     //查询
     public List<TemStandarApparatus> query(){
         List<TemStandarApparatus> list =new ArrayList<>();
+        Cursor result=null;
 
-        if(!tableIsExist(TABLENAME)){
-            return list;
+        try{
+            result= db.query(TABLENAME,null,null,null,null,null,null);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        //    db.close();
+            result.close();
+            return null;
         }
 
-        Log.d("判断数据表是否已打开", "query: "+db.isOpen());
 
 
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
 
         System.out.println("result--->"+result.getCount());
 
@@ -136,9 +143,9 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
 
                 list.add(temStandarApparatus);
 
-            }result.close();
+            }//db.close();
         }
-
+        result.close();
         return list;
     }
 
@@ -150,7 +157,15 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
     public TemStandarApparatus findByName(String name){
         TemStandarApparatus temStandarApparatus=new TemStandarApparatus();
 
-        if(!tableIsExist(TABLENAME)){
+        Cursor result=null;
+
+        try{
+            result=db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+           // db.close();
             temStandarApparatus.setName(null);
             temStandarApparatus.setPort(0);
             temStandarApparatus.setFormat("");
@@ -163,11 +178,11 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
             temStandarApparatus.setTraceabilityUnit("");
             temStandarApparatus.setTime("");
             temStandarApparatus.setIsCheck(0);
+            result.close();
             return temStandarApparatus;
+
         }
 
-
-        Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
 
         if(result.getCount()==1){
             result.moveToFirst();
@@ -183,6 +198,7 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
             temStandarApparatus.setTraceabilityUnit(result.getString(10));
             temStandarApparatus.setTime(result.getString(11));
             temStandarApparatus.setIsCheck(result.getInt(12));
+          //  db.close();
             result.close();
             return temStandarApparatus;
         }
@@ -198,6 +214,8 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
         temStandarApparatus.setTraceabilityUnit("");
         temStandarApparatus.setTime("");
         temStandarApparatus.setIsCheck(0);
+      //  db.close();
+        result.close();
         return temStandarApparatus;
 
     }
@@ -233,10 +251,12 @@ public class TemStandardApparatusDBHelper extends BaseUtil {
         if(isCheckID!=0){
             String sql="update "+TABLENAME+" set isCheck=0 where id="+isCheckID;
             db.execSQL(sql);
+          //  db.close();
         }
 
         String sql="update "+TABLENAME+" set isCheck=1 where id="+id;
         db.execSQL(sql);
+     //   db.close();
         return true;
     }
 }

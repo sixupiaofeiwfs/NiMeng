@@ -76,6 +76,7 @@ public class ComprehensiveDataDBHelper  extends BaseUtil {
         contentValues.put("indicationError",comprehensiveDataBean.getIndicationError());
 
         long result=db.insert(TABLENAME,null,contentValues);
+        db.close();
         return result>0?true:false;
     }
 
@@ -83,27 +84,7 @@ public class ComprehensiveDataDBHelper  extends BaseUtil {
 
     public List<ComprehensiveDataBean> query(){
         List<ComprehensiveDataBean> list =new ArrayList<>();
-        if(!tableIsExist(TABLENAME)){
 
-            ComprehensiveDataBean comprehensiveDataBean=new ComprehensiveDataBean();
-            comprehensiveDataBean.setReading(1.0f);
-            comprehensiveDataBean.setCorrectionValue(2.0f);
-            comprehensiveDataBean.setActualValue(3.0f);
-            comprehensiveDataBean.setReadingOfTestedInstrument(4.0f);
-            comprehensiveDataBean.setTemIndicationError(5.0f);
-            comprehensiveDataBean.setDewPointReading(6.0f);
-            comprehensiveDataBean.setStandardCorrectionValue(7.0f);
-            comprehensiveDataBean.setStandardActualValue(8.0f);
-            comprehensiveDataBean.setActualRelativeHumidity(9.0f);
-            comprehensiveDataBean.setWetBulbTemperature(10.0f);
-            comprehensiveDataBean.setRelativeHumidity(11.0f);
-            comprehensiveDataBean.setIndicationError(12.0f);
-
-            list.add(comprehensiveDataBean);
-
-
-            return list;
-        }
 
         Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
 
@@ -127,7 +108,7 @@ public class ComprehensiveDataDBHelper  extends BaseUtil {
                 comprehensiveDataBean.setIndicationError(result.getFloat(11));
 
                 list.add(comprehensiveDataBean);
-            }result.close();
+            }db.close();
         }
         ComprehensiveDataBean comprehensiveDataBean=new ComprehensiveDataBean();
         comprehensiveDataBean.setReading(1.0f);
@@ -147,7 +128,7 @@ public class ComprehensiveDataDBHelper  extends BaseUtil {
 
 
 
-
+        db.close();
         return list;
     }
 

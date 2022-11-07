@@ -80,7 +80,7 @@ public class RealTimeLineChartActivity extends CommonUtil {
 
     LineData data;
 
-    LineDataSet temLineDataSet,humLineDataSet;
+    public static LineDataSet temLineDataSet,humLineDataSet;
 
     private TextView btn1,btn2;
 
@@ -100,6 +100,7 @@ public class RealTimeLineChartActivity extends CommonUtil {
     private boolean d=true;//控制每秒展示点数据
 
 
+    List<DataRecodeBean> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +112,14 @@ public class RealTimeLineChartActivity extends CommonUtil {
     //  AlertDialog.Builder builder=new AlertDialog.Builder(RealTimeLineChartActivity.this);
 
         systemDBHelper=new SystemDBHelper(RealTimeLineChartActivity.this);
-        dataRecordDBHelper=new DataRecordDBHelper(RealTimeLineChartActivity.this,"NIMENG.db",null,1);
+        dataRecordDBHelper=DataRecordDBHelper.getInstance(RealTimeLineChartActivity.this);
+
+        SystemData systemData=systemDBHelper.getSystemData();
+        if(systemData.getStartTime()!=null){
+            list = dataRecordDBHelper.query();
+        }
+
+
 
         temLineDataSet=createSet("tem");
         humLineDataSet= createSet("hum");
@@ -143,7 +151,7 @@ public class RealTimeLineChartActivity extends CommonUtil {
 
        // systemDBHelper=new SystemDBHelper(RealTimeLineChartActivity.this,"NIMENG.db",null,1);
 
-        SystemData systemData=systemDBHelper.getSystemData();
+
 
         setTitle("温湿度运行曲线图");
 
@@ -181,6 +189,89 @@ public class RealTimeLineChartActivity extends CommonUtil {
 
         // add empty data
         chart.setData(data);
+
+
+        chart.setOnChartGestureListener(new OnChartGestureListener() {
+            @Override
+            public void onChartGestureStart(MotionEvent motionEvent, ChartTouchListener.ChartGesture chartGesture) {
+
+            }
+
+            @Override
+            public void onChartGestureEnd(MotionEvent motionEvent, ChartTouchListener.ChartGesture chartGesture) {
+
+                int l=list.size();
+                if(l>300){
+
+                    //此界面中显示的最大的x值
+                    float highestVisibleX = chart.getHighestVisibleX();
+                    //整个曲线中最大的x值
+                    float mAxisMaximum = chart.getXAxis().mAxisMaximum;
+
+                    //最新的点的X值
+                    Date date =new Date();
+                    int t=(int) (date.getTime()- getTimeToDate(systemData.getStartTime()).getTime())/1000;
+
+
+                    if(mAxisMaximum-highestVisibleX>60){
+                        d=false;
+                        thread.interrupt();
+                        chart.moveViewToX(highestVisibleX);
+                    }
+                    if(t-highestVisibleX<10) {
+                        if(!thread.isAlive()){
+                            d=true;
+                            thread.start();
+                            chart.moveViewToX(t);
+                        }
+                    }
+                    if(mAxisMaximum-highestVisibleX<=10){
+                        if(!thread.isAlive()){
+                            d=true;
+                            thread.start();
+                            chart.moveViewToX(t);
+                            //chart.moveViewToX(chart.getXAxis().mAxisMaximum);
+                            //chart.moveViewToX(data.getEntryCount());
+                        }
+
+                    }
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onChartLongPressed(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onChartDoubleTapped(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onChartSingleTapped(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onChartFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+
+            }
+
+            @Override
+            public void onChartScale(MotionEvent motionEvent, float v, float v1) {
+
+            }
+
+            @Override
+            public void onChartTranslate(MotionEvent motionEvent, float v, float v1) {
+
+            }
+        });
 
 
 
@@ -239,34 +330,6 @@ public class RealTimeLineChartActivity extends CommonUtil {
         rightAxis.setAxisMinimum(0f);
         rightAxis.setEnabled(true);
 
-
-//        System.out.println("调用onCreat方法...");
-
-
-
-
-
-
-
-//        Date date=new Date();
-//        if(systemData!=null && systemData.getStartTime()!=null){
-//            int limit=(int)(date.getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000;
-//            List<DataRecodeBean> list=dataRecordDBHelper.query20DataRecodeBean(String.valueOf(limit));
-//
-//            if(list!=null){
-//
-//                for (int i = 0; i < list.size(); i++) {
-//                    temLineDataSet.addEntry(new Entry(temLineDataSet.getEntryCount(),list.get(i).getRealtimeTem()));
-//                   humLineDataSet.addEntry(new Entry(humLineDataSet.getEntryCount(),list.get(i).getRealtimeHum()));
-//
-//                 System.out.println("可以:"+temLineDataSet.getEntryCount()+"    不可以:"+(getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000);
-////                    temLineDataSet.addEntry(new Entry((getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000,list.get(i).getRealtimeTem()));
-////                    humLineDataSet.addEntry(new Entry((getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000,list.get(i).getRealtimeHum()));
-////
-//
-//                }
-//            }
-//        }
 
 
 
@@ -389,115 +452,51 @@ public class RealTimeLineChartActivity extends CommonUtil {
     });
 
 
-//    public Thread humThread=new Thread(new Runnable() {
-//
-//        @Override
-//        public void run() {
-//            while(c){
-//               humMethod();
-//            }
-//
-//        }
-//    });
-
-
-    private Handler temHandler=new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-
-//            SystemData systemData=systemDBHelper.getSystemData();
-//          //  List<DataRecodeBean> list=(List<DataRecodeBean>)msg.obj;
-//
-//         List<DataRecodeBean> list=(List)msg.obj;
-//            System.out.println("接收数据..."+list);
-//
-//            for (int i = 0; i <list.size() ; i++) {
-//                int t= (int)((getTimeToDate(  list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000);
-//                System.out.println("数据展示:"+t+"   "+list.get(i).getRealtimeTem());
-//                temLineDataSet.addEntry(new Entry(t,list.get(i).getRealtimeTem()));
-//            }
-
-            temLineDataSet.addEntry((Entry) msg.obj);
-
-            super.handleMessage(msg);
-        }
-    };
-
-    private Handler humHandler=new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-//
-//            //humLineDataSet.addEntry((Entry) msg.obj);
-//
-//            SystemData systemData=systemDBHelper.getSystemData();
-//            List<DataRecodeBean> list=(List)msg.obj;
-//            for (int i = 0; i <list.size() ; i++) {
-//                int t= (int)((getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000);
-//                humLineDataSet.addEntry(new Entry(t,list.get(i).getRealtimeHum()));
-//            }
-
-            humLineDataSet.addEntry((Entry) msg.obj);
-            super.handleMessage(msg);
-        }
-    };
 
 
      public void temMethod(){
          Date date=new Date();
          SystemData systemData=systemDBHelper.getSystemData();
-         if(systemData!=null && systemData.getStartTime()!=null){
-             int limit=(int)(date.getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000;
-             List<DataRecodeBean> list=dataRecordDBHelper.query20DataRecodeBean(String.valueOf(limit));
+         if(systemData!=null && systemData.getStartTime()!=null) {
 
-             if(list!=null){
-//                for (int i = 0; i < list.size(); i++) {
-//                    temLineDataSet.addEntry(new Entry(temLineDataSet.getEntryCount(),list.get(i).getRealtimeTem()));
-//                   humLineDataSet.addEntry(new Entry(humLineDataSet.getEntryCount(),list.get(i).getRealtimeHum()));
-//
-////                    System.out.println("可以:"+temLineDataSet.getEntryCount()+"    不可以:"+(getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000);
-////                    temLineDataSet.addEntry(new Entry((getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000,list.get(i).getRealtimeTem()));
-////                    humLineDataSet.addEntry(new Entry((getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000,list.get(i).getRealtimeHum()));
-////
-//                }
 
-                 for (int i =0; i <list.size() ; i++) {
-                     //System.out.println("可以:"+temLineDataSet.getEntryCount()+"    不可以:"+(getTimeToDate(list.get(i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000);
-                     temLineDataSet.addEntry(new Entry((getTimeToDate(list.get(list.size()-1-i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000,list.get(list.size()-1-i).getRealtimeTem()));
-                     humLineDataSet.addEntry(new Entry((getTimeToDate(list.get(list.size()-1-i).getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000,list.get(list.size()-1-i).getRealtimeHum()));
+
+             int total=0;
+             int m = 0;
+             int t=0;
+             if (list != null) {
+              int n= total=list.size();
+
+//                 if(n>30){
+//                     n=30;
+//                 }
+                 for (int i = 0; i < n; i++) {
+
+                     //从数据库中获取到的数据的时间距离启动时间已经过去的秒数
+                     t = (int) (getTimeToDate(list.get(total-n+i).getTime()).getTime() - getTimeToDate(systemData.getStartTime()).getTime()) / 1000;
+                     float fTem = list.get(total-n+i).getRealtimeTem();
+                     float fHum = list.get(total-n+i).getRealtimeHum();
+
+                     //System.out.println("数据..."+t+"   "+fTem+"   "+fHum);
+                     if(t>=1){
+                         if (m != 0 && t - m > 1) {
+                             int c = t - m - 1;
+                             for (int j = 1; j <= c; j++) {
+                                 //System.out.println("循环内写入:"+(j+m));
+                                 temLineDataSet.addEntry(new Entry((j + m), 0));
+                                 humLineDataSet.addEntry(new Entry((j + m), 0));
+                             }
+                         }
+                         //System.out.println("循环外写入:"+t);
+                         temLineDataSet.addEntry(new Entry(t, fTem));
+                         humLineDataSet.addEntry(new Entry(t, fHum));
+
+                         m = t;
+                     }
+
 
                  }
 
-
-
-
-//                List<DataRecodeBean> list1=new ArrayList<>();
-//                Message message =new Message();
-//                for (int i = 0; i < limit; i++) {
-//
-//                    System.out.println(limit+"  "+"  "+(limit-i-1));
-//                    DataRecodeBean dataRecodeBean=list.get(limit-i-1);
-//                    int t= (int)((getTimeToDate(dataRecodeBean.getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000);
-//
-//
-//                   // System.out.println("查询到的时间:"+dataRecodeBean.getTime()+",距离启动时间:"+systemData.getStartTime()+"已经过去了:"+t+"秒,查询到的温度值:"+dataRecodeBean.getRealtimeTem());
-//
-//
-//
-//
-//                    if(t>=1){
-//
-//                        list1.add(dataRecodeBean);
-//                        message.obj=list1;
-//
-//
-//                    }
-//
-//
-//
-//                }
-//
-//                System.out.println("发送数据..."+list1.size());
-//                temHandler.sendMessage(message);
 
 
             }
@@ -507,33 +506,7 @@ public class RealTimeLineChartActivity extends CommonUtil {
 
     }
 
-//
-//    public void humMethod(){
-//        SystemData systemData=systemDBHelper.getSystemData();
-//        if(systemData!=null && systemData.getStartTime()!=null){
-//            List<DataRecodeBean> list=dataRecordDBHelper.query();
-//            int limit=list.size();
-//            if(list!=null){
-//                for (int i = 0; i < limit; i++) {
-//
-//                        Message message =new Message();
-//                        int n=limit-i-1;
-//                        DataRecodeBean dataRecodeBean=list.get(n);
-//                        int t=(int)(getTimeToDate(dataRecodeBean.getTime()).getTime()-getTimeToDate(systemData.getStartTime()).getTime())/1000;
-//                        if(t>=1){
-//                        message.obj=new Entry(t,dataRecodeBean.getRealtimeTem());
-//
-//                        System.out.println("当前时间:"+list.get(n).getTime()+"距离:"+systemData.getStartTime()+"已经过去了"+t+"秒,湿度值:"+list.get(n).getRealtimeTem()+"判断条件:"+i);
-//
-//                        humHandler.sendMessage(message);
-//                    }
-//                }
-//            }
-//        }
-//        c=false;
-//        humThread.interrupt();
-//
-//    }
+
 
 
 
@@ -613,8 +586,9 @@ public class RealTimeLineChartActivity extends CommonUtil {
             // chart.setVisibleYRange(30, AxisDependency.LEFT);
 
             // move to the latest entry
-            chart.moveViewToX(data.getEntryCount());
+          //  chart.moveViewToX(data.getEntryCount());
 
+            chart.moveViewToX(chart.getXAxis().mAxisMaximum);
 
         }
         else{
@@ -654,8 +628,8 @@ public class RealTimeLineChartActivity extends CommonUtil {
             // chart.setVisibleYRange(30, AxisDependency.LEFT);
 
             // move to the latest entry
-            chart.moveViewToX(data.getEntryCount());
-
+           // chart.moveViewToX(data.getEntryCount());
+            chart.moveViewToX(chart.getXAxis().mAxisMaximum);
 
         }
     }
@@ -716,8 +690,6 @@ public class RealTimeLineChartActivity extends CommonUtil {
 
     private void feedMultiple() {
 
-//        if (thread != null)
-//            thread.interrupt();
 
 
         if(thread!=null){

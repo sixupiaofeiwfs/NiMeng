@@ -58,7 +58,8 @@ public class TemStandardApparatusActivity extends CommonUtil {
         if(list!=null){
             list.clear();
         }
-        standardApparatusDBHelper =new StandardApparatusDBHelper(TemStandardApparatusActivity.this,DATABASE_NAME,null,1);
+
+        standardApparatusDBHelper=StandardApparatusDBHelper.getInstance(TemStandardApparatusActivity.this);
         list=standardApparatusDBHelper.query(tableName,0);
         standardApparatusAdapter=new StandardApparatusAdapter(list,TemStandardApparatusActivity.this);
         listView.setAdapter(standardApparatusAdapter);
@@ -110,8 +111,7 @@ public class TemStandardApparatusActivity extends CommonUtil {
     @Override
     protected void onStart() {
         super.onStart();
-
-        standardApparatusDBHelper =new StandardApparatusDBHelper(TemStandardApparatusActivity.this,DATABASE_NAME,null,1);
+        standardApparatusDBHelper=StandardApparatusDBHelper.getInstance(TemStandardApparatusActivity.this);
         list=standardApparatusDBHelper.query(tableName,0);
         standardApparatusAdapter=new StandardApparatusAdapter(list,TemStandardApparatusActivity.this);
         listView.setAdapter(standardApparatusAdapter);

@@ -52,7 +52,9 @@ public class SystemDBHelper extends BaseUtil{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        String sql1="create table "
+        System.out.println("调用systemDBHelper类中的onCreate方法...");
+
+        String sql1="create table if not exists "
                 + TABLENAME +
                 " ("+
                 "id integer primary key,"+
@@ -96,26 +98,13 @@ public class SystemDBHelper extends BaseUtil{
                 "temProtectTime int ,"+
                 "humProtectTime int"+
                 ")";
-
-
-
-
-
-
-
-            sqLiteDatabase.execSQL(sql1);
-
-
-
-
-
-
+    sqLiteDatabase.execSQL(sql1);
 
     }
 
 
 
-    public synchronized boolean addSystemData(SystemData systemData){
+    public  boolean addSystemData(SystemData systemData){
         writeDB=getWritableDatabase();
 
          CommonUtil commonUtil=new CommonUtil();
@@ -177,11 +166,12 @@ public class SystemDBHelper extends BaseUtil{
 
 
           long result= writeDB.insert(TABLENAME,null,contentValues);
+         // writeDB.close();
            return result>0?true:false;
 
     }
 
-    public synchronized void updateSystemData(SystemData systemData){
+    public  void updateSystemData(SystemData systemData){
 
         writeDB=getWritableDatabase();
 
@@ -249,21 +239,34 @@ public class SystemDBHelper extends BaseUtil{
         writeDB.endTransaction();
 
 
-
+       // writeDB.close();
 
         return ;
 
     }
 
-    public  synchronized SystemData getSystemData(){
+    public  SystemData getSystemData(){
+
 
         readDB=getReadableDatabase();
 
-        if(!tableIsExist(TABLENAME)){
-            return null;
+        Cursor result=null;
+        try{
+            result=readDB.query(TABLENAME ,null,null,null,null,null,null);
+
+        }catch (
+                Exception e
+
+        ){
+            e.printStackTrace();
+         //   readDB.close();
+            if(result!=null){
+                result.close();
+            }
+
+            return  null;
         }
 
-        Cursor result=readDB.query(TABLENAME,null,null,null,null,null,null);
         if(result!=null){
             result.moveToLast();
             SystemData systemData=new SystemData();
@@ -336,9 +339,10 @@ public class SystemDBHelper extends BaseUtil{
             systemData.setHumState(result.getInt(37));
             systemData.setTemProtectTime(result.getInt(38));
             systemData.setHumProtectTime(result.getInt(39));
+          //  readDB.close();
+
+           // System.out.println("返回内容"+systemData);
             result.close();
-
-
             return systemData;
 
         }
@@ -351,11 +355,12 @@ public class SystemDBHelper extends BaseUtil{
 
 
 
-    public synchronized  boolean addSwitch(String switchID, boolean isSwitch){
+    public   boolean addSwitch(String switchID, boolean isSwitch){
         writeDB=getWritableDatabase();
-        if(!tableIsExist("systemSwitch")){
+
+
             createSwitch();
-        }
+
 
         ContentValues contentValues=new ContentValues();
         contentValues.put("onOrOff",isSwitch);
@@ -363,9 +368,10 @@ public class SystemDBHelper extends BaseUtil{
         if(result1<=0){
             contentValues.put("id",switchID);
             long result=writeDB.insert("systemSwitch",null,contentValues);
+          //  writeDB.close();
             return result>0?true:false;
         }
-
+       // writeDB.close();
        return true;
 
 
@@ -373,12 +379,22 @@ public class SystemDBHelper extends BaseUtil{
     }
     public boolean getSwitch(String switchID){
         readDB=getReadableDatabase();
-        if(!tableIsExist("systemSwitch")){
-            return false;
+
+        Cursor result=null;
+        try{
+            result=  readDB.query("systemSwitch",null,"id=?",new String[]{switchID},null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if(result!=null){
+                result.close();
+                return false;
+            }
         }
 
-            Cursor result=readDB.query("systemSwitch",null,"id=?",new String[]{switchID},null,null,null);
-            if(result==null){
+
+        if(result==null){
                 return false;
             }else{
                 result.moveToFirst();
@@ -386,6 +402,7 @@ public class SystemDBHelper extends BaseUtil{
                 int number=result.getInt(1);
 
 
+             //   readDB.close();
                 result.close();
                 return number>0?true:false;
 
@@ -395,7 +412,7 @@ public class SystemDBHelper extends BaseUtil{
             }
 
     }
-    public synchronized boolean addPassword(Password password){
+    public  boolean addPassword(Password password){
         writeDB=getWritableDatabase();
         CommonUtil commonUtil=new CommonUtil();
         if(!tableIsExist("password")){
@@ -407,9 +424,10 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("matchs",password.isMatchs());
         contentValues.put("times",commonUtil.getDateTimeToString(password.getTimes()));
         long result=writeDB.insert("password",null,contentValues);
+       // writeDB.close();
         return result>0?true:false;
     }
-    public synchronized void updatePassword(Password password){
+    public  void updatePassword(Password password){
 
         writeDB=getWritableDatabase();
         CommonUtil commonUtil=new CommonUtil();
@@ -420,6 +438,7 @@ public class SystemDBHelper extends BaseUtil{
         contentValues.put("times",commonUtil.getDateTimeToString(password.getTimes()));
 
         writeDB.update("password",contentValues,"id=?",new String[]{String.valueOf(password.getId())});
+      //  writeDB.close();
         return;
 
     }
@@ -427,12 +446,24 @@ public class SystemDBHelper extends BaseUtil{
     public List<Password> getPassword(){
         readDB=getReadableDatabase();
         CommonUtil commonUtil=new CommonUtil();
-        if(!tableIsExist("password")){
-            return null;
-        }
         List<Password> list=new ArrayList<>();
 
-        Cursor result=readDB.query("password",null,null,null,null,null,null);
+        Cursor result=null;
+
+        try{
+           result= readDB.query("password",null,null,null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
+            return list;
+        }
+
+
+
+
         if(result!=null){
             Password password=new Password();
             while(result.moveToNext()){
@@ -442,14 +473,14 @@ public class SystemDBHelper extends BaseUtil{
                 password.setMatchs(Boolean.valueOf(String.valueOf(result.getInt(3))));
                 password.setTimes(commonUtil.transferStringToDate(result.getString(4)));
                 list.add(password);
-            }result.close();
+            }//readDB.close();
         }
+        result.close();
         return list;
     }
 
 
     public void createSwitch(){
-writeDB=getWritableDatabase();
         /**
          * 1露点仪开关
          * 2.数字式温度计开关
@@ -462,13 +493,20 @@ writeDB=getWritableDatabase();
          * 9.相机显示开关
          * 10.自动拍摄显示开关
          */
-        String sql2="create table systemSwitch "
+
+        if(tableIsExist("systemSwitch")){
+            return;
+        }
+
+       // writeDB=getWritableDatabase();
+        String sql2="create table if not exists systemSwitch "
                 +"("+
                 "id integer primary key ,"+
                 "onOrOff boolean"+
                 ")";
 
         writeDB.execSQL(sql2);
+
     }
     public void createPassword(){
         writeDB=getWritableDatabase();
@@ -479,7 +517,7 @@ writeDB=getWritableDatabase();
          * 是否匹配
          * 结束时间
          */
-        String sql3="create table password "
+        String sql3="create table if not exists password "
                 +"("+
                 "id integer primary key AUTOINCREMENT,"+
                 "password varchar ,"+
@@ -489,6 +527,7 @@ writeDB=getWritableDatabase();
                 ")";
 
         writeDB.execSQL(sql3);
+        //writeDB.close();
     }
 
 

@@ -28,21 +28,45 @@ import java.util.List;
  * -----------------------------------------------------------------
  */
 public class TemPlanDBHelper extends BaseUtil {
-
-    private SQLiteDatabase db;
-    ContentValues contentValues=new ContentValues();
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
+    public static TemPlanDBHelper mInstance;
     public static final String TABLENAME="templan";
+    ContentValues contentValues=new ContentValues();
 
-    public TemPlanDBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-        db=this.getWritableDatabase();
+//    private SQLiteDatabase db;
+//    ContentValues contentValues=new ContentValues();
+//
+//
+//    public TemPlanDBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+//        super(context, name, factory, version);
+//        db=this.getWritableDatabase();
+//
+//    }
 
+
+    public TemPlanDBHelper(Context context){
+        super(context,"NIMENG.db",null,1);
+    }
+    public synchronized static TemPlanDBHelper getInstance(Context context){
+        if (mInstance==null){
+            mInstance=new TemPlanDBHelper(context);
+        }
+        return mInstance;
     }
 
+    @Override
+    public synchronized void close() {
+        writeDB.close();
+        super.close();
+    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql="create table "
+
+        System.out.println("调用了没...");
+
+        String sql="create table if not exists "
                 +TABLENAME+
                 " ("+
                 "id integer primary key  AUTOINCREMENT,"+
@@ -70,12 +94,16 @@ public class TemPlanDBHelper extends BaseUtil {
 
     public boolean add(TemPlanBean temPlanBean){
 
+        writeDB=getWritableDatabase();
 
         System.out.println("添加时："+temPlanBean);
-
+        System.out.println("表是否存在..."+tableIsExist(TABLENAME));
         if(!tableIsExist(TABLENAME)){
-            onCreate(db);
+            onCreate(writeDB);
         }
+
+
+
         contentValues.put("name",temPlanBean.getName());
         contentValues.put("unitTime",temPlanBean.getUnitTime());
         contentValues.put("temWave",temPlanBean.getTemWave());
@@ -147,7 +175,8 @@ public class TemPlanDBHelper extends BaseUtil {
             contentValues.put("tem10",temPlanBean.getTem10());
         }
         contentValues.put("isCheck",temPlanBean.getIsCheck());
-        long result=db.insert(TABLENAME,null,contentValues);
+        long result=writeDB.insert(TABLENAME,null,contentValues);
+       // writeDB.close();
         return result>0?true:false;
 
     }
@@ -155,7 +184,9 @@ public class TemPlanDBHelper extends BaseUtil {
 
     //删除
     public boolean delete(String ID){
-        int result =db.delete(TABLENAME,"id=?",new String[]{ID});
+        writeDB=getWritableDatabase();
+        int result =writeDB.delete(TABLENAME,"id=?",new String[]{ID});
+       // writeDB.close();
         return result>0?true:false;
     }
 
@@ -164,11 +195,26 @@ public class TemPlanDBHelper extends BaseUtil {
     public List<TemPlanBean> query(){
         List<TemPlanBean> list =new ArrayList<TemPlanBean>();
 
-        if(!tableIsExist(TABLENAME)){
+
+        readDB=getReadableDatabase();
+        Cursor result=null;
+
+        try{
+            result =readDB.query(TABLENAME,null,null,null,null,null,null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+           // readDB.close();
+            if(result!=null){
+                result.close();
+            }
+
             return null;
         }
 
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
+
+
+
         if(result!=null){
             while (result.moveToNext()){
                 TemPlanBean temPlanBean=new TemPlanBean();
@@ -253,10 +299,12 @@ public class TemPlanDBHelper extends BaseUtil {
                 System.out.println("展示时："+temPlanBean);
                 list.add(temPlanBean);
 
-            }result.close();
+            }//readDB.close();
+            result.close();
             return list;
         }
-
+        //readDB.close();
+        result.close();
        return null;
     }
 
@@ -264,19 +312,36 @@ public class TemPlanDBHelper extends BaseUtil {
 
     //通过方案名称查询方案
     public int findTemPlanByName(String name){
-        if(!tableIsExist(TABLENAME)){
-           return 0;
+//        if(!tableIsExist(TABLENAME)){
+//           return 0;
+//        }
+
+        readDB=getReadableDatabase();
+
+
+        Cursor result=null;
+
+        try{
+           result= readDB.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+           // readDB.close();
+            result.close();
+            return 0;
         }
 
 
-        Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
+
 
         if (result==null || result.getCount()==0){
+           // readDB.close();
             result.close();
             return 0;
         }
         result.moveToFirst();
         int number=result.getInt(0);
+      //  readDB.close();
         result.close();
         return number;
 
@@ -294,13 +359,14 @@ public class TemPlanDBHelper extends BaseUtil {
      */
     public boolean updateCheck(int id,int isCheckID){
 
+        writeDB=getWritableDatabase();
         //删除之前的被选中
         Log.d("之前选中的ID", "updateCheck: "+isCheckID);
         if(isCheckID!=0){
             // contentValues.put("isCheck",0);
             // int result1=db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(isCheckID)});
             String sql="update "+TABLENAME+" set isCheck=0 where id="+isCheckID;
-            db.execSQL(sql);
+            writeDB.execSQL(sql);
 
         }
 
@@ -308,7 +374,8 @@ public class TemPlanDBHelper extends BaseUtil {
         // int result=db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(id)});
         Log.d("需要设置的ID", "updateCheck: "+id);
         String sql="update "+TABLENAME+" set isCheck=1 where id="+id;
-        db.execSQL(sql);
+        writeDB.execSQL(sql);
+     //   writeDB.close();
         return true;
     }
 
@@ -321,32 +388,56 @@ public class TemPlanDBHelper extends BaseUtil {
      * @return
      */
     public int queryByID(int id,int temId){
-        if(!tableIsExist(TABLENAME)){
-            return 0;
-        }
 
         if(temId==0){
             return 0;
         }
+        readDB=getReadableDatabase();
 
-        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        Cursor result=null;
+
+        try{
+            result= readDB.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
+            return 0;
+        }
+
+
         if(result.getCount()==0){
+         //   readDB.close();
             result.close();
             return 0;
         }
         result.moveToFirst();
         int numberResult= result.getInt(temId+4);
         result.close();
+     //   readDB.close();
         return numberResult;
     }
 
 
     public TemPlanBean queryByID(int id){
-        if(!tableIsExist(TABLENAME)){
+
+        readDB=getReadableDatabase();
+
+        Cursor result=null;
+
+        try{
+            result=  readDB.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
             return null;
         }
 
-        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
         if(result!=null){
             result.moveToFirst();
 
@@ -429,9 +520,11 @@ public class TemPlanDBHelper extends BaseUtil {
 
             temPlanBean.setIsCheck(result.getInt(15));
 
+          //  readDB.close();
             result.close();
             return temPlanBean;
         }
+       // readDB.close();
         result.close();
         return null;
     }

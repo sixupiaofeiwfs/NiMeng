@@ -63,8 +63,8 @@ public class DataRecordActivity extends CommonUtil {
         ImageView imageView=findViewById(R.id.search);
 
 
-        dataRecordDBHelper=new DataRecordDBHelper(DataRecordActivity.this,DATABASE_NAME,null,1);
 
+        dataRecordDBHelper=DataRecordDBHelper.getInstance(DataRecordActivity.this);
 
 
         if(list!=null){

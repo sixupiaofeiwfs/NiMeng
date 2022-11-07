@@ -41,7 +41,7 @@ public class TemPlanEditActivity extends CommonUtil {
         setContentView(R.layout.templan_edit);
         button1=findViewById(R.id.btn_true);
         button2=findViewById(R.id.btn_false);
-        templanDBHelper=new TemPlanDBHelper(TemPlanEditActivity.this,"NIMENG.db",null,1);
+        templanDBHelper=TemPlanDBHelper.getInstance(TemPlanEditActivity.this);
         //systemDBHelper=new SystemDBHelper(TemPlanEditActivity.this,"NIMENG.db",null,1);
         systemDBHelper=new SystemDBHelper(TemPlanEditActivity.this);
         editName=findViewById(R.id.edit_templan_name);

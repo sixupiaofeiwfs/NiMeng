@@ -54,7 +54,7 @@ public class CurveActivity extends CommonUtil implements IBaseView{
         setContentView(R.layout.activity_curve);
 
 
-      dataRecordDBHelper =new DataRecordDBHelper(CurveActivity.this,"NIMENG.db",null,1);
+      dataRecordDBHelper=DataRecordDBHelper.getInstance(CurveActivity.this);
       init();
 
 

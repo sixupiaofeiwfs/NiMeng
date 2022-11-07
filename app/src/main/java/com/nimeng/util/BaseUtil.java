@@ -31,25 +31,65 @@ import java.util.Date;
  * <p>
  * -----------------------------------------------------------------
  */
-public class BaseUtil extends SQLiteOpenHelper {
+public class BaseUtil extends SQLiteOpenHelper{
 
     private  SQLiteDatabase db ;
 
     public  boolean tableIsExist(String tableName){
+
+
+
         boolean result=false;
         if(tableName==null){
             return  result;
         }
         Cursor cursor=null;
         try{
-            String sql="select count(*) as c from sqlite_master where type='table' and name='"+tableName.trim()+"'";
+           // String sql="select count(*) as c from sqlite_master where type='table' and name='"+tableName.trim()+"'";
+
+            //String sql="select * from sqlite_master where type='table and name='"+tableName+"'";
+
+           String sql="select * from sqlite_master where type='table'";
+
+
             cursor=db.rawQuery(sql,null);
-            if(cursor.moveToNext()){
-                int count=cursor.getInt(0);
-                if(count>0){
-                    result=true;
+
+
+
+
+            int count=cursor.getCount();
+
+            if(count>0){
+
+                cursor.moveToFirst();
+
+                for (int i = 0; i < count; i++) {
+                    cursor.moveToNext();
+                    String searchTableName=cursor.getString(1);
+
+                    if(searchTableName.equals(tableName)){
+                        return true;
+                    }
+
                 }
+            }else{
+                return false;
             }
+
+
+
+//
+//            if(cursor.moveToLast()){
+//                int count=cursor.getInt(0);
+//
+//
+//                System.out.println("表名:"+tableName+"   结果:"+cursor.getCount()+"   "+cursor.getString(0)+"   "+cursor.getString(1)+"   "+cursor.getString(2)+"   "+cursor.getString(3));
+//
+//
+//                if(count>0){
+//                    result=true;
+//                }
+//            }
         }catch (Exception e){
 
         }
@@ -59,7 +99,7 @@ public class BaseUtil extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        System.out.println("调用BaseUtil类中的onCreate方法...");
     }
 
     @Override

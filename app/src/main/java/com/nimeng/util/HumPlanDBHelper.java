@@ -28,19 +28,37 @@ import java.util.List;
  * -----------------------------------------------------------------
  */
 public class HumPlanDBHelper extends BaseUtil{
-    private SQLiteDatabase db;
+
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
+    public static HumPlanDBHelper mInstance;
     ContentValues contentValues=new ContentValues();
     public static final String TABLENAME="humplan";
 
-    public HumPlanDBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-        db=this.getWritableDatabase();
+    public HumPlanDBHelper(Context context) {
+        super(context,"NIMENG.db",null,1);
+    }
+
+    public synchronized static HumPlanDBHelper getInstance(Context context){
+        if (mInstance==null){
+            mInstance=new HumPlanDBHelper(context);
+        }
+        return mInstance;
+    }
+
+    @Override
+    public synchronized void close() {
+        writeDB.close();
+        super.close();
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql="create table "
+        if(tableIsExist(TABLENAME)){
+            return;
+        }
+        String sql="create table if not exists "
                 +TABLENAME+
                 " ("+
                 "id integer primary key  AUTOINCREMENT,"+
@@ -68,10 +86,11 @@ public class HumPlanDBHelper extends BaseUtil{
 
     public boolean add(HumPlanBean humPlanBean){
 
-        if(!tableIsExist(TABLENAME)){
-            onCreate(db);
-        }
+        writeDB=getWritableDatabase();
 
+        if(!tableIsExist(TABLENAME)){
+            onCreate(writeDB);
+        }
 
         contentValues.put("name",humPlanBean.getName());
         contentValues.put("unitTime",humPlanBean.getUnitTime());
@@ -144,7 +163,8 @@ public class HumPlanDBHelper extends BaseUtil{
             contentValues.put("hum10",humPlanBean.getHum10());
         }
         contentValues.put("isCheck",humPlanBean.getIsCheck());
-        long result=db.insert(TABLENAME,null,contentValues);
+        long result=writeDB.insert(TABLENAME,null,contentValues);
+       // writeDB.close();
         return result>0?true:false;
 
     }
@@ -152,7 +172,9 @@ public class HumPlanDBHelper extends BaseUtil{
 
     //删除
     public boolean delete(String ID){
-        int result =db.delete(TABLENAME,"id=?",new String[]{ID});
+        writeDB=getWritableDatabase();
+        int result =writeDB.delete(TABLENAME,"id=?",new String[]{ID});
+     //   writeDB.close();
         return result>0?true:false;
     }
 
@@ -161,11 +183,24 @@ public class HumPlanDBHelper extends BaseUtil{
     public List<HumPlanBean> query(){
         List<HumPlanBean> list =new ArrayList<HumPlanBean>();
 
-        if(!tableIsExist(TABLENAME)){
-            return list;
+
+        readDB=getReadableDatabase();
+
+        Cursor result=null;
+        try{
+            result=readDB.query(TABLENAME,null,null,null,null,null,null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            if(result!=null){
+                result.close();
+            }
+
+            return null;
         }
 
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
+
         if(result!=null){
             while (result.moveToNext()){
                 HumPlanBean humPlanBean=new HumPlanBean();
@@ -250,9 +285,11 @@ public class HumPlanDBHelper extends BaseUtil{
                 System.out.println("展示时："+humPlanBean);
                 list.add(humPlanBean);
 
-            }result.close();
+            }
         }
 
+      //  readDB.close();
+        result.close();
         return list;
     }
 
@@ -260,25 +297,35 @@ public class HumPlanDBHelper extends BaseUtil{
 
     //通过方案名称查询方案
     public int findHumPlanByName(String name){
-        if(!tableIsExist(TABLENAME)){
+
+        readDB=getReadableDatabase();
+
+        Cursor result=null;
+        try{
+
+            result=  readDB.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
             return 0;
         }
 
 
-        Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
-
        // int number=result.getCount();
         if(result==null || result.getCount()==0){
-            result.close();
+        //    readDB.close();
 
+            result.close();
             return 0;
         }
         result.moveToFirst();
         int number=result.getInt(0);
+       // readDB.close();
         result.close();
 
-
-        System.out.println("根据名称查询时...."+number);
 
         return number;
 
@@ -289,6 +336,7 @@ public class HumPlanDBHelper extends BaseUtil{
 
     //更新被选中的信息
     public boolean updateCheck(int id,int isCheckID){
+        writeDB=getWritableDatabase();
 
         //删除之前的被选中
         Log.d("之前选中的ID", "updateCheck: "+isCheckID);
@@ -296,7 +344,7 @@ public class HumPlanDBHelper extends BaseUtil{
             // contentValues.put("isCheck",0);
             // int result1=db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(isCheckID)});
             String sql="update "+TABLENAME+" set isCheck=0 where id="+isCheckID;
-            db.execSQL(sql);
+            writeDB.execSQL(sql);
 
         }
 
@@ -304,7 +352,8 @@ public class HumPlanDBHelper extends BaseUtil{
         // int result=db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(id)});
         Log.d("需要设置的ID", "updateCheck: "+id);
         String sql="update "+TABLENAME+" set isCheck=1 where id="+id;
-        db.execSQL(sql);
+        writeDB.execSQL(sql);
+     //   writeDB.close();
         return true;
     }
 
@@ -312,31 +361,58 @@ public class HumPlanDBHelper extends BaseUtil{
 
     //通过HumID和hum？查询
     public int queryByID(int id,int humID){
-        if(!tableIsExist(TABLENAME)){
-            return 0;
-        }
+
 
         if(humID==0){
             return 0;
         }
-        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+        readDB=getReadableDatabase();
+
+
+        Cursor result=null;
+        try{
+
+            result=  readDB.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
+            return 0;
+        }
+
+
         if(result.getCount()==0){
+         //   readDB.close();
             result.close();
             return 0;
         }
         result.moveToFirst();
         int resultNumber=result.getInt(humID+4);
+        //readDB.close();
         result.close();
         return resultNumber;
     }
 
 
     public HumPlanBean queryByID(int id){
-        if(!tableIsExist(TABLENAME)){
+
+        readDB=getReadableDatabase();
+
+        Cursor result=null;
+        try{
+
+            result= readDB.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+          //  readDB.close();
+            result.close();
             return null;
         }
 
-        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
         if(result!=null){
             result.moveToFirst();
 
@@ -419,9 +495,11 @@ public class HumPlanDBHelper extends BaseUtil{
 
             humPlanBean.setIsCheck(result.getInt(15));
 
+          //  readDB.close();
             result.close();
             return humPlanBean;
         }
+      //  readDB.close();
         result.close();
         return null;
     }

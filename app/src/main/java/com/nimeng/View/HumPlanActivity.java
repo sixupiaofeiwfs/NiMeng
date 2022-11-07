@@ -60,7 +60,7 @@ public class HumPlanActivity extends CommonUtil {
         if(list!=null){
             list.clear();
         }
-        humplanDBHelper=new HumPlanDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
+        humplanDBHelper=HumPlanDBHelper.getInstance(HumPlanActivity.this);
        // systemDBHelper=new SystemDBHelper(HumPlanActivity.this,"NIMENG.db",null,1);
         systemDBHelper=new SystemDBHelper(HumPlanActivity.this);
         systemData=systemDBHelper.getSystemData();

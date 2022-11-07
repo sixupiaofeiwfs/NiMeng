@@ -44,7 +44,7 @@ public class QueryDBHelper extends BaseUtil {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table " +
                 TABLENAME +
-                " (" +
+                "(" +
                 "name varchar not null," +
                 "time Date not null," +
                 "PVTem float not null," +
@@ -72,6 +72,7 @@ public class QueryDBHelper extends BaseUtil {
         contentValues.put("tem", queryBean.getTem());
 
         long result = db.insert(TABLENAME, null, contentValues);
+      //  db.close();
         return result > 0 ? true : false;
     }
 
@@ -80,8 +81,15 @@ public class QueryDBHelper extends BaseUtil {
 
         List<QueryBean> list = new ArrayList<>();
 
-        if (!tableIsExist(TABLENAME)) {
+        Cursor result =null;
 
+        try{
+
+           result= db.query(TABLENAME, null, null, null, null, null, null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
             QueryBean queryBean = new QueryBean();
             queryBean.setName("name");
             queryBean.setTime(new Date());
@@ -93,11 +101,10 @@ public class QueryDBHelper extends BaseUtil {
             queryBean.setTem(7.0f);
 
             list.add(queryBean);
+         //   db.close();
+            result.close();
             return list;
-
         }
-
-        Cursor result = db.query(TABLENAME, null, null, null, null, null, null);
 
         if (result != null) {
             while (result.moveToNext()) {
@@ -111,6 +118,7 @@ public class QueryDBHelper extends BaseUtil {
                     date = sdf.parse(dateString);
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    result.close();
                 }
 
                 queryBean.setTime(date);
@@ -125,8 +133,9 @@ public class QueryDBHelper extends BaseUtil {
                 list.add(queryBean);
 
             }
-            result.close();
+         //   db.close();
 
+            result.close();
         }
 
         QueryBean queryBean = new QueryBean();
@@ -140,6 +149,7 @@ public class QueryDBHelper extends BaseUtil {
         queryBean.setTem(7.0f);
 
         list.add(queryBean);
+        result.close();
         return list;
 
 
@@ -148,8 +158,30 @@ public class QueryDBHelper extends BaseUtil {
 
     public QueryBean findQueryByName(String name) {
         QueryBean queryBean = new QueryBean();
-        Cursor result = db.query(TABLENAME, null, "name=?", new String[]{name}, null, null, null, null);
-        if (result.getCount() == 1) {
+
+        Cursor result = null;
+        try {
+
+            result= db.query(TABLENAME, null, "name=?", new String[]{name}, null, null, null, null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            queryBean.setName("");
+            queryBean.setTime(new Date());
+            queryBean.setPVTem(0);
+            queryBean.setPVHum(0);
+            queryBean.setState("");
+            queryBean.setStandardHum(0);
+            queryBean.setStandardTem(0);
+            queryBean.setDewPointTem(0);
+            queryBean.setTem(0);
+
+          //  db.close();
+            result.close();
+            return queryBean;
+
+        }
+
             result.moveToFirst();
             queryBean.setName(result.getString(1));
             String dateString = result.getString(2);
@@ -171,23 +203,9 @@ public class QueryDBHelper extends BaseUtil {
             queryBean.setDewPointTem(result.getFloat(8));
             queryBean.setTem(result.getFloat(9));
 
+          //  db.close();
             result.close();
             return queryBean;
         }
 
-        queryBean.setName("");
-        queryBean.setTime(new Date());
-        queryBean.setPVTem(0);
-        queryBean.setPVHum(0);
-        queryBean.setState("");
-        queryBean.setStandardHum(0);
-        queryBean.setStandardTem(0);
-        queryBean.setDewPointTem(0);
-        queryBean.setTem(0);
-
-      return queryBean;
-
-
-
-    }
 }

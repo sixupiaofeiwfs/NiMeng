@@ -36,27 +36,36 @@ import java.util.Random;
  */
 public class DataRecordDBHelper extends BaseUtil {
 
-    private SQLiteDatabase db;
-    ContentValues contentValues=new ContentValues();
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
+    public static DataRecordDBHelper mInstance;
     public static final String TABLENAME="data";
-    Random random=new Random();
 
     CommonUtil commonUtil=new CommonUtil();
+    ContentValues contentValues=new ContentValues();
 
 
-    public DataRecordDBHelper(@NonNull Context context, @Nullable String name,@Nullable SQLiteDatabase.CursorFactory factory,int version){
-        super(context,name,factory,version);
-        db=this.getWritableDatabase();
+    public DataRecordDBHelper(Context context) {
+        super(context,"NIMENG.db",null,1);
     }
 
+    public synchronized static DataRecordDBHelper getInstance(Context context){
+        if (mInstance==null){
+            mInstance=new DataRecordDBHelper(context);
+        }
+        return mInstance;
+    }
+
+    @Override
+    public synchronized void close() {
+        writeDB.close();
+        super.close();
+    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d("是否创建表了", "onCreate: ");
 
-
-
-        String sql="create table "
+        String sql="create table if not exists "
                 +TABLENAME+
                 " ("+
                 "id integer primary key AUTOINCREMENT,"+
@@ -66,6 +75,10 @@ public class DataRecordDBHelper extends BaseUtil {
                 "settingHum float(5) not null,"+
                 "realtimeHum float(5) not null"+
                 ")";
+
+        if(!sqLiteDatabase.isOpen()){
+            sqLiteDatabase=getWritableDatabase();
+        }
 
         sqLiteDatabase.execSQL(sql);
 
@@ -78,29 +91,17 @@ public class DataRecordDBHelper extends BaseUtil {
 
 
     //添加
-    public boolean add(DataRecodeBean dataRecodeBean){
+    public  boolean add(DataRecodeBean dataRecodeBean){
+        writeDB=getWritableDatabase();
 
         if(!tableIsExist(TABLENAME)){
-            Log.d("表不存在，创建表", "add: ");
-            String sql="create table "
-                    +TABLENAME+
-                    " ("+
-                    "id integer primary key  AUTOINCREMENT,"+
-                    "time varchar(30) ,"+
-                    "settingTem float(5) not null,"+
-                    "realtimeTem float(5) not null,"+
-                    "settingHum float(5) not null,"+
-                    "realtimeHum float(5) not null"+
-                    ")";
-
-            db.execSQL(sql);
-
+           onCreate(writeDB);
         }
 
 
         String time;
 
-
+      //  System.out.println("------DataRecordDBHelper---104---"+dataRecodeBean.getTime()+"---"+dataRecodeBean);
         if(dataRecodeBean.getTime()==null){
              time=getDateTimeToString(new Date());
         }else{
@@ -108,6 +109,7 @@ public class DataRecordDBHelper extends BaseUtil {
         }
 
         DataRecodeBean dataRecodeBean1= queryByTime(time);
+       // System.out.println("------DataRecordDBHelper---112---"+dataRecodeBean1);
         //查询上一秒是否有数据,没有数据的添加一条与当前数据相同的数据
         String prefixTime=commonUtil.getNextTime(new Date(),-1);//上一秒
         DataRecodeBean dataRecodeBean2=queryByTime(prefixTime);
@@ -126,8 +128,9 @@ public class DataRecordDBHelper extends BaseUtil {
                 contentValues.put("settingTem",dataRecodeBean.getSettingTem());
             }
 
-            db.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(dataRecodeBean1.getId())});
+            writeDB.update(TABLENAME,contentValues,"id=?",new String[]{String.valueOf(dataRecodeBean1.getId())});
 
+         //   writeDB.close();
             return true;
 
         }
@@ -138,8 +141,7 @@ public class DataRecordDBHelper extends BaseUtil {
         contentValues.put("realtimeTem",dataRecodeBean.getRealtimeTem());
         contentValues.put("settingHum",dataRecodeBean.getSettingHum());
 
-
-        long result=db.insert(TABLENAME,null,contentValues);
+        long result=writeDB.insert(TABLENAME,null,contentValues);
 
 
 
@@ -151,13 +153,13 @@ public class DataRecordDBHelper extends BaseUtil {
             contentValues.put("settingTem",dataRecodeBean.getSettingTem());
             contentValues.put("realtimeTem",dataRecodeBean.getRealtimeTem());
             contentValues.put("settingHum",dataRecodeBean.getSettingHum());
-            db.insert(TABLENAME,null,contentValues);
+            writeDB.insert(TABLENAME,null,contentValues);
         }
 
 
 
 
-
+       // writeDB.close();
 
         return result>0?true:false;
     }
@@ -167,14 +169,21 @@ public class DataRecordDBHelper extends BaseUtil {
     public List<DataRecodeBean> query(){
 
         List<DataRecodeBean> list =new ArrayList<>();
-        if(!tableIsExist(TABLENAME)){
+
+        readDB=getReadableDatabase();
+        Cursor result=null;
+        try{
+            result=readDB.query(TABLENAME,null,null,null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
             return list;
         }
 
 
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
-
-        Log.d("查询时", "query: "+result.getCount());
 
         if(result!=null){
             while(result.moveToNext()){
@@ -186,8 +195,9 @@ public class DataRecordDBHelper extends BaseUtil {
                 dataRecodeBean.setRealtimeHum(result.getFloat(5));
 
                 list.add(dataRecodeBean);
-            }result.close();
+            }//readDB.close();
         }
+        result.close();
         return  list;
     }
 
@@ -196,22 +206,22 @@ public class DataRecordDBHelper extends BaseUtil {
     public List<DataRecodeBean> findDataRecordByTime(String startTime, String endTime){
         List<DataRecodeBean> list=new ArrayList<DataRecodeBean>();
 
+        readDB=getReadableDatabase();
 
-        if(!tableIsExist(TABLENAME)){
+        Cursor result=null;
+        try{
+            result=  readDB.query(TABLENAME,null,"time between  ? and ?",new String[]{startTime,endTime},null,null,null,null);
 
-//            System.out.println("没有数据表，自动创建假数据");
-//            DataRecodeBean dataRecodeBean=new DataRecodeBean();
-//            dataRecodeBean.setTime("2022-08-08 08:00:00");
-//            dataRecodeBean.setSettingTem(20.0f);
-//            dataRecodeBean.setRealtimeTem(19.98f);
-//            dataRecodeBean.setSettingHum(40.0f);
-//            dataRecodeBean.setRealtimeHum(39.99f);
-//            list.add(dataRecodeBean);
-
-            return list;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
+            return null;
         }
 
-        Cursor result=db.query(TABLENAME,null,"time between  ? and ?",new String[]{startTime,endTime},null,null,null,null);
+
+
         if(result!=null){
             while (result.moveToNext()){
                 DataRecodeBean dataRecodeBean=new DataRecodeBean();
@@ -222,18 +232,10 @@ public class DataRecordDBHelper extends BaseUtil {
                 dataRecodeBean.setRealtimeHum(result.getFloat(5));
                 list.add(dataRecodeBean);
             }
-            result.close();;
+          //  readDB.close();;
         }
 
-//        DataRecodeBean dataRecodeBean=new DataRecodeBean();
-//        dataRecodeBean.setTime("2022-08-08 08:00:00");
-//        dataRecodeBean.setSettingTem(20.0f);
-//        dataRecodeBean.setRealtimeTem(19.98f);
-//        dataRecodeBean.setSettingHum(40.0f);
-//        dataRecodeBean.setRealtimeHum(39.99f);
-//        list.add(dataRecodeBean);
-
-
+        result.close();
         return list;
 
 
@@ -244,11 +246,29 @@ public class DataRecordDBHelper extends BaseUtil {
     //根据时间查询实时温度与实时湿度
     public DataRecodeBean queryByTime(String time){
 
+
+        readDB=getReadableDatabase();
+
+        Cursor result=null;
+        try{
+            result= readDB.query(TABLENAME,null,"time=?",new String[]{time},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if(result!=null){
+                result.close();
+            }
+
+          //  readDB.close();
+            return null;
+        }
+
+
         DataRecodeBean dataRecodeBean=new DataRecodeBean();
-        if(!tableIsExist(TABLENAME)){
-               return null;
-        }else{
-            Cursor result=db.query(TABLENAME,null,"time=?",new String[]{time},null,null,null,null);
+//
+
+            result= readDB.query(TABLENAME,null,"time=?",new String[]{time},null,null,null,null);
 
 
 
@@ -259,12 +279,14 @@ public class DataRecordDBHelper extends BaseUtil {
                 dataRecodeBean.setRealtimeHum(result.getFloat(5));
                 dataRecodeBean.setTime(result.getString(1));
 
+              //  readDB.close();
                 result.close();
                 return dataRecodeBean;
             }
+          //  readDB.close();
             result.close();
             return  null;
-        }
+
 
 
     }
@@ -272,10 +294,21 @@ public class DataRecordDBHelper extends BaseUtil {
 
     //根据id查询温度湿度
     public DataRecodeBean queryByID(int id){
-
+        readDB=getReadableDatabase();
         DataRecodeBean dataRecodeBean=new DataRecodeBean();
 
-        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        Cursor result=null;
+        try{
+            result= readDB.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+           // readDB.close();
+            return null;
+        }
+
 
         if(result.getCount()==1){
             result.moveToFirst();
@@ -283,11 +316,11 @@ public class DataRecordDBHelper extends BaseUtil {
             dataRecodeBean.setRealtimeTem(result.getFloat(3));
             dataRecodeBean.setRealtimeHum(result.getFloat(5));
             dataRecodeBean.setTime(result.getString(1));
-            result.close();
+          //  readDB.close();
             return dataRecodeBean;
 
         } else {
-            result.close();
+          //  readDB.close();
            return null;
         }
 
@@ -308,21 +341,16 @@ public class DataRecordDBHelper extends BaseUtil {
     //查询时间、实时温度、实时湿度
     public List<String> queryColumn_String(String columnName,@Nullable boolean isReverseOrder,@Nullable String limit){
 
-        if(!tableIsExist(TABLENAME)){
-            return null;
-        }
-
-
-
 
          List<String> list=new ArrayList();
 
         Cursor result;
 
+        readDB=getReadableDatabase();
          if(isReverseOrder){
-             result=db.query(TABLENAME,new String[]{columnName},null,null,null,null,columnName+" DESC",limit);
+             result=readDB.query(TABLENAME,new String[]{columnName},null,null,null,null,columnName+" DESC",limit);
          }else{
-             result =db.query(TABLENAME, new String[]{columnName},null,null,null,null,null);
+             result =readDB.query(TABLENAME, new String[]{columnName},null,null,null,null,null);
          }
 
 
@@ -336,8 +364,10 @@ public class DataRecordDBHelper extends BaseUtil {
                     list.add(time);
                 }
 
-            } result.close();
+            }
         }
+
+     //   readDB.close();
         return  list;
 
     }
@@ -348,12 +378,20 @@ public class DataRecordDBHelper extends BaseUtil {
     //在某段时间内按照大小排序
     public List<Double> queryColumn_Double(String columnName,@Nullable  String limit){
 
-        if(!tableIsExist(TABLENAME)){
+        List<Double> list=new ArrayList<Double>();
+        readDB=getReadableDatabase();
+
+
+        Cursor result=null;
+        try{
+
+            result=  readDB.query(TABLENAME, new String[]{columnName},null,null,null,null,columnName+" DESC",limit);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
             return null;
         }
-
-        List<Double> list=new ArrayList<Double>();
-        Cursor result=db.query(TABLENAME, new String[]{columnName},null,null,null,null,columnName+" DESC",limit);
 
 
 
@@ -368,8 +406,9 @@ public class DataRecordDBHelper extends BaseUtil {
                     list.add(realtimeHum);
                 }
 
-            }result.close();
+            }
         }
+      //  readDB.close();
         return  list;
 
     }
@@ -377,13 +416,19 @@ public class DataRecordDBHelper extends BaseUtil {
 
 //删除7天前的数据
     public void delete7DaysData(){
-        if(!tableIsExist(TABLENAME)){
-            return;
+
+        writeDB=getWritableDatabase();
+        String sql="delete from "+TABLENAME+" where date('now','-7 day')>= date(time)";
+        try{
+            writeDB.execSQL(sql);
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
 
-        String sql="delete from "+TABLENAME+" where date('now','-7 day')>= date(time)";
 
-        db.execSQL(sql);
+
+      //  writeDB.close();
         return;
 
     }
@@ -394,11 +439,28 @@ public class DataRecordDBHelper extends BaseUtil {
     }
 
     public List<DataRecodeBean> query20DataRecodeBean(String limit){
-        if(!tableIsExist(TABLENAME)){
+
+        readDB=getReadableDatabase();
+        List<DataRecodeBean> list=new ArrayList<>();
+
+
+
+        Cursor result=null;
+        try{
+            result= readDB.query(TABLENAME,null,null,null,null,null,"time DESC",limit);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            result.close();
+           // readDB.close();
             return null;
         }
-        List<DataRecodeBean> list=new ArrayList<>();
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,"time DESC",limit);
+
+
+            result= readDB.query(TABLENAME,null,null,null,null,null,"time DESC",limit);
+
+
         if(result!=null){
             while(result.moveToNext()){
                 DataRecodeBean dataRecodeBean=new DataRecodeBean();
@@ -409,8 +471,9 @@ public class DataRecordDBHelper extends BaseUtil {
                 dataRecodeBean.setSettingHum(result.getFloat(4));
                 dataRecodeBean.setRealtimeHum(result.getFloat(5));
                 list.add(dataRecodeBean);
-            }result.close();
+            }
         }
+      //  readDB.close();
         result.close();
         return list;
 

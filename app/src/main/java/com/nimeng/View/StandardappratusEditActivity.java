@@ -56,8 +56,8 @@ public class StandardappratusEditActivity extends CommonUtil {
         setContentView(R.layout.standardapparatus_edit);
         tableName=getIntent().getStringExtra("tableName");
 
-        standardApparatusDBHelper=new StandardApparatusDBHelper(StandardappratusEditActivity.this,"NIMENG.db",null,1);
 
+        standardApparatusDBHelper=StandardApparatusDBHelper.getInstance(StandardappratusEditActivity.this);
         linearLayout1=findViewById(R.id.standard_LinearLayout7);
         linearLayout2=findViewById(R.id.standard_LinearLayout8);
         linearLayout3=findViewById(R.id.standard_LinearLayout9);

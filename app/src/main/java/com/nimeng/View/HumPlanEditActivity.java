@@ -40,7 +40,7 @@ public class HumPlanEditActivity extends CommonUtil {
         setContentView(R.layout.humplan_edit);
         button1=findViewById(R.id.btn_true);
         button2=findViewById(R.id.btn_false);
-        humplanDBHelper=new HumPlanDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
+        humplanDBHelper=HumPlanDBHelper.getInstance(HumPlanEditActivity.this);
         //systemDBHelper=new SystemDBHelper(HumPlanEditActivity.this,"NIMENG.db",null,1);
         systemDBHelper=new SystemDBHelper(HumPlanEditActivity.this);
         editName=findViewById(R.id.edit_humplan_name);

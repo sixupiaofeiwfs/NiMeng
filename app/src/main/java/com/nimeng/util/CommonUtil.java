@@ -329,7 +329,7 @@ public class CommonUtil extends Activity {
         //systemDBHelper=new SystemDBHelper(CommonUtil.this,"NIMENG.db",null,1);
         systemDBHelper=new SystemDBHelper(CommonUtil.this);
         SystemData systemData1=systemDBHelper.getSystemData();
-        if(systemData1.getStartTime()==null){
+        if(systemData1==null ||  systemData1.getStartTime()==null){
             return 1;
         }
 

@@ -58,8 +58,8 @@ public class QueryDataRecordActivity extends CommonUtil {
 
         imageView=findViewById(R.id.search);
 
-        dataRecordDBHelper=new DataRecordDBHelper(QueryDataRecordActivity.this,"NIMENG.db",null,1);
 
+        dataRecordDBHelper=DataRecordDBHelper.getInstance(QueryDataRecordActivity.this);
        list=new ArrayList<DataRecodeBean>();
 
        listView=findViewById(R.id.datarecord_list);

@@ -40,6 +40,7 @@ public class CameraDBHelper extends BaseUtil {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
+
         String sql="create table "
                 + TABLENAME+
                 "("+
@@ -61,6 +62,7 @@ public class CameraDBHelper extends BaseUtil {
         contentValues.put("port",cameraBean.getPort());
 
         long result=db.insert(TABLENAME,null,contentValues);
+        //db.close();
         return result>0?true:false;
 
     }
@@ -68,6 +70,7 @@ public class CameraDBHelper extends BaseUtil {
     //删
     public boolean delete(String ID){
         int result=db.delete(TABLENAME,"id=?",new String[]{ID});
+       // db.close();
         return result>0?true:false;
     }
 
@@ -77,7 +80,7 @@ public class CameraDBHelper extends BaseUtil {
         contentValues.put("name",cameraBean.getName());
         contentValues.put("port",cameraBean.getPort());
         int result =db.update(TABLENAME,contentValues,"id=?", new String[]{String.valueOf(cameraBean.getID())});
-
+       // db.close();
         return result>0?true:false;
     }
 
@@ -101,7 +104,9 @@ public class CameraDBHelper extends BaseUtil {
                 cameraBean.setName(result.getString(1));
                 cameraBean.setPort(result.getString(2));
                 list.add(cameraBean);
-            }result.close();
+            }
+           // db.close();
+            result.close();
         }
         return list;
     }
@@ -116,12 +121,14 @@ public class CameraDBHelper extends BaseUtil {
             result.moveToFirst();
             cameraBean.setName(result.getString(1));
             cameraBean.setPort(result.getString(2));
+         //   db.close();
             result.close();
             return cameraBean;
         }
 
         cameraBean.setName("");
         cameraBean.setPort("");
+      //  db.close();
         result.close();
         return cameraBean;
 

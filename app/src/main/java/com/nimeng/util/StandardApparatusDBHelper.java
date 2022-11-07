@@ -16,13 +16,28 @@ import java.util.List;
 
 public class StandardApparatusDBHelper extends BaseUtil{
 
-    private SQLiteDatabase db;
+
     ContentValues contentValues=new ContentValues();
 
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
+    public static StandardApparatusDBHelper mInstance;
 
-    public StandardApparatusDBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-        db=this.getWritableDatabase();
+    public StandardApparatusDBHelper(Context context) {
+        super(context,"NIMENG.db",null,1);
+    }
+
+    public synchronized static StandardApparatusDBHelper getInstance(Context context){
+        if (mInstance==null){
+            mInstance=new StandardApparatusDBHelper(context);
+        }
+        return mInstance;
+    }
+
+    @Override
+    public synchronized void close() {
+        writeDB.close();
+        super.close();
     }
 
     @Override
@@ -33,6 +48,10 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
 
     public void createTable(SQLiteDatabase sqLiteDatabase,String tableName){
+
+        if(tableIsExist(tableName)){
+            return;
+        }
 
         String sql="create table "
                 +tableName+
@@ -86,8 +105,9 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
 
     public boolean add(StandardApparatus standardApparatus,String tableName){
+        writeDB=getWritableDatabase();
         if(!tableIsExist(tableName)){
-            createTable(db,tableName);
+            createTable(writeDB,tableName);
         }
 
         contentValues.put("name",standardApparatus.getName());
@@ -216,7 +236,8 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
 
 
-        long result=db.insert(tableName,null,contentValues);
+        long result=writeDB.insert(tableName,null,contentValues);
+      //  writeDB.close();
         return result>0?true:false;
 
 
@@ -224,7 +245,9 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
 
     public boolean delete(String tableName,int ID){
-        int result=db.delete(tableName,"id=?",new String[]{String.valueOf(ID)});
+        writeDB=getWritableDatabase();
+        int result=writeDB.delete(tableName,"id=?",new String[]{String.valueOf(ID)});
+      //  writeDB.close();
         return result>0?true:false;
     }
 
@@ -238,23 +261,26 @@ public class StandardApparatusDBHelper extends BaseUtil{
     public List<StandardApparatus> query(String tableName,@Nullable int isCheck){
         List<StandardApparatus> list =new ArrayList<>();
 
-        if(!tableIsExist(tableName)){
-            return list;
-        }
 
-        Log.d("判断数据表是否已打开", "query: "+db.isOpen());
+      readDB=getReadableDatabase();
 
         Cursor result=null;
-        if(isCheck!=1){
-             result=db.query(tableName,null,null,null,null,null,null);
-        }else{
-             result=db.query(tableName,null,"isCheck=",new String[]{isCheck+""},null,null,null);
+
+        try{
+            if(isCheck!=1){
+                result=readDB.query(tableName,null,null,null,null,null,null);
+            }else{
+                result=readDB.query(tableName,null,"isCheck = ",new String[]{"1"},null,null,null);
+            }
         }
-
-
-        System.out.println("result--->"+result.getCount());
-
-        if(result!=null){
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            if(result!=null){
+                result.close();
+            }
+            return list;
+        }
             while (result.moveToNext()){
                 StandardApparatus standardApparatus=new StandardApparatus();
                 standardApparatus.setID(result.getInt(0));
@@ -409,23 +435,35 @@ public class StandardApparatusDBHelper extends BaseUtil{
 
                 list.add(standardApparatus);
 
-            }result.close();
-        }
+            }
 
-        return list;
+            result.close();
+            return list;
+
     }
 
 
     //通过名称查询
     public int findByName(String tableName,String name){
-        if(!tableIsExist(tableName)){
-            return 0;
+
+
+        readDB=getReadableDatabase();
+
+        Cursor result=null;
+        try{
+            result =readDB.query(tableName,null,"name=?",new String[]{name},null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+         //   readDB.close();
+            result.close();
+            return  0;
         }
 
 
-        Cursor result =db.query(tableName,null,"name=?",new String[]{name},null,null,null,null);
-
         int number=result.getCount();
+      //  readDB.close();
         result.close();
         return number;
 
@@ -433,14 +471,16 @@ public class StandardApparatusDBHelper extends BaseUtil{
     }
 
     public boolean updateCheck(String tableName,int id,int isCheckID){
+        writeDB=getWritableDatabase();
         System.out.println("选中时----》》》"+id+"------>>>"+isCheckID);
         if(isCheckID!=0){
             String sql="update "+tableName+" set isCheck=0 where id="+isCheckID;
-            db.execSQL(sql);
+            writeDB.execSQL(sql);
         }
 
         String sql="update "+tableName+" set isCheck=1 where id="+id;
-        db.execSQL(sql);
+        writeDB.execSQL(sql);
+     //   writeDB.close();
         return true;
     }
 

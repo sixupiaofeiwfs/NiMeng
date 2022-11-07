@@ -83,7 +83,7 @@ public class TemPlanActivity extends CommonUtil {
         if(list!=null){
             list.clear();
         }
-        templanDBHelper=new TemPlanDBHelper(TemPlanActivity.this,"NIMENG.db",null,1);
+        templanDBHelper=TemPlanDBHelper.getInstance(TemPlanActivity.this);
         updateListView();
 
         btn_add.setOnClickListener(new View.OnClickListener() {

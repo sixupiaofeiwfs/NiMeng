@@ -153,8 +153,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
     protected void onCreate(Bundle savedInstanceState) {
 
         alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        changeDataDBHelper =new ChangeDataDBHelper(MainActivity.this,"NIMENG.db",null,1);
-        dataRecordDBHelper = new DataRecordDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        changeDataDBHelper=ChangeDataDBHelper.getInstance(MainActivity.this);
+        dataRecordDBHelper=DataRecordDBHelper.getInstance(MainActivity.this);
+
 
 
 
@@ -232,12 +233,10 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         //----------------------------------------------------------------------------------------------------------------------------------------------------获取文件读写权限
         onPermission();
 
-        temPlanDBHelper = new TemPlanDBHelper(MainActivity.this, "NIMENG.db", null, 1);
-        humPlanDBHelper = new HumPlanDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        temPlanDBHelper=TemPlanDBHelper.getInstance(MainActivity.this);
+        humPlanDBHelper=HumPlanDBHelper.getInstance(MainActivity.this);
 
-       // systemDBHelper = new SystemDBHelper(MainActivity.this, "NIMENG.db", null, 1);
-       // systemDBHelper=new SystemDBHelper(MainActivity.this);
-       // systemDBHelper=SystemDBHelper.getInstance(MainActivity.this);
+
         systemDBHelper=SystemDBHelper.getInstance(MainActivity.this);
         SystemData primarySystemData = systemDBHelper.getSystemData();
 
@@ -245,6 +244,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         List<TemPlanBean> temPlanBeans = temPlanDBHelper.query();
         List<HumPlanBean> humPlanBeans = humPlanDBHelper.query();
 
+
+
+        System.out.println(primarySystemData+"    "+temPlanBeans+ "   "+humPlanBeans);
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------添加温湿度点 和预设方案
         if (temPlanBeans == null || temPlanBeans.size() == 0) {
@@ -455,11 +457,11 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
               //  System.out.println("这个l什么意思..."+l+"      "+adapterView.getItemAtPosition(i).toString());
 
                 String humPlanName=adapterView.getItemAtPosition(i).toString();
-                System.out.println("..."+humPlanName);
+
                 SystemData spinnerSystemData=systemDBHelper.getSystemData();
                 int humPlanID = humPlanDBHelper.findHumPlanByName(humPlanName);//现在选择的温度方案id
 
-                System.out.println("..."+humPlanID);
+
 
                 int spinnerHum= humPlanDBHelper.queryByID(humPlanID,1);
                 System.out.println("选中的方案第一个湿度值..."+spinnerHum);
@@ -550,44 +552,50 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
     @Override
     protected void onStart() {
 
-
-        StandardApparatus standardApparatus= getState(1);
-        if(standardApparatus!=null  && standardApparatus.getState()!=0){
-            temSerialHelper=new SerialHelper("/dev/ttyS0",standardApparatus.getRate()) {
-                @Override
-                protected void onDataReceived(ComBean comBean) {
-
-                }
-            };
+        System.out.println("getOnOrOff方法后------------------------------");
+        System.out.println(systemDBHelper);
+        SystemData systemData = systemDBHelper.getSystemData();
 
 
-            temSlave=standardApparatus.getSlave();
-            temAddress=standardApparatus.getTemStartAddress();
-            count=standardApparatus.getCount();
 
-            if(!temStandardApparatusThread.isAlive()){
-                temStandardApparatusThread.start();
-            }
-        }
-        if (standardApparatus!=null && standardApparatus.getState()==1){
-
-            StandardApparatus standardApparatus1=getState(2);
-
-
-            humSerialHelper=new SerialHelper("/dev/ttyS0",standardApparatus1.getRate()) {
-                @Override
-                protected void onDataReceived(ComBean comBean) {
-
-                }
-            };
-
-            humSlave=standardApparatus1.getSlave();
-            humAddress=standardApparatus1.getHumStartAddress();
-            if(!humStandardApparatusThread.isAlive()){
-                humStandardApparatusThread.start();
-            }
-
-        }
+        //标准器相关
+//        StandardApparatus standardApparatus= getState(1);
+//        if(standardApparatus!=null  && standardApparatus.getState()!=0){
+//            temSerialHelper=new SerialHelper("/dev/ttyS0",standardApparatus.getRate()) {
+//                @Override
+//                protected void onDataReceived(ComBean comBean) {
+//
+//                }
+//            };
+//
+//
+//            temSlave=standardApparatus.getSlave();
+//            temAddress=standardApparatus.getTemStartAddress();
+//            count=standardApparatus.getCount();
+//
+//            if(!temStandardApparatusThread.isAlive()){
+//                temStandardApparatusThread.start();
+//            }
+//        }
+//        if (standardApparatus!=null && standardApparatus.getState()==1){
+//
+//            StandardApparatus standardApparatus1=getState(2);
+//
+//
+//            humSerialHelper=new SerialHelper("/dev/ttyS0",standardApparatus1.getRate()) {
+//                @Override
+//                protected void onDataReceived(ComBean comBean) {
+//
+//                }
+//            };
+//
+//            humSlave=standardApparatus1.getSlave();
+//            humAddress=standardApparatus1.getHumStartAddress();
+//            if(!humStandardApparatusThread.isAlive()){
+//                humStandardApparatusThread.start();
+//            }
+//
+//        }
 
         if (!warnThread.isAlive()) {
             warnThread.start();
@@ -601,19 +609,9 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         getOnOrOff();
 
 
-        SystemData systemData = systemDBHelper.getSystemData();
 
 
-//        if (systemData.getTemOnOrOff() == 0) {
-//            btn_tem.setText("温度启动");
-//        } else {
-//            btn_tem.setText("温度停止");
-//        }
-//        if (systemData.getHumOnOrOff() == 0) {
-//            btn_hum.setText("湿度启动");
-//        } else {
-//            btn_hum.setText("湿度停止");
-//        }
+
 
         boolean isInstallmentPayment;
         if (systemData == null) {
@@ -656,27 +654,31 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
         }
 
 
-        if (systemData.getTemPlanID() == 1) {
-            System.out.println("这里调用设置方法..."+systemData.getSettingTem()+"     "+systemData.getSettingHum());
-            mTemView.setValue(systemData.getSettingTem(), "tem");
-        } else {
-            mTemView.setValue(temPlanDBHelper.queryByID(systemData.getTemPlanID(), systemData.getExecutingTemID()), "tem");
+        if(systemData!=null){
+            if (systemData.getTemPlanID() == 1) {
+                System.out.println("这里调用设置方法..."+systemData.getSettingTem()+"     "+systemData.getSettingHum());
+                mTemView.setValue(systemData.getSettingTem(), "tem");
+            } else {
+                mTemView.setValue(temPlanDBHelper.queryByID(systemData.getTemPlanID(), systemData.getExecutingTemID()), "tem");
+            }
+
+            if (systemData.getHumPlanID() == 1) {
+                mHumView.setValue(systemData.getSettingHum(), "hum");
+            } else {
+                mHumView.setValue(humPlanDBHelper.queryByID(systemData.getHumPlanID(), systemData.getExecutingHumID()), "hum");
+            }
         }
 
-        if (systemData.getHumPlanID() == 1) {
-            mHumView.setValue(systemData.getSettingHum(), "hum");
-        } else {
-            mHumView.setValue(humPlanDBHelper.queryByID(systemData.getHumPlanID(), systemData.getExecutingHumID()), "hum");
-        }
 
 
 
 
-        DataRecordDBHelper dataRecordDBHelper1 = new DataRecordDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+
+        DataRecordDBHelper dataRecordDBHelper1=DataRecordDBHelper.getInstance(MainActivity.this);
         dataRecordDBHelper1.delete7DaysData();
 
         ////----------------------------------------------------------------------------------------------------------------------------------------------------删除30分钟前的数据
-        ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        changeDataDBHelper=ChangeDataDBHelper.getInstance(MainActivity.this);
         if(systemData.getStartTime()!=null){
             changeDataDBHelper.delete30MinuteData(getTimeToDate(systemData.getStartTime()));
         }
@@ -684,34 +686,43 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
 
         List<TemPlanBean> temPlanBeanList = temPlanDBHelper.query();
-        List<String> temPlanNameList = new ArrayList<>();
-        ////----------------------------------------------------------------------------------------------------------------------------------------------------设置下拉框显示内容
-        for (int i = 0; i < temPlanBeanList.size(); i++) {
-            String temPlanName = temPlanBeanList.get(i).getName();
-            temPlanNameList.add(temPlanName);
+        if(temPlanBeanList!=null){
+            List<String> temPlanNameList = new ArrayList<>();
+            ////----------------------------------------------------------------------------------------------------------------------------------------------------设置下拉框显示内容
+            for (int i = 0; i < temPlanBeanList.size(); i++) {
+                String temPlanName = temPlanBeanList.get(i).getName();
+                temPlanNameList.add(temPlanName);
 
+            }
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, temPlanNameList);
+            adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            spinner1.setAdapter(adapter1);
+
+            if (systemData.getTemPlanID() >= 1) {
+                spinner1.setSelection(systemData.getTemPlanID() - 1);
+            }
         }
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, temPlanNameList);
 
 
         List<HumPlanBean> humPlanBeanList = humPlanDBHelper.query();
-        List<String> humPlanNameList = new ArrayList<>();
-        for (int j = 0; j < humPlanBeanList.size(); j++) {
-            String humPlanName = humPlanBeanList.get(j).getName();
-            humPlanNameList.add(humPlanName);
+        if(humPlanBeanList!=null){
+            List<String> humPlanNameList = new ArrayList<>();
+            for (int j = 0; j < humPlanBeanList.size(); j++) {
+                String humPlanName = humPlanBeanList.get(j).getName();
+                humPlanNameList.add(humPlanName);
+            }
+
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, humPlanNameList);
+
+            adapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+
+            spinner2.setAdapter(adapter2);
+            if (systemData.getHumPlanID() >= 1) {
+                spinner2.setSelection(systemData.getHumPlanID() - 1);
+            }
         }
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, humPlanNameList);
-        adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        adapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner1.setAdapter(adapter1);
-        if (systemData.getTemPlanID() >= 1) {
-            spinner1.setSelection(systemData.getTemPlanID() - 1);
-        }
-        spinner2.setAdapter(adapter2);
-        if (systemData.getHumPlanID() >= 1) {
-            spinner2.setSelection(systemData.getHumPlanID() - 1);
-        }
 
 
 
@@ -1193,6 +1204,8 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                 dataRecodeBean.setSettingTem(systemData.getSettingTem());
                 dataRecodeBean.setSettingHum(systemData.getSettingHum());
                 dataRecodeBean.setTime(getDateTimeToString(new Date()));
+
+                System.out.println("************main---1208---"+dataRecodeBean);
                 dataRecordDBHelper.add(dataRecodeBean);
 
                 int executingTime=(int)getDatePoor();
@@ -1200,15 +1213,18 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
 
                 List<DataRecodeBean> list=new ArrayList<>();
                 list=dataRecordDBHelper.query20DataRecodeBean("6");
-                if(list.size()>=6){
-                    if(getAbs(floatTem,list.get(5).getRealtimeTem())<=1 ){
+                if(list!=null){
+                    if(list.size()>=6){
+                        if(getAbs(floatTem,list.get(5).getRealtimeTem())<=1 ){
 
-                        changeDataDBHelper.add(executingTime,floatTem,0);
-                    }
-                    if(getAbs(floatHum,list.get(5).getRealtimeHum())<=1){
-                        changeDataDBHelper.add(executingTime,floatHum,1);
+                            changeDataDBHelper.add(executingTime,floatTem,0);
+                        }
+                        if(getAbs(floatHum,list.get(5).getRealtimeHum())<=1){
+                            changeDataDBHelper.add(executingTime,floatHum,1);
+                        }
                     }
                 }
+
 
 
 
@@ -1253,8 +1269,8 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
                     realtimeTem=Float.valueOf( decimalFormat.format(realtimeTem));
                     dataRecodeBean1.setRealtimeHum(realtimeHum);
                    dataRecodeBean1.setRealtimeTem(realtimeTem);
-                   dataRecodeBean1.setSettingTem(dataRecodeBean.getSettingTem());
-                   dataRecodeBean1.setSettingHum(dataRecodeBean.getSettingHum());
+                   dataRecodeBean1.setSettingTem(systemData.getSettingTem());
+                   dataRecodeBean1.setSettingHum(systemData.getSettingHum());
                    dataRecodeBean1.setTime(getDateTimeToString(new Date()));
                    dataRecordDBHelper.add(dataRecodeBean1);
 
@@ -1592,9 +1608,7 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
      * @return 1代表温度稳定 湿度不稳定   2代表温度湿度都稳定  3代表湿度稳定 温度不稳定 4代表温湿度都不稳定
      */
     public int isStable() {
-        ChangeDataDBHelper changeDataDBHelper1 = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
-        //SystemDBHelper systemDBHelper1=new SystemDBHelper(MainActivity.this,"NIMENG.db",null,1);
-       // SystemDBHelper systemDBHelper1=new SystemDBHelper(MainActivity.this);
+       ChangeDataDBHelper changeDataDBHelper1=ChangeDataDBHelper.getInstance(MainActivity.this);
        SystemDBHelper systemDBHelper1=SystemDBHelper.getInstance(MainActivity.this);
         boolean temIsStable = false;
         boolean humIsStable = false;
@@ -1872,7 +1886,7 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
          * 获取数据库中最新一条数据（最近一分钟时间内的信息）
          */
         int executingTime = (int) getDatePoor();
-        ChangeDataDBHelper changeDataDBHelper = new ChangeDataDBHelper(MainActivity.this, "NIMENG.db", null, 1);
+        ChangeDataDBHelper changeDataDBHelper=ChangeDataDBHelper.getInstance(MainActivity.this);
         List<Float> floatList = changeDataDBHelper.getNewChangeData();
 
 
@@ -2216,21 +2230,21 @@ public class MainActivity extends CommonUtil implements View.OnClickListener, Vi
      * 获取当前使用的标准器的类型
      * @return
      */
-    private StandardApparatus getState(int code){
-        String tableName="";
-        if(code==1){
-            tableName= "temstandardapparatus";
-        }if(code==2){
-           tableName= "humstandardapparatus";
-        }
-
-        StandardApparatusDBHelper standardApparatusDBHelper=new StandardApparatusDBHelper(MainActivity.this,"NIMENG.db",null,1);
-        List<StandardApparatus> list=standardApparatusDBHelper.query(tableName,1);
-        if(list!=null && list.size()==1){
-          return list.get(0);
-        }
-            return null;
-    }
+//    private StandardApparatus getState(int code){
+//        String tableName="";
+//        if(code==1){
+//            tableName= "temstandardapparatus";
+//        }if(code==2){
+//           tableName= "humstandardapparatus";
+//        }
+//
+//        StandardApparatusDBHelper standardApparatusDBHelper=StandardApparatusDBHelper.getInstance(MainActivity.this);
+//        List<StandardApparatus> list=standardApparatusDBHelper.query(tableName,1);
+//        if(list!=null && list.size()==1){
+//          return list.get(0);
+//        }
+//            return null;
+//    }
 
 
 

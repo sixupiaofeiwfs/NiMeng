@@ -87,6 +87,7 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
 
 
         long result =db.insert(TABLENAME,null,contentValues);
+     //   db.close();
         return result >0? true:false;
     }
 
@@ -94,6 +95,7 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
     //删除
     public boolean delete(int ID){
         int result=db.delete(TABLENAME,"id=?",new String[]{String.valueOf(ID)});
+      //  db.close();
         return result>0?true:false;
     }
 
@@ -104,14 +106,21 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
     public List<HumStandardApparatus> query(){
         List<HumStandardApparatus> list =new ArrayList<HumStandardApparatus>();
 
-        if(!tableIsExist(TABLENAME)){
-            return list;
+        Cursor result=null;
+        try{
+
+            result=  db.query(TABLENAME,null,null,null,null,null,null);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        //    db.close();
+            result.close();
+            return null;
         }
 
-        Log.d("判断数据表是否已打开", "query: "+db.isOpen());
 
 
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
         if(result!=null){
             while (result.moveToNext()){
                 HumStandardApparatus humStandarApparatus=new HumStandardApparatus();
@@ -130,9 +139,10 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
                 humStandarApparatus.setIsCheck(result.getInt(12));
                 list.add(humStandarApparatus);
 
-            }result.close();
+            }
         }
-
+      //  db.close();
+        result.close();
         return list;
     }
 
@@ -144,7 +154,13 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
     public HumStandardApparatus findByName(String name){
         HumStandardApparatus humStandarApparatus=new HumStandardApparatus();
 
-        if(!tableIsExist(TABLENAME)){
+        Cursor result=null;
+        try{
+
+            result= db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
+
+        }
+        catch (Exception e){
             humStandarApparatus.setName(null);
             humStandarApparatus.setPort(0);
             humStandarApparatus.setFormat("");
@@ -157,15 +173,11 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
             humStandarApparatus.setTraceabilityUnit("");
             humStandarApparatus.setTime("");
             humStandarApparatus.setIsCheck(0);
+         //   db.close();
+            result.close();
             return humStandarApparatus;
 
         }
-
-
-
-
-        Cursor result =db.query(TABLENAME,null,"name=?",new String[]{name},null,null,null,null);
-
         if(result.getCount()==1){
             result.moveToFirst();
             humStandarApparatus.setName(result.getString(1));
@@ -180,6 +192,7 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
             humStandarApparatus.setTraceabilityUnit(result.getString(10));
             humStandarApparatus.setTime(result.getString(11));
             humStandarApparatus.setIsCheck(result.getInt(12));
+          //  db.close();
             result.close();
             return humStandarApparatus;
         }
@@ -195,6 +208,8 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
         humStandarApparatus.setTraceabilityUnit("");
         humStandarApparatus.setTime("");
         humStandarApparatus.setIsCheck(0);
+       // db.close();
+        result.close();
         return humStandarApparatus;
 
     }
@@ -208,10 +223,12 @@ public class HumStandardApparatusDBHelper extends BaseUtil {
         if(isCheckID!=0){
             String sql="update "+TABLENAME+" set isCheck=0 where id="+isCheckID;
             db.execSQL(sql);
+
         }
 
         String sql="update "+TABLENAME+" set isCheck=1 where id="+id;
         db.execSQL(sql);
+      //  db.close();
         return true;
     }
 

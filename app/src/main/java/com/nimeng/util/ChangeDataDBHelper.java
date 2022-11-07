@@ -13,17 +13,36 @@ import java.util.List;
 
 public class ChangeDataDBHelper extends BaseUtil {
 
-    private SQLiteDatabase db;
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
+
+    public static ChangeDataDBHelper mInstance;
     public static final String TABLENAME="changeData";
 
-    public ChangeDataDBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-        db=getWritableDatabase();
+    public ChangeDataDBHelper(Context context){
+        super(context,"NIMENG.db",null,1);
     }
 
+    public synchronized static ChangeDataDBHelper getInstance(Context context){
+        if(mInstance==null){
+            mInstance=new ChangeDataDBHelper(context);
+        }
+        return mInstance;
+    }
+
+    @Override
+    public synchronized void close() {
+        writeDB.close();
+        super.close();
+    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+        if(tableIsExist(TABLENAME)){
+            return;
+        }
+
        String sql="create table "
                +TABLENAME +
                "("+
@@ -56,11 +75,7 @@ public class ChangeDataDBHelper extends BaseUtil {
      */
     public void add(int id,float data ,int code){
 
-        if(!tableIsExist(TABLENAME)){
-            onCreate(db);
-        }
-
-
+        writeDB=getWritableDatabase();
 
         ContentValues contentValues=new ContentValues();
         //获取最大值和最小值
@@ -88,7 +103,11 @@ public class ChangeDataDBHelper extends BaseUtil {
             }
             if(data<=list.get(0) && data>=list.get(1)){
                 contentValues.put("time",getDateTimeToString(new Date()));
-                db.update(TABLENAME,contentValues,"id=?",new String[]{id+""});
+                if(!writeDB.isOpen()){
+                    writeDB=getWritableDatabase();
+                }
+                writeDB.update(TABLENAME,contentValues,"id=?",new String[]{id+""});
+             //   writeDB.close();
                 return;
             }
 
@@ -98,7 +117,11 @@ public class ChangeDataDBHelper extends BaseUtil {
 
         //System.out.println("待写入的信息..."+contentValues.toString());
 
-       int i=  db.update(TABLENAME,contentValues,"id=?",new String[]{id+""});
+        if(!writeDB.isOpen()){
+            writeDB=getWritableDatabase();
+        }
+
+       int i=  writeDB.update(TABLENAME,contentValues,"id=?",new String[]{id+""});
 
        // System.out.println("更新结果..."+i+"  "+db.isOpen());
 
@@ -106,10 +129,11 @@ public class ChangeDataDBHelper extends BaseUtil {
 
        if(i==0){
            contentValues.put("id",id);
-         long l= db.insert(TABLENAME,null,contentValues);
+         long l= writeDB.insert(TABLENAME,null,contentValues);
           // System.out.println("写入结果..."+l);
        }
 
+      // writeDB.close();
             return;
 
 
@@ -123,13 +147,21 @@ public class ChangeDataDBHelper extends BaseUtil {
      * @return
      */
     public List<Float> findMaxAndMinDataByID(int id, int code){
+        readDB=getReadableDatabase();
         List<Float>list =new ArrayList<>();
-        if(!tableIsExist(TABLENAME)){
+        Cursor result=null;
+        try{
+            result=readDB.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null);
+
+        }catch (Exception e ){
+            e.printStackTrace();
             list.add(-100f);//设置最大值
             list.add(200f);//设置最小值
+         //   readDB.close();
+            result.close();
             return list;
         }
-        Cursor result=db.query(TABLENAME,null,"id=?",new String[]{String.valueOf(id)},null,null,null);
+
         if(result!=null && result.getCount()>0){
 
             result.moveToFirst();
@@ -150,12 +182,14 @@ public class ChangeDataDBHelper extends BaseUtil {
 
             }
 
+         //   readDB.close();
             result.close();
             return list;
 
 
         }else{
             result.close();
+          //  readDB.close();
             list.add(-100f);
             list.add(200f);
             return list;
@@ -166,15 +200,24 @@ public class ChangeDataDBHelper extends BaseUtil {
 
     //读最新的一条数据
     public List<Float> getNewChangeData(){
-        if(!tableIsExist(TABLENAME)){
+        readDB=getReadableDatabase();
+        Cursor result=null;
+        try{
+            result=readDB.query(TABLENAME,null,null,null,null,null,null);
+
+        }
+        catch (Exception e ){
+            e.printStackTrace();
+           // readDB.close();
+            result.close();
             return null;
         }
 
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,null);
         if(result!=null && result.getCount()>=1){
             List<Float>list=new ArrayList<>();
             result.moveToLast();
             if(result.getFloat(1)==-100 || result.getFloat(2)==200 ||result.getFloat(3)==-100 ||result.getFloat(4)==200){
+             //   readDB.close();
                 result.close();
                 return null;
             }
@@ -183,9 +226,11 @@ public class ChangeDataDBHelper extends BaseUtil {
             list.add(result.getFloat(2));
             list.add(result.getFloat(3));
             list.add(result.getFloat(4));
+          //  readDB.close();
             result.close();
             return list;
         }else{
+         //   readDB.close();
             result.close();
             return  null;
         }
@@ -202,41 +247,59 @@ public class ChangeDataDBHelper extends BaseUtil {
      * @return
      */
     public float getAllChangeData(String s,int limit){
+        readDB=getReadableDatabase();
         float f;
 
-        if(!tableIsExist(TABLENAME)){
+
+        Cursor result=null;
+        try{
+            result=readDB.query(TABLENAME,null,null,null,null,null,s+",time",String.valueOf(limit));
+
+        }
+        catch (Exception e ){
+            e.printStackTrace();
+          //  readDB.close();
+            result.close();
             return 0;
         }
-        Cursor result=db.query(TABLENAME,null,null,null,null,null,s+",time",String.valueOf(limit));
+
+
+
 
         if(result!=null && result.getCount()>0){
             if(s=="temMax"){
                 result.moveToLast();
                 f=result.getFloat(1);
+            //    readDB.close();
                 result.close();
                 return f;
             }if(s=="temMin"){
                 result.moveToFirst();
                 f=result.getFloat(2);
+           //     readDB.close();
                 result.close();
                 return f;
             }if(s=="humMax"){
                 result.moveToLast();
                 f= result.getFloat(3);
+         //       readDB.close();
                 result.close();
                 return f;
             }if(s=="humMin"){
                 result.moveToFirst();
                f=  result.getFloat(4);
-               result.close();
+           //     readDB.close();
+                result.close();
                return f;
             }
+         //   readDB.close();
             result.close();
             return 0;
 
 
 
         }else{
+        //    readDB.close();
             result.close();
             return 0;
         }
@@ -248,12 +311,10 @@ public class ChangeDataDBHelper extends BaseUtil {
      * 删除30分钟之前的数据
      */
     public void delete30MinuteData(Date startTime){
-        if(!tableIsExist(TABLENAME)){
-            return;
-        }
+        writeDB=getWritableDatabase();
 
         String sql="delete  from "+TABLENAME+" where date('now','-30 minute')>= date(time)";
-        db.execSQL(sql);
+        writeDB.execSQL(sql);
         return;
     }
 
